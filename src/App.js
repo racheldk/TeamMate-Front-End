@@ -16,8 +16,8 @@ function App() {
                 {/* login */}
                 <Route path= "/mygames" />
                 {/* my games - confirmed, pending requests as guest, pending requests as host, open */}
-                <Route/>
-                {/* This will be for the user profile, but I need to look at how that works again  */}
+                <Route path=":username"/>
+                {/* This will be for a user profile (Team Quokka did something like this with the users/:id route)  */}
 
             </div>
         </BrowserRouter>
