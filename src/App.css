@@ -1,0 +1,32 @@
+/* Log in component */
+
+.buttons-header {
+    text-align: right;
+}
+
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    padding-top: 50px;
+    margin: auto;
+}
+.form-signin .checkbox {
+    font-weight: 400;
+}
+.form-signin .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form-signin input[type="email"] {
+    margin-bottom: 10px;  
+}
+
+.form-signin input[type="password"] {
+    margin-bottom: 20px;
+}
+  /* Log in component */
