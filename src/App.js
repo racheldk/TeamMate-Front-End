@@ -1,12 +1,19 @@
 import "./App.css";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import OpenGamesList from "./pages/openGamesPage";
+import { useEffect, useState } from "react";
 
 function App() {
+const [token, setToken] = useState()
+
+useEffect(()=>{
+  setToken("ea54a8e01ca1479e2ba6b5aa99ea04dc434b5298")
+}, [])
+
     return (
         <BrowserRouter>
-            <div>
-                <h1>TeamMate!</h1>
-                <Route path="/" />
+            <Routes>
+                <Route path="/" element={<OpenGamesList token={token}/>}/>
                 {/* All Open Games (Game List component? separate component?) */}
                 <Route path="/new" />
                 {/* make a new open game post  */}
@@ -19,7 +26,7 @@ function App() {
                 <Route path=":username"/>
                 {/* This will be for a user profile (Team Quokka did something like this with the users/:id route)  */}
 
-            </div>
+            </Routes>
         </BrowserRouter>
     );
 }
