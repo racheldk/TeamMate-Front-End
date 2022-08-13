@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { DateTime } from "luxon";
 
 export default function GamesList({ token }) {
     const [allGamesList, setAllGamesList] = useState([]);
+    const [date, setDate] = useState()
 
     useEffect(() => {
         axios
@@ -15,7 +17,12 @@ export default function GamesList({ token }) {
                 console.log(res.data);
                 setAllGamesList(res.data);
             });
-    }, []);
+    }, [token, setAllGamesList]);
+
+    useEffect(() => {
+        setDate('01/02/2023')
+    }, [])
+
 
     return (
         <div>
@@ -24,7 +31,7 @@ export default function GamesList({ token }) {
                 <div className='game'>
                     <button>+</button>
                     <div>Location: {game.location_info.park_name}</div>
-                    <div>{game.date} at {game.time}</div>
+                    <div>{date.toLocaleString} at {game.time}</div>
                     <button>Join</button>
                 </div>
             ))}
