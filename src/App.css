@@ -1,5 +1,9 @@
 
 
+.game {
+  border: 2px green solid;
+  margin: 5px;
+}
 /* Log in component */
 
 .buttons-header {
