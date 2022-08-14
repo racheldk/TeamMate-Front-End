@@ -1,15 +1,12 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from './component/login';
-import Register from './component/register';
-import NewOpenGame from './component/newOpenGame';
+import NewOpenGame from './pages/newOpenGame';
 import { useEffect, useState } from 'react'
 import OpenGamesList from "./pages/openGamesPage";
-import { ChakraProvider} from '@chakra-ui/react'
+import { ChakraProvider } from '@chakra-ui/react'
 import Login from "./pages/login.js"
 import Register from './pages/register';
 import Theme from './components/theme'
-import { useEffect, useState } from "react";
 import { Text } from "@chakra-ui/react"
 
 function App() {
