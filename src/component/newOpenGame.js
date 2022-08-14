@@ -2,27 +2,60 @@ import ReactDatePicker from "react-datepicker";
 import subDays from "date-fns/subDays";
 import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
+import axios from "axios";
 
 export default function NewOpenGame({ token }) {
     const [newGameDate, setNewGameDate] = useState(new Date());
     const [newGameTime, setNewGameTime] = useState(new Date());
     const [newGameLoc, setNewGameLoc] = useState("");
-    const [newGameType, setNewGameType] = useState("");
+    const [newGameSessionType, setNewGameSessionType] = useState("");
+    const [newGameMatchType, setNewGameMatchType] = useState("");
+    const [error, setError] = useState("");
 
     const handleChangeGameLoc = (event) => {
         console.log(event.target.value);
         setNewGameLoc(event.target.value);
     };
 
-    const handleChangeGameType = (event) => {
+    const handleChangeSessionType = (event) => {
         console.log(event.target.value);
-        setNewGameType(event.target.value);
+        setNewGameSessionType(event.target.value);
     };
 
-    const handleSubmit = (event) => {
-        console.log(newGameDate, newGameTime, newGameLoc, newGameType)
-        // axios post request, including error catch
-    }
+    const handleChangeMatchType = (event) => {
+        console.log(event.target.value);
+        setNewGameMatchType(event.target.value);
+    };
+
+    const handleSubmit = () => {
+        console.log(
+            newGameDate,
+            newGameTime,
+            newGameSessionType,
+            newGameMatchType,
+            newGameLoc
+        );
+        axios
+            .post(
+                "https://teammate-app.herokuapp.com/session",
+                {
+                    date: newGameDate,
+                    time: newGameTime,
+                    session_type: newGameSessionType,
+                    match_type: newGameMatchType,
+                    location: newGameLoc,
+                },
+                {
+                    headers: {
+                        Authorization: `Token ${token}`,
+                    },
+                }
+            )
+            .then(console.log("posted"))
+            .catch((error) => {
+                setError(error.message);
+            });
+    };
 
     return (
         <div>
@@ -51,8 +84,8 @@ export default function NewOpenGame({ token }) {
                         id="location"
                         name="location"
                     >
-                        <option value="Pullen">Pullen Park</option>
-                        <option value="Sanderford">Sanderford Park</option>
+                        <option value="2">Pullen Park</option>
+                        <option value="1">Sanderford Park</option>
                         <option value="test">Test</option>
 
                         {/* We could also make an API request for a list of parks, then map through them as dropdown option. This might also help store whatever data other than the park name the backend needs.  */}
@@ -60,16 +93,30 @@ export default function NewOpenGame({ token }) {
                 </div>
                 <div>
                     <label for="session-type">
-                        What kind of game would you like to play?
+                        How competitive would you like your game to be?
                     </label>
                     <select
-                        onChange={handleChangeGameType}
-                        value={newGameType}
+                        onChange={handleChangeSessionType}
+                        value={newGameSessionType}
                         id="session-type"
                         name="session-type"
                     >
                         <option value="Casual">Casual</option>
                         <option value="Competitive">Competitive</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="match-type">
+                        Would you like to play singles or doubles?
+                    </label>
+                    <select
+                        onChange={handleChangeMatchType}
+                        value={newGameMatchType}
+                        id="match-type"
+                        name="match-type"
+                    >
+                        <option value="Singles">Singles</option>
+                        <option value="Doubles">Doubles</option>
                     </select>
                 </div>
                 <button onClick={handleSubmit}>Submit</button>

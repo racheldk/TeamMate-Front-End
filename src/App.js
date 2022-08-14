@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Link, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from './component/login';
 import Register from './component/register';
 import NewOpenGame from './component/newOpenGame';
@@ -15,18 +15,6 @@ function App() {
 
     return(
     <BrowserRouter>
-        <header className="">
-            <div className="container">
-                <div className="buttons-header">
-                <Link to="/login"  className="btn">Login</Link>
-                <Link to="/register" className="btn">Register</Link>
-                </div>
-            </div>
-        </header>
-
-        <hr/>
-        <h1 style={{ textAlign: "center" }}>TeamMate!</h1>
-
         <Routes><Route path="/" element={<Login/>} /></Routes>
       {/* All Open Games (Game List component? separate component? */}
         <Routes><Route path="/new" element={<NewOpenGame token={token} />} /></Routes>
