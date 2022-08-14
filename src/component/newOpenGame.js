@@ -3,14 +3,19 @@ import subDays from "date-fns/subDays";
 import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
 import axios from "axios";
+import { DateTime } from "luxon";
 
 export default function NewOpenGame({ token }) {
-    const [newGameDate, setNewGameDate] = useState(new Date());
-    const [newGameTime, setNewGameTime] = useState(new Date());
+    // const [newGameDate, setNewGameDate] = useState(new Date());
+    // const [newGameTime, setNewGameTime] = useState(new Date());
+    const [newGameDate, setNewGameDate] = useState("2022-08-21");
+    const [newGameTime, setNewGameTime] = useState("10:15:00");
     const [newGameLoc, setNewGameLoc] = useState("");
     const [newGameSessionType, setNewGameSessionType] = useState("");
     const [newGameMatchType, setNewGameMatchType] = useState("");
     const [error, setError] = useState("");
+    const [submitted, setSubmitted] = useState(false)
+    // const [convertedDate, setConvertedDate] = useState("")
 
     const handleChangeGameLoc = (event) => {
         console.log(event.target.value);
@@ -27,13 +32,20 @@ export default function NewOpenGame({ token }) {
         setNewGameMatchType(event.target.value);
     };
 
+    // const handleConvertDate = (newGameDate) =>{
+    //     setConvertedDate(DateTime.toISODate(newGameDate))
+    //     console.log(convertedDate)
+    // }
+
     const handleSubmit = () => {
+        // handleConvertDate(newGameDate)
         console.log(
             newGameDate,
             newGameTime,
             newGameSessionType,
             newGameMatchType,
-            newGameLoc
+            newGameLoc, 
+            // convertedDate
         );
         axios
             .post(
@@ -50,21 +62,32 @@ export default function NewOpenGame({ token }) {
                         Authorization: `Token ${token}`,
                     },
                 }
-            )
-            .then(console.log("posted"))
-            .catch((error) => {
-                setError(error.message);
-            });
-    };
+                )
+                .then(console.log("posted"))
+                .catch((error) => {
+                    setError(error.message);
+                });
+            setSubmitted(true)   
+            };
 
-    return (
-        <div>
+            if (submitted) {
+                return <AfterSubmit/>
+            }
+
+            if (error) {
+                return (
+                    {error}
+                )
+            }
+            
+            return (
+                <div>
             <h1>Post a New Game</h1>
             <form>
-                <label htmlFor="date-time">When would you like to play?</label>
+                {/* <label htmlFor="date-time">When would you like to play?</label>
                 <ReactDatePicker
                     selected={newGameDate}
-                    onChange={(date) => setNewGameDate(date)}
+                    onChange={(date)=> setNewGameDate(date)}
                     minDate={subDays(new Date(), 0)}
                 />
                 <ReactDatePicker
@@ -75,7 +98,7 @@ export default function NewOpenGame({ token }) {
                     timeIntervals={15}
                     timeCaption="Time"
                     dateFormat="h:mm aa"
-                />
+                /> */}
                 <div>
                     <label htmlFor="location">Where would you like to play?</label>
                     <select
@@ -123,4 +146,11 @@ export default function NewOpenGame({ token }) {
             </form>
         </div>
     );
+}
+
+
+function AfterSubmit() {
+return(
+    <div>you submitted a game!</div>
+)
 }
