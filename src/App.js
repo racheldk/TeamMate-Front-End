@@ -14,9 +14,9 @@ useEffect(()=>{
         <BrowserRouter>
         <header className="">
             <div className="container">
-                <div class="buttons-header">
-                <Link to="/login"  class="btn">Login</Link>
-                <Link to="/register" class="btn">Register</Link>
+                <div className="buttons-header">
+                <Link to="/login"  className="btn">Login</Link>
+                <Link to="/register" className="btn">Register</Link>
                 </div>
             </div>
         </header>
