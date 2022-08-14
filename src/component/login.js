@@ -12,7 +12,7 @@ function Login() {
                     autofocus
                 />
                 <br />
-                <label for="inputPassword" class="sr-only">
+                <label htmlFor="inputPassword" class="sr-only">
                     Password
                 </label>
                 <input

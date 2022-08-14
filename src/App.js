@@ -28,7 +28,7 @@ useEffect(()=>{
                 <Route path= "/mygames" />
                 {/* my games - confirmed, pending requests as guest, pending requests as host, open */}
                 <Route path=":username"/>
-                {/* This will be for a user profile (Team Quokka did something like this with the users/:id route)  */}
+                {/* This will be a user profile (Team Quokka did something like this with the users/:id route)  */}
             </Routes>
         </BrowserRouter>
     );

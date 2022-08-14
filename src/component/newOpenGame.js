@@ -61,7 +61,7 @@ export default function NewOpenGame({ token }) {
         <div>
             <h1>Post a New Game</h1>
             <form>
-                <label for="date-time">When would you like to play?</label>
+                <label htmlFor="date-time">When would you like to play?</label>
                 <ReactDatePicker
                     selected={newGameDate}
                     onChange={(date) => setNewGameDate(date)}
@@ -77,7 +77,7 @@ export default function NewOpenGame({ token }) {
                     dateFormat="h:mm aa"
                 />
                 <div>
-                    <label for="location">Where would you like to play?</label>
+                    <label htmlFor="location">Where would you like to play?</label>
                     <select
                         onChange={handleChangeGameLoc}
                         value={newGameLoc}
@@ -92,7 +92,7 @@ export default function NewOpenGame({ token }) {
                     </select>
                 </div>
                 <div>
-                    <label for="session-type">
+                    <label htmlFor="session-type">
                         How competitive would you like your game to be?
                     </label>
                     <select
@@ -106,7 +106,7 @@ export default function NewOpenGame({ token }) {
                     </select>
                 </div>
                 <div>
-                    <label for="match-type">
+                    <label htmlFor="match-type">
                         Would you like to play singles or doubles?
                     </label>
                     <select
