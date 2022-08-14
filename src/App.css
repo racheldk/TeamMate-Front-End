@@ -1,4 +1,12 @@
+<<<<<<< HEAD
 /* fonts */
+=======
+.game {
+  border: 2px green solid;
+  margin: 5px;
+}
+/* Log in component */
+>>>>>>> 54c50bf6ece1b4ea29d05821a3f28d43e3709e64
 
 
 /* Global Styling */
@@ -97,6 +105,7 @@ body {
     color:#4FD1C5;
     transition: 0s;
 }
+<<<<<<< HEAD
 
 /* styles form input fields */
 .form-control {
@@ -122,3 +131,6 @@ label {
 }
 
 
+=======
+  /* Log in component */
+>>>>>>> 54c50bf6ece1b4ea29d05821a3f28d43e3709e64
