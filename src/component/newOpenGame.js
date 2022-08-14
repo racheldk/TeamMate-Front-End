@@ -1,21 +1,22 @@
 import ReactDatePicker from "react-datepicker";
 import subDays from "date-fns/subDays";
 import "react-datepicker/dist/react-datepicker.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { DateTime } from "luxon";
 
 export default function NewOpenGame({ token }) {
-    // const [newGameDate, setNewGameDate] = useState(new Date());
+    const [newGameDate, setNewGameDate] = useState("");
     // const [newGameTime, setNewGameTime] = useState(new Date());
-    const [newGameDate, setNewGameDate] = useState("2022-08-21");
+    // const [newGameDate, setNewGameDate] = useState("2022-08-21");
     const [newGameTime, setNewGameTime] = useState("10:15:00");
     const [newGameLoc, setNewGameLoc] = useState("");
     const [newGameSessionType, setNewGameSessionType] = useState("");
     const [newGameMatchType, setNewGameMatchType] = useState("");
     const [error, setError] = useState("");
-    const [submitted, setSubmitted] = useState(false)
-    // const [convertedDate, setConvertedDate] = useState("")
+    const [submitted, setSubmitted] = useState(false);
+    const [convertedDate, setConvertedDate] = useState('');
+
 
     const handleChangeGameLoc = (event) => {
         console.log(event.target.value);
@@ -37,6 +38,32 @@ export default function NewOpenGame({ token }) {
     //     console.log(convertedDate)
     // }
 
+    // useEffect(
+    //     (newGameDate) => {
+    //         const formatted = DateTime.fromISO(newGameDate).toLocaleString(
+    //             DateTime.DATE_MED
+    //         );
+    //         console.log(newGameDate);
+    //         setConvertedDate(formatted);
+    //     },
+    //     [newGameDate]
+    // );
+
+    // useEffect(() =>{
+    //     console.log(newGameDate)
+    //     const formatted = DateTime.fromISO(`${newGameDate}`).toISODate(
+    //         DateTime.DATE_MED
+    //     );
+    //     console.log(newGameDate);
+    //     setConvertedDate(formatted);
+    //     console.log(convertedDate)
+    // }, [newGameDate, convertedDate])
+
+    useEffect(() =>{
+        console.log(newGameDate)
+        console.log(convertedDate)
+    }, [newGameDate, convertedDate])
+
     const handleSubmit = () => {
         // handleConvertDate(newGameDate)
         console.log(
@@ -45,13 +72,13 @@ export default function NewOpenGame({ token }) {
             newGameSessionType,
             newGameMatchType,
             newGameLoc, 
-            // convertedDate
+            convertedDate
         );
         axios
             .post(
                 "https://teammate-app.herokuapp.com/session",
                 {
-                    date: newGameDate,
+                    date: convertedDate,
                     time: newGameTime,
                     session_type: newGameSessionType,
                     match_type: newGameMatchType,
@@ -62,35 +89,45 @@ export default function NewOpenGame({ token }) {
                         Authorization: `Token ${token}`,
                     },
                 }
-                )
-                .then(console.log("posted"))
-                .catch((error) => {
-                    setError(error.message);
-                });
-            setSubmitted(true)   
-            };
+            )
+            .then(console.log("posted"))
+            .catch((error) => {
+                setError(error.message);
+            });
+        setSubmitted(true);
+    };
 
-            if (submitted) {
-                return <AfterSubmit/>
-            }
+    if (submitted) {
+        return <AfterSubmit convertedDate={convertedDate} />;
+    }
 
-            if (error) {
-                return (
-                    {error}
-                )
-            }
-            
-            return (
-                <div>
+    if (error) {
+        return { error };
+    }
+
+    return (
+        <div>
             <h1>Post a New Game</h1>
+            <div>Converted Date: {convertedDate}</div>
+            {/* <div>New Game Date: {newGameDate}</div> */}
+
+            {/* <div>Mon Aug 15 2022 00:00:00 GMT-0700 (Pacific Daylight Time)</div> */}
             <form>
-                {/* <label htmlFor="date-time">When would you like to play?</label>
+                <label htmlFor="date-time">When would you like to play?</label>
                 <ReactDatePicker
-                    selected={newGameDate}
-                    onChange={(date)=> setNewGameDate(date)}
+                    onChange={(date) => {
+                        console.log(date);
+                        setNewGameDate(date);
+                        setConvertedDate(DateTime.fromJSDate(date).toISODate(
+                            DateTime.DATE_MED));
+                        console.log(newGameDate);
+                        console.log(convertedDate);
+                    }}
                     minDate={subDays(new Date(), 0)}
+                    selected={newGameDate}
+                    placeholderText="Click to select a date"
                 />
-                <ReactDatePicker
+                {/* <ReactDatePicker
                     selected={newGameTime}
                     onChange={(date) => setNewGameTime(date)}
                     showTimeSelect
@@ -100,7 +137,9 @@ export default function NewOpenGame({ token }) {
                     dateFormat="h:mm aa"
                 /> */}
                 <div>
-                    <label htmlFor="location">Where would you like to play?</label>
+                    <label htmlFor="location">
+                        Where would you like to play?
+                    </label>
                     <select
                         onChange={handleChangeGameLoc}
                         value={newGameLoc}
@@ -148,9 +187,6 @@ export default function NewOpenGame({ token }) {
     );
 }
 
-
-function AfterSubmit() {
-return(
-    <div>you submitted a game!</div>
-)
+function AfterSubmit({convertedDate}) {
+    return <div>you submitted a game! {convertedDate}</div>;
 }
