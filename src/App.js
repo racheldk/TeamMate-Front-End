@@ -5,34 +5,36 @@ import Register from './component/register';
 
 
 function App() {
-    return(
-    <BrowserRouter>
+        return(
+        <BrowserRouter>
         <header className="">
-            <div className="container">
+                <div className="container">
                 <div class="buttons-header">
                 <Link to="/login"  class="btn">Login</Link>
                 <Link to="/register" class="btn">Register</Link>
                 </div>
-            </div>
+                </div>
         </header>
 
         <hr/>
         <h1 style={{ textAlign: "center" }}>TeamMate!</h1>
 
-        <Routes><Route path="/" element={<Login/>} /></Routes>
+        <Routes>
+        <Route path="/" element={<Login/>} />
       {/* All Open Games (Game List component? separate component? */}
-        <Routes><Route path="/new" /></Routes>
+        <Route path="/new" />
                 {/* make a new open game post  */}
-        <Routes><Route path="/register" element={<Register/>} /></Routes>
+        <Route path="/register" element={<Register/>} />
                 {/* register new user */}
-        <Routes><Route path="login" element={<Login/>} /> </Routes>
+        <Route path="/login" element={<Login/>} /> 
                 {/* login */}
-        <Routes><Route path= "/mygames" /></Routes>
+        <Route path= "/mygames" />
                 {/* my games - confirmed, pending requests as guest, pending requests as host, open */}
-        <Routes><Route path=":username"/></Routes>
+        <Route path=":username"/>
+        </Routes> 
                 {/* This will be for a user profile (Team Quokka did something like this with the users/:id route)  */}
-    </BrowserRouter>
-    )
-    }
+        </BrowserRouter>
+)
+}
 
 export default App;
