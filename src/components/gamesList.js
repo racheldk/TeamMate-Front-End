@@ -1,11 +1,25 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Modali, { useModali } from "modali";
+// import Modali, { useModali } from "modali";
+import Modal from 'react-modal'
 
 export default function GamesList({ token }) {
     const [allGamesList, setAllGamesList] = useState([]);
-    const [openGameModal, toggleOpenGameModal] = useModali();
-    const [modalData, setModalData] = useState(null)
+    const [modalIsOpen, setModalIsOpen] = useState(false)
+    const [modalData, setModalData] = useState({})
+
+    const handleOpenModal = (game) => {
+        console.log('click open')
+        console.log(game.id)
+        setModalIsOpen(true)
+        setModalData(game)
+        console.log(modalData)
+    }
+
+    const handleCloseModal = () => {
+        console.log('click close')
+        setModalIsOpen(false)
+    }
 
 
     useEffect(() => {
@@ -19,17 +33,15 @@ export default function GamesList({ token }) {
                 console.log(res.data);
                 setAllGamesList(res.data);
             });
-    }, [token, setAllGamesList]);
+    },[]);
 
     return (
         <div>
             <h1>GamesList</h1>
             {allGamesList.map((game) => (
-                <div className="game">
-                    <button onClick={() => {
-                        toggleOpenGameModal()
-                        setModalData(game)
-                    }}>+</button>
+                <div className="game" key={game.id}>
+                    <button onClick={()=>{
+                        handleOpenModal(game)}}>more details</button>
                     <div>Location: {game.location_info.park_name}</div>
                     <div>
                         {game.date} at {game.time}
@@ -37,21 +49,23 @@ export default function GamesList({ token }) {
                     <button>Join</button>
                 </div>
             ))}
-                    <Modali.Modal game={modalData}
-                    {...openGameModal}>
-                        <div>
-                            <div>{modalData.location_info.park_name}</div>
-                            <div>{modalData.location_info.court_surface}</div>
-                            <div>park address will go here too</div>
-                            <div>
-                                {modalData.time} {modalData.date}
-                            </div>
-                            <div>{modalData.host_info.first_name}</div>
-                            <div>{modalData.host_info.last_name}</div>
-                            <div>{modalData.host_info.username}</div>
-                            <button>Join</button>
-                        </div>
-                    </Modali.Modal>
+                    <Modal isOpen={modalIsOpen} game={modalData}>
+                        <button onClick={()=>handleCloseModal()}>close</button>
+                        <OpenGameDetail game={modalData}/>
+                    </Modal>
         </div>
     );
+}
+
+function OpenGameDetail ({game}) {
+    console.log(game)
+    return (
+        <div>
+            <div>{game.location_info.park_name}</div>
+            <div>(park address)</div>
+            <div>{game.date} {game.time}</div>
+            <div>{game.host_info.username}</div>
+            <button>join</button>
+        </div>
+    )
 }
