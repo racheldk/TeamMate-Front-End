@@ -1,38 +1,33 @@
-import './App.css';
-import { BrowserRouter, Link, Routes, Route, Navigate } from "react-router-dom";
-import Login from './component/login';
-import Register from './component/register';
-
+import "./App.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import OpenGamesList from "./pages/openGamesPage";
+import { useEffect, useState } from "react";
 
 function App() {
-    return(
-    <BrowserRouter>
-        <header className="">
-            <div className="container">
-                <div class="buttons-header">
-                <Link to="/login"  class="btn">Login</Link>
-                <Link to="/register" class="btn">Register</Link>
-                </div>
-            </div>
-        </header>
+const [token, setToken] = useState()
 
-        <hr/>
-        <h1 style={{ textAlign: "center" }}>TeamMate!</h1>
+useEffect(()=>{
+  setToken("ea54a8e01ca1479e2ba6b5aa99ea04dc434b5298")
+}, [])
 
-        <Routes><Route path="/" element={<Login/>} /></Routes>
-      {/* All Open Games (Game List component? separate component? */}
-        <Routes><Route path="/new" /></Routes>
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<OpenGamesList token={token}/>}/>
+                {/* All Open Games (Game List component? separate component?) */}
+                <Route path="/new" />
                 {/* make a new open game post  */}
-        <Routes><Route path="/register" element={<Register/>} /></Routes>
+                <Route path="register" />
                 {/* register new user */}
-        <Routes><Route path="login" element={<Login/>} /> </Routes>
+                <Route path="login" />
                 {/* login */}
-        <Routes><Route path= "/mygames" /></Routes>
+                <Route path= "/mygames" />
                 {/* my games - confirmed, pending requests as guest, pending requests as host, open */}
-        <Routes><Route path=":username"/></Routes>
+                <Route path=":username"/>
                 {/* This will be for a user profile (Team Quokka did something like this with the users/:id route)  */}
-    </BrowserRouter>
-    )
-    }
+            </Routes>
+        </BrowserRouter>
+    );
+}
 
 export default App;
