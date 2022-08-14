@@ -12,17 +12,6 @@ useEffect(()=>{
 
     return (
         <BrowserRouter>
-        <header className="">
-            <div className="container">
-                <div className="buttons-header">
-                <Link to="/login"  className="btn">Login</Link>
-                <Link to="/register" className="btn">Register</Link>
-                </div>
-            </div>
-        </header>
-
-        <hr/>
-        <h1 style={{ textAlign: "center" }}>TeamMate!</h1>
             <Routes>
                 <Route path="/" element={<OpenGamesList token={token}/>}/>
                 {/* All Open Games (Game List component? separate component?) */}
