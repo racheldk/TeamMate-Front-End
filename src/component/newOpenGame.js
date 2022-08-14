@@ -7,16 +7,14 @@ import { DateTime } from "luxon";
 
 export default function NewOpenGame({ token }) {
     const [newGameDate, setNewGameDate] = useState("");
-    // const [newGameTime, setNewGameTime] = useState(new Date());
-    // const [newGameDate, setNewGameDate] = useState("2022-08-21");
-    const [newGameTime, setNewGameTime] = useState("10:15:00");
+    const [newGameTime, setNewGameTime] = useState("");
     const [newGameLoc, setNewGameLoc] = useState("");
     const [newGameSessionType, setNewGameSessionType] = useState("");
     const [newGameMatchType, setNewGameMatchType] = useState("");
     const [error, setError] = useState("");
     const [submitted, setSubmitted] = useState(false);
-    const [convertedDate, setConvertedDate] = useState('');
-
+    const [convertedDate, setConvertedDate] = useState("");
+    const [convertedTime, setConvertedTime] = useState("");
 
     const handleChangeGameLoc = (event) => {
         console.log(event.target.value);
@@ -33,45 +31,18 @@ export default function NewOpenGame({ token }) {
         setNewGameMatchType(event.target.value);
     };
 
-    // const handleConvertDate = (newGameDate) =>{
-    //     setConvertedDate(DateTime.toISODate(newGameDate))
-    //     console.log(convertedDate)
-    // }
-
-    // useEffect(
-    //     (newGameDate) => {
-    //         const formatted = DateTime.fromISO(newGameDate).toLocaleString(
-    //             DateTime.DATE_MED
-    //         );
-    //         console.log(newGameDate);
-    //         setConvertedDate(formatted);
-    //     },
-    //     [newGameDate]
-    // );
-
-    // useEffect(() =>{
-    //     console.log(newGameDate)
-    //     const formatted = DateTime.fromISO(`${newGameDate}`).toISODate(
-    //         DateTime.DATE_MED
-    //     );
-    //     console.log(newGameDate);
-    //     setConvertedDate(formatted);
-    //     console.log(convertedDate)
-    // }, [newGameDate, convertedDate])
-
-    useEffect(() =>{
-        console.log(newGameDate)
-        console.log(convertedDate)
-    }, [newGameDate, convertedDate])
+    useEffect(() => {
+        console.log(newGameDate);
+        console.log(convertedDate);
+    }, [newGameDate, convertedDate]);
 
     const handleSubmit = () => {
-        // handleConvertDate(newGameDate)
         console.log(
             newGameDate,
             newGameTime,
             newGameSessionType,
             newGameMatchType,
-            newGameLoc, 
+            newGameLoc,
             convertedDate
         );
         axios
@@ -79,7 +50,7 @@ export default function NewOpenGame({ token }) {
                 "https://teammate-app.herokuapp.com/session",
                 {
                     date: convertedDate,
-                    time: newGameTime,
+                    time: convertedTime,
                     session_type: newGameSessionType,
                     match_type: newGameMatchType,
                     location: newGameLoc,
@@ -98,7 +69,9 @@ export default function NewOpenGame({ token }) {
     };
 
     if (submitted) {
-        return <AfterSubmit convertedDate={convertedDate} />;
+        return (
+            <AfterSubmit/>
+        );
     }
 
     if (error) {
@@ -108,18 +81,17 @@ export default function NewOpenGame({ token }) {
     return (
         <div>
             <h1>Post a New Game</h1>
-            <div>Converted Date: {convertedDate}</div>
-            {/* <div>New Game Date: {newGameDate}</div> */}
-
-            {/* <div>Mon Aug 15 2022 00:00:00 GMT-0700 (Pacific Daylight Time)</div> */}
             <form>
                 <label htmlFor="date-time">When would you like to play?</label>
                 <ReactDatePicker
                     onChange={(date) => {
                         console.log(date);
                         setNewGameDate(date);
-                        setConvertedDate(DateTime.fromJSDate(date).toISODate(
-                            DateTime.DATE_MED));
+                        setConvertedDate(
+                            DateTime.fromJSDate(date).toISODate(
+                                DateTime.DATE_MED
+                            )
+                        );
                         console.log(newGameDate);
                         console.log(convertedDate);
                     }}
@@ -127,15 +99,25 @@ export default function NewOpenGame({ token }) {
                     selected={newGameDate}
                     placeholderText="Click to select a date"
                 />
-                {/* <ReactDatePicker
+                <ReactDatePicker
                     selected={newGameTime}
-                    onChange={(date) => setNewGameTime(date)}
+                    onChange={(date) => {
+                        setNewGameTime(date);
+                        setConvertedTime(
+                            DateTime.fromJSDate(date).toLocaleString(
+                                DateTime.TIME_24_WITH_SECONDS
+                            )
+                        );
+                        console.log(newGameTime);
+                        console.log(convertedTime);
+                    }}
                     showTimeSelect
                     showTimeSelectOnly
                     timeIntervals={15}
                     timeCaption="Time"
                     dateFormat="h:mm aa"
-                /> */}
+                    placeholderText="Click to select a time"
+                />
                 <div>
                     <label htmlFor="location">
                         Where would you like to play?
@@ -146,9 +128,11 @@ export default function NewOpenGame({ token }) {
                         id="location"
                         name="location"
                     >
+                        <option value="" disabled hidden>
+                            Choose a location
+                        </option>
                         <option value="2">Pullen Park</option>
                         <option value="1">Sanderford Park</option>
-                        <option value="test">Test</option>
 
                         {/* We could also make an API request for a list of parks, then map through them as dropdown option. This might also help store whatever data other than the park name the backend needs.  */}
                     </select>
@@ -163,6 +147,9 @@ export default function NewOpenGame({ token }) {
                         id="session-type"
                         name="session-type"
                     >
+                        <option value="" disabled hidden>
+                            Choose a competitive level
+                        </option>
                         <option value="Casual">Casual</option>
                         <option value="Competitive">Competitive</option>
                     </select>
@@ -177,6 +164,9 @@ export default function NewOpenGame({ token }) {
                         id="match-type"
                         name="match-type"
                     >
+                        <option value="" disabled hidden>
+                            Choose number of players
+                        </option>
                         <option value="Singles">Singles</option>
                         <option value="Doubles">Doubles</option>
                     </select>
@@ -187,6 +177,10 @@ export default function NewOpenGame({ token }) {
     );
 }
 
-function AfterSubmit({convertedDate}) {
-    return <div>you submitted a game! {convertedDate}</div>;
+function AfterSubmit() {
+    return (
+        <div>
+            <div>you submitted a game! </div>
+        </div>
+    );
 }
