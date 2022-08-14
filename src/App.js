@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 import OpenGamesList from "./pages/openGamesPage";
 import { useEffect, useState } from "react";
 
@@ -12,6 +12,17 @@ useEffect(()=>{
 
     return (
         <BrowserRouter>
+        <header className="">
+            <div className="container">
+                <div class="buttons-header">
+                <Link to="/login"  class="btn">Login</Link>
+                <Link to="/register" class="btn">Register</Link>
+                </div>
+            </div>
+        </header>
+
+        <hr/>
+        <h1 style={{ textAlign: "center" }}>TeamMate!</h1>
             <Routes>
                 <Route path="/" element={<OpenGamesList token={token}/>}/>
                 {/* All Open Games (Game List component? separate component?) */}
