@@ -33,11 +33,10 @@ export default function GamesList({ token }) {
                 console.log(res.data);
                 setAllGamesList(res.data);
             });
-    },[]);
+    },[token, setAllGamesList]);
 
     return (
         <div>
-            <h1>GamesList</h1>
             {allGamesList.map((game) => (
                 <div className="game" key={game.id}>
                     <button onClick={()=>{
@@ -64,6 +63,8 @@ function OpenGameDetail ({game}) {
             <div>{game.location_info.park_name}</div>
             <div>(park address)</div>
             <div>{game.date} {game.time}</div>
+            <div>{game.host_info.first_name}</div>
+            <div>{game.host_info.last_name}</div>
             <div>{game.host_info.username}</div>
             <button>join</button>
         </div>
