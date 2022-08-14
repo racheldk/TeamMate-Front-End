@@ -1,7 +1,12 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import OpenGamesList from "./pages/openGamesPage";
+import { ChakraProvider} from '@chakra-ui/react'
+import Login from "./pages/login.js"
+import Register from './pages/register';
+import Theme from './components/theme'
 import { useEffect, useState } from "react";
+import { Text } from "@chakra-ui/react"
 
 function App() {
 const [token, setToken] = useState()
@@ -11,22 +16,24 @@ useEffect(()=>{
 }, [])
 
     return (
+        <ChakraProvider Theme={Theme} Text={Text}>
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<OpenGamesList token={token}/>}/>
+                <Route path="/"  element={<Login token={token}/>}/>
                 {/* All Open Games (Game List component? separate component?) */}
-                <Route path="/new" />
+                <Route path="new" />
                 {/* make a new open game post  */}
-                <Route path="register" />
+                <Route path="register"  element={<Register />} />
                 {/* register new user */}
-                <Route path="login" />
+                <Route path="open-games" element={<OpenGamesList token={token}/>}/>
                 {/* login */}
-                <Route path= "/mygames" />
+                <Route path= "my-games" />
                 {/* my games - confirmed, pending requests as guest, pending requests as host, open */}
                 <Route path=":username"/>
                 {/* This will be for a user profile (Team Quokka did something like this with the users/:id route)  */}
             </Routes>
         </BrowserRouter>
+        </ChakraProvider>
     );
 }
 
