@@ -1,32 +1,124 @@
-/* Log in component */
+/* fonts */
 
-.buttons-header {
-    text-align: right;
+
+/* Global Styling */
+
+body {
+    background-color: #2C7A7B!important;
+}
+.app-body {
+    background-color: #4FD1C5;
+    max-width: 450px;
+    min-height: 668px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto
 }
 
-.form-signin {
-    width: 100%;
-    max-width: 330px;
-    padding: 15px;
-    padding-top: 50px;
+/* Header Menu Stylings */
+
+.header {
+    max-width: 450px;
     margin: auto;
+    text-align: right;
+    background-color: white;
+    padding: 1em;
 }
-.form-signin .checkbox {
-    font-weight: 400;
+.footer {
+    max-width: 450px;
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    margin: auto;
+    text-align: center;
+    background-color: white;
+    padding: 1em;
 }
-.form-signin .form-control {
-    position: relative;
+
+/* global form stylings */
+
+/* Styles form box */
+.form {
+    max-width: 60%;
+    background-color: #ffffff;
+    border-color: #ffffff!important;
+    border: solid;
+    border-radius: 20px;
+    animation: fadein 1s, mymove 1s ;
+    animation-fill-mode: forwards;
+    margin: auto;
+    max-width: 400px;
+    padding: .1em;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+@keyframes mymove {
+    0% {box-shadow: 0px #285E61;}
+    100% {box-shadow: 20px 20px #285E61;}
+}
+
+@keyframes fadein {
+    0% {opacity: 0;}
+    100% {opacity: 100%;}
+}
+
+/* Styles form headers */
+.form-banner {
+    background-color: #4FD1C5;
+    color: #285E61;
+    border-radius: 15px 15px 0px 0px;
+    font-size:2em;
+    font-weight: bold;
+    
+}
+/* Styles form buttons */
+.form-button {
     box-sizing: border-box;
-    height: auto;
-    padding: 10px;
+    height: 50px;
+    text-transform: uppercase;
+    margin: auto;
     font-size: 16px;
+    background-color:#4FD1C5;
+    width: 120px;
+    border-radius: 30px;
+    font-weight: bold;
+    color: #ffffff;
 }
 
-.form-signin input[type="email"] {
-    margin-bottom: 10px;  
+.form-button:hover {
+    background-color: #285E61;
 }
 
-.form-signin input[type="password"] {
-    margin-bottom: 20px;
+.form-button:active {
+    background-color: #285E61;
+    box-shadow: 0px 0px 5px #276749;
+    border-color:#1D4044;
+    color:#4FD1C5;
+    transition: 0s;
 }
-  /* Log in component */
+
+/* styles form input fields */
+.form-control {
+    width: 150px;
+    margin: .5em;
+    padding-left: .5em;
+    text-align: left;
+    border: solid 1px;
+    color: #285E61;
+    border-radius: 10px;
+
+}
+
+.form-control:hover {
+    background-color:#E6FFFA;
+}
+
+/* styles labels */
+label {
+    width: 40%;
+    display: inline-block;
+    color: #285E61;
+}
+
+
