@@ -48,13 +48,19 @@ export default function GamesList({ token, games }) {
     };
 
     const handleCancelMyGame = () => {
-        console.log('click cancel my open game')
+        console.log("click cancel my open game");
         // axios request
-    }
+        // What do we need to do if there's already a guest in the queue? BE?
+    };
+
+    const handleEditMyGame = () => {
+        console.log("click edit my game");
+        // axios request
+        // What do we need to do if there's already a guest in the queue? BE?
+    };
 
     return (
         <div>
-
             {games.map((game) => (
                 <div className="game" key={game.id}>
                     <button
@@ -74,7 +80,7 @@ export default function GamesList({ token, games }) {
                     {(() => {
                         switch (listType) {
                             case "allOpen":
-                                return <button>Join</button>
+                                return <button>Join</button>;
                             // this will have the same onClick as in the join-game branch
                             case "pendingPOVGuest":
                                 return (
@@ -97,8 +103,21 @@ export default function GamesList({ token, games }) {
                                         </button>
                                     </>
                                 );
-                                case "myOpen":
-                                    return <button onClick={()=> handleCancelMyGame}>Cancel</button>
+                            case "myOpen":
+                                return (
+                                    <>
+                                        <button
+                                            onClick={() => handleCancelMyGame}
+                                        >
+                                            Delete
+                                        </button>
+                                        <button
+                                            onClick={() => handleEditMyGame}
+                                        >
+                                            Edit
+                                        </button>
+                                    </>
+                                );
                             case "confirmed":
                                 return (
                                     <button
