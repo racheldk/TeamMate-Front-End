@@ -1,24 +1,29 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { baseURL } from "../helpers/constants";
-import { Navigate, useNavigate, Link, Routes, Route } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { Button } from '@chakra-ui/react'
 
 
-function Login({ token, setToken }) {
+
+function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState([]);
     const [loggedIn, setLoggedIn] = useState(false);
     const [navigate, setNavigate] = useState(false);
+    const [token, setToken] = useState()
 
+    useEffect(()=>{
+        setToken("ea54a8e01ca1479e2ba6b5aa99ea04dc434b5298")
+}, [])
 
 
     const Login = (event) => {
         event.preventDefault();
     
         axios
-        .post(`${baseURL}auth/token/login`, {
+        .post(`${baseURL}auth/token/login/`, {
             username: username,
             password: password,
         })
@@ -42,7 +47,7 @@ function Login({ token, setToken }) {
     };
 
     if (navigate) {
-        return <Navigate to="/mygames" />;
+        return <Navigate to="open-games" />;
 
     }
 

@@ -19,14 +19,14 @@ useEffect(()=>{
 return (
         <ChakraProvider Theme={Theme} Text={Text}>
         <BrowserRouter>
-        <header className="">
+        {/* <header className="">
                         <div className="container">
                         <div class="buttons-header">
                         <Link to="/login"  class="btn">Login</Link>
                         <Link to="/register" class="btn">Register</Link>
                         </div>
                         </div>
-                </header>
+                </header> */}
 
                 <Routes>
                 <Route path="/"  element={<Login token={token}/>}/>
