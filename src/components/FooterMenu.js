@@ -1,7 +1,7 @@
 import { IconButton} from '@chakra-ui/react'
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { BsFillPersonFill } from "react-icons/bs"
-import {SearchIcon, SettingsIcon, PlusSquareIcon,AddIcon, Icon} from '@chakra-ui/icons'
+import {SearchIcon, PlusSquareIcon, Icon} from '@chakra-ui/icons'
 
 
 

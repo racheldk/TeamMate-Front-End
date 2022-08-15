@@ -46,7 +46,7 @@ body {
     width: 350px;
     height: 300px;
     margin: auto;
-    animation: expand-down 2s;
+    animation: expand-down 1s;
     overflow-y: hidden;
     border-radius: 20px;
     animation-fill-mode: forwards;
