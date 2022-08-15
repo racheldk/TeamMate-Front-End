@@ -3,12 +3,12 @@ import axios from "axios";
 // import Modali, { useModali } from "modali";
 import Modal from "react-modal";
 
-export default function GamesList({ token }) {
-    const [allGamesList, setAllGamesList] = useState([]);
+export default function GamesList({ token, games }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [modalData, setModalData] = useState({});
+    const [listType, setListType] = useState("allOpen");
 
-    Modal.setAppElement('#root');
+    Modal.setAppElement("#root");
 
     const handleOpenModal = (game) => {
         console.log("click open");
@@ -23,22 +23,34 @@ export default function GamesList({ token }) {
         setModalIsOpen(false);
     };
 
-    useEffect(() => {
-        axios
-            .get("https://teammate-app.herokuapp.com/session", {
-                headers: {
-                    Authorization: `Token ${token}`,
-                },
-            })
-            .then((res) => {
-                console.log(res.data);
-                setAllGamesList(res.data);
-            });
-    }, [token, setAllGamesList]);
+    const handleCancelRequest = () => {
+        console.log("click cancel request");
+        // axios request here
+        // Does FE need to anything else with this? Or does the next person in the queue get updated in BE?
+    };
+
+    const handleAcceptRequest = () => {
+        console.log("click accept request");
+        // axios request here
+        // Maybe also something to notify the guest?? or BE?
+    };
+
+    const handleRejectRequest = () => {
+        console.log("click reject request");
+        // axios request here
+        // Maybe also something to notify the guest? or BE?
+    };
+
+    const handleCancelConfirmed = () => {
+        console.log("click cancel confirmed game");
+        // axios request
+        // Maybe also something to notify the guest? or BE?
+    };
 
     return (
         <div>
-            {allGamesList.map((game) => (
+
+            {games.map((game) => (
                 <div className="game" key={game.id}>
                     <button
                         onClick={() => {
@@ -51,10 +63,58 @@ export default function GamesList({ token }) {
                     <div>
                         {game.date} at {game.time}
                     </div>
-                    <button>Join</button>
+
+                    {/* make a ternary or switch case thing to render certain buttons based on listType state */}
+
+                    {(() => {
+                        switch (listType) {
+                            case "allOpen":
+                                return <button>Join</button>
+                            // this will have the same onClick as in the join-game branch
+                            case "pendingPOVGuest":
+                                return (
+                                    <button onClick={() => handleCancelRequest}>
+                                        Cancel
+                                    </button>
+                                );
+                            case "pendingPOVHost":
+                                return (
+                                    <>
+                                        <button
+                                            onClick={() => handleAcceptRequest}
+                                        >
+                                            Accept
+                                        </button>
+                                        <button
+                                            onClick={() => handleRejectRequest}
+                                        >
+                                            Reject
+                                        </button>
+                                    </>
+                                );
+                            case "confirmed":
+                                return (
+                                    <button
+                                        onClick={() => handleCancelConfirmed}
+                                    >
+                                        Cancel
+                                    </button>
+                                );
+                            default:
+                                return null;
+                        }
+                    })()}
+
+                    {/* <button>Join</button> */}
                 </div>
             ))}
-            <Modal isOpen={modalIsOpen} game={modalData} contentLabel="Game Detail Modal" className="modal" overlayClassName= "modal-overlay">
+            <Modal
+                isOpen={modalIsOpen}
+                game={modalData}
+                contentLabel="Game Detail Modal"
+                className="modal"
+                overlayClassName="modal-overlay"
+            >
                 <button onClick={() => handleCloseModal()}>close</button>
                 <OpenGameDetail game={modalData} />
             </Modal>
