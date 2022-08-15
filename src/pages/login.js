@@ -14,9 +14,6 @@ function Login() {
     const [navigate, setNavigate] = useState(false);
     const [token, setToken] = useState()
 
-    useEffect(()=>{
-        setToken("ea54a8e01ca1479e2ba6b5aa99ea04dc434b5298")
-}, [])
 
 
     const Login = (event) => {
