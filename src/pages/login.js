@@ -46,30 +46,38 @@ function Login({ token, setToken }) {
     }
 
     return (
-        <div className='Login' style={{ textAlign: "center"}}>
+        <>
+        <div className="spacer">&nbsp;</div>
+        <div className="app-body">
         
-            <br />
-            <form>
-                <h1>Please Login</h1>
-                <label className="sr-only">User name</label>
-                <input id="inputUsername" class="form-control" placeholder="User name"
-                    onChange={(e) => setUsername(e.target.value)}/>
-                <br/> 
-
-                <label for="inputPassword" class="sr-only">Password</label>
-                <input type="password" id="inputPassword" class="form-control" placeholder="Password"
-                    onChange={(e) => setPassword(e.target.value)}/>
-                <br/>
-
-                <button class="" type="submit" onClick={(e) => Login(e)}>LogIn</button>
-                </form>
-                
-                
-                
+            <div className='form'>
+            <div className="form-login">
             
+            <h1 className="form-banner">Login</h1>
+            <label className="sr-only">Username</label>
+            <input id="inputUsername" class="form-control" placeholder="User name"
+                        onChange={(e) => setUsername(e.target.value)}/>
+                    <br/> 
+    
+                    <label for="inputPassword" class="sr-only">Password</label>
+                    <input type="password" id="inputPassword" class="form-control" placeholder="Password"
+                        onChange={(e) => setPassword(e.target.value)}/>
+            {/* <div className="checkbox mb-3">
+                <label>
+                <input type="checkbox" value="remember-me" />Remember me
+                </label>
+            </div> */}
+            <br/>
+            
+            <button class="" type="submit" onClick={(e) => Login(e)}>LogIn</button>
+        
+        </div>
         </div>
         
-    );
-    }
+        </div>
+        <div className="spacer">&nbsp;</div>
+        </>
+        )
+        }
+        export default Login;
 
-    export default Login;
