@@ -1,10 +1,11 @@
+import { Button, ButtonGroup } from '@chakra-ui/react'
 
 function Login() {
     return(
     <>
     <div className="spacer">&nbsp;</div>
     <div className="app-body">
-    
+    <div className="login-box">
         <div className='form'>
         <div className="form-login">
         
@@ -20,11 +21,11 @@ function Login() {
             </label>
         </div> */}
         <br/>
-        <button className="form-button" type="submit">Sign in</button>
+        <Button colorScheme="teal" type="submit">Sign in</Button>
     
     </div>
     </div>
-    
+    </div>
     </div>
     <div className="spacer">&nbsp;</div>
     </>
