@@ -7,6 +7,8 @@ export default function GamesList({ token }) {
     const [allGamesList, setAllGamesList] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [modalData, setModalData] = useState({});
+    const [error, setError] = useState('')
+    const [joinRequestSent, setJoinRequestSent] = useState(false)
 
     Modal.setAppElement('#root');
 
@@ -23,6 +25,21 @@ export default function GamesList({ token }) {
         setModalIsOpen(false);
     };
 
+    const handleJoinClick = (game) => {
+        console.log("join click")
+        axios 
+            .post(`https://teammate-app.herokuapp.com/session/${game.id}/guest`, {}, {
+                headers: {
+                    Authorization: `Token ${token}`,
+                },
+            })
+            .then(console.log('guest posted'))
+            .catch((error) => {
+                setError(error.message);
+            })
+        setJoinRequestSent(true)    
+    }
+
     useEffect(() => {
         axios
             .get("https://teammate-app.herokuapp.com/session", {
@@ -35,6 +52,12 @@ export default function GamesList({ token }) {
                 setAllGamesList(res.data);
             });
     }, [token, setAllGamesList]);
+
+    if (joinRequestSent) {
+        return (
+            <AfterJoinRequestSent/>
+        )
+    }
 
     return (
         <div>
@@ -51,18 +74,19 @@ export default function GamesList({ token }) {
                     <div>
                         {game.date} at {game.time}
                     </div>
-                    <button>Join</button>
+                    <button onClick={()=>handleJoinClick(game)}
+                    >Join</button>
                 </div>
             ))}
             <Modal isOpen={modalIsOpen} game={modalData} contentLabel="Game Detail Modal" className="modal" overlayClassName= "modal-overlay">
                 <button onClick={() => handleCloseModal()}>close</button>
-                <OpenGameDetail game={modalData} />
+                <OpenGameDetail game={modalData} handleJoinClick={handleJoinClick}/>
             </Modal>
         </div>
     );
 }
 
-function OpenGameDetail({ game }) {
+function OpenGameDetail({ game, handleJoinClick }) {
     console.log(game);
     return (
         <div>
@@ -74,7 +98,15 @@ function OpenGameDetail({ game }) {
             <div>{game.host_info.first_name}</div>
             <div>{game.host_info.last_name}</div>
             <div>{game.host_info.username}</div>
-            <button>join</button>
+            <button onClick={()=>handleJoinClick(game)}>join</button>
         </div>
     );
+}
+
+function AfterJoinRequestSent() {
+    return(
+        <div>
+            You requested to join the game. You will be notified after the host has confirmed the game, or if they're unable to play. 
+        </div>
+    )
 }

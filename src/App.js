@@ -1,7 +1,8 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NewOpenGame from './pages/newOpenGame';
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import useLocalStorageState from "use-local-storage-state";
 import OpenGamesList from "./pages/openGamesPage";
 import { ChakraProvider } from '@chakra-ui/react'
 import Login from "./pages/login.js"
@@ -10,7 +11,7 @@ import Theme from './components/theme'
 import { Text } from "@chakra-ui/react"
 
 function App() {
-  const [token, setToken] = useState()
+  const [token, setToken] = useLocalStorageState("teammateToken", null)
 
 useEffect(()=>{
   setToken("ea54a8e01ca1479e2ba6b5aa99ea04dc434b5298")
