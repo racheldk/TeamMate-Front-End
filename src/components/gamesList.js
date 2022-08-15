@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 // import Modali, { useModali } from "modali";
 import Modal from "react-modal";
+import { DateTime } from "luxon";
+
 
 export default function GamesList({ token }) {
     const [allGamesList, setAllGamesList] = useState([]);
@@ -9,6 +11,7 @@ export default function GamesList({ token }) {
     const [modalData, setModalData] = useState({});
     const [error, setError] = useState('')
     const [joinRequestSent, setJoinRequestSent] = useState(false)
+    const [currentGame, setCurrentGame] = useState(null)
 
     Modal.setAppElement('#root');
 
@@ -27,6 +30,8 @@ export default function GamesList({ token }) {
 
     const handleJoinClick = (game) => {
         console.log("join click")
+        console.log(game)
+        setCurrentGame(game)
         axios 
             .post(`https://teammate-app.herokuapp.com/session/${game.id}/guest`, {}, {
                 headers: {
@@ -55,7 +60,7 @@ export default function GamesList({ token }) {
 
     if (joinRequestSent) {
         return (
-            <AfterJoinRequestSent/>
+            <AfterJoinRequestSent game={currentGame}/>
         )
     }
 
@@ -104,12 +109,14 @@ function OpenGameDetail({ game, handleJoinClick }) {
 }
 
 function AfterJoinRequestSent({game}) {
+    console.log(game)
     return(
         <>
-        <text>
-            You requested to join {game.host_info.first_name}'s game on {game.date} at {game.time}. 
-        </text>
-        <text>You will be notified after {game.host_info.first_name} has confirmed the game, or if they're unable to play. </text>
+        <div>
+            You requested to join {game.host_info.first_name}'s game at {game.location_info.park_name} on {DateTime.fromISO(game.date).toLocaleString({month:'long', day:'numeric'}
+                )} at {DateTime.fromISO(game.time).toLocaleString(DateTime.TIME_SIMPLE)}. 
+        </div>
+        <div>You will be notified after {game.host_info.first_name} has confirmed the game, or if they're unable to play. </div>
         </>
     )
 }
