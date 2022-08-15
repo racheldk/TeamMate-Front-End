@@ -1,9 +1,5 @@
-import axios from "axios";
-import { useState, useEffect } from "react";
-import { baseURL } from "../helpers/constants";
-import { Navigate } from "react-router-dom";
 import { Button } from '@chakra-ui/react'
-import { Button } from '@chakra-ui/react'
+
 
 
 function Login() {
@@ -48,34 +44,35 @@ function Login() {
 
     }
 
+    return(
 
-    return (
     <>
-        <div className="spacer">&nbsp;</div>
-        <div className="app-body">
-        <div className="login-box">
-            <div className='form'>
-            <div className="form-login">
-            
-            <h1 className="form-banner">Login</h1>
-            <label className="sr-only">Username</label>
-            <input id="inputUsername" class="form-control" placeholder="User name"
-                        onChange={(e) => setUsername(e.target.value)}/>
-                    <br/> 
+    <div className="spacer">&nbsp;</div>
+    <div className="app-body">
+    <div className="login-box">
+        <div className='form'>
+        <div className="form-login">
+        
+        <h1 className="form-banner">Login</h1>
+        <label className="sr-only">Username</label>
+        <input id="inputUsername" class="form-control" placeholder="Username" required autofocus/>
+        <br/> 
+        <label for="inputPassword" className="sr-only">Password</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required/>
+        {/* <div className="checkbox mb-3">
+            <label>
+            <input type="checkbox" value="remember-me" />Remember me
+            </label>
+        </div> */}
+        <br/>
+        <Button colorScheme="teal" type="submit">Sign in</Button>
     
-                    <label for="inputPassword" class="sr-only">Password</label>
-                    <input type="password" id="inputPassword" class="form-control" placeholder="Password"
-                        onChange={(e) => setPassword(e.target.value)}/>
-            <br/>
-            
-            <Button colorScheme="teal" type="submit" onClick={(e) => Login(e)}>LogIn</Button>
-        </div>
-        </div>
-        </div>
-        </div>
-        <div className="spacer">&nbsp;</div>
-        </>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div className="spacer">&nbsp;</div>
+    </>
     )
     }
-export default Login;
-
+    export default Login;
