@@ -47,6 +47,11 @@ export default function GamesList({ token, games }) {
         // Maybe also something to notify the guest? or BE?
     };
 
+    const handleCancelMyGame = () => {
+        console.log('click cancel my open game')
+        // axios request
+    }
+
     return (
         <div>
 
@@ -92,6 +97,8 @@ export default function GamesList({ token, games }) {
                                         </button>
                                     </>
                                 );
+                                case "myOpen":
+                                    return <button onClick={()=> handleCancelMyGame}>Cancel</button>
                             case "confirmed":
                                 return (
                                     <button
