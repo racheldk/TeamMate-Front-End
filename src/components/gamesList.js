@@ -103,10 +103,13 @@ function OpenGameDetail({ game, handleJoinClick }) {
     );
 }
 
-function AfterJoinRequestSent() {
+function AfterJoinRequestSent({game}) {
     return(
-        <div>
-            You requested to join the game. You will be notified after the host has confirmed the game, or if they're unable to play. 
-        </div>
+        <>
+        <text>
+            You requested to join {game.host_info.first_name}'s game on {game.date} at {game.time}. 
+        </text>
+        <text>You will be notified after {game.host_info.first_name} has confirmed the game, or if they're unable to play. </text>
+        </>
     )
 }
