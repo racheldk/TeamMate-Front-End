@@ -3,24 +3,28 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NewOpenGame from './pages/newOpenGame';
 import { useEffect, useState } from 'react'
 import OpenGamesList from "./pages/openGamesPage";
-import { ChakraProvider } from "@chakra-ui/react";
-import Login from "./pages/login.js";
-import Register from "./pages/register";
-import Theme from "./components/theme";
-import { Text } from "@chakra-ui/react";
+import { ChakraProvider } from '@chakra-ui/react'
+import Login from "./pages/login.js"
+import Register from './pages/register';
+import Theme from './components/theme'
+import { Text } from "@chakra-ui/react"
+import useLocalStorageState from "use-local-storage-state";
 
 function App() {
-  const [token, setToken] = useState()
+  const [token, setToken] = useLocalStorageState("teammateToken", null)
+  const [username, setUsername] = useLocalStorageState("teammateUsername", null)
 
-useEffect(()=>{
-  setToken("ea54a8e01ca1479e2ba6b5aa99ea04dc434b5298")
-}, [])
+  const setAuth=(username, token)=>{
+  setToken(token)
+  setUsername(username)
+  }
+
 
     return (
         <ChakraProvider Theme={Theme} Text={Text}>
         <BrowserRouter>
             <Routes>
-                <Route path="/"  element={<Login token={token}/>}/>
+                <Route path="/"  element={<Login setToken={setToken} setAuth={setAuth}/>}/>
                 {/* All Open Games (Game List component? separate component?) */}
                 <Route path="/new"  element={<NewOpenGame token={token}/>} />
                 {/* make a new open game post  */}
