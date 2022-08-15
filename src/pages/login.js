@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { baseURL } from "../helpers/constants";
 import { Navigate, useNavigate, Link, Routes, Route } from "react-router-dom";
-
+import { Button } from '@chakra-ui/react'
 
 
 function Login({ token, setToken }) {
@@ -43,13 +43,15 @@ function Login({ token, setToken }) {
 
     if (navigate) {
         return <Navigate to="/mygames" />;
+
     }
 
+
     return (
-        <>
+    <>
         <div className="spacer">&nbsp;</div>
         <div className="app-body">
-        
+        <div className="login-box">
             <div className='form'>
             <div className="form-login">
             
@@ -62,22 +64,16 @@ function Login({ token, setToken }) {
                     <label for="inputPassword" class="sr-only">Password</label>
                     <input type="password" id="inputPassword" class="form-control" placeholder="Password"
                         onChange={(e) => setPassword(e.target.value)}/>
-            {/* <div className="checkbox mb-3">
-                <label>
-                <input type="checkbox" value="remember-me" />Remember me
-                </label>
-            </div> */}
             <br/>
             
-            <button class="" type="submit" onClick={(e) => Login(e)}>LogIn</button>
-        
+            <Button colorScheme="teal" type="submit" onClick={(e) => Login(e)}>LogIn</Button>
         </div>
         </div>
-        
+        </div>
         </div>
         <div className="spacer">&nbsp;</div>
         </>
-        )
-        }
-        export default Login;
+    )
+    }
+export default Login;
 

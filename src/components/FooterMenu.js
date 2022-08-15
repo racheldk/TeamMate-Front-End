@@ -1,18 +1,21 @@
 import { IconButton} from '@chakra-ui/react'
-import {SearchIcon, SettingsIcon, StarIcon,AddIcon} from '@chakra-ui/icons'
+import { Link } from "react-router-dom";
+import { BsFillPersonFill } from "react-icons/bs"
+import {SearchIcon, PlusSquareIcon, Icon} from '@chakra-ui/icons'
 
 
 
 function Footer () {
-  return (
+
+    return (
           <div className="footer">
-          <IconButton aria-label='Home Item' fontSize='2em' colorScheme='teal' border= 'none' variant='outline'  icon={<AddIcon/>} />
-            <IconButton aria-label='Search Item' fontSize='2em' colorScheme='teal' border= 'none' variant='outline'  icon={<SearchIcon />} />
-            <IconButton aria-label='ProfileItem' fontSize='2em' colorScheme='teal' border= 'none' variant='outline'  icon={<StarIcon/>} />
-            <IconButton aria-label='ProfileItem' fontSize='2em' colorScheme='teal' border= 'none' variant='outline'  icon={<SettingsIcon/>} />
-        </div>
-    
-  )
+              <Link to='/'><IconButton aria-label='Search Item' fontSize='1.9em' colorScheme='teal' border= 'none' variant='outline' className='footer-button' icon={<SearchIcon />} /></Link>
+              <Link to='/'><IconButton aria-label='ProfileItem' fontSize='1.9em' colorScheme='teal' border= 'none' variant='outline' className='footer-button' icon={<PlusSquareIcon/>} /></Link>
+              <Link to='/'><IconButton aria-label='ProfileItem' fontSize='1.9em' colorScheme='teal' border= 'none' variant='outline' className='footer-button' icon={<Icon as={BsFillPersonFill} />} /></Link>
+          </div>
+
+    )
+
 }
 
 export default Footer
