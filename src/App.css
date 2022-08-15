@@ -13,11 +13,9 @@ body {
 .app-body {
     background-color: #4FD1C5;
     max-width: 450px;
-    min-height: 668px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: auto
+    height: 668px;
+    margin: auto;
+    overflow: scroll;
 }
 .spacer {
     height: 72px;
@@ -27,23 +25,87 @@ body {
 }
 
 /* Header Menu Stylings */
-
 .header {
     max-width: 450px;
     margin: auto;
     text-align: right;
     background-color: white;
     padding: 1em;
+    position: sticky;
+    top: 0;
+    width: 100%;
 }
+
+.header-menu {
+    display: grid;
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 2em;
+    width: 350px;
+    height: 400px;
+    margin: auto;
+    border-radius: 20px;
+    animation-fill-mode: forwards;
+}
+
+.hamburger-link:hover {
+    background-color:#B2F5EA;
+    color: white;
+    border-radius: 20px;
+    padding: 0 1em;
+    width: 100%;
+}
+
+/* Global Modal Stylings */
+.modal-overlay {
+    position: absolute;
+    animation: colorfadein .5s;
+    animation-fill-mode: forwards;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+}
+
+.modal {
+    position: absolute;
+    top: 62px;
+    left: 336px;
+    animation: fadein .5s;
+    overflow-y: hidden;
+    border: 0;
+    border-radius: 20px;
+    width: 400px;
+    height: 800px;
+    margin: 0 auto;
+    text-align: right;
+}
+
+.close-modal-button {
+    border-radius: 100px!important;
+}
+
+/* Footer Menu Stylings */
 .footer {
     max-width: 450px;
     display: grid;
-    grid-template-columns: 25% 25% 25% 25%;
+    grid-template-columns: 33.3% 33.3% 33.3%;
     margin: auto;
     text-align: center;
     background-color: white;
     padding: 1em;
+    position: sticky;
+    bottom: 0;
+    width: 100%;
 }
+
+.footer-button {
+    border-radius: 20px;
+    width: 100%;
+}
+
 
 /* global form stylings */
 
@@ -63,6 +125,15 @@ body {
     text-transform: uppercase;
 }
 
+.login-box {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    text-align: center;
+    display: flex;
+    align-items: center;
+}
+
 @keyframes mymove {
     0% {box-shadow: 0px #285E61;}
     100% {box-shadow: 20px 20px #285E61;}
@@ -71,6 +142,17 @@ body {
 @keyframes fadein {
     0% {opacity: 0;}
     100% {opacity: 100%;}
+}
+
+
+@keyframes colorfadein {
+    0% {background-color: rgba(0, 0, 0, 0);}
+    100% {background-color: rgba(0, 0, 0, .5);}
+}
+
+@keyframes expand-down {
+    0% {height: 10px}
+    100% {height:600px;}
 }
 
 /* Styles form headers */
@@ -82,31 +164,6 @@ body {
     font-weight: bold;
     margin: 0;
     
-}
-/* Styles form buttons */
-.form-button {
-    box-sizing: border-box;
-    height: 50px;
-    text-transform: uppercase;
-    margin: auto;
-    font-size: 16px;
-    background-color:#4FD1C5;
-    width: 120px;
-    border-radius: 30px;
-    font-weight: bold;
-    color: #ffffff;
-}
-
-.form-button:hover {
-    background-color: #285E61;
-}
-
-.form-button:active {
-    background-color: #285E61;
-    box-shadow: 0px 0px 5px #276749;
-    border-color:#1D4044;
-    color:#4FD1C5;
-    transition: 0s;
 }
 
 /* styles form input fields */

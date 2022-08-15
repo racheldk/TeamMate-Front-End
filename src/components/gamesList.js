@@ -54,7 +54,7 @@ export default function GamesList({ token }) {
                     <button>Join</button>
                 </div>
             ))}
-            <Modal isOpen={modalIsOpen} game={modalData} contentLabel="Game Detail Modal">
+            <Modal isOpen={modalIsOpen} game={modalData} contentLabel="Game Detail Modal" className="modal" overlayClassName= "modal-overlay">
                 <button onClick={() => handleCloseModal()}>close</button>
                 <OpenGameDetail game={modalData} />
             </Modal>
