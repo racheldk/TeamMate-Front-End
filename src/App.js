@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import NewOpenGame from './pages/newOpenGame';
 import { useEffect, useState } from 'react'
 import OpenGamesList from "./pages/openGamesPage";
@@ -19,14 +19,14 @@ useEffect(()=>{
 return (
         <ChakraProvider Theme={Theme} Text={Text}>
         <BrowserRouter>
-        {/* <header className="">
+        <header className="">
                         <div className="container">
                         <div class="buttons-header">
                         <Link to="/login"  class="btn">Login</Link>
                         <Link to="/register" class="btn">Register</Link>
                         </div>
                         </div>
-                </header> */}
+                </header>
 
                 <Routes>
                 <Route path="/"  element={<Login token={token}/>}/>

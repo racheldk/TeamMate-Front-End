@@ -18,7 +18,7 @@ function Login({ token, setToken }) {
         event.preventDefault();
     
         axios
-        .post(`${baseURL}auth/token/login/`, {
+        .post(`${baseURL}auth/token/login`, {
             username: username,
             password: password,
         })
