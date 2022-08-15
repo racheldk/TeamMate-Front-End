@@ -3,6 +3,7 @@ import axios from "axios";
 // import Modali, { useModali } from "modali";
 import Modal from "react-modal";
 import { DateTime } from "luxon";
+import { Link } from "react-router-dom";
 
 
 export default function GamesList({ token }) {
@@ -117,6 +118,7 @@ function AfterJoinRequestSent({game}) {
                 )} at {DateTime.fromISO(game.time).toLocaleString(DateTime.TIME_SIMPLE)}. 
         </div>
         <div>You will be notified after {game.host_info.first_name} has confirmed the game, or if they're unable to play. </div>
+        <Link to={"/my-games"}>Return to My Games</Link>
         </>
     )
 }
