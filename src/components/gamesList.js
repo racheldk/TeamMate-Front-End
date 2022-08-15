@@ -6,8 +6,8 @@ import Modal from "react-modal";
 export default function GamesList({ token, games }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [modalData, setModalData] = useState({});
-    const [listType, setListType] = useState("allOpen");
-
+    const [listType, setListType] = useState("myOpen");
+    const [error, setError] = useState(null);
     Modal.setAppElement("#root");
 
     const handleOpenModal = (game) => {
@@ -47,9 +47,19 @@ export default function GamesList({ token, games }) {
         // Maybe also something to notify the guest? or BE?
     };
 
-    const handleCancelMyGame = () => {
+    const handleDeleteMyGame = (game) => {
         console.log("click cancel my open game");
         // axios request
+        axios
+            .delete(`https://teammate-app.herokuapp.com/session/${game.id}`, {
+                headers: {
+                    Authorization: `Token ${token}`,
+                },
+            })
+            .catch((res) => {
+                // setError(error.message);
+                alert(res.detail);
+            });
         // What do we need to do if there's already a guest in the queue? BE?
     };
 
@@ -107,7 +117,9 @@ export default function GamesList({ token, games }) {
                                 return (
                                     <>
                                         <button
-                                            onClick={() => handleCancelMyGame}
+                                            onClick={() =>
+                                                handleDeleteMyGame(game)
+                                            }
                                         >
                                             Delete
                                         </button>
