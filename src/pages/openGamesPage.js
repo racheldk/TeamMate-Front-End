@@ -4,10 +4,11 @@ import Footer from "../components/FooterMenu";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export default function OpenGamesList({ token }) {
+export default function OpenGamesList({ token, listType, setListType }) {
     const [allGamesList, setAllGamesList] = useState([]);
 
     useEffect(() => {
+        setListType("allOpen")
         axios
             .get("https://teammate-app.herokuapp.com/session", {
                 headers: {
@@ -18,14 +19,14 @@ export default function OpenGamesList({ token }) {
                 console.log(res.data);
                 setAllGamesList(res.data);
             });
-    }, [token, setAllGamesList]);
+    }, [token, setAllGamesList, setListType]);
 
     return (
         <>
             <Header />
             <div className="app-body">
                 <h1>Open Games List</h1>
-                <GamesList token={token} games={allGamesList} />
+                <GamesList token={token} games={allGamesList} listType={listType} />
             </div>
             <Footer />
         </>

@@ -6,7 +6,7 @@ import Modal from "react-modal";
 export default function GamesList({ token, games }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [modalData, setModalData] = useState({});
-    const [listType, setListType] = useState("myOpen");
+    // const [listType, setListType] = useState("myOpen");
     const [error, setError] = useState(null);
     Modal.setAppElement("#root");
 

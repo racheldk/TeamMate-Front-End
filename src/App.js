@@ -9,11 +9,13 @@ import Register from './pages/register';
 import Theme from './components/theme'
 import { Text } from "@chakra-ui/react"
 import useLocalStorageState from "use-local-storage-state";
+import MyGames from './pages/myGamesPage';
 
 function App() {
   const [token, setToken] = useLocalStorageState("teammateToken", null)
   const [username, setUsername] = useLocalStorageState("teammateUsername", null)
-
+  const [listType, setListType] = useState(null);
+//   above is the listType to be used with GamesList component (which is rendered from OpenGamesList and MyGames components)
   const setAuth=(username, token)=>{
   setToken(token)
   setUsername(username)
@@ -30,9 +32,9 @@ function App() {
                 {/* make a new open game post  */}
                 <Route path="register"  element={<Register />} />
                 {/* register new user */}
-                <Route path="open-games" element={<OpenGamesList token={token}/>}/>
+                <Route path="open-games" element={<OpenGamesList token={token} listType={listType} setListType={setListType}/>}/>
                 {/* login */}
-                <Route path= "my-games" />
+                <Route path= "my-games" element={<MyGames token={token}  listType={listType} setListType={setListType} />}/>
                 {/* my games - confirmed, pending requests as guest, pending requests as host, open */}
                 <Route path=":username"/>
                 {/* This will be a user profile (Team Quokka did something like this with the users/:id route)  */}
