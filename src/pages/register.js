@@ -1,6 +1,5 @@
 import { Button } from '@chakra-ui/react'
 import axios from 'axios'
-
 import { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 
@@ -40,23 +39,21 @@ export const Register = () => {
             );
         })
 
-
         setNavigate(true);
     }
-
-if (navigate) {
-return <Navigate to="/open-games" />;
-}
+    if (navigate) {
+    return <Navigate to="/open-games" />;
+    }
 
     return (
         <div className="app-body">
-        <div className="form-register">
-
+        <div className="form" style={{ textAlign: "center"}}>
         <h1 className="form-banner">Please register</h1>
+
         {error && <div className="error">{error}</div>}
         <form id="new-user-form" onSubmit={handleSubmit}>
 
-        <label className="" >Fisrt Name</label>
+        <label className="" >First Name</label>
         <input id="inputFirstname" className="form-control"  placeholder="First name"
             onChange={(e) => setFirstname(e.target.value)}/>
         <br/> 
@@ -77,7 +74,6 @@ return <Navigate to="/open-games" />;
         </form>
         </div>
         </div>
-    
     )
     }
 

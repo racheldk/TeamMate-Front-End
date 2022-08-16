@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { IconButton } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { Button } from '@chakra-ui/react'
 import Modal from "react-modal";
-
 import axios from "axios";
 
 
@@ -84,6 +83,5 @@ function Header({token, setToken}) {
     </div>
   )
 }
-
 
 export default Header;

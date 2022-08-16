@@ -11,14 +11,13 @@ import { Text } from "@chakra-ui/react"
 import useLocalStorageState from "use-local-storage-state";
 
 function App() {
-  const [token, setToken] = useLocalStorageState("teammateToken", null)
-  const [username, setUsername] = useLocalStorageState("teammateUsername", null)
+    const [token, setToken] = useLocalStorageState("teammateToken", null)
+    const [username, setUsername] = useLocalStorageState("teammateUsername", null)
 
-  const setAuth=(username, token)=>{
-  setToken(token)
-  setUsername(username)
-  }
-
+    const setAuth=(username, token)=>{
+    setToken(token)
+    setUsername(username)
+    }
 
     return (
         <ChakraProvider Theme={Theme} Text={Text}>
