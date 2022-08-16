@@ -1,14 +1,19 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 // import Modali, { useModali } from "modali";
 import Modal from "react-modal";
+import { DateTime } from "luxon";
+import { Link } from "react-router-dom";
 
-export default function GamesList({ token, games }) {
+
+export default function GamesList({ token, games, listType }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [modalData, setModalData] = useState({});
-    // const [listType, setListType] = useState("myOpen");
     const [error, setError] = useState(null);
-    Modal.setAppElement("#root");
+    const [joinRequestSent, setJoinRequestSent] = useState(false)
+    const [currentGame, setCurrentGame] = useState(null)
+
+    Modal.setAppElement('#root');
 
     const handleOpenModal = (game) => {
         console.log("click open");
@@ -47,10 +52,27 @@ export default function GamesList({ token, games }) {
         // Maybe also something to notify the guest? or BE?
     };
 
-    const handleDeleteMyGame = (game) => {
-        console.log("click cancel my open game");
-        // axios request
-        axios
+    const handleJoinClick = (game) => {
+        console.log("join click")
+        console.log(game)
+        setCurrentGame(game)
+        axios 
+            .post(`https://teammate-app.herokuapp.com/session/${game.id}/guest`, {}, {
+                headers: {
+                    Authorization: `Token ${token}`,
+                },
+            })
+            .then(console.log('guest posted'))
+            .catch((error) => {
+                setError(error.message);
+            })
+        setJoinRequestSent(true)    
+    }
+
+const handleDeleteMyGame = (game) => {
+    console.log("click cancel my open game");
+    // axios request        
+axios
             .delete(`https://teammate-app.herokuapp.com/session/${game.id}`, {
                 headers: {
                     Authorization: `Token ${token}`,
@@ -68,6 +90,12 @@ export default function GamesList({ token, games }) {
         // axios request
         // What do we need to do if there's already a guest in the queue? BE?
     };
+
+    if (joinRequestSent) {
+        return (
+            <AfterJoinRequestSent game={currentGame}/>
+        )
+    }
 
     return (
         <div>
@@ -90,7 +118,8 @@ export default function GamesList({ token, games }) {
                     {(() => {
                         switch (listType) {
                             case "allOpen":
-                                return <button>Join</button>;
+                                return   <button onClick={()=>handleJoinClick(game)}
+                                >Join</button>;
                             // this will have the same onClick as in the join-game branch
                             case "pendingPOVGuest":
                                 return (
@@ -154,13 +183,13 @@ export default function GamesList({ token, games }) {
                 overlayClassName="modal-overlay"
             >
                 <button onClick={() => handleCloseModal()}>close</button>
-                <OpenGameDetail game={modalData} />
+                <OpenGameDetail game={modalData} handleJoinClick={handleJoinClick}/>
             </Modal>
         </div>
     );
 }
 
-function OpenGameDetail({ game }) {
+function OpenGameDetail({ game, handleJoinClick }) {
     console.log(game);
     return (
         <div>
@@ -172,7 +201,21 @@ function OpenGameDetail({ game }) {
             <div>{game.host_info.first_name}</div>
             <div>{game.host_info.last_name}</div>
             <div>{game.host_info.username}</div>
-            <button>join</button>
+            <button onClick={()=>handleJoinClick(game)}>join</button>
         </div>
     );
+}
+
+function AfterJoinRequestSent({game}) {
+    console.log(game)
+    return(
+        <>
+        <div>
+            You requested to join {game.host_info.first_name}'s game at {game.location_info.park_name} on {DateTime.fromISO(game.date).toLocaleString({month:'long', day:'numeric'}
+                )} at {DateTime.fromISO(game.time).toLocaleString(DateTime.TIME_SIMPLE)}. 
+        </div>
+        <div>You will be notified after {game.host_info.first_name} has confirmed the game, or if they're unable to play. </div>
+        <Link to={"/my-games"}>Return to My Games</Link>
+        </>
+    )
 }
