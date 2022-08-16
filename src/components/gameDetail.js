@@ -1,4 +1,4 @@
-export default function GameDetail({ game, handleJoinClick }) {
+export default function GameDetail({ game, listType, handleJoinClick, handleCancelRequest, handleAcceptRequest, handleRejectRequest, handleDeleteMyGame, handleCancelConfirmed, handleEditMyGame  }) {
     console.log(game);
     return (
         <div>
@@ -10,7 +10,55 @@ export default function GameDetail({ game, handleJoinClick }) {
             <div>{game.host_info.first_name}</div>
             <div>{game.host_info.last_name}</div>
             <div>{game.host_info.username}</div>
-            <button onClick={()=>handleJoinClick(game)}>join</button>
+
+            {(() => {
+                switch (listType) {
+                    case "allOpen":
+                        return (
+                            <button onClick={() => handleJoinClick(game)}>
+                                Join
+                            </button>
+                        );
+                    case "pendingPOVGuest":
+                        return (
+                            <button onClick={() => handleCancelRequest(game)}>
+                                Cancel
+                            </button>
+                        );
+                    case "pendingPOVHost":
+                        return (
+                            <>
+                                <button onClick={() => handleAcceptRequest(game)}>
+                                    Accept
+                                </button>
+                                <button onClick={() => handleRejectRequest(game)}>
+                                    Reject
+                                </button>
+                            </>
+                        );
+                    case "myOpen":
+                        return (
+                            <>
+                                <button
+                                    onClick={() => handleDeleteMyGame(game)}
+                                >
+                                    Delete
+                                </button>
+                                <button onClick={() => handleEditMyGame(game)}>
+                                    Edit
+                                </button>
+                            </>
+                        );
+                    case "confirmed":
+                        return (
+                            <button onClick={() => handleCancelConfirmed(game)}>
+                                Cancel
+                            </button>
+                        );
+                    default:
+                        return null;
+                }
+            })()}
         </div>
     );
 }

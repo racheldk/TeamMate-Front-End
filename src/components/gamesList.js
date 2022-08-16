@@ -6,74 +6,83 @@ import { DateTime } from "luxon";
 import { Link } from "react-router-dom";
 import GameDetail from "./gameDetail";
 
-
 export default function GamesList({ token, games, listType, listTitle }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [modalData, setModalData] = useState({});
     const [error, setError] = useState(null);
-    const [joinRequestSent, setJoinRequestSent] = useState(false)
-    const [currentGame, setCurrentGame] = useState(null)
+    const [joinRequestSent, setJoinRequestSent] = useState(false);
+    const [currentGame, setCurrentGame] = useState(null);
 
-    Modal.setAppElement('#root');
+    Modal.setAppElement("#root");
 
     const handleOpenModal = (game) => {
         console.log("click modal open");
         console.log(game.id);
-        setCurrentGame(game)
+        setCurrentGame(game);
         setModalIsOpen(true);
         // setModalData(game);
     };
 
-    const handleCloseModal = () => {
+    const handleCloseModal = (game) => {
         console.log("click close");
+        console.log(game)
         setModalIsOpen(false);
     };
 
-    const handleCancelRequest = () => {
+    const handleCancelRequest = (game) => {
         console.log("click cancel request");
+        console.log(game)
+
         // axios request here
         // Does FE need to anything else with this? Or does the next person in the queue get updated in BE?
     };
 
-    const handleAcceptRequest = () => {
+    const handleAcceptRequest = (game) => {
         console.log("click accept request");
+        console.log(game)
         // axios request here
         // Maybe also something to notify the guest?? or BE?
     };
 
-    const handleRejectRequest = () => {
+    const handleRejectRequest = (game) => {
         console.log("click reject request");
+        console.log(game)
         // axios request here
         // Maybe also something to notify the guest? or BE?
     };
 
-    const handleCancelConfirmed = () => {
+    const handleCancelConfirmed = (game) => {
         console.log("click cancel confirmed game");
+        console.log(game)
         // axios request
         // Maybe also something to notify the guest? or BE?
     };
 
     const handleJoinClick = (game) => {
-        console.log("join click")
-        console.log(game)
-        setCurrentGame(game)
-        axios 
-            .post(`https://teammate-app.herokuapp.com/session/${game.id}/guest`, {}, {
-                headers: {
-                    Authorization: `Token ${token}`,
-                },
-            })
-            .then(console.log('guest posted'))
+        console.log("join click");
+        console.log(game);
+        setCurrentGame(game);
+        axios
+            .post(
+                `https://teammate-app.herokuapp.com/session/${game.id}/guest`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Token ${token}`,
+                    },
+                }
+            )
+            .then(console.log("guest posted"))
             .catch((error) => {
                 setError(error.message);
-            })
-        setJoinRequestSent(true)    
-    }
+            });
+        setJoinRequestSent(true);
+    };
 
-const handleDeleteMyGame = (game) => {
-    console.log("click cancel my open game");
-    // axios request        
-axios
+    const handleDeleteMyGame = (game) => {
+        console.log("click cancel my open game");
+        // axios request
+        axios
             .delete(`https://teammate-app.herokuapp.com/session/${game.id}`, {
                 headers: {
                     Authorization: `Token ${token}`,
@@ -93,9 +102,7 @@ axios
     };
 
     if (joinRequestSent) {
-        return (
-            <AfterJoinRequestSent game={currentGame}/>
-        )
+        return <AfterJoinRequestSent game={currentGame} />;
     }
 
     return (
@@ -120,12 +127,16 @@ axios
                     {(() => {
                         switch (listType) {
                             case "allOpen":
-                                return   <button onClick={()=>handleJoinClick(game)}
-                                >Join</button>;
-                            // this will have the same onClick as in the join-game branch
+                                return (
+                                    <button
+                                        onClick={() => handleJoinClick(game)}
+                                    >
+                                        Join
+                                    </button>
+                                );
                             case "pendingPOVGuest":
                                 return (
-                                    <button onClick={() => handleCancelRequest}>
+                                    <button onClick={() => handleCancelRequest(game)}>
                                         Cancel
                                     </button>
                                 );
@@ -133,12 +144,12 @@ axios
                                 return (
                                     <>
                                         <button
-                                            onClick={() => handleAcceptRequest}
+                                            onClick={() => handleAcceptRequest(game)}
                                         >
                                             Accept
                                         </button>
                                         <button
-                                            onClick={() => handleRejectRequest}
+                                            onClick={() => handleRejectRequest(game)}
                                         >
                                             Reject
                                         </button>
@@ -155,7 +166,7 @@ axios
                                             Delete
                                         </button>
                                         <button
-                                            onClick={() => handleEditMyGame}
+                                            onClick={() => handleEditMyGame(game)}
                                         >
                                             Edit
                                         </button>
@@ -164,7 +175,7 @@ axios
                             case "confirmed":
                                 return (
                                     <button
-                                        onClick={() => handleCancelConfirmed}
+                                        onClick={() => handleCancelConfirmed(game)}
                                     >
                                         Cancel
                                     </button>
@@ -185,39 +196,52 @@ axios
                 overlayClassName="modal-overlay"
             >
                 <button onClick={() => handleCloseModal()}>close</button>
-                <GameDetail game={currentGame} handleJoinClick={handleJoinClick}/>
+
+                {/* switch case for sending different buttons through to the modal  */}
+                {(() => {
+                    switch (listType) {
+                        case "allOpen":
+                            return <GameDetail game={currentGame} listType={listType} handleJoinClick={handleJoinClick}/>;
+                        case "pendingPOVGuest":
+                            return <GameDetail game={currentGame} listType={listType} handleCancelRequest={handleCancelRequest}/>;
+                        case "pendngPOVHost":
+                            return <GameDetail game={currentGame} listType={listType} handleAcceptRequest={handleAcceptRequest} handleRejectRequest={handleRejectRequest}/>;
+                        case "myOpen":
+                            return <GameDetail game={currentGame} listType={listType} handleDeleteMyGame={handleDeleteMyGame} handleEditMyGame={handleEditMyGame}/>;
+                        case "confirmed":
+                            return <GameDetail game={currentGame} listType={listType} handleCancelConfirmed={handleCancelConfirmed}/>;
+                        default:
+                            return null;
+                    }
+                })()}
             </Modal>
         </div>
     );
 }
 
-// function OpenGameDetail({ game, handleJoinClick }) {
-//     console.log(game);
-//     return (
-//         <div>
-//             <div>{game.location_info.park_name}</div>
-//             <div>(park address)</div>
-//             <div>
-//                 {game.date} {game.time}
-//             </div>
-//             <div>{game.host_info.first_name}</div>
-//             <div>{game.host_info.last_name}</div>
-//             <div>{game.host_info.username}</div>
-//             <button onClick={()=>handleJoinClick(game)}>join</button>
-//         </div>
-//     );
-// }
 
-function AfterJoinRequestSent({game}) {
-    console.log(game)
-    return(
+function AfterJoinRequestSent({ game }) {
+    console.log(game);
+    return (
         <>
-        <div>
-            You requested to join {game.host_info.first_name}'s game at {game.location_info.park_name} on {DateTime.fromISO(game.date).toLocaleString({month:'long', day:'numeric'}
-                )} at {DateTime.fromISO(game.time).toLocaleString(DateTime.TIME_SIMPLE)}. 
-        </div>
-        <div>You will be notified after {game.host_info.first_name} has confirmed the game, or if they're unable to play. </div>
-        <Link to={"/my-games"}>Return to My Games</Link>
+            <div>
+                You requested to join {game.host_info.first_name}'s game at{" "}
+                {game.location_info.park_name} on{" "}
+                {DateTime.fromISO(game.date).toLocaleString({
+                    month: "long",
+                    day: "numeric",
+                })}{" "}
+                at{" "}
+                {DateTime.fromISO(game.time).toLocaleString(
+                    DateTime.TIME_SIMPLE
+                )}
+                .
+            </div>
+            <div>
+                You will be notified after {game.host_info.first_name} has
+                confirmed the game, or if they're unable to play.{" "}
+            </div>
+            <Link to={"/my-games"}>Return to My Games</Link>
         </>
-    )
+    );
 }
