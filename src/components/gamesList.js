@@ -2,11 +2,17 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 // import Modali, { useModali } from "modali";
 import Modal from "react-modal";
+import { DateTime } from "luxon";
+import { Link } from "react-router-dom";
+
 
 export default function GamesList({ token }) {
     const [allGamesList, setAllGamesList] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [modalData, setModalData] = useState({});
+    const [error, setError] = useState('')
+    const [joinRequestSent, setJoinRequestSent] = useState(false)
+    const [currentGame, setCurrentGame] = useState(null)
 
     Modal.setAppElement('#root');
 
@@ -23,6 +29,23 @@ export default function GamesList({ token }) {
         setModalIsOpen(false);
     };
 
+    const handleJoinClick = (game) => {
+        console.log("join click")
+        console.log(game)
+        setCurrentGame(game)
+        axios 
+            .post(`https://teammate-app.herokuapp.com/session/${game.id}/guest`, {}, {
+                headers: {
+                    Authorization: `Token ${token}`,
+                },
+            })
+            .then(console.log('guest posted'))
+            .catch((error) => {
+                setError(error.message);
+            })
+        setJoinRequestSent(true)    
+    }
+
     useEffect(() => {
         axios
             .get("https://teammate-app.herokuapp.com/session", {
@@ -35,6 +58,12 @@ export default function GamesList({ token }) {
                 setAllGamesList(res.data);
             });
     }, [token, setAllGamesList]);
+
+    if (joinRequestSent) {
+        return (
+            <AfterJoinRequestSent game={currentGame}/>
+        )
+    }
 
     return (
         <div>
@@ -51,18 +80,19 @@ export default function GamesList({ token }) {
                     <div>
                         {game.date} at {game.time}
                     </div>
-                    <button>Join</button>
+                    <button onClick={()=>handleJoinClick(game)}
+                    >Join</button>
                 </div>
             ))}
             <Modal isOpen={modalIsOpen} game={modalData} contentLabel="Game Detail Modal" className="modal" overlayClassName= "modal-overlay">
                 <button onClick={() => handleCloseModal()}>close</button>
-                <OpenGameDetail game={modalData} />
+                <OpenGameDetail game={modalData} handleJoinClick={handleJoinClick}/>
             </Modal>
         </div>
     );
 }
 
-function OpenGameDetail({ game }) {
+function OpenGameDetail({ game, handleJoinClick }) {
     console.log(game);
     return (
         <div>
@@ -74,7 +104,21 @@ function OpenGameDetail({ game }) {
             <div>{game.host_info.first_name}</div>
             <div>{game.host_info.last_name}</div>
             <div>{game.host_info.username}</div>
-            <button>join</button>
+            <button onClick={()=>handleJoinClick(game)}>join</button>
         </div>
     );
+}
+
+function AfterJoinRequestSent({game}) {
+    console.log(game)
+    return(
+        <>
+        <div>
+            You requested to join {game.host_info.first_name}'s game at {game.location_info.park_name} on {DateTime.fromISO(game.date).toLocaleString({month:'long', day:'numeric'}
+                )} at {DateTime.fromISO(game.time).toLocaleString(DateTime.TIME_SIMPLE)}. 
+        </div>
+        <div>You will be notified after {game.host_info.first_name} has confirmed the game, or if they're unable to play. </div>
+        <Link to={"/my-games"}>Return to My Games</Link>
+        </>
+    )
 }
