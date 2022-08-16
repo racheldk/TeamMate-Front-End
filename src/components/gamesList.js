@@ -8,7 +8,6 @@ import GameDetail from "./gameDetail";
 
 export default function GamesList({ token, games, listType, listTitle }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [modalData, setModalData] = useState({});
     const [error, setError] = useState(null);
     const [joinRequestSent, setJoinRequestSent] = useState(false);
     const [currentGame, setCurrentGame] = useState(null);
@@ -25,13 +24,13 @@ export default function GamesList({ token, games, listType, listTitle }) {
 
     const handleCloseModal = (game) => {
         console.log("click close");
-        console.log(game)
+        console.log(game);
         setModalIsOpen(false);
     };
 
     const handleCancelRequest = (game) => {
         console.log("click cancel request");
-        console.log(game)
+        console.log(game);
 
         // axios request here
         // Does FE need to anything else with this? Or does the next person in the queue get updated in BE?
@@ -39,21 +38,50 @@ export default function GamesList({ token, games, listType, listTitle }) {
 
     const handleAcceptRequest = (game) => {
         console.log("click accept request");
-        console.log(game)
+        console.log(game);
         // axios request here
+        axios.patch(
+            `https://teammate-app.herokuapp.com/session/${game.id}/guest${game.guest_info.id}`,
+            { status: "Accepted" },
+            {
+                headers: {
+                    Authorization: `Token ${token}`,
+                },
+            }
+        )
+        .then((res) => {console.log("accept request patch sent" + res.data)})
+        .catch((error) => {
+            console.log(error)
+            setError(error.message)
+        }) 
+        }
         // Maybe also something to notify the guest?? or BE?
-    };
 
     const handleRejectRequest = (game) => {
         console.log("click reject request");
-        console.log(game)
+        console.log(game);
         // axios request here
+        axios.patch(
+            `https://teammate-app.herokuapp.com/session/${game.id}/guest${game.guest_info.id}`,
+            { status: "Rejected" },
+            {
+                headers: {
+                    Authorization: `Token ${token}`,
+                },
+            }
+        )
+        .then((res) => {console.log("reject request patch sent" + res.data)})
+        .catch((error) => {
+            console.log(error)
+            setError(error.message)
+        }) 
+        }
         // Maybe also something to notify the guest? or BE?
     };
 
     const handleCancelConfirmed = (game) => {
         console.log("click cancel confirmed game");
-        console.log(game)
+        console.log(game);
         // axios request
         // Maybe also something to notify the guest? or BE?
     };
@@ -64,7 +92,7 @@ export default function GamesList({ token, games, listType, listTitle }) {
         setCurrentGame(game);
         axios
             .post(
-                `https://teammate-app.herokuapp.com/session/${game.id}/guest`,
+                `https://teammate-app.herokuapp.com/session/${game.id}/guest/`,
                 {},
                 {
                     headers: {
@@ -72,11 +100,14 @@ export default function GamesList({ token, games, listType, listTitle }) {
                     },
                 }
             )
-            .then(console.log("guest posted"))
+            .then(()=>{
+                console.log("guest posted");
+                setJoinRequestSent(true);
+            })
             .catch((error) => {
+                console.log(error)
                 setError(error.message);
             });
-        setJoinRequestSent(true);
     };
 
     const handleDeleteMyGame = (game) => {
@@ -101,9 +132,10 @@ export default function GamesList({ token, games, listType, listTitle }) {
         // What do we need to do if there's already a guest in the queue? BE?
     };
 
-    if (joinRequestSent) {
-        return <AfterJoinRequestSent game={currentGame} />;
+    if (joinRequestSent) {()=>{ 
+        return <AfterJoinRequestSent game={currentGame} />}
     }
+}
 
     return (
         <div>
@@ -136,7 +168,11 @@ export default function GamesList({ token, games, listType, listTitle }) {
                                 );
                             case "pendingPOVGuest":
                                 return (
-                                    <button onClick={() => handleCancelRequest(game)}>
+                                    <button
+                                        onClick={() =>
+                                            handleCancelRequest(game)
+                                        }
+                                    >
                                         Cancel
                                     </button>
                                 );
@@ -144,12 +180,16 @@ export default function GamesList({ token, games, listType, listTitle }) {
                                 return (
                                     <>
                                         <button
-                                            onClick={() => handleAcceptRequest(game)}
+                                            onClick={() =>
+                                                handleAcceptRequest(game)
+                                            }
                                         >
                                             Accept
                                         </button>
                                         <button
-                                            onClick={() => handleRejectRequest(game)}
+                                            onClick={() =>
+                                                handleRejectRequest(game)
+                                            }
                                         >
                                             Reject
                                         </button>
@@ -166,7 +206,9 @@ export default function GamesList({ token, games, listType, listTitle }) {
                                             Delete
                                         </button>
                                         <button
-                                            onClick={() => handleEditMyGame(game)}
+                                            onClick={() =>
+                                                handleEditMyGame(game)
+                                            }
                                         >
                                             Edit
                                         </button>
@@ -175,7 +217,9 @@ export default function GamesList({ token, games, listType, listTitle }) {
                             case "confirmed":
                                 return (
                                     <button
-                                        onClick={() => handleCancelConfirmed(game)}
+                                        onClick={() =>
+                                            handleCancelConfirmed(game)
+                                        }
                                     >
                                         Cancel
                                     </button>
@@ -201,15 +245,49 @@ export default function GamesList({ token, games, listType, listTitle }) {
                 {(() => {
                     switch (listType) {
                         case "allOpen":
-                            return <GameDetail game={currentGame} listType={listType} handleJoinClick={handleJoinClick}/>;
+                            return (
+                                <GameDetail
+                                    game={currentGame}
+                                    listType={listType}
+                                    handleJoinClick={handleJoinClick}
+                                />
+                            );
                         case "pendingPOVGuest":
-                            return <GameDetail game={currentGame} listType={listType} handleCancelRequest={handleCancelRequest}/>;
+                            return (
+                                <GameDetail
+                                    game={currentGame}
+                                    listType={listType}
+                                    handleCancelRequest={handleCancelRequest}
+                                />
+                            );
                         case "pendngPOVHost":
-                            return <GameDetail game={currentGame} listType={listType} handleAcceptRequest={handleAcceptRequest} handleRejectRequest={handleRejectRequest}/>;
+                            return (
+                                <GameDetail
+                                    game={currentGame}
+                                    listType={listType}
+                                    handleAcceptRequest={handleAcceptRequest}
+                                    handleRejectRequest={handleRejectRequest}
+                                />
+                            );
                         case "myOpen":
-                            return <GameDetail game={currentGame} listType={listType} handleDeleteMyGame={handleDeleteMyGame} handleEditMyGame={handleEditMyGame}/>;
+                            return (
+                                <GameDetail
+                                    game={currentGame}
+                                    listType={listType}
+                                    handleDeleteMyGame={handleDeleteMyGame}
+                                    handleEditMyGame={handleEditMyGame}
+                                />
+                            );
                         case "confirmed":
-                            return <GameDetail game={currentGame} listType={listType} handleCancelConfirmed={handleCancelConfirmed}/>;
+                            return (
+                                <GameDetail
+                                    game={currentGame}
+                                    listType={listType}
+                                    handleCancelConfirmed={
+                                        handleCancelConfirmed
+                                    }
+                                />
+                            );
                         default:
                             return null;
                     }
@@ -218,7 +296,6 @@ export default function GamesList({ token, games, listType, listTitle }) {
         </div>
     );
 }
-
 
 function AfterJoinRequestSent({ game }) {
     console.log(game);
