@@ -1,3 +1,7 @@
+// TO DO 
+// [] figure out axios requests or filtering through games 
+// [] update modal click options on gamesList
+
 // make all the axios requests and pass all those as props - or make these in App.js?? 
 // [] confirmed
 // [] pendingPOVguest

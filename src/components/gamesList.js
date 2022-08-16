@@ -4,6 +4,7 @@ import axios from "axios";
 import Modal from "react-modal";
 import { DateTime } from "luxon";
 import { Link } from "react-router-dom";
+import GameDetail from "./gameDetail";
 
 
 export default function GamesList({ token, games, listType, listTitle }) {
@@ -16,11 +17,11 @@ export default function GamesList({ token, games, listType, listTitle }) {
     Modal.setAppElement('#root');
 
     const handleOpenModal = (game) => {
-        console.log("click open");
+        console.log("click modal open");
         console.log(game.id);
+        setCurrentGame(game)
         setModalIsOpen(true);
-        setModalData(game);
-        console.log(modalData);
+        // setModalData(game);
     };
 
     const handleCloseModal = () => {
@@ -184,28 +185,28 @@ axios
                 overlayClassName="modal-overlay"
             >
                 <button onClick={() => handleCloseModal()}>close</button>
-                <OpenGameDetail game={modalData} handleJoinClick={handleJoinClick}/>
+                <GameDetail game={currentGame} handleJoinClick={handleJoinClick}/>
             </Modal>
         </div>
     );
 }
 
-function OpenGameDetail({ game, handleJoinClick }) {
-    console.log(game);
-    return (
-        <div>
-            <div>{game.location_info.park_name}</div>
-            <div>(park address)</div>
-            <div>
-                {game.date} {game.time}
-            </div>
-            <div>{game.host_info.first_name}</div>
-            <div>{game.host_info.last_name}</div>
-            <div>{game.host_info.username}</div>
-            <button onClick={()=>handleJoinClick(game)}>join</button>
-        </div>
-    );
-}
+// function OpenGameDetail({ game, handleJoinClick }) {
+//     console.log(game);
+//     return (
+//         <div>
+//             <div>{game.location_info.park_name}</div>
+//             <div>(park address)</div>
+//             <div>
+//                 {game.date} {game.time}
+//             </div>
+//             <div>{game.host_info.first_name}</div>
+//             <div>{game.host_info.last_name}</div>
+//             <div>{game.host_info.username}</div>
+//             <button onClick={()=>handleJoinClick(game)}>join</button>
+//         </div>
+//     );
+// }
 
 function AfterJoinRequestSent({game}) {
     console.log(game)
