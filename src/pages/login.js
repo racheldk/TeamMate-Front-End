@@ -33,7 +33,6 @@ function Login({setAuth}) {
             setError(error);
         });
         
-    
 
     };
 
@@ -61,7 +60,8 @@ function Login({setAuth}) {
             onChange={(e) => setPassword(e.target.value)}/>
     
         <br/>
-        <Button colorScheme="teal" type="submit" onClick={(e) => handleLogin(e)}>Login</Button>
+        <Button colorScheme="teal" type="submit" 
+        onClick={(e) => handleLogin(e)}>Login</Button>
     
     </div>
     </div>

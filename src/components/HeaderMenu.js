@@ -1,14 +1,19 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, Navigate } from "react-router-dom";
 import { IconButton } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { Button } from '@chakra-ui/react'
-
-
 import Modal from "react-modal";
 
-function Header() {
+import axios from "axios";
+
+
+
+function Header({token, setToken}) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [navigate, setNavigate] = useState(false);
+  // const [token, setToken] = useState(null)
+  const [error, setError] = useState([]);
 
   const handleOpenModal = () => {
     console.log("click open");
@@ -20,8 +25,32 @@ function Header() {
     setModalIsOpen(false);
   };
 
+
+  const handleLogOut = () => {
+    axios
+      .post(
+        `https://teammate-app.herokuapp.com/auth/token/logout/`,
+        {},  { headers: { Authorization: `Token ${token}` } })
+        .then(() => {
+          setToken(null);
+          // localStorage.clear();
+          console.log("logout")
+        })
+        .catch((res) => {
+          let error = res.message;
+          console.log(error);
+          setError(error);
+        })
+
+      setNavigate(true);
+      }
+  if (navigate) {
+  return <Navigate to="/" />;
+  }
+
   return (
     <div className="header">
+        
       <IconButton
         onClick={() => {
           handleOpenModal();
@@ -33,21 +62,28 @@ function Header() {
         border="none"
         variant="outline"
         icon={<HamburgerIcon />}
-      />
+        />
       <Modal className="modal" isOpen={modalIsOpen} contentLabel="Header Menu Modal" 
     overlayClassName= "modal-overlay">
-       <Button onClick={() => {
-          handleCloseModal();
-        }} className="close-modal-button" variant='ghost' colorScheme='teal'><CloseIcon color='white'/></Button>
+        <Button onClick={() => {
+          handleCloseModal(); }}  
+        className="close-modal-button" variant='ghost' colorScheme='teal'>
+          <CloseIcon color='white'/></Button>
+      
       <div className="header-menu">
           <Link to="" className="hamburger-link">My Games</Link>
           <Link to="" className="hamburger-link">Settings</Link>
           <Link to="" className="hamburger-link">Support</Link>
-          <Link to="" className="hamburger-link">Sign Out</Link>
-    </div>
+          <>
+          <Link to="" className="hamburger-link" onClick={(e) =>{handleLogOut(e)}}>Sign Out</Link>
+          </>
+      
+          </div>
+          
       </Modal>
     </div>
-  );
+  )
 }
+
 
 export default Header;

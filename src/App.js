@@ -30,7 +30,7 @@ function App() {
                 {/* make a new open game post  */}
                 <Route path="register"  element={<Register />} />
                 {/* register new user */}
-                <Route path="open-games" element={<OpenGamesList token={token}/>}/>
+                <Route path="open-games" element={<OpenGamesList token={token} setToken={setToken}/>}/>
                 {/* login */}
                 <Route path= "my-games" />
                 {/* my games - confirmed, pending requests as guest, pending requests as host, open */}
