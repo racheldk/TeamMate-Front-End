@@ -18,11 +18,25 @@
 
 import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import GamesList from "../components/gamesList";
 
-export default function MyGames() {
-    const [listTitle, setListTitle] = useState(null)
+export default function MyGames({
+    token,
+    listType,
+    setListType,
+    allGamesList,
+}) {
+    const [listTitle, setListTitle] = useState(null);
+    // const [allGamesList, setAllGamesList] = useState([]);
 
-
+    const handleMenuConfirmed = () => {
+        setListType("confirmed");
+        console.log("menu confirmed click");
+        setListTitle("My Confirmed Games");
+        // return <GamesList token={token} games={allGamesList} listType={listType} listTitle={listTitle} />
+    };
 
     return (
         <>
@@ -34,12 +48,43 @@ export default function MyGames() {
             [] change listType 
             [] pass props
         */}
-                <button>Confirmed Games</button>
+                <button
+                    onClick={() => {
+                        handleMenuConfirmed();
+                        return (
+                            <GamesList
+                                token={token}
+                                games={allGamesList}
+                                listType={listType}
+                                listTitle={listTitle}
+                            />
+                        );
+                    }}
+                >
+                    Confirmed Games
+                </button>
                 <button>Pending Requests I Have Made</button>
                 <button>Pending Requests to Join my Games</button>
                 <button>My Open Games</button>
             </div>
-
+            <div>
+                {(() => {
+                    switch (listType) {
+                        case "confirmed":
+                            return (
+                                <>
+                                <GamesList
+                                    token={token}
+                                    games={allGamesList}
+                                    listType={listType}
+                                    listTitle={listTitle}
+                                /></>
+                            );
+                        default:
+                            return null;
+                    }
+                })()}
+            </div>
             <Footer />
         </>
     );

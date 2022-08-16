@@ -6,7 +6,7 @@ import { DateTime } from "luxon";
 import { Link } from "react-router-dom";
 
 
-export default function GamesList({ token, games, listType }) {
+export default function GamesList({ token, games, listType, listTitle }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [modalData, setModalData] = useState({});
     const [error, setError] = useState(null);
@@ -99,6 +99,7 @@ axios
 
     return (
         <div>
+            <div>{listTitle}</div>
             {games.map((game) => (
                 <div className="game" key={game.id}>
                     <button

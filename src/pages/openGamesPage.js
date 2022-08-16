@@ -4,22 +4,22 @@ import Footer from "../components/FooterMenu";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export default function OpenGamesList({ token, listType, setListType }) {
-    const [allGamesList, setAllGamesList] = useState([]);
+export default function OpenGamesList({ token, listType, setListType, allGamesList }) {
+    // const [allGamesList, setAllGamesList] = useState([]);
 
-    useEffect(() => {
-        setListType("allOpen")
-        axios
-            .get("https://teammate-app.herokuapp.com/session", {
-                headers: {
-                    Authorization: `Token ${token}`,
-                },
-            })
-            .then((res) => {
-                console.log(res.data);
-                setAllGamesList(res.data);
-            });
-    }, [token, setAllGamesList, setListType]);
+    // useEffect(() => {
+    //     setListType("allOpen")
+    //     axios
+    //         .get("https://teammate-app.herokuapp.com/session", {
+    //             headers: {
+    //                 Authorization: `Token ${token}`,
+    //             },
+    //         })
+    //         .then((res) => {
+    //             console.log(res.data);
+    //             setAllGamesList(res.data);
+    //         });
+    // }, [token, setAllGamesList, setListType]);
 
     return (
         <>
