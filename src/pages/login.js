@@ -1,7 +1,8 @@
 import { Button } from '@chakra-ui/react'
 import axios from "axios";
 import { useState } from "react";
-import { Navigate, Link } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+
 
 
 function Login({setAuth}) {
@@ -19,6 +20,8 @@ function Login({setAuth}) {
             username: username,
             password: password,
         })
+
+        
         .then((res) => {
             const token = res.data.auth_token;
             setAuth(username, token)
@@ -30,6 +33,7 @@ function Login({setAuth}) {
             setError(error);
         });
         
+    
 
     };
 
@@ -39,6 +43,7 @@ function Login({setAuth}) {
 
 
     return(
+
     <>
     <div className="spacer">&nbsp;</div>
     <div className="app-body">
@@ -56,11 +61,8 @@ function Login({setAuth}) {
             onChange={(e) => setPassword(e.target.value)}/>
     
         <br/>
-        <Button colorScheme="teal" type="submit" 
-        onClick={(e) => handleLogin(e)}>Login</Button>
-        <br/>
-        <Button colorScheme="teal" type="submit"> 
-        <Link to="register">Register</Link></Button>
+        <Button colorScheme="teal" type="submit" onClick={(e) => handleLogin(e)}>Login</Button>
+    
     </div>
     </div>
     </div>

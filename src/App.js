@@ -11,13 +11,14 @@ import { Text } from "@chakra-ui/react"
 import useLocalStorageState from "use-local-storage-state";
 
 function App() {
-    const [token, setToken] = useLocalStorageState("teammateToken", null)
-    const [username, setUsername] = useLocalStorageState("teammateUsername", null)
+  const [token, setToken] = useLocalStorageState("teammateToken", null)
+  const [username, setUsername] = useLocalStorageState("teammateUsername", null)
 
-    const setAuth=(username, token)=>{
-    setToken(token)
-    setUsername(username)
-    }
+  const setAuth=(username, token)=>{
+  setToken(token)
+  setUsername(username)
+  }
+
 
     return (
         <ChakraProvider Theme={Theme} Text={Text}>
@@ -29,7 +30,7 @@ function App() {
                 {/* make a new open game post  */}
                 <Route path="register"  element={<Register />} />
                 {/* register new user */}
-                <Route path="open-games" element={<OpenGamesList token={token} setToken={setToken}/>}/>
+                <Route path="open-games" element={<OpenGamesList token={token}/>}/>
                 {/* login */}
                 <Route path= "my-games" />
                 {/* my games - confirmed, pending requests as guest, pending requests as host, open */}
