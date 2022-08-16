@@ -1,4 +1,4 @@
-// make all the axios requests and pass all those as props
+// make all the axios requests and pass all those as props - or make these in App.js?? 
 // [] confirmed
 // [] pendingPOVguest
 // [] pendingPOVhost
@@ -18,7 +18,7 @@
 
 import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import GamesList from "../components/gamesList";
 
@@ -29,56 +29,87 @@ export default function MyGames({
     allGamesList,
 }) {
     const [listTitle, setListTitle] = useState(null);
-    // const [allGamesList, setAllGamesList] = useState([]);
 
     const handleMenuConfirmed = () => {
-        setListType("confirmed");
         console.log("menu confirmed click");
+        setListType("confirmed");
         setListTitle("My Confirmed Games");
-        // return <GamesList token={token} games={allGamesList} listType={listType} listTitle={listTitle} />
+    };
+
+    const handleMenuPOVGuest = () => {
+        console.log("menu POVGuest clicked");
+        setListType("pendingPOVGuest");
+        setListTitle("Games I Have Requested to Join");
+    };
+
+    const handleMenuPOVHost = () => {
+        console.log("menu POVHost clicked");
+        setListType("pendingPOVHost");
+        setListTitle("Requests to Join my Games");
+    };
+
+    const handleMenuMyOpen = () => {
+        console.log("menu myOpen clicked");
+        setListType("myOpen");
+        setListTitle("My Open Games");
     };
 
     return (
         <>
             <Header />
             <div>
-                {/* this div will hold the native menu */}
-                {/* each button: 
-            [] render GamesList 
-            [] change listType 
-            [] pass props
-        */}
-                <button
-                    onClick={() => {
-                        handleMenuConfirmed();
-                        return (
-                            <GamesList
-                                token={token}
-                                games={allGamesList}
-                                listType={listType}
-                                listTitle={listTitle}
-                            />
-                        );
-                    }}
-                >
+                <button onClick={() => handleMenuConfirmed()}>
                     Confirmed Games
                 </button>
-                <button>Pending Requests I Have Made</button>
-                <button>Pending Requests to Join my Games</button>
-                <button>My Open Games</button>
+                <button onClick={() => handleMenuPOVGuest()}>
+                    Pending Requests I Have Made
+                </button>
+                <button onClick={() => handleMenuPOVHost()}>
+                    Pending Requests to Join my Games
+                </button>
+                <button onClick={() => handleMenuMyOpen()}>
+                    My Open Games
+                </button>
             </div>
             <div>
                 {(() => {
+                    // Need to update which games array state is sent as games prop!!
                     switch (listType) {
                         case "confirmed":
                             return (
-                                <>
                                 <GamesList
                                     token={token}
                                     games={allGamesList}
                                     listType={listType}
                                     listTitle={listTitle}
-                                /></>
+                                />
+                            );
+                        case "pendingPOVGuest":
+                            return (
+                                <GamesList
+                                    token={token}
+                                    games={allGamesList}
+                                    listType={listType}
+                                    listTitle={listTitle}
+                                />
+                            );
+                        case "pendingPOVHost":
+                            return (
+                                <GamesList
+                                    token={token}
+                                    games={allGamesList}
+                                    listType={listType}
+                                    listTitle={listTitle}
+                                />
+                            );
+                        case "myOpen":
+                            return (
+                                <GamesList
+                                    token={token}
+                                    games={allGamesList}
+                                    listType={listType}
+                                    listTitle={listTitle}
+                                />
                             );
                         default:
                             return null;
