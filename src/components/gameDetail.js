@@ -6,6 +6,7 @@ export default function GameDetail({ game, listType, handleJoinClick, handleCanc
     return (
         <div>
             <div>{game.location_info.park_name}</div>
+            <div>{game.location_info.address.address1} {game.location_info.address.address2} {game.location_info.address.city}, {game.location_info.address.state} {game.location_info.address.zipcode}</div>
             <div>(park address)</div>
             <div>
                         {DateTime.fromISO(game.date).toLocaleString({
