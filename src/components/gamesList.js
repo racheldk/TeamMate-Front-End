@@ -43,9 +43,8 @@ export default function GamesList({ token, games, listType, listTitle }) {
                     },
                 }
             )
-            .catch((res) => {
-                // setError(error.message);
-                alert(res.detail);
+            .catch((error) => {
+                alert(error.response.data.detail);
             });
         // Does FE need to anything else with this? Or does the next person in the queue get updated in BE?
     };
@@ -68,8 +67,7 @@ export default function GamesList({ token, games, listType, listTitle }) {
                 console.log("accept request patch sent" + res.data);
             })
             .catch((error) => {
-                console.log(error);
-                setError(error.message);
+                alert(error.response.data.detail);
             });
     };
     // Maybe also something to notify the guest?? or BE?
@@ -91,8 +89,7 @@ export default function GamesList({ token, games, listType, listTitle }) {
                 console.log("reject request patch sent" + res.data);
             })
             .catch((error) => {
-                console.log(error);
-                setError(error.message);
+                alert(error.response.data.detail);
             });
 
         // Maybe also something to notify the guest? or BE?
@@ -132,8 +129,7 @@ export default function GamesList({ token, games, listType, listTitle }) {
                 setJoinRequestSent(true);
             })
             .catch((error) => {
-                console.log(error);
-                setError(error.message);
+                alert(error.response.data.detail);
             });
     };
 
@@ -145,9 +141,8 @@ export default function GamesList({ token, games, listType, listTitle }) {
                     Authorization: `Token ${token}`,
                 },
             })
-            .catch((res) => {
-                // setError(error.message);
-                alert(res.detail);
+            .catch((error) => {
+                alert(error.response.data.detail);
             });
         // What do we need to do if there's already a guest in the queue? BE?
     };
