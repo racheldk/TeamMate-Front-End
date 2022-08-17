@@ -78,7 +78,7 @@ function Header({ token, setToken }) {
                 </Button>
 
                 <div className="header-menu">
-                    <Link to="" className="hamburger-link">
+                    <Link to="/my-games" className="hamburger-link">
                         My Games
                     </Link>
                     <Link to="" className="hamburger-link">
