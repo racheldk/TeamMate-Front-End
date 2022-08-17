@@ -10,34 +10,45 @@ export default function OpenGamesList({
     setListType,
     allGamesList,
 }) {
-    const [filterLoc, setFilterLoc] = useState(null);
+    const [filteredLoc, setFilteredLoc] = useState(null);
     const [filteredGames, setFilteredGames] = useState([]);
+    const [filteredSession, setFilteredSession] = useState(null);
 
     setListType("allOpen");
 
     const handleFilterGameLoc = (event) => {
         console.log(event.target.value);
-        setFilterLoc(`park-name=${event.target.value}`);
-        console.log(filterLoc);
+        setFilteredLoc(`park-name=${event.target.value}`);
+        console.log(filteredLoc);
+    };
+
+    const handleFilterSession = (event) => {
+        console.log(event.target.value);
+        setFilteredSession(`session-type=${event.target.value}`);
+        console.log();
     };
 
     useEffect(() => {
-        console.log(filterLoc);
+        console.log(filteredLoc);
+        console.log(filteredSession);
         axios
-        .get(`https://teammate-app.herokuapp.com/session?${filterLoc}`, {
-            headers: {
-                Authorization: `Token ${token}`,
-            },
-        })
-        .then((res) => {
-            console.log(res.data)
-            setFilteredGames(res.data)
-        })
-        .catch((error) => {
-            console.log(error)
-            alert(error.response.data.detail)
-        })
-    }, [token, filterLoc]);
+            .get(
+                `https://teammate-app.herokuapp.com/session?${filteredLoc}${filteredSession}`,
+                {
+                    headers: {
+                        Authorization: `Token ${token}`,
+                    },
+                }
+            )
+            .then((res) => {
+                console.log(res.data);
+                setFilteredGames(res.data);
+            })
+            .catch((error) => {
+                console.log(error);
+                alert(error.response.data.detail);
+            });
+    }, [token, filteredLoc, filteredSession]);
 
     return (
         <>
@@ -49,13 +60,29 @@ export default function OpenGamesList({
                     <div>Filter Games</div>
                     <select
                         onChange={handleFilterGameLoc}
-                        value={filterLoc}
+                        value={filteredLoc}
                         id="filter-location"
                         name="filter-location"
                     >
+                        <option value="">
+                            Filter by location
+                        </option>
                         <option value="Pullen Park">Pullen Park</option>
                         <option value="Sanderford Park">Sanderford Park</option>
                     </select>
+                    <select
+                        onChange={handleFilterSession}
+                        value={filteredSession}
+                        id="session-type"
+                        name="session-type"
+                    >
+                        <option value="">
+                            Filter by competitive level
+                        </option>
+                        <option value="Casual">Casual</option>
+                        <option value="Competitive">Competitive</option>
+                    </select>
+                    {/* session type */}
                 </div>
 
                 <GamesList
