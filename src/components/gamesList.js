@@ -18,10 +18,11 @@ export default function GamesList({ token, games, listType, listTitle }) {
         console.log("click modal open");
         console.log(game.id);
         // console.log(game)
-        setCurrentGame(game);
         setModalIsOpen(true);
+        setCurrentGame(game);
         console.log(currentGame);
         console.log(modalIsOpen);
+        console.log(listType)
     };
 
     const handleCloseModal = (game) => {
