@@ -17,9 +17,11 @@ export default function GamesList({ token, games, listType, listTitle }) {
     const handleOpenModal = (game) => {
         console.log("click modal open");
         console.log(game.id);
+        // console.log(game)
         setCurrentGame(game);
         setModalIsOpen(true);
-        // setModalData(game);
+        console.log(currentGame);
+        console.log(modalIsOpen);
     };
 
     const handleCloseModal = (game) => {
@@ -267,8 +269,10 @@ export default function GamesList({ token, games, listType, listTitle }) {
                 contentLabel="Game Detail Modal"
                 className="modal"
                 overlayClassName="modal-overlay"
+                listType={listType}
             >
                 <button onClick={() => handleCloseModal()}>close</button>
+                {modalIsOpen}
 
                 {/* switch case for sending different buttons through to the modal  */}
                 {(() => {

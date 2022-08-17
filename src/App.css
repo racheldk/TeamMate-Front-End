@@ -76,12 +76,10 @@ body {
     overflow-y: hidden;
     border: 0;
     border-radius: 20px;
-    /* width: 400px; */
+    width: 400px;
     height: 800px;
     margin: 0 auto;
-    text-align: right;
-    background-color: white;
-    
+    text-align: right;    
 }
 
 .close-modal-button {
