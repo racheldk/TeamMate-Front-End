@@ -5,6 +5,7 @@ import Modal from "react-modal";
 import { DateTime } from "luxon";
 import { Link } from "react-router-dom";
 import GameDetail from "./gameDetail";
+import EditGame from "../pages/editGame";
 
 export default function GamesList({ token, games, listType, listTitle }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -147,8 +148,9 @@ export default function GamesList({ token, games, listType, listTitle }) {
         // What do we need to do if there's already a guest in the queue? BE?
     };
 
-    const handleEditMyGame = () => {
+    const handleEditMyGame = (game) => {
         console.log("click edit my game");
+        return <EditGame game={game} />
         // axios request
         // What do we need to do if there's already a guest in the queue? BE?
     };
