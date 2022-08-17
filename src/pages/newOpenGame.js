@@ -4,6 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { DateTime } from "luxon";
+import { Link } from "react-router-dom";
 
 export default function NewOpenGame({ token }) {
     const [newGameDate, setNewGameDate] = useState("");
@@ -181,6 +182,7 @@ function AfterSubmit() {
     return (
         <div>
             <div>you submitted a game! </div>
+            <Link to={"/my-games"} >Return to My Games</Link>
         </div>
     );
 }
