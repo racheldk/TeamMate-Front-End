@@ -9,15 +9,37 @@ import Register from './pages/register';
 import Theme from './components/theme'
 import { Text } from "@chakra-ui/react"
 import useLocalStorageState from "use-local-storage-state";
+import MyGames from './pages/myGamesPage';
+import axios from 'axios';
 
 function App() {
-    const [token, setToken] = useLocalStorageState("teammateToken", null)
-    const [username, setUsername] = useLocalStorageState("teammateUsername", null)
+  const [token, setToken] = useLocalStorageState("teammateToken", null)
+  const [username, setUsername] = useLocalStorageState("teammateUsername", null)
+  const [listType, setListType] = useState(null);
+//   above is the listType to be used with GamesList component (which is rendered from OpenGamesList and MyGames components)
+const [allGamesList, setAllGamesList] = useState([])
 
-    const setAuth=(username, token)=>{
-    setToken(token)
-    setUsername(username)
-    }
+
+
+  const setAuth=(username, token)=>{
+  setToken(token)
+  setUsername(username)
+  }
+
+  useEffect(() => {
+    // setListType("allOpen")
+    axios
+        .get("https://teammate-app.herokuapp.com/session", {
+            headers: {
+                Authorization: `Token ${token}`,
+            },
+        })
+        .then((res) => {
+            console.log(res.data);
+            setAllGamesList(res.data);
+        });
+}, [token, setAllGamesList, setListType]);
+
 
     return (
         <ChakraProvider Theme={Theme} Text={Text}>
@@ -29,9 +51,9 @@ function App() {
                 {/* make a new open game post  */}
                 <Route path="register"  element={<Register />} />
                 {/* register new user */}
-                <Route path="open-games" element={<OpenGamesList token={token} setToken={setToken}/>}/>
+                <Route path="open-games" element={<OpenGamesList token={token} listType={listType} setListType={setListType} allGamesList={allGamesList}/>}/>
                 {/* login */}
-                <Route path= "my-games" />
+                <Route path= "my-games" element={<MyGames token={token}  listType={listType} setListType={setListType} allGamesList={allGamesList}/>}/>
                 {/* my games - confirmed, pending requests as guest, pending requests as host, open */}
                 <Route path=":username"/>
                 {/* This will be a user profile (Team Quokka did something like this with the users/:id route)  */}

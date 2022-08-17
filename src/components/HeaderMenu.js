@@ -2,58 +2,58 @@ import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { IconButton } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import { Button } from '@chakra-ui/react'
+import { Button } from "@chakra-ui/react";
 import Modal from "react-modal";
 import axios from "axios";
 
+function Header({ token, setToken }) {
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [navigate, setNavigate] = useState(false);
+    // const [token, setToken] = useState(null)
+    const [error, setError] = useState([]);
 
-
-function Header({token, setToken}) {
-        const [modalIsOpen, setModalIsOpen] = useState(false);
-        const [navigate, setNavigate] = useState(false);
-        // const [token, setToken] = useState(null)
-        const [error, setError] = useState([]);
-
-        const handleOpenModal = () => {
+    const handleOpenModal = () => {
         console.log("click open");
         setModalIsOpen(true);
-        };
+    };
 
-        const handleCloseModal = () => {
+    const handleCloseModal = () => {
         console.log("click close");
         setModalIsOpen(false);
-        };
+    };
 
 
-        const handleLogOut = () => {
-                console.log('TOken', token)
+    const handleLogOut = () => {
+
         axios
-        .post(
+            .post(
                 `https://teammate-app.herokuapp.com/auth/token/logout/`,
-                {},  { headers: { Authorization: `Token ${token}` } })
-                .then(() => {
+                {},
+                { headers: { Authorization: `Token ${token}` } }
+            )
+            .then(() => {
                 setToken(null);
 
                 console.log("logout")
                 })
+                
                 .catch((res) => {
                 let error = res.message;
                 console.log(error);
                 setError(error);
-                })
+            });
 
         setNavigate(true);
-        }
-        if (navigate) {
+    };
+    if (navigate) {
         return <Navigate to="/" />;
-        }
+    }
 
-        return (
+    return (
         <div className="header">
-                
-        <IconButton
+            <IconButton
                 onClick={() => {
-                handleOpenModal();
+                    handleOpenModal();
                 }}
                 aria-label="Hamburger Menu"
                 on
@@ -62,28 +62,49 @@ function Header({token, setToken}) {
                 border="none"
                 variant="outline"
                 icon={<HamburgerIcon />}
-                />
-        <Modal className="modal" isOpen={modalIsOpen} contentLabel="Header Menu Modal" 
-        overlayClassName= "modal-overlay">
-                <Button onClick={() => {
-                handleCloseModal(); }}  
-                className="close-modal-button" variant='ghost' colorScheme='teal'>
-                <CloseIcon color='white'/></Button>
-        
-        <div className="header-menu">
-                <Link to="" className="hamburger-link">My Games</Link>
-                <Link to="" className="hamburger-link">Settings</Link>
-                <Link to="" className="hamburger-link">Support</Link>
-                <>
-                <Link to="" className="hamburger-link" onClick={(e) =>{handleLogOut(e)}}>Sign Out</Link>
-                </>
-        
+            />
+            <Modal
+                className="modal"
+                isOpen={modalIsOpen}
+                contentLabel="Header Menu Modal"
+                overlayClassName="modal-overlay"
+            >
+                <Button
+                    onClick={() => {
+                        handleCloseModal();
+                    }}
+                    className="close-modal-button"
+                    variant="ghost"
+                    colorScheme="teal"
+                >
+                    <CloseIcon color="white" />
+                </Button>
+
+                <div className="header-menu">
+                    <Link to="/my-games" className="hamburger-link">
+                        My Games
+                    </Link>
+                    <Link to="" className="hamburger-link">
+                        Settings
+                    </Link>
+                    <Link to="" className="hamburger-link">
+                        Support
+                    </Link>
+                    <>
+                        <Link
+                            to=""
+                            className="hamburger-link"
+                            onClick={(e) => {
+                                handleLogOut(e);
+                            }}
+                        >
+                            Sign Out
+                        </Link>
+                    </>
                 </div>
-                
-        </Modal>
+            </Modal>
         </div>
-        )
+    );
 }
 
 export default Header;
-
