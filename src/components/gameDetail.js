@@ -1,3 +1,6 @@
+import { DateTime } from "luxon";
+
+
 export default function GameDetail({ game, listType, handleJoinClick, handleCancelRequest, handleAcceptRequest, handleRejectRequest, handleDeleteMyGame, handleCancelConfirmed, handleEditMyGame  }) {
     console.log(game);
     return (
@@ -5,8 +8,16 @@ export default function GameDetail({ game, listType, handleJoinClick, handleCanc
             <div>{game.location_info.park_name}</div>
             <div>(park address)</div>
             <div>
-                {game.date} {game.time}
-            </div>
+                        {DateTime.fromISO(game.date).toLocaleString({
+                            weekday: "short",
+                            month: "short",
+                            day: "numeric",
+                        })}{" "}
+                        at {" "}
+                        {DateTime.fromISO(game.time).toLocaleString(
+                            DateTime.TIME_SIMPLE
+                        )}
+                    </div>
             <div>{game.host_info.first_name}</div>
             <div>{game.host_info.last_name}</div>
             <div>{game.host_info.username}</div>
