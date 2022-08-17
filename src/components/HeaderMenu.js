@@ -26,13 +26,14 @@ function Header({token, setToken}) {
 
 
         const handleLogOut = () => {
+                console.log('TOken', token)
         axios
         .post(
                 `https://teammate-app.herokuapp.com/auth/token/logout/`,
                 {},  { headers: { Authorization: `Token ${token}` } })
                 .then(() => {
                 setToken(null);
-                // localStorage.clear();
+
                 console.log("logout")
                 })
                 .catch((res) => {

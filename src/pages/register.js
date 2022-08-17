@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 
 
+
 export const Register = () => {
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
@@ -15,6 +16,7 @@ export const Register = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault()
+
         setError(null)
         axios
         .post(`https://teammate-app.herokuapp.com/auth/users/`, {
@@ -24,7 +26,8 @@ export const Register = () => {
             password: password,
         })
 
-        .then(() => {
+
+    .then(() => {
             alert(
                 "Successful Registration!"
             );
@@ -45,7 +48,9 @@ export const Register = () => {
     return <Navigate to="/open-games" />;
     }
 
+
     return (
+
         <div className="app-body">
         <div className="form" style={{ textAlign: "center"}}>
         <h1 className="form-banner">Please register</h1>
@@ -69,11 +74,12 @@ export const Register = () => {
         <input id="inputPassword" className="form-control" placeholder="Password"
             onChange={(e) => setPassword(e.target.value)} type="password"/>
 
-        <Button colorScheme="teal" type="submit" >Submit</Button>
+        <Button size='md' height='30px' width='100px' colorScheme="teal" type="submit" >Submit</Button>
         
         </form>
         </div>
         </div>
+        
     )
     }
 

@@ -59,7 +59,8 @@ function Login({setAuth}) {
         <Button colorScheme="teal" type="submit" 
         onClick={(e) => handleLogin(e)}>Login</Button>
         <br/>
-        <Button colorScheme="teal" type="submit"> 
+        <Button size='xs' height='20px' width='100px'
+        colorScheme="teal" type="submit">
         <Link to="register">Register</Link></Button>
     </div>
     </div>
