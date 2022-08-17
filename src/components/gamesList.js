@@ -39,10 +39,7 @@ export default function GamesList({ token, games, listType, listTitle }) {
     const handleAcceptRequest = (game) => {
         console.log("click accept request");
         console.log(game);
-        console.log(game.guest_info)
-        console.log(game.guest_info[0].user)
         console.log(game.guest_info[0].id)
-        // axios request here
         axios.patch(
             `https://teammate-app.herokuapp.com/session/${game.id}/guest/${game.guest_info[0].id}/`,
             { status: "Accepted" },
@@ -86,6 +83,16 @@ export default function GamesList({ token, games, listType, listTitle }) {
         console.log("click cancel confirmed game");
         console.log(game);
         // axios request
+        axios
+        .delete(`https://teammate-app.herokuapp.com/session/${game.id}`, {
+            headers: {
+                Authorization: `Token ${token}`,
+            },
+        })
+        .catch((res) => {
+            // setError(error.message);
+            alert(res.detail);
+        });
         // Maybe also something to notify the guest? or BE?
     };
 
