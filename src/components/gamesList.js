@@ -107,9 +107,8 @@ export default function GamesList({ token, games, listType, listTitle }) {
                     Authorization: `Token ${token}`,
                 },
             })
-            .catch((res) => {
-                // setError(error.message);
-                alert(res.detail);
+            .catch((error) => {
+                alert(error.response.data.detail);
             });
         // Maybe also something to notify the guest? or BE?
     };
