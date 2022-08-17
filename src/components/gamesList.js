@@ -39,9 +39,12 @@ export default function GamesList({ token, games, listType, listTitle }) {
     const handleAcceptRequest = (game) => {
         console.log("click accept request");
         console.log(game);
+        console.log(game.guest_info)
+        console.log(game.guest_info[0].user)
+        console.log(game.guest_info[0].id)
         // axios request here
         axios.patch(
-            `https://teammate-app.herokuapp.com/session/${game.id}/guest${game.guest_info.id}`,
+            `https://teammate-app.herokuapp.com/session/${game.id}/guest/${game.guest_info[0].id}/`,
             { status: "Accepted" },
             {
                 headers: {
@@ -62,7 +65,7 @@ export default function GamesList({ token, games, listType, listTitle }) {
         console.log(game);
         // axios request here
         axios.patch(
-            `https://teammate-app.herokuapp.com/session/${game.id}/guest${game.guest_info.id}`,
+            `https://teammate-app.herokuapp.com/session/${game.id}/guest/${game.guest_info[0].id}/`,
             { status: "Rejected" },
             {
                 headers: {
@@ -75,7 +78,7 @@ export default function GamesList({ token, games, listType, listTitle }) {
             console.log(error)
             setError(error.message)
         }) 
-        }
+        
         // Maybe also something to notify the guest? or BE?
     };
 
@@ -132,10 +135,10 @@ export default function GamesList({ token, games, listType, listTitle }) {
         // What do we need to do if there's already a guest in the queue? BE?
     };
 
-    if (joinRequestSent) {()=>{ 
+    if (joinRequestSent) { 
         return <AfterJoinRequestSent game={currentGame} />}
-    }
-}
+    
+
 
     return (
         <div>
@@ -234,7 +237,7 @@ export default function GamesList({ token, games, listType, listTitle }) {
             ))}
             <Modal
                 isOpen={modalIsOpen}
-                game={modalData}
+                game={currentGame}
                 contentLabel="Game Detail Modal"
                 className="modal"
                 overlayClassName="modal-overlay"
