@@ -31,6 +31,16 @@ export default function GamesList({ token, games, listType, listTitle }) {
     const handleCancelRequest = (game) => {
         console.log("click cancel request");
         console.log(game);
+        axios
+        .delete(`https://teammate-app.herokuapp.com/session/${game.id}/guest/${game.guest_info[0].id}/`, {
+            headers: {
+                Authorization: `Token ${token}`,
+            },
+        })
+        .catch((res) => {
+            // setError(error.message);
+            alert(res.detail);
+        });
 
         // axios request here
         // Does FE need to anything else with this? Or does the next person in the queue get updated in BE?
