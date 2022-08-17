@@ -32,77 +32,82 @@ export default function GamesList({ token, games, listType, listTitle }) {
         console.log("click cancel request");
         console.log(game);
         axios
-        .delete(`https://teammate-app.herokuapp.com/session/${game.id}/guest/${game.guest_info[0].id}/`, {
-            headers: {
-                Authorization: `Token ${token}`,
-            },
-        })
-        .catch((res) => {
-            // setError(error.message);
-            alert(res.detail);
-        });
-
-        // axios request here
+            .delete(
+                `https://teammate-app.herokuapp.com/session/${game.id}/guest/${game.guest_info[0].id}/`,
+                {
+                    headers: {
+                        Authorization: `Token ${token}`,
+                    },
+                }
+            )
+            .catch((res) => {
+                // setError(error.message);
+                alert(res.detail);
+            });
         // Does FE need to anything else with this? Or does the next person in the queue get updated in BE?
     };
 
     const handleAcceptRequest = (game) => {
         console.log("click accept request");
         console.log(game);
-        console.log(game.guest_info[0].id)
-        axios.patch(
-            `https://teammate-app.herokuapp.com/session/${game.id}/guest/${game.guest_info[0].id}/`,
-            { status: "Accepted" },
-            {
-                headers: {
-                    Authorization: `Token ${token}`,
-                },
-            }
-        )
-        .then((res) => {console.log("accept request patch sent" + res.data)})
-        .catch((error) => {
-            console.log(error)
-            setError(error.message)
-        }) 
-        }
-        // Maybe also something to notify the guest?? or BE?
+        console.log(game.guest_info[0].id);
+        axios
+            .patch(
+                `https://teammate-app.herokuapp.com/session/${game.id}/guest/${game.guest_info[0].id}/`,
+                { status: "Accepted" },
+                {
+                    headers: {
+                        Authorization: `Token ${token}`,
+                    },
+                }
+            )
+            .then((res) => {
+                console.log("accept request patch sent" + res.data);
+            })
+            .catch((error) => {
+                console.log(error);
+                setError(error.message);
+            });
+    };
+    // Maybe also something to notify the guest?? or BE?
 
     const handleRejectRequest = (game) => {
         console.log("click reject request");
         console.log(game);
-        // axios request here
-        axios.patch(
-            `https://teammate-app.herokuapp.com/session/${game.id}/guest/${game.guest_info[0].id}/`,
-            { status: "Rejected" },
-            {
-                headers: {
-                    Authorization: `Token ${token}`,
-                },
-            }
-        )
-        .then((res) => {console.log("reject request patch sent" + res.data)})
-        .catch((error) => {
-            console.log(error)
-            setError(error.message)
-        }) 
-        
+        axios
+            .patch(
+                `https://teammate-app.herokuapp.com/session/${game.id}/guest/${game.guest_info[0].id}/`,
+                { status: "Rejected" },
+                {
+                    headers: {
+                        Authorization: `Token ${token}`,
+                    },
+                }
+            )
+            .then((res) => {
+                console.log("reject request patch sent" + res.data);
+            })
+            .catch((error) => {
+                console.log(error);
+                setError(error.message);
+            });
+
         // Maybe also something to notify the guest? or BE?
     };
 
     const handleCancelConfirmed = (game) => {
         console.log("click cancel confirmed game");
         console.log(game);
-        // axios request
         axios
-        .delete(`https://teammate-app.herokuapp.com/session/${game.id}`, {
-            headers: {
-                Authorization: `Token ${token}`,
-            },
-        })
-        .catch((res) => {
-            // setError(error.message);
-            alert(res.detail);
-        });
+            .delete(`https://teammate-app.herokuapp.com/session/${game.id}`, {
+                headers: {
+                    Authorization: `Token ${token}`,
+                },
+            })
+            .catch((res) => {
+                // setError(error.message);
+                alert(res.detail);
+            });
         // Maybe also something to notify the guest? or BE?
     };
 
@@ -120,19 +125,18 @@ export default function GamesList({ token, games, listType, listTitle }) {
                     },
                 }
             )
-            .then(()=>{
+            .then(() => {
                 console.log("guest posted");
                 setJoinRequestSent(true);
             })
             .catch((error) => {
-                console.log(error)
+                console.log(error);
                 setError(error.message);
             });
     };
 
     const handleDeleteMyGame = (game) => {
         console.log("click cancel my open game");
-        // axios request
         axios
             .delete(`https://teammate-app.herokuapp.com/session/${game.id}`, {
                 headers: {
@@ -152,10 +156,9 @@ export default function GamesList({ token, games, listType, listTitle }) {
         // What do we need to do if there's already a guest in the queue? BE?
     };
 
-    if (joinRequestSent) { 
-        return <AfterJoinRequestSent game={currentGame} />}
-    
-
+    if (joinRequestSent) {
+        return <AfterJoinRequestSent game={currentGame} />;
+    }
 
     return (
         <div>
@@ -171,10 +174,16 @@ export default function GamesList({ token, games, listType, listTitle }) {
                     </button>
                     <div>Location: {game.location_info.park_name}</div>
                     <div>
-                        {game.date} at {game.time}
+                        {DateTime.fromISO(game.date).toLocaleString({
+                            weekday: "short",
+                            month: "short",
+                            day: "numeric",
+                        })}{" "}
+                        at {" "}
+                        {DateTime.fromISO(game.time).toLocaleString(
+                            DateTime.TIME_SIMPLE
+                        )}
                     </div>
-
-                    {/* make a ternary or switch case thing to render certain buttons based on listType state */}
 
                     {(() => {
                         switch (listType) {
