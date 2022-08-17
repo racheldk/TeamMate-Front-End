@@ -48,7 +48,7 @@ export default function NewOpenGame({ token }) {
         );
         axios
             .post(
-                "https://teammate-app.herokuapp.com/session",
+                "https://teammate-app.herokuapp.com/session/",
                 {
                     date: convertedDate,
                     time: convertedTime,

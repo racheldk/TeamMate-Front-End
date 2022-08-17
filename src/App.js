@@ -30,7 +30,7 @@ function App() {
     useEffect(() => {
         // setListType("allOpen")
         axios
-            .get("https://teammate-app.herokuapp.com/session", {
+            .get("https://teammate-app.herokuapp.com/session/", {
                 headers: {
                     Authorization: `Token ${token}`,
                 },

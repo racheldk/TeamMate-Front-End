@@ -3,6 +3,7 @@ import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { BsChevronContract } from "react-icons/bs";
 
 export default function OpenGamesList({
     token,
@@ -13,33 +14,34 @@ export default function OpenGamesList({
     const [filteredLoc, setFilteredLoc] = useState(null);
     const [filteredGames, setFilteredGames] = useState([]);
     const [filteredSession, setFilteredSession] = useState(null);
+    // const [searchLoc, setSearchLoc] = useState(null)
+    // const [searchSession, setSearchSession] = useState(null)
 
     setListType("allOpen");
 
     const handleFilterGameLoc = (event) => {
         console.log(event.target.value);
-        setFilteredLoc(`park-name=${event.target.value}`);
-        console.log(filteredLoc);
+        setFilteredLoc(event.target.value);
+        // setSearchLoc(`park-name=${event.target.value}`)
     };
 
     const handleFilterSession = (event) => {
         console.log(event.target.value);
-        setFilteredSession(`session-type=${event.target.value}`);
-        console.log();
+        setFilteredSession(event.target.value);
+        // setSearchSession(`session-type=${event.target.value}`)
     };
 
-    useEffect(() => {
-        console.log(filteredLoc);
-        console.log(filteredSession);
+    const handleSubmitFilter = () => {
+        console.log("submit filter clicked");
+        let searchURL = "https://teammate-app.herokuapp.com/session/?";
+        
+        console.log(searchURL);
         axios
-            .get(
-                `https://teammate-app.herokuapp.com/session?${filteredLoc}${filteredSession}`,
-                {
-                    headers: {
-                        Authorization: `Token ${token}`,
-                    },
-                }
-            )
+            .get(`${searchURL}`, {
+                headers: {
+                    Authorization: `Token ${token}`,
+                },
+            })
             .then((res) => {
                 console.log(res.data);
                 setFilteredGames(res.data);
@@ -48,7 +50,7 @@ export default function OpenGamesList({
                 console.log(error);
                 alert(error.response.data.detail);
             });
-    }, [token, filteredLoc, filteredSession]);
+    };
 
     return (
         <>
@@ -57,16 +59,13 @@ export default function OpenGamesList({
                 <h1>Open Games List</h1>
 
                 <div>
-                    <div>Filter Games</div>
                     <select
                         onChange={handleFilterGameLoc}
                         value={filteredLoc}
                         id="filter-location"
                         name="filter-location"
                     >
-                        <option value="">
-                            Filter by location
-                        </option>
+                        <option value="">Filter by location</option>
                         <option value="Pullen Park">Pullen Park</option>
                         <option value="Sanderford Park">Sanderford Park</option>
                     </select>
@@ -76,14 +75,13 @@ export default function OpenGamesList({
                         id="session-type"
                         name="session-type"
                     >
-                        <option value="">
-                            Filter by competitive level
-                        </option>
+                        <option value="">Filter by competitive level</option>
                         <option value="Casual">Casual</option>
                         <option value="Competitive">Competitive</option>
                     </select>
                     {/* session type */}
                 </div>
+                <button onClick={() => handleSubmitFilter()}>Filter</button>
 
                 <GamesList
                     token={token}
