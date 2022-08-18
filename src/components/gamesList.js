@@ -159,6 +159,7 @@ export default function GamesList({ token, games, listType, listTitle }) {
 
     return (
         <div>
+            
             <div>{listTitle}</div>
             {games.map((game) => (
                 <div className="game" key={game.id}>
