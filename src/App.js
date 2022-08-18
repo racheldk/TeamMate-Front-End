@@ -1,13 +1,13 @@
-import './App.css';
+import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import NewOpenGame from './pages/newOpenGame';
-import { useEffect, useState } from 'react'
+import NewOpenGame from "./pages/newOpenGame";
+import { useEffect, useState } from "react";
 import OpenGamesList from "./pages/openGamesPage";
-import { ChakraProvider } from '@chakra-ui/react'
-import Login from "./pages/login.js"
-import Register from './pages/register';
-import Theme from './components/theme'
-import { Text } from "@chakra-ui/react"
+import { ChakraProvider } from "@chakra-ui/react";
+import Login from "./pages/login.js";
+import Register from "./pages/register";
+import Theme from "./components/theme";
+import { Text } from "@chakra-ui/react";
 import useLocalStorageState from "use-local-storage-state";
 import MyGames from './pages/myGamesPage';
 import UserProfile from './pages/userProfile';
@@ -20,12 +20,10 @@ function App() {
 //   above is the listType to be used with GamesList component (which is rendered from OpenGamesList and MyGames components)
 const [allGamesList, setAllGamesList] = useState([])
 
-
-
-    const setAuth=(username, token)=>{
-    setToken(token)
-    setUsername(username)
-    }
+    const setAuth = (username, token) => {
+        setToken(token);
+        setUsername(username);
+    };
 
     useEffect(() => {
     // setListType("allOpen")
