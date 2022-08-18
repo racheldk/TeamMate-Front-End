@@ -218,7 +218,7 @@ label {
 /* Navbar my games page */
 .nav_links {
     display: inline-block;
-    color: antiquewhite;
+    color: #fff;
     padding: 5px 7px;
     background-color: #285E61;
     border: none;
