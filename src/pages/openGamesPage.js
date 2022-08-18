@@ -5,7 +5,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 export default function OpenGamesList({ token, listType, setListType, allGamesList }) {
+
+    
 setListType("allOpen")
+console.log(allGamesList)
 
     return (
         <>
