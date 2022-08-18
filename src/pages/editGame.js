@@ -7,13 +7,15 @@ import { DateTime } from "luxon";
 import { Link } from "react-router-dom";
 
 export default function EditGame({ token, game }) {
-    const [newGameDate, setNewGameDate] = useState(game.date);
-    const [newGameTime, setNewGameTime] = useState(game.time);
+    console.log(game.date)
+    const [newGameDate, setNewGameDate] = useState("");
+    const [newGameTime, setNewGameTime] = useState("");
     const [newGameLoc, setNewGameLoc] = useState(game.location_info.park_name);
     const [newGameSessionType, setNewGameSessionType] = useState(game.session_type);
     const [newGameMatchType, setNewGameMatchType] = useState(game.match_type);
     const [error, setError] = useState("");
-    const [submitted, setSubmitted] = useState(false);
+    // const [submitted, setSubmitted] = useState(false);
+    const [editSubmitted, setEditSubmitted] = useState(false)
     const [convertedDate, setConvertedDate] = useState("");
     const [convertedTime, setConvertedTime] = useState("");
 
@@ -32,12 +34,7 @@ export default function EditGame({ token, game }) {
         setNewGameMatchType(event.target.value);
     };
 
-    // useEffect(() => {
-    //     console.log(newGameDate);
-    //     console.log(convertedDate);
-    // }, [newGameDate, convertedDate]);
-
-    const handleSubmit = (game) => {
+    const handleSubmitEdit = (game) => {
         console.log(
             newGameDate,
             newGameTime,
@@ -66,12 +63,12 @@ export default function EditGame({ token, game }) {
             .catch((error) => {
                 alert(error.response.data.detail)
             });
-        setSubmitted(true);
+        setEditSubmitted(true);
     };
 
-    if (submitted) {
+    if (editSubmitted) {
         return (
-            <AfterSubmit/>
+            <div>you submitted an edit! </div>
         );
     }
 
@@ -81,24 +78,18 @@ export default function EditGame({ token, game }) {
 
     return (
         <div>
-            <h1>Post a New Game</h1>
+            <h1>Edit your Game</h1>
             <form>
                 <label htmlFor="date-time">When would you like to play?</label>
-                <ReactDatePicker
-                    onChange={(date) => {
-                        console.log(date);
-                        setNewGameDate(date);
-                        setConvertedDate(
-                            DateTime.fromJSDate(date).toISODate(
-                                DateTime.DATE_MED
-                            )
-                        );
-                        console.log(newGameDate);
-                        console.log(convertedDate);
-                    }}
-                    minDate={subDays(new Date(), 0)}
-                    selected={newGameDate}
-                    placeholderText="Click to select a date"
+                <ReactDatePicker 
+                onChange={(date) => {
+                    console.log(date)
+                    setNewGameDate(date)
+                    setConvertedDate(DateTime.fromJSDate(date).toISODate(DateTime.DATE_MED))
+                }}
+                minDate={subDays(new Date(), 0)}
+                selected={newGameDate}
+                placeholderText={DateTime.fromISO(game.date).toLocaleString(DateTime.DATE_SHORT)}
                 />
                 <ReactDatePicker
                     selected={newGameTime}
@@ -117,7 +108,7 @@ export default function EditGame({ token, game }) {
                     timeIntervals={15}
                     timeCaption="Time"
                     dateFormat="h:mm aa"
-                    placeholderText="Click to select a time"
+                    placeholderText={DateTime.fromISO(game.time).toLocaleString(DateTime.TIME_SIMPLE)}
                 />
                 <div>
                     <label htmlFor="location">
@@ -134,8 +125,6 @@ export default function EditGame({ token, game }) {
                         </option>
                         <option value="2">Pullen Park</option>
                         <option value="1">Sanderford Park</option>
-
-                        {/* We could also make an API request for a list of parks, then map through them as dropdown option. This might also help store whatever data other than the park name the backend needs.  */}
                     </select>
                 </div>
                 <div>
@@ -172,17 +161,10 @@ export default function EditGame({ token, game }) {
                         <option value="Doubles">Doubles</option>
                     </select>
                 </div>
-                <button onClick={handleSubmit(game)}>Submit</button>
-            </form>
+                <button onClick={()=>handleSubmitEdit(game)}>Submit</button>
+            </form>  
         </div>
     );
 }
 
-function AfterSubmit() {
-    return (
-        <div>
-            <div>you submitted a game! </div>
-            <Link to={"/my-games"} >Return to My Games</Link>
-        </div>
-    );
-}
+

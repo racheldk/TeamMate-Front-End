@@ -12,6 +12,7 @@ export default function GamesList({ token, games, listType, listTitle }) {
     const [error, setError] = useState(null);
     const [joinRequestSent, setJoinRequestSent] = useState(false);
     const [currentGame, setCurrentGame] = useState(null);
+    const [editClicked, setEditClicked] = useState(false)
 
     Modal.setAppElement("#root");
 
@@ -23,7 +24,7 @@ export default function GamesList({ token, games, listType, listTitle }) {
         setCurrentGame(game);
         console.log(currentGame);
         console.log(modalIsOpen);
-        console.log(listType)
+        console.log(listType);
     };
 
     const handleCloseModal = (game) => {
@@ -149,16 +150,22 @@ export default function GamesList({ token, games, listType, listTitle }) {
     };
 
     const handleEditMyGame = (game) => {
-        console.log("click edit my game");
-        return <EditGame game={game} />
+        console.log("click edit my game")
+        setEditClicked(true)
+        setCurrentGame(game)
         // axios request
         // What do we need to do if there's already a guest in the queue? BE?
     };
+    
+    if (editClicked) {
+        return <EditGame token={token} game={currentGame} />
+
+    }
 
     if (joinRequestSent) {
         return <AfterJoinRequestSent game={currentGame} />;
     }
-console.log(games)
+    console.log(games);
     return (
         <div>
             <div>{listTitle}</div>
@@ -178,7 +185,7 @@ console.log(games)
                             month: "short",
                             day: "numeric",
                         })}{" "}
-                        at {" "}
+                        at{" "}
                         {DateTime.fromISO(game.time).toLocaleString(
                             DateTime.TIME_SIMPLE
                         )}
@@ -233,13 +240,10 @@ console.log(games)
                                         >
                                             Delete
                                         </button>
-                                        <button
-                                            onClick={() =>
-                                                handleEditMyGame(game)
-                                            }
-                                        >
+                                        <button onClick={()=> handleEditMyGame(game) }>Edit</button>
+                                        {/* <Link to="edit" token={token} game={game}>
                                             Edit
-                                        </button>
+                                        </Link> */}
                                     </>
                                 );
                             case "confirmed":
@@ -305,7 +309,7 @@ console.log(games)
                                     game={currentGame}
                                     listType={listType}
                                     handleDeleteMyGame={handleDeleteMyGame}
-                                    handleEditMyGame={handleEditMyGame}
+                                    // handleEditMyGame={handleEditMyGame}
                                 />
                             );
                         case "confirmed":
