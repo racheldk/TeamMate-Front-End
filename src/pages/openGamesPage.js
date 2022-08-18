@@ -2,8 +2,8 @@ import GamesList from "../components/gamesList";
 import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { BsChevronContract } from "react-icons/bs";
+import { useState } from "react";
+
 
 export default function OpenGamesList({
     token,
@@ -14,43 +14,45 @@ export default function OpenGamesList({
     const [filteredLoc, setFilteredLoc] = useState(null);
     const [filteredGames, setFilteredGames] = useState([]);
     const [filteredSession, setFilteredSession] = useState(null);
-    // const [searchLoc, setSearchLoc] = useState(null)
-    // const [searchSession, setSearchSession] = useState(null)
+    const [filteredURL, setFilteredURL] = useState('')
 
     setListType("allOpen");
+    console.log(allGamesList)
+    console.log(filteredGames)
 
     const handleFilterGameLoc = (event) => {
         console.log(event.target.value);
         setFilteredLoc(event.target.value);
-        // setSearchLoc(`park-name=${event.target.value}`)
     };
 
     const handleFilterSession = (event) => {
         console.log(event.target.value);
         setFilteredSession(event.target.value);
-        // setSearchSession(`session-type=${event.target.value}`)
     };
 
     const handleSubmitFilter = () => {
-        console.log("submit filter clicked");
         let searchURL = "https://teammate-app.herokuapp.com/session/?";
-        
-        console.log(searchURL);
+        console.log("submit filter clicked");
+        console.log(filteredLoc)
+        console.log(filteredSession)
+        console.log(searchURL+=`park-name=${filteredLoc}`)
+
         axios
-            .get(`${searchURL}`, {
-                headers: {
-                    Authorization: `Token ${token}`,
-                },
-            })
-            .then((res) => {
-                console.log(res.data);
-                setFilteredGames(res.data);
-            })
-            .catch((error) => {
-                console.log(error);
-                alert(error.response.data.detail);
-            });
-    };
+        .get(`${searchURL}`, {
+            headers: {
+                Authorization: `Token ${token}`,
+            },
+        })
+        .then((res) => {
+            console.log(res.data);
+            setFilteredGames(res.data);
+        })
+        .catch((error) => {
+            console.log(error);
+            alert(error.response.data.detail);
+        });
+    }
+
 
     return (
         <>
@@ -79,15 +81,23 @@ export default function OpenGamesList({
                         <option value="Casual">Casual</option>
                         <option value="Competitive">Competitive</option>
                     </select>
-                    {/* session type */}
                 </div>
                 <button onClick={() => handleSubmitFilter()}>Filter</button>
+
+                {filteredGames.length > 0 ? (
+                    <GamesList 
+                    token={token}
+                    games={filteredGames}
+                    listType={listType}/>
+                ): (
 
                 <GamesList
                     token={token}
                     games={allGamesList}
                     listType={listType}
                 />
+                )}
+
             </div>
             <Footer />
         </>
