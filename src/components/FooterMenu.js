@@ -15,7 +15,8 @@ function Footer () {
                <Link to='/new'><IconButton aria-label='ProfileItem' fontSize='1.9em' colorScheme='teal' border= 'none' variant='outline' className='footer-button' icon={<PlusSquareIcon/>} /></Link>
                <Link to={`/${username}`}><IconButton aria-label='ProfileItem' fontSize='1.9em' colorScheme='teal' border= 'none' variant='outline' className='footer-button' icon={<Icon as={BsFillPersonFill} />} /></Link>
             </div>
-       
+    
+
     )
 }
 

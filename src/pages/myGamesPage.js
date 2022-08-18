@@ -25,6 +25,7 @@ import Footer from "../components/FooterMenu";
 import { useState } from "react";
 import axios from "axios";
 import GamesList from "../components/gamesList";
+import { Button } from '@chakra-ui/react'
 
 export default function MyGames({
     token,
@@ -60,21 +61,25 @@ export default function MyGames({
 
     return (
         <>
+            <div className="app-body">
             <Header />
-            <div>
-                <button onClick={() => handleMenuConfirmed()}>
+            <div className="nav_links">
+                <button className="buttonmygames" onClick={() => handleMenuConfirmed()}>
                     Confirmed Games
                 </button>
-                <button onClick={() => handleMenuPOVGuest()}>
+                <br/>
+                <button className="buttonmygames" onClick={() => handleMenuPOVGuest()}>
                     Pending Requests I Have Made
                 </button>
-                <button onClick={() => handleMenuPOVHost()}>
+                <button className="buttonmygames" onClick={() => handleMenuPOVHost()}>
                     Pending Requests to Join my Games
                 </button>
-                <button onClick={() => handleMenuMyOpen()}>
+                <button className="buttonmygames" onClick={() => handleMenuMyOpen()}>
                     My Open Games
                 </button>
+                
             </div>
+            
             <div>
                 {(() => {
                     // Need to update which games array state is sent as games prop!!
@@ -119,6 +124,7 @@ export default function MyGames({
                             return null;
                     }
                 })()}
+            </div>
             </div>
             <Footer />
         </>

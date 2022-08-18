@@ -14,20 +14,20 @@ import UserProfile from './pages/userProfile';
 import axios from 'axios';
 
 function App() {
-  const [token, setToken] = useLocalStorageState("teammateToken", null)
-  const [username, setUsername] = useLocalStorageState("teammateUsername", null)
-  const [listType, setListType] = useState(null);
+    const [token, setToken] = useLocalStorageState("teammateToken", null)
+    const [username, setUsername] = useLocalStorageState("teammateUsername", null)
+    const [listType, setListType] = useState(null);
 //   above is the listType to be used with GamesList component (which is rendered from OpenGamesList and MyGames components)
 const [allGamesList, setAllGamesList] = useState([])
 
 
 
-  const setAuth=(username, token)=>{
-  setToken(token)
-  setUsername(username)
-  }
+    const setAuth=(username, token)=>{
+    setToken(token)
+    setUsername(username)
+    }
 
-  useEffect(() => {
+    useEffect(() => {
     // setListType("allOpen")
     axios
         .get("https://teammate-app.herokuapp.com/session/", {

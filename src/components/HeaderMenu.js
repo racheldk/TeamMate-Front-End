@@ -8,7 +8,7 @@ import axios from "axios";
 
 function Header({ token, setToken }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [navigate, setNavigate] = useState(false);
+    // const [navigate, setNavigate] = useState(false);
     // const [token, setToken] = useState(null)
     const [error, setError] = useState([]);
 
@@ -39,12 +39,13 @@ function Header({ token, setToken }) {
                 console.log(error);
                 setError(error);
             });
+        }
 
-        setNavigate(true);
-    };
-    if (navigate) {
-        return <Navigate to="/" />;
-    }
+    //     setNavigate(true);
+    // };
+    // if (navigate) {
+    //     return <Navigate to="/" />;
+    // }
 
     return (
         <div className="header">
@@ -89,7 +90,7 @@ function Header({ token, setToken }) {
                     </Link>
                     <>
                         <Link
-                            to=""
+                            to="/"
                             className="hamburger-link"
                             onClick={(e) => {
                                 handleLogOut(e);
