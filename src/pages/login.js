@@ -43,7 +43,7 @@ function Login({setAuth}) {
     <div className="spacer">&nbsp;</div>
     <div className="app-body">
     <div className="login-box">
-        <div className='form'>
+        <div className='formlogin'>
         <div className="form-login">
         
         <h1 className="form-banner">Login</h1>
@@ -59,7 +59,8 @@ function Login({setAuth}) {
         <Button colorScheme="teal" type="submit" 
         onClick={(e) => handleLogin(e)}>Login</Button>
         <br/>
-        <Button colorScheme="teal" type="submit"> 
+        <Button size='xs' height='20px' width='100px'
+        colorScheme="teal" type="submit">
         <Link to="register">Register</Link></Button>
     </div>
     </div>
