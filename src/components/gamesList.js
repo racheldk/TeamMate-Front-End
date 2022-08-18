@@ -240,10 +240,10 @@ export default function GamesList({ token, games, listType, listTitle }) {
                                         >
                                             Delete
                                         </button>
-                                        <button onClick={()=> handleEditMyGame(game) }>Edit</button>
-                                        {/* <Link to="edit" token={token} game={game}>
+                                        {/* <button onClick={()=> handleEditMyGame(game) }>Edit</button> */}
+                                        <Link to={`/edit/${game.id}`} token={token} game={game}>
                                             Edit
-                                        </Link> */}
+                                        </Link>
                                     </>
                                 );
                             case "confirmed":

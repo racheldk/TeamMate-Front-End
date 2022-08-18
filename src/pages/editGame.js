@@ -4,20 +4,27 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { DateTime } from "luxon";
-import { Link } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 
-export default function EditGame({ token, game }) {
-    console.log(game.date)
+
+export default function EditGame({ token }) {
+    const [params] = useState(useParams())
+    const [game, setGame] = useState({})
     const [newGameDate, setNewGameDate] = useState("");
     const [newGameTime, setNewGameTime] = useState("");
-    const [newGameLoc, setNewGameLoc] = useState(game.location_info.park_name);
-    const [newGameSessionType, setNewGameSessionType] = useState(game.session_type);
-    const [newGameMatchType, setNewGameMatchType] = useState(game.match_type);
+    // const [newGameLoc, setNewGameLoc] = useState(game.location_info.park_name);
+    // const [newGameSessionType, setNewGameSessionType] = useState(game.session_type);
+    // const [newGameMatchType, setNewGameMatchType] = useState(game.match_type);
+    const [newGameLoc, setNewGameLoc] = useState('');
+    const [newGameSessionType, setNewGameSessionType] = useState('');
+    const [newGameMatchType, setNewGameMatchType] = useState('');
     const [error, setError] = useState("");
     // const [submitted, setSubmitted] = useState(false);
     const [editSubmitted, setEditSubmitted] = useState(false)
     const [convertedDate, setConvertedDate] = useState("");
     const [convertedTime, setConvertedTime] = useState("");
+
+    console.log(params)
 
     const handleChangeGameLoc = (event) => {
         console.log(event.target.value);
@@ -34,7 +41,37 @@ export default function EditGame({ token, game }) {
         setNewGameMatchType(event.target.value);
     };
 
-    const handleSubmitEdit = (game) => {
+useEffect(() => {
+    console.log(params.id)
+    console.log(typeof(params.id))
+    console.log(parseInt(params.id))
+    console.log(typeof(parseInt(params.id)))
+    console.log(token)
+    console.log('load game to be edited')
+    async function getGame() {
+        let response = await axios.get(`https://teammate-app.herokuapp.com/session/${parseInt(params.id)}`, {headers: {
+            Authorization: `Token ${token}`,
+        },
+        })
+        .then((res) =>{
+            console.log(res.data)
+            setGame(res.data)
+            setNewGameSessionType(res.data.session_type)
+            setNewGameLoc(res.data.location_info.park_name)
+            setNewGameMatchType(res.data.match_type)
+            setConvertedDate(res.data.date)
+            setConvertedTime(res.data.time)
+        })
+        // let resJson = await response.data;
+        // console.log(response.data)
+        // console.log(resJson)
+        // setGame(resJson);
+    }
+    getGame()
+    console.log(game)
+}, [params.id, token])
+
+    const handleSubmitEdit = () => {
         console.log(
             newGameDate,
             newGameTime,
@@ -45,7 +82,7 @@ export default function EditGame({ token, game }) {
         );
         axios
             .patch(
-                `https://teammate-app.herokuapp.com/session/${game.id}`,
+                `https://teammate-app.herokuapp.com/session/${parseInt(params.id)}`,
                 {
                     date: convertedDate,
                     time: convertedTime,
@@ -120,8 +157,8 @@ export default function EditGame({ token, game }) {
                         id="location"
                         name="location"
                     >
-                        <option value="" disabled hidden>
-                            Choose a location
+                        <option value={newGameLoc} disabled hidden>
+                            {newGameLoc}
                         </option>
                         <option value="2">Pullen Park</option>
                         <option value="1">Sanderford Park</option>
@@ -137,8 +174,8 @@ export default function EditGame({ token, game }) {
                         id="session-type"
                         name="session-type"
                     >
-                        <option value="" disabled hidden>
-                            Choose a competitive level
+                        <option value={newGameSessionType} disabled hidden>
+                            {newGameSessionType}
                         </option>
                         <option value="Casual">Casual</option>
                         <option value="Competitive">Competitive</option>
@@ -154,14 +191,14 @@ export default function EditGame({ token, game }) {
                         id="match-type"
                         name="match-type"
                     >
-                        <option value="" disabled hidden>
-                            Choose number of players
+                        <option value={newGameMatchType} disabled hidden>
+                            {newGameMatchType}
                         </option>
                         <option value="Singles">Singles</option>
                         <option value="Doubles">Doubles</option>
                     </select>
                 </div>
-                <button onClick={()=>handleSubmitEdit(game)}>Submit</button>
+                <button onClick={()=>handleSubmitEdit()}>Submit</button>
             </form>  
         </div>
     );
