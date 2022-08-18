@@ -43,7 +43,7 @@ function Login({setAuth}) {
     <div className="spacer">&nbsp;</div>
     <div className="app-body">
     <div className="login-box">
-        <div className='form'>
+        <div className='formlogin'>
         <div className="form-login">
         
         <h1 className="form-banner">Login</h1>
