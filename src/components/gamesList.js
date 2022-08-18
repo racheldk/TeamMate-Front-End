@@ -37,7 +37,7 @@ export default function GamesList({ token, games, listType, listTitle }) {
         console.log(game);
         axios
             .delete(
-                `https://teammate-app.herokuapp.com/session/${game.id}/guest/${game.guest_info[0].id}/`,
+                `https://teammate-app.herokuapp.com/session/${game.id}/guest/${game.guest_info[0].id}`,
                 {
                     headers: {
                         Authorization: `Token ${token}`,
@@ -56,7 +56,7 @@ export default function GamesList({ token, games, listType, listTitle }) {
         console.log(game.guest_info[0].id);
         axios
             .patch(
-                `https://teammate-app.herokuapp.com/session/${game.id}/guest/${game.guest_info[0].id}/`,
+                `https://teammate-app.herokuapp.com/session/${game.id}/guest/${game.guest_info[0].id}`,
                 { status: "Accepted" },
                 {
                     headers: {
@@ -78,7 +78,7 @@ export default function GamesList({ token, games, listType, listTitle }) {
         console.log(game);
         axios
             .patch(
-                `https://teammate-app.herokuapp.com/session/${game.id}/guest/${game.guest_info[0].id}/`,
+                `https://teammate-app.herokuapp.com/session/${game.id}/guest/${game.guest_info[0].id}`,
                 { status: "Rejected" },
                 {
                     headers: {
@@ -158,7 +158,7 @@ export default function GamesList({ token, games, listType, listTitle }) {
     if (joinRequestSent) {
         return <AfterJoinRequestSent game={currentGame} />;
     }
-
+console.log(games)
     return (
         <div>
             <div>{listTitle}</div>

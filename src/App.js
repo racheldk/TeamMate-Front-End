@@ -10,26 +10,27 @@ import Theme from './components/theme'
 import { Text } from "@chakra-ui/react"
 import useLocalStorageState from "use-local-storage-state";
 import MyGames from './pages/myGamesPage';
+import UserProfile from './pages/userProfile';
 import axios from 'axios';
 
 function App() {
-  const [token, setToken] = useLocalStorageState("teammateToken", null)
-  const [username, setUsername] = useLocalStorageState("teammateUsername", null)
-  const [listType, setListType] = useState(null);
+    const [token, setToken] = useLocalStorageState("teammateToken", null)
+    const [username, setUsername] = useLocalStorageState("teammateUsername", null)
+    const [listType, setListType] = useState(null);
 //   above is the listType to be used with GamesList component (which is rendered from OpenGamesList and MyGames components)
 const [allGamesList, setAllGamesList] = useState([])
 
 
 
-  const setAuth=(username, token)=>{
-  setToken(token)
-  setUsername(username)
-  }
+    const setAuth=(username, token)=>{
+    setToken(token)
+    setUsername(username)
+    }
 
-  useEffect(() => {
+    useEffect(() => {
     // setListType("allOpen")
     axios
-        .get("https://teammate-app.herokuapp.com/session", {
+        .get("https://teammate-app.herokuapp.com/session/", {
             headers: {
                 Authorization: `Token ${token}`,
             },
@@ -55,7 +56,7 @@ const [allGamesList, setAllGamesList] = useState([])
                 {/* login */}
                 <Route path= "my-games" element={<MyGames token={token}  listType={listType} setListType={setListType} allGamesList={allGamesList}/>}/>
                 {/* my games - confirmed, pending requests as guest, pending requests as host, open */}
-                <Route path=":username"/>
+                <Route path=":username" element={<UserProfile token={token}  listType={listType} setListType={setListType} allGamesList={allGamesList}/>}/>
                 {/* This will be a user profile (Team Quokka did something like this with the users/:id route)  */}
             </Routes>
         </BrowserRouter>
