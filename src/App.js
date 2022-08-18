@@ -10,6 +10,7 @@ import Theme from './components/theme'
 import { Text } from "@chakra-ui/react"
 import useLocalStorageState from "use-local-storage-state";
 import MyGames from './pages/myGamesPage';
+import UserProfile from './pages/userProfile';
 import axios from 'axios';
 
 function App() {
@@ -29,7 +30,7 @@ const [allGamesList, setAllGamesList] = useState([])
     useEffect(() => {
     // setListType("allOpen")
     axios
-        .get("https://teammate-app.herokuapp.com/session", {
+        .get("https://teammate-app.herokuapp.com/session/", {
             headers: {
                 Authorization: `Token ${token}`,
             },
@@ -55,7 +56,7 @@ const [allGamesList, setAllGamesList] = useState([])
                 {/* login */}
                 <Route path= "my-games" element={<MyGames token={token}  listType={listType} setListType={setListType} allGamesList={allGamesList}/>}/>
                 {/* my games - confirmed, pending requests as guest, pending requests as host, open */}
-                <Route path=":username"/>
+                <Route path=":username" element={<UserProfile token={token}  listType={listType} setListType={setListType} allGamesList={allGamesList}/>}/>
                 {/* This will be a user profile (Team Quokka did something like this with the users/:id route)  */}
             </Routes>
         </BrowserRouter>
