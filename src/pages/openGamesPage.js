@@ -15,6 +15,8 @@ export default function OpenGamesList({
     const [filteredGames, setFilteredGames] = useState([]);
     const [filteredSession, setFilteredSession] = useState(null);
     const [filteredURL, setFilteredURL] = useState('')
+    const [searchLoc, setSearchLoc] = useState('')
+    const [searchSession, setSearchSession] = useState('')
 
     setListType("allOpen");
     console.log(allGamesList)
@@ -23,11 +25,13 @@ export default function OpenGamesList({
     const handleFilterGameLoc = (event) => {
         console.log(event.target.value);
         setFilteredLoc(event.target.value);
+        setSearchLoc(`park-name=${event.target.value}`)
     };
 
     const handleFilterSession = (event) => {
         console.log(event.target.value);
         setFilteredSession(event.target.value);
+        setSearchSession(`&session-type=${event.target.value}`)
     };
 
     const handleSubmitFilter = () => {
@@ -35,7 +39,8 @@ export default function OpenGamesList({
         console.log("submit filter clicked");
         console.log(filteredLoc)
         console.log(filteredSession)
-        console.log(searchURL+=`park-name=${filteredLoc}`)
+        console.log(searchURL+=searchLoc)
+        console.log(searchURL+=searchSession)
 
         axios
         .get(`${searchURL}`, {
