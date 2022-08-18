@@ -17,6 +17,7 @@ export default function OpenGamesList({
     const [filteredURL, setFilteredURL] = useState('')
     const [searchLoc, setSearchLoc] = useState('')
     const [searchSession, setSearchSession] = useState('')
+    const [filtered, setFiltered] = useState(false)
 
     setListType("allOpen");
     console.log(allGamesList)
@@ -25,7 +26,7 @@ export default function OpenGamesList({
     const handleFilterGameLoc = (event) => {
         console.log(event.target.value);
         setFilteredLoc(event.target.value);
-        setSearchLoc(`park-name=${event.target.value}`)
+        setSearchLoc(`&park-name=${event.target.value}`)
     };
 
     const handleFilterSession = (event) => {
@@ -39,8 +40,9 @@ export default function OpenGamesList({
         console.log("submit filter clicked");
         console.log(filteredLoc)
         console.log(filteredSession)
-        console.log(searchURL+=searchLoc)
-        console.log(searchURL+=searchSession)
+        searchURL+=searchLoc
+        searchURL+=searchSession
+        console.log(searchURL)
 
         axios
         .get(`${searchURL}`, {
@@ -51,6 +53,7 @@ export default function OpenGamesList({
         .then((res) => {
             console.log(res.data);
             setFilteredGames(res.data);
+            setFiltered(true);
         })
         .catch((error) => {
             console.log(error);
@@ -89,20 +92,20 @@ export default function OpenGamesList({
                 </div>
                 <button onClick={() => handleSubmitFilter()}>Filter</button>
 
-                {filteredGames.length > 0 ? (
-                    <GamesList 
-                    token={token}
-                    games={filteredGames}
-                    listType={listType}/>
-                ): (
-
-                <GamesList
+                {(!filtered)?  (<GamesList
                     token={token}
                     games={allGamesList}
                     listType={listType}
-                />
+                /> ):(
+                    filteredGames.length>0 ? (
+                        <GamesList 
+                        token={token}
+                        games={filteredGames}
+                        listType={listType}/>
+                    ) : (
+                        <div>No games were found matching your filters</div>
+                    )
                 )}
-
             </div>
             <Footer />
         </>
