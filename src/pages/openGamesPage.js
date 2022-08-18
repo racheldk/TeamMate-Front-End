@@ -14,7 +14,6 @@ export default function OpenGamesList({
     const [filteredLoc, setFilteredLoc] = useState(null);
     const [filteredSession, setFilteredSession] = useState(null);
     const [filteredMatch, setFilteredMatch] = useState(null)
-    const [filteredURL, setFilteredURL] = useState('')
     const [filteredGames, setFilteredGames] = useState([]);
     const [searchLoc, setSearchLoc] = useState('')
     const [searchSession, setSearchSession] = useState('')
