@@ -12,13 +12,15 @@ export default function OpenGamesList({
     allGamesList,
 }) {
     const [filteredLoc, setFilteredLoc] = useState(null);
-    const [filteredGames, setFilteredGames] = useState([]);
     const [filteredSession, setFilteredSession] = useState(null);
+    const [filteredMatch, setFilteredMatch] = useState(null)
     const [filteredURL, setFilteredURL] = useState('')
+    const [filteredGames, setFilteredGames] = useState([]);
     const [searchLoc, setSearchLoc] = useState('')
     const [searchSession, setSearchSession] = useState('')
+    const [searchMatch, setSearchMatch] = useState('')
     const [filtered, setFiltered] = useState(false)
-
+    
     setListType("allOpen");
     console.log(allGamesList)
     console.log(filteredGames)
@@ -35,6 +37,12 @@ export default function OpenGamesList({
         setSearchSession(`&session-type=${event.target.value}`)
     };
 
+    const handleFilterMatch = (event) => {
+        console.log(event.target.value);
+        setFilteredMatch(event.target.value);
+        setSearchMatch(`&match-type=${event.target.value}`)
+    };
+
     const handleSubmitFilter = () => {
         let searchURL = "https://teammate-app.herokuapp.com/session/?";
         console.log("submit filter clicked");
@@ -42,6 +50,7 @@ export default function OpenGamesList({
         console.log(filteredSession)
         searchURL+=searchLoc
         searchURL+=searchSession
+        searchURL+=searchMatch
         console.log(searchURL)
 
         axios
@@ -82,12 +91,24 @@ export default function OpenGamesList({
                     <select
                         onChange={handleFilterSession}
                         value={filteredSession}
-                        id="session-type"
-                        name="session-type"
+                        id="filter-type"
+                        name="filter-type"
                     >
                         <option value="">Filter by competitive level</option>
                         <option value="Casual">Casual</option>
                         <option value="Competitive">Competitive</option>
+                    </select>
+                    <select
+                        onChange={handleFilterMatch}
+                        value={filteredMatch}
+                        id="filter-type"
+                        name="filter-type"
+                    >
+                        <option value="">
+                            Filter by number of players
+                        </option>
+                        <option value="Singles">Singles</option>
+                        <option value="Doubles">Doubles</option>
                     </select>
                 </div>
                 <button onClick={() => handleSubmitFilter()}>Filter</button>
