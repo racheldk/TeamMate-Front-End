@@ -13,30 +13,14 @@ export const Register = () => {
     const [navigate, setNavigate] = useState(false);
 
 
-    const handleSubmit = (event) => {
-        event.preventDefault()
-        setError(null)
-        axios
-        .post(`https://teammate-app.herokuapp.com/auth/users/`, {
+    const handleSubmit = async e => {
+        e.preventDefault()
+        
+        await axios.post(`https://teammate-app.herokuapp.com/auth/users/`, {
             first_name: firstname,
             last_name: lastname, 
             username: username,
             password: password,
-        })
-
-        .then(() => {
-            alert(
-                "Successful Registration!"
-            );
-            
-            console.log(error);
-
-        })
-        .catch((error) => {
-            setError(error.message);
-            alert(
-                "The password is either too similar to the username or does not meet minimum length requirement of 8 characters."
-            );
         })
 
         setNavigate(true);
@@ -45,11 +29,13 @@ export const Register = () => {
     return <Navigate to="/open-games" />;
     }
 
+    
     return (
         <div className="app-body">
-        <div className="form" style={{ textAlign: "center"}}>
+        <div className="register-box" style={{ textAlign: "center"}}>
         <h1 className="form-banner">Please register</h1>
 
+        <div className='form-register'>
         {error && <div className="error">{error}</div>}
         <form id="new-user-form" onSubmit={handleSubmit}>
 
@@ -68,10 +54,11 @@ export const Register = () => {
         <label class="sr-only">Password</label>
         <input id="inputPassword" className="form-control" placeholder="Password"
             onChange={(e) => setPassword(e.target.value)} type="password"/>
-
+        <br/>
+        <br/>
         <Button colorScheme="teal" type="submit" >Submit</Button>
-        
         </form>
+        </div>
         </div>
         </div>
     )
