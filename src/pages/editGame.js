@@ -12,12 +12,10 @@ export default function EditGame({ token }) {
     const [game, setGame] = useState({})
     const [newGameDate, setNewGameDate] = useState("");
     const [newGameTime, setNewGameTime] = useState("");
-    // const [newGameLoc, setNewGameLoc] = useState(game.location_info.park_name);
-    // const [newGameSessionType, setNewGameSessionType] = useState(game.session_type);
-    // const [newGameMatchType, setNewGameMatchType] = useState(game.match_type);
-    const [newGameLoc, setNewGameLoc] = useState('');
-    const [newGameSessionType, setNewGameSessionType] = useState('');
-    const [newGameMatchType, setNewGameMatchType] = useState('');
+    const [newGameLoc, setNewGameLoc] = useState("");
+    const [locPK, setlocPK] = useState(game.location)
+    const [newGameSessionType, setNewGameSessionType] = useState("");
+    const [newGameMatchType, setNewGameMatchType] = useState("");
     const [error, setError] = useState("");
     // const [submitted, setSubmitted] = useState(false);
     const [editSubmitted, setEditSubmitted] = useState(false)
@@ -41,6 +39,18 @@ export default function EditGame({ token }) {
         setNewGameMatchType(event.target.value);
     };
 
+    const prepareFields = (gameData) => {
+        setNewGameSessionType(gameData.session_type)
+        setNewGameLoc(gameData.location_info.park_name)
+        setNewGameMatchType(gameData.match_type)
+        setConvertedDate(gameData.date)
+        setConvertedTime(gameData.time)
+        // setNewGameDate(gameData.date)
+        setlocPK(gameData.location)
+        console.log(gameData.time)
+        console.log(gameData.date)
+    }
+
 useEffect(() => {
     console.log(params.id)
     console.log(typeof(params.id))
@@ -53,19 +63,21 @@ useEffect(() => {
             Authorization: `Token ${token}`,
         },
         })
-        .then((res) =>{
-            console.log(res.data)
-            setGame(res.data)
-            setNewGameSessionType(res.data.session_type)
-            setNewGameLoc(res.data.location_info.park_name)
-            setNewGameMatchType(res.data.match_type)
-            setConvertedDate(res.data.date)
-            setConvertedTime(res.data.time)
-        })
-        // let resJson = await response.data;
-        // console.log(response.data)
-        // console.log(resJson)
-        // setGame(resJson);
+        // .then((res) =>{
+        //     console.log(res.data)
+        //     setGame(res.data)
+        //     setNewGameSessionType(res.data.session_type)
+        //     setNewGameLoc(res.data.location_info.park_name)
+        //     setNewGameMatchType(res.data.match_type)
+        //     setConvertedDate(res.data.date)
+        //     setConvertedTime(res.data.time)
+        // })
+        let resJson = await response.data;
+        console.log(response.data)
+        console.log(resJson)
+        setGame(resJson)
+        prepareFields(resJson);
+        // setlocPK(resJson.location)
     }
     getGame()
     console.log(game)
@@ -88,7 +100,7 @@ useEffect(() => {
                     time: convertedTime,
                     session_type: newGameSessionType,
                     match_type: newGameMatchType,
-                    location: newGameLoc,
+                    location: locPK,
                 },
                 {
                     headers: {
@@ -126,7 +138,7 @@ useEffect(() => {
                 }}
                 minDate={subDays(new Date(), 0)}
                 selected={newGameDate}
-                placeholderText={DateTime.fromISO(game.date).toLocaleString(DateTime.DATE_SHORT)}
+                placeholderText={DateTime.fromISO(game.time).toLocaleString(DateTime.DATE_SHORT)}
                 />
                 <ReactDatePicker
                     selected={newGameTime}
@@ -145,6 +157,8 @@ useEffect(() => {
                     timeIntervals={15}
                     timeCaption="Time"
                     dateFormat="h:mm aa"
+                    // placeholderText={newGameTime}
+
                     placeholderText={DateTime.fromISO(game.time).toLocaleString(DateTime.TIME_SIMPLE)}
                 />
                 <div>
@@ -157,7 +171,7 @@ useEffect(() => {
                         id="location"
                         name="location"
                     >
-                        <option value={newGameLoc} disabled hidden>
+                        <option value={locPK}>
                             {newGameLoc}
                         </option>
                         <option value="2">Pullen Park</option>
