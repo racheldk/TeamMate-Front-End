@@ -15,7 +15,7 @@ function UserProfile({token, setToken}) {
             .get(`https://teammate-app.herokuapp.com/${username}`,
             { headers: {
                 Authorization: `Token ${token}`,
-              },
+            },
     })
             .then((res) => {
                 setUser(res.data);

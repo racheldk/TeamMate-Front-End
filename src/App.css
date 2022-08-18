@@ -1,8 +1,134 @@
+/* OPEN GAMES LIST CARD */
 
-.game {
-    border: 2px green solid;
-    margin: 5px;
+.game-card {
+    border: 2px rgb(58, 151, 116) solid;
+    /* margin: 5px; */
+    width: 400px;
+    height: 110px;
+    background-color:#2C7A7B;
+    box-shadow: 0 8px 16px -8px rgba(0,0,0,0.4);
+    border-radius: 6px;
+    /* overflow: hidden; */
+    position: relative;
+    margin: 1rem;
+    /* display: grid; */
+    color: #fff;
+    padding-left: 10px;
+    padding-top: 5px;
 }
+
+button-showmore{
+    width: 80px;
+    height: 20px;
+    margin: 20px;
+    /* background: #c8bb04; */
+    background: #4FD1C5;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 0.625em;
+    position: absolute;
+    left: 73%;
+    bottom: 59%;
+}
+
+button-join {
+    width: 350px;
+    height: 20px;
+    margin: 20px;
+    background: #fefff3;
+    /* color: #993300; */
+    color: #2C7A7B;
+    border: 2px solid #2C7A7B;
+    border-radius: 0.625em;
+    font-size: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    text-align: center;
+    position: absolute;
+    left: 1%;
+    top: 55%;
+}	
+/* Pending requests I've made  CANCEL BUTTON */
+button-cancel {
+    width: 80px;
+    height: 20px;
+    margin: 20px;
+    background: #fefff3;
+    color: #993300;
+    border: 2px solid #2C7A7B;
+    border-radius: 0.625em;
+    font-size: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    text-align: center;
+    position: absolute;
+    left: 0%;
+    top: 55%;
+}
+/* Confirmed Games CANCEL BUTTON */
+button-to-cancel {
+    width: 150px;
+    height: 20px;
+    margin: 20px;
+    background: #fefff3;
+    color: #993300;
+    border: 2px solid #2C7A7B;
+    border-radius: 0.625em;
+    font-size: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    text-align: center;
+    position: absolute;
+    left: 0%;
+    top: 55%;
+}
+
+button-accept, button-edit{
+    width: 150px;
+    height: 20px;
+    margin: 20px;
+    background: #fefff3;
+    color: #2C7A7B;
+    border: 2px solid #2C7A7B;
+    border-radius: 0.625em;
+    font-size: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    text-align: center;
+    position: absolute;
+    left: 0%;
+    top: 55%;
+}
+button-reject, button-delete{
+    width: 150px;
+    height: 20px;
+    margin: 20px;
+    background: #fefff3;
+    color: #993300;
+    border: 2px solid #2C7A7B;
+    border-radius: 0.625em;
+    font-size: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    top: 55%;
+}
+
+
+
+
+
+
+
 
 
 /* Global Styling */
