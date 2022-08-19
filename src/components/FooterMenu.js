@@ -11,9 +11,9 @@ function Footer () {
 
     return (
             <div className="footer">
-               <Link to='/open-games'><IconButton aria-label='Search Item' fontSize='1.9em' colorScheme='teal' border= 'none' variant='outline' className='footer-button' icon={<BsFillHouseFill />} /></Link>
-               <Link to='/new'><IconButton aria-label='ProfileItem' fontSize='1.9em' colorScheme='teal' border= 'none' variant='outline' className='footer-button' icon={<PlusSquareIcon/>} /></Link>
-               <Link to={`/${username}`}><IconButton aria-label='ProfileItem' fontSize='1.9em' colorScheme='teal' border= 'none' variant='outline' className='footer-button' icon={<Icon as={BsFillPersonFill} />} /></Link>
+                <Link to='/open-games'><IconButton aria-label='Search Item' fontSize='1.9em' colorScheme='teal' border= 'none' variant='outline' className='footer-button' icon={<BsFillHouseFill />} /></Link>
+                <Link to='/new'><IconButton aria-label='ProfileItem' fontSize='1.9em' colorScheme='teal' border= 'none' variant='outline' className='footer-button' icon={<PlusSquareIcon/>} /></Link>
+                <Link to={`/${username}`}><IconButton aria-label='ProfileItem' fontSize='1.9em' colorScheme='teal' border= 'none' variant='outline' className='footer-button' icon={<Icon as={BsFillPersonFill} />} /></Link>
             </div>
     
 
