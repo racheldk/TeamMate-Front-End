@@ -3,6 +3,10 @@ import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
 import axios from "axios";
 import { useState } from "react";
+import ReactDatePicker from "react-datepicker";
+import subDays from "date-fns/subDays";
+import "react-datepicker/dist/react-datepicker.css";
+import { DateTime } from "luxon";
 
 
 export default function OpenGamesList({
@@ -11,6 +15,11 @@ export default function OpenGamesList({
     setListType,
     allGamesList,
 }) {
+    const [filteredDate, setFilteredDate] = useState(null)
+    const [filteredTime, setFilteredTime] = useState(null)
+    const [searchDate, setSearchDate] = useState('')
+    const [searchTime, setSearchTime] = useState('')
+    
     const [filteredLoc, setFilteredLoc] = useState(null);
     const [filteredSession, setFilteredSession] = useState(null);
     const [filteredMatch, setFilteredMatch] = useState(null)
@@ -21,8 +30,17 @@ export default function OpenGamesList({
     const [filtered, setFiltered] = useState(false)
     
     setListType("allOpen");
-    console.log(allGamesList)
-    console.log(filteredGames)
+    // console.log(allGamesList)
+    // console.log(filteredGames)
+
+    const handleFilterDate = (date) => {
+        console.log(date)
+        console.log(DateTime.fromJSDate(date).toISODate(
+            DateTime.DATE_MED))
+        const formattedDate = DateTime.fromJSDate(date).toISODate(
+            DateTime.DATE_MED)    
+        setSearchDate(`&date=${formattedDate}`)
+    }
 
     const handleFilterGameLoc = (event) => {
         console.log(event.target.value);
@@ -47,6 +65,8 @@ export default function OpenGamesList({
         console.log("submit filter clicked");
         console.log(filteredLoc)
         console.log(filteredSession)
+        console.log(searchDate)
+        searchURL+=searchDate
         searchURL+=searchLoc
         searchURL+=searchSession
         searchURL+=searchMatch
@@ -77,6 +97,41 @@ export default function OpenGamesList({
                 <h1>Open Games List</h1>
 
                 <div>
+                <ReactDatePicker
+                    onChange={(date) => {
+                        console.log(date);
+                        setFilteredDate(date);
+                        handleFilterDate(date)
+
+                        // setConvertedDate(
+                        //     DateTime.fromJSDate(date).toISODate(
+                        //         DateTime.DATE_MED
+                        //     )
+                        // );
+                    }}
+                    minDate={subDays(new Date(), 0)}
+                    selected={filteredDate}
+                    placeholderText="Click to select a date"
+                />
+                {/* <ReactDatePicker
+                    selected={newGameTime}
+                    onChange={(date) => {
+                        setNewGameTime(date);
+                        setConvertedTime(
+                            DateTime.fromJSDate(date).toLocaleString(
+                                DateTime.TIME_24_WITH_SECONDS
+                            )
+                        );
+                        console.log(newGameTime);
+                        console.log(convertedTime);
+                    }}
+                    showTimeSelect
+                    showTimeSelectOnly
+                    timeIntervals={15}
+                    timeCaption="Time"
+                    dateFormat="h:mm aa"
+                    placeholderText="Click to select a time"
+                /> */}
                     <select
                         onChange={handleFilterGameLoc}
                         value={filteredLoc}
