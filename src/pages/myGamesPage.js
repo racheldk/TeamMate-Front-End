@@ -25,7 +25,8 @@ import Footer from "../components/FooterMenu";
 import { useState } from "react";
 import axios from "axios";
 import GamesList from "../components/gamesList";
-import { Button } from '@chakra-ui/react'
+import { Button, IconButton } from '@chakra-ui/react'
+
 
 export default function MyGames({
     token,
@@ -61,10 +62,10 @@ export default function MyGames({
 
     return (
         <>
-            <div className="app-body">
+            <div className="app-body" style={{textAlign:"center"}}>
             <Header />
             <div className="nav_links">
-                <button className="buttonmygames" onClick={() => handleMenuConfirmed()}>
+                <button className="buttonmtgames" onClick={() => handleMenuConfirmed()}>
                     Confirmed Games
                 </button>
                 <br/>

@@ -28,8 +28,8 @@ function Header(token, setToken) {
         axios
             .post(
                 `https://teammate-app.herokuapp.com/auth/token/logout/`,
-                {},
-                {headers: { Authorization:`Token$ {token}`}}
+                {}, {withCredentials: true},
+                // {headers: { Authorization:`Token$ {token}`}}
             )
             .then(() => {
                 setToken(null);

@@ -86,8 +86,8 @@ const handleCloseModal = (game) => {
               </div>
               <div className="games">  {user[0].game_session.map((game) => (
           <div className="game-item" on>
-           <Text>{game.date}&nbsp;</Text>
-           <Text>{game.location_info.park_name}</Text>
+            <Text>{game.date}&nbsp;</Text>
+            <Text>{game.location_info.park_name}</Text>
           </div>
         ))}</div>
             </div>
