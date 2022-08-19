@@ -6,11 +6,13 @@ import { Button } from "@chakra-ui/react";
 import Modal from "react-modal";
 import axios from "axios";
 
-function Header({ token, setToken }) {
+
+function Header(token, setToken) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    // const [navigate, setNavigate] = useState(false);
-    // const [token, setToken] = useState(null)
+
     const [error, setError] = useState([]);
+
+
 
     const handleOpenModal = () => {
         console.log("click open");
@@ -27,28 +29,25 @@ function Header({ token, setToken }) {
             .post(
                 `https://teammate-app.herokuapp.com/auth/token/logout/`,
                 {},
-                { headers: { Authorization: `Token ${token}` } }
+                {headers: { Authorization:`Token$ {token}`}}
             )
             .then(() => {
                 setToken(null);
-                // localStorage.clear();
                 console.log("logout");
+
             })
             .catch((res) => {
                 let error = res.message;
                 console.log(error);
                 setError(error);
             });
+
         }
 
-    //     setNavigate(true);
-    // };
-    // if (navigate) {
-    //     return <Navigate to="/" />;
-    // }
 
     return (
         <div className="header">
+
             <IconButton
                 onClick={() => {
                     handleOpenModal();
@@ -61,6 +60,7 @@ function Header({ token, setToken }) {
                 variant="outline"
                 icon={<HamburgerIcon />}
             />
+
             <Modal
                 className="modal"
                 isOpen={modalIsOpen}
@@ -101,6 +101,7 @@ function Header({ token, setToken }) {
                     </>
                 </div>
             </Modal>
+
         </div>
     );
 }
