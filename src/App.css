@@ -186,6 +186,33 @@ body {
     width: 100%;
 }
 
+/* User Profile Stylings */
+
+.profile-body {
+    margin: auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.profile-pic {
+    width: 100%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+
+}
+.user-name {
+    width: 100%;
+}
+
+.games {
+    width: 100%;
+}
+.game-item {
+    display: flex;
+    justify-content: center;
+}
 /* Global Modal Stylings */
 .modal-overlay {
     position: absolute;
