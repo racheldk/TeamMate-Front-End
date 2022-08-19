@@ -9,7 +9,7 @@ import axios from "axios";
 
 function Header(token, setToken) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
- 
+
     const [error, setError] = useState([]);
 
 
@@ -29,11 +29,11 @@ function Header(token, setToken) {
             .post(
                 `https://teammate-app.herokuapp.com/auth/token/logout/`,
                 {},
-                { headers: { Authorization: `Token ${token}` } }
+                {headers: { Authorization:`Token$ {token}`}}
             )
             .then(() => {
                 setToken(null);
-                localStorage.clear();
+                console.log("logout");
 
             })
             .catch((res) => {
