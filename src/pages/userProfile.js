@@ -30,14 +30,13 @@ function UserProfile({ token, setToken }) {
 
   const handleOpenModal = (game) => {
     console.log("click modal open");
-    // console.log(game)
+    
     setModalIsOpen(true);
     console.log(modalIsOpen);
 };
 
 const handleCloseModal = (game) => {
-    console.log("click close");
-    console.log(game);
+    console.log("click close");;
     setModalIsOpen(false);
 };
 
@@ -69,6 +68,8 @@ const handleCloseModal = (game) => {
                   />
                 </Heading>
               </div>
+              {user[0].profile > 0 && 
+              <>
               <div className="profile-pic">
                 <Image
                   src={`${user[0].profile.profile_pic}`}
@@ -88,7 +89,7 @@ const handleCloseModal = (game) => {
            <Text>{game.date}&nbsp;</Text>
            <Text>{game.location_info.park_name}</Text>
           </div>
-        ))}</div>
+        ))}</div></>}
             </div>
             <Modal
                 isOpen={modalIsOpen}

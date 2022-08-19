@@ -2,31 +2,48 @@ import { Button } from '@chakra-ui/react'
 import axios from 'axios'
 import { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
+import useLocalStorageState from "use-local-storage-state";
 
-
-export const Register = () => {
+export const Register = ({setAuth}) => {
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
     const [username, setUsername] = useState('')
     const [password,  setPassword] = useState('')
     const [error, setError] = useState(null)
-    const [navigate, setNavigate] = useState(false);
+    const [token, setToken] = useLocalStorageState("teammateToken", null);
 
 
     const handleSubmit = async e => {
         e.preventDefault()
         
-        await axios.post(`https://teammate-app.herokuapp.com/auth/users/`, {
+        await axios
+        .post(`https://teammate-app.herokuapp.com/auth/users/`, {
             first_name: firstname,
             last_name: lastname, 
             username: username,
             password: password,
         })
+        .then(() => {
+            axios
+        .post('https://teammate-app.herokuapp.com/auth/token/login/', {
+            username: username,
+            password: password,
+      }, console.log("logged in"))
+      .then((res) => {
+        const token = res.data.auth_token;
+        setAuth(username, token)
+        setToken(token)
+    })
 
-        setNavigate(true);
+        })
+
     }
-    if (navigate) {
-    return <Navigate to="/open-games" />;
+    if (token) {
+        axios
+        .post('https://teammate-app.herokuapp.com/profile/', {
+          }, console.log("profile made"))
+    
+    // return <Navigate to="/open-games" />;
     }
 
     

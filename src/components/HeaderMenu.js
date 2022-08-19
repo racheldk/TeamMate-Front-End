@@ -5,11 +5,12 @@ import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { Button } from "@chakra-ui/react";
 import Modal from "react-modal";
 import axios from "axios";
+import useLocalStorageState from "use-local-storage-state";
 
-function Header({ token, setToken }) {
+function Header() {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     // const [navigate, setNavigate] = useState(false);
-    // const [token, setToken] = useState(null)
+    const [token, setToken] = useLocalStorageState("teammateToken", null);
     const [error, setError] = useState([]);
 
     const handleOpenModal = () => {
@@ -31,7 +32,6 @@ function Header({ token, setToken }) {
             )
             .then(() => {
                 setToken(null);
-                // localStorage.clear();
                 console.log("logout");
             })
             .catch((res) => {
@@ -40,12 +40,9 @@ function Header({ token, setToken }) {
                 setError(error);
             });
         }
-
-    //     setNavigate(true);
-    // };
-    // if (navigate) {
-    //     return <Navigate to="/" />;
-    // }
+        if (!token) {
+            return <Navigate to="/" />;
+        }
 
     return (
         <div className="header">
