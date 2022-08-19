@@ -78,6 +78,7 @@ function App() {
                         element={
                             <MyGames
                                 token={token}
+                                username={username}
                                 listType={listType}
                                 setListType={setListType}
                                 allGamesList={allGamesList}
