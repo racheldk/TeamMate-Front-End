@@ -16,10 +16,7 @@ export default function OpenGamesList({
     allGamesList,
 }) {
     const [filteredDate, setFilteredDate] = useState(null)
-    const [filteredTime, setFilteredTime] = useState(null)
-    const [searchDate, setSearchDate] = useState('')
-    const [searchTime, setSearchTime] = useState('')
-    
+    const [searchDate, setSearchDate] = useState('')    
     const [filteredLoc, setFilteredLoc] = useState(null);
     const [filteredSession, setFilteredSession] = useState(null);
     const [filteredMatch, setFilteredMatch] = useState(null)
@@ -30,8 +27,8 @@ export default function OpenGamesList({
     const [filtered, setFiltered] = useState(false)
     
     setListType("allOpen");
-    // console.log(allGamesList)
-    // console.log(filteredGames)
+    console.log(allGamesList)
+    console.log(filteredGames)
 
     const handleFilterDate = (date) => {
         console.log(date)
@@ -63,9 +60,6 @@ export default function OpenGamesList({
     const handleSubmitFilter = () => {
         let searchURL = "https://teammate-app.herokuapp.com/session/?";
         console.log("submit filter clicked");
-        console.log(filteredLoc)
-        console.log(filteredSession)
-        console.log(searchDate)
         searchURL+=searchDate
         searchURL+=searchLoc
         searchURL+=searchSession
@@ -102,36 +96,11 @@ export default function OpenGamesList({
                         console.log(date);
                         setFilteredDate(date);
                         handleFilterDate(date)
-
-                        // setConvertedDate(
-                        //     DateTime.fromJSDate(date).toISODate(
-                        //         DateTime.DATE_MED
-                        //     )
-                        // );
                     }}
                     minDate={subDays(new Date(), 0)}
                     selected={filteredDate}
                     placeholderText="Click to select a date"
                 />
-                {/* <ReactDatePicker
-                    selected={newGameTime}
-                    onChange={(date) => {
-                        setNewGameTime(date);
-                        setConvertedTime(
-                            DateTime.fromJSDate(date).toLocaleString(
-                                DateTime.TIME_24_WITH_SECONDS
-                            )
-                        );
-                        console.log(newGameTime);
-                        console.log(convertedTime);
-                    }}
-                    showTimeSelect
-                    showTimeSelectOnly
-                    timeIntervals={15}
-                    timeCaption="Time"
-                    dateFormat="h:mm aa"
-                    placeholderText="Click to select a time"
-                /> */}
                     <select
                         onChange={handleFilterGameLoc}
                         value={filteredLoc}
