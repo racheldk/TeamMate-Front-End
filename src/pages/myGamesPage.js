@@ -37,13 +37,13 @@ export default function MyGames({
     allGamesList,
 }) {
     const [listTitle, setListTitle] = useState(null);
-    const [userAllGames, setUserAllGames] = useState([])
-    // const [userConfirmedGames, setUserConfirmedGames] = useState([]);
-    // const [userPendingPOVGuestGames, setUserPendingPOVGuestGames] = useState(
-    //     []
-    // );
-    // const [userPendingPOVHostGames, setUserPendingPOVHostGames] = useState([]);
-    // const [userMyOpenGames, setUserMyOpenGames] = useState([]);
+    const [userAllGames, setUserAllGames] = useState([]);
+    const [userConfirmedGames, setUserConfirmedGames] = useState([]);
+    const [userPendingPOVGuestGames, setUserPendingPOVGuestGames] = useState(
+        []
+    );
+    const [userPendingPOVHostGames, setUserPendingPOVHostGames] = useState([]);
+    const [userMyOpenGames, setUserMyOpenGames] = useState([]);
 
     const handleMenuConfirmed = () => {
         console.log("menu confirmed click");
@@ -80,21 +80,67 @@ export default function MyGames({
             .then((res) => {
                 console.log(res.data);
                 console.log(res.data[0].game_session);
-                res.data[0].game_session.map((game) => allUserGames.push(game))
+                res.data[0].game_session.map((game) => allUserGames.push(game));
                 console.log(allUserGames);
                 filterGames(allUserGames);
             });
         const filterGames = (allUserGames) => {
-            const todayDate = DateTime.fromJSDate(new Date()).toLocaleString() 
-            const todayTime = DateTime.fromJSDate(new Date ()).toLocaleString(DateTime.TIME_24_WITH_SECONDS) 
+            const todayDate = DateTime.fromJSDate(new Date()).toLocaleString();
+            const todayTime = DateTime.fromJSDate(new Date()).toLocaleString(
+                DateTime.TIME_24_WITH_SECONDS
+            );
             const futureGames = allUserGames.filter(function (game) {
-                const gameDate = DateTime.fromISO(game.date).toLocaleString()
-                return gameDate >= todayDate || (gameDate === todayDate && game.time > todayTime);
+                const gameDate = DateTime.fromISO(game.date).toLocaleString();
+                return (
+                    gameDate >= todayDate ||
+                    (gameDate === todayDate && game.time > todayTime)
+                );
             });
             console.log(futureGames);
-            setUserAllGames(futureGames)
+            setUserAllGames(futureGames);
         };
     }, [token, username, setListType]);
+
+    useEffect(() => {
+        axios
+            .get(`https://teammate-app.herokuapp.com/${username}/confirmed`, {
+                headers: {
+                    Authorization: `Token ${token}`,
+                },
+            })
+            .then((res) => {
+                console.log(res.data);
+                setUserConfirmedGames(res.data);
+            });
+    }, []);
+
+    useEffect(() => {
+        axios
+            .get(`https://teammate-app.herokuapp.com/${username}/open-host`, {
+                headers: {
+                    Authorization: `Token ${token}`,
+                },
+            })
+            .then((res) => {
+                console.log(res.data);
+                setUserPendingPOVHostGames(res.data);
+            });
+    }, []);
+
+    useEffect(() => {
+        axios
+            .get(`https://teammate-app.herokuapp.com/${username}/open-guest`, {
+                headers: {
+                    Authorization: `Token ${token}`,
+                },
+            })
+            .then((res) => {
+                console.log(res.data);
+                setUserPendingPOVGuestGames(res.data);
+            });
+    }, []);
+
+
 
     return (
         <>
@@ -136,7 +182,7 @@ export default function MyGames({
                                 return (
                                     <GamesList
                                         token={token}
-                                        games={userAllGames}
+                                        games={userConfirmedGames}
                                         listType={listType}
                                         listTitle={listTitle}
                                     />
@@ -145,7 +191,7 @@ export default function MyGames({
                                 return (
                                     <GamesList
                                         token={token}
-                                        games={userAllGames}
+                                        games={userPendingPOVGuestGames}
                                         listType={listType}
                                         listTitle={listTitle}
                                     />
@@ -154,7 +200,7 @@ export default function MyGames({
                                 return (
                                     <GamesList
                                         token={token}
-                                        games={userAllGames}
+                                        games={userPendingPOVHostGames}
                                         listType={listType}
                                         listTitle={listTitle}
                                     />
