@@ -13,6 +13,7 @@ import MyGames from "./pages/myGamesPage";
 import UserProfile from "./pages/userProfile";
 import axios from "axios";
 import EditGame from "./pages/editGame";
+import CalendarExample from "./components/calendar-example";
 
 function App() {
     const [token, setToken] = useLocalStorageState("teammateToken", null);
@@ -102,7 +103,7 @@ function App() {
                             />
                         }
                     />
-                    {/* This will be a user profile (Team Quokka did something like this with the users/:id route)  */}
+                   <Route path="calendar" element={<CalendarExample/>} />
                 </Routes>
             </BrowserRouter>
         </ChakraProvider>
