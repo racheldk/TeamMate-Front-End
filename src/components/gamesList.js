@@ -194,75 +194,75 @@ export default function GamesList({ token, games, listType, listTitle }) {
                 }}
             >Show more</button-showmore>
 
-                    {(() => {
-                        switch (listType) {
-                            case "allOpen":
-                                return (
-                                    <button-join
-                                        onClick={() => handleJoinClick(game)}
-                                    >
-                                        Join
-                                    </button-join>
-                                );
-                            case "pendingPOVGuest":
-                                return (
-                                    <button-cancel
-                                        onClick={() =>
-                                            handleCancelRequest(game)
-                                        }
-                                    >
-                                        Cancel
-                                    </button-cancel>
-                                );
-                            case "pendingPOVHost":
-                                return (
-                                    <>
-                                        <button-accept
-                                            onClick={() =>
-                                                handleAcceptRequest(game)
-                                            }
-                                        >
-                                            Accept
-                                        </button-accept>
-                                        <button-reject
-                                            onClick={() =>
-                                                handleRejectRequest(game)
-                                            }
-                                        >
-                                            Reject
-                                        </button-reject>
-                                    </>
-                                );
-                            case "myOpen":
-                                return (
-                                    <>
-                                        <button-delete
-                                            onClick={() =>
-                                                handleDeleteMyGame(game)
-                                            }
-                                        >
-                                            Delete
-                                        </button-delete>
-                                        {/* <button onClick={()=> handleEditMyGame(game) }>Edit</button> */}
-                                        <Link to={`/edit/${game.id}`} token={token} game={game}>
-                                            Edit
-                                        </Link>
-                                    </>
-                                );
-                            case "confirmed":
-                                return (
-                                    <button-to-cancel
-                                        onClick={() =>
-                                            handleCancelConfirmed(game)
-                                        }
-                                    >
-                                        Cancel
-                                    </button-to-cancel>
-                                );
-                            default:
-                                return null;
-                        }
-                    })()}
+            {(() => {
+                switch (listType) {
+                    case "allOpen":
+                        return (
+                            <button-join
+                                onClick={() => handleJoinClick(game)}
+                            >
+                                Join
+                            </button-join>
+                        );
+                    case "pendingPOVGuest":
+                        return (
+                            <button-cancel
+                                onClick={() =>
+                                    handleCancelRequest(game)
+                                }
+                            >
+                                Cancel
+                            </button-cancel>
+                        );
+                    case "pendingPOVHost":
+                        return (
+                            <>
+                                <button-accept
+                                    onClick={() =>
+                                        handleAcceptRequest(game)
+                                    }
+                                >
+                                    Accept
+                                </button-accept>
+                                <button-reject
+                                    onClick={() =>
+                                        handleRejectRequest(game)
+                                    }
+                                >
+                                    Reject
+                                </button-reject>
+                            </>
+                        );
+                    case "myOpen":
+                        return (
+                            <>
+                                <button-delete
+                                    onClick={() =>
+                                        handleDeleteMyGame(game)
+                                    }
+                                >
+                                    Delete
+                                </button-delete>
+                                {/* <button onClick={()=> handleEditMyGame(game) }>Edit</button> */}
+                                <Link className="edit-myopengames" to={`/edit/${game.id}`} token={token} game={game}>
+                                    Edit
+                                </Link>
+                            </>
+                        );
+                    case "confirmed":
+                        return (
+                            <button-to-cancel
+                                onClick={() =>
+                                    handleCancelConfirmed(game)
+                                }
+                            >
+                                Cancel
+                            </button-to-cancel>
+                        );
+                    default:
+                        return null;
+                }
+            })()}
 
 
             {/* <button>Join</button> */}
