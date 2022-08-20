@@ -6,6 +6,8 @@ import { DateTime } from "luxon";
 import { Link } from "react-router-dom";
 import GameDetail from "./gameDetail";
 import EditGame from "../pages/editGame";
+import { Text, Heading, Image, Icon, IconButton, Button } from "@chakra-ui/react";
+import { CloseIcon } from "@chakra-ui/icons";
 
 export default function GamesList({ token, games, listType, listTitle }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -276,7 +278,16 @@ export default function GamesList({ token, games, listType, listTitle }) {
                 overlayClassName="modal-overlay"
                 listType={listType}
             >
-                <button onClick={() => handleCloseModal()}>close</button>
+                              <Button
+                    onClick={() => {
+                        handleCloseModal();
+                    }}
+                    className="close-modal-button"
+                    variant="ghost"
+                    colorScheme="teal"
+                >
+                    <CloseIcon color="white" />
+                </Button>
                 {modalIsOpen}
 
                 {/* switch case for sending different buttons through to the modal  */}
