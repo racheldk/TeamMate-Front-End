@@ -6,6 +6,7 @@ import { DateTime } from "luxon";
 import { Link } from "react-router-dom";
 import GameDetail from "./gameDetail";
 import EditGame from "../pages/editGame";
+import { IconButton, Button, Text, Heading } from '@chakra-ui/react'
 
 export default function GamesList({ token, games, listType, listTitle }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -173,8 +174,15 @@ export default function GamesList({ token, games, listType, listTitle }) {
     <div>{listTitle}</div>
     {games.map((game) => (
         <div className="game-card" key={game.id}>
-        <div>Location: {game.location_info.park_name}</div>
-            <div>
+        <div className='half-width'><Text>Location: {game.location_info.park_name}</Text></div>
+        <div className='half-width'>
+        <Button colorScheme='teal' size='xs'
+                onClick={() => {
+                    handleOpenModal(game);
+                }}
+            >Show more</Button>
+            </div>
+            <div className='full-width'>
                 {DateTime.fromISO(game.date).toLocaleString({
                     weekday: "short",
                     month: "short",
@@ -188,11 +196,7 @@ export default function GamesList({ token, games, listType, listTitle }) {
                     </div>
                     
                     
-            <button-showmore
-                onClick={() => {
-                    handleOpenModal(game);
-                }}
-            >Show more</button-showmore>
+
 
             {(() => {
                 switch (listType) {
