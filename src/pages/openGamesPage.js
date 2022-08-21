@@ -3,6 +3,10 @@ import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
 import axios from "axios";
 import { useState } from "react";
+import ReactDatePicker from "react-datepicker";
+import subDays from "date-fns/subDays";
+import "react-datepicker/dist/react-datepicker.css";
+import { DateTime } from "luxon";
 
 
 export default function OpenGamesList({
@@ -11,6 +15,8 @@ export default function OpenGamesList({
     setListType,
     allGamesList,
 }) {
+    const [filteredDate, setFilteredDate] = useState(null)
+    const [searchDate, setSearchDate] = useState('')    
     const [filteredLoc, setFilteredLoc] = useState(null);
     const [filteredSession, setFilteredSession] = useState(null);
     const [filteredMatch, setFilteredMatch] = useState(null)
@@ -23,6 +29,15 @@ export default function OpenGamesList({
     setListType("allOpen");
     console.log(allGamesList)
     console.log(filteredGames)
+
+    const handleFilterDate = (date) => {
+        console.log(date)
+        console.log(DateTime.fromJSDate(date).toISODate(
+            DateTime.DATE_MED))
+        const formattedDate = DateTime.fromJSDate(date).toISODate(
+            DateTime.DATE_MED)    
+        setSearchDate(`&date=${formattedDate}`)
+    }
 
     const handleFilterGameLoc = (event) => {
         console.log(event.target.value);
@@ -45,8 +60,7 @@ export default function OpenGamesList({
     const handleSubmitFilter = () => {
         let searchURL = "https://teammate-app.herokuapp.com/session/?";
         console.log("submit filter clicked");
-        console.log(filteredLoc)
-        console.log(filteredSession)
+        searchURL+=searchDate
         searchURL+=searchLoc
         searchURL+=searchSession
         searchURL+=searchMatch
@@ -77,40 +91,51 @@ export default function OpenGamesList({
                 <h1>Open Games List</h1>
 
                 <div>
+                <ReactDatePicker
+                    onChange={(date) => {
+                        console.log(date);
+                        setFilteredDate(date);
+                        handleFilterDate(date)
+                    }}
+                    minDate={subDays(new Date(), 0)}
+                    selected={filteredDate}
+                    placeholderText="Click to select a date"
+                />
                     <select
                         onChange={handleFilterGameLoc}
                         value={filteredLoc}
                         id="filter-location"
                         name="filter-location"
                     >
-                        <option value="">Filter by location</option>
+                        <option value="">Location</option>
                         <option value="Pullen Park">Pullen Park</option>
                         <option value="Sanderford Park">Sanderford Park</option>
                     </select>
-                    <select
+                    <select className="filters"
                         onChange={handleFilterSession}
                         value={filteredSession}
                         id="filter-type"
                         name="filter-type"
-                    >
-                        <option value="">Filter by competitive level</option>
+                        >
+                        <option value="">Competitive level</option>
                         <option value="Casual">Casual</option>
                         <option value="Competitive">Competitive</option>
                     </select>
-                    <select
+                    <select className="filters"
                         onChange={handleFilterMatch}
                         value={filteredMatch}
                         id="filter-type"
                         name="filter-type"
-                    >
+                        >
                         <option value="">
-                            Filter by number of players
+                            Number of players
                         </option>
                         <option value="Singles">Singles</option>
                         <option value="Doubles">Doubles</option>
                     </select>
+                        
                 </div>
-                <button onClick={() => handleSubmitFilter()}>Filter</button>
+                <button className="button-filter" onClick={() => handleSubmitFilter()}>Filter</button>
 
                 {(!filtered)?  (<GamesList
                     token={token}

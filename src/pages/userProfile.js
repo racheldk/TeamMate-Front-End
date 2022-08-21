@@ -15,7 +15,7 @@ function UserProfile({ token, setToken }) {
   const [username, setUsername] = useLocalStorageState("teammateUsername", null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  useEffect(() => {
+useEffect(() => {
     axios
       .get(`https://teammate-app.herokuapp.com/${username}`, {
         headers: {
@@ -27,6 +27,7 @@ function UserProfile({ token, setToken }) {
         console.log(res.data);
       });
   }, [token, username]);
+
 
   const handleOpenModal = (game) => {
     console.log("click modal open");
@@ -86,8 +87,8 @@ const handleCloseModal = (game) => {
               </div>
               <div className="games">  {user[0].game_session.map((game) => (
           <div className="game-item" on>
-           <Text>{game.date}&nbsp;</Text>
-           <Text>{game.location_info.park_name}</Text>
+            <Text>{game.date}&nbsp;</Text>
+            <Text>{game.location_info.park_name}</Text>
           </div>
         ))}</div></>}
             </div>

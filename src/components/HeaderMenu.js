@@ -7,11 +7,20 @@ import Modal from "react-modal";
 import axios from "axios";
 import useLocalStorageState from "use-local-storage-state";
 
+<<<<<<< HEAD
 function Header() {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     // const [navigate, setNavigate] = useState(false);
     const [token, setToken] = useLocalStorageState("teammateToken", null);
+=======
+
+function Header(token, setToken) {
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+
+>>>>>>> main
     const [error, setError] = useState([]);
+
+
 
     const handleOpenModal = () => {
         console.log("click open");
@@ -27,25 +36,32 @@ function Header() {
         axios
             .post(
                 `https://teammate-app.herokuapp.com/auth/token/logout/`,
-                {},
-                { headers: { Authorization: `Token ${token}` } }
+                {}, {withCredentials: true},
+                // {headers: { Authorization:`Token$ {token}`}}
             )
             .then(() => {
                 setToken(null);
                 console.log("logout");
+
             })
             .catch((res) => {
                 let error = res.message;
                 console.log(error);
                 setError(error);
             });
+
         }
+<<<<<<< HEAD
         if (!token) {
             return <Navigate to="/" />;
         }
+=======
+
+>>>>>>> main
 
     return (
         <div className="header">
+
             <IconButton
                 onClick={() => {
                     handleOpenModal();
@@ -58,6 +74,7 @@ function Header() {
                 variant="outline"
                 icon={<HamburgerIcon />}
             />
+
             <Modal
                 className="modal"
                 isOpen={modalIsOpen}
@@ -98,6 +115,7 @@ function Header() {
                     </>
                 </div>
             </Modal>
+
         </div>
     );
 }
