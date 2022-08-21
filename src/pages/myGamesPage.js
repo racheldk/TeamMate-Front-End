@@ -140,6 +140,19 @@ export default function MyGames({
             });
     }, []);
 
+    useEffect(() => {
+        axios
+            .get(`https://teammate-app.herokuapp.com/${username}/open`, {
+                headers: {
+                    Authorization: `Token ${token}`,
+                },
+            })
+            .then((res) => {
+                console.log(res.data);
+                setUserMyOpenGames(res.data);
+            });
+    }, []);
+
 
 
     return (
@@ -209,7 +222,9 @@ export default function MyGames({
                                 return (
                                     <GamesList
                                         token={token}
-                                        games={userAllGames}
+                                        games={userMyOpenGames}
+                                        // this currently shows all games that are open and attached to that user
+                                        // this is redundant with pendingPOVGuest and pendingPOVHost 
                                         listType={listType}
                                         listTitle={listTitle}
                                     />
