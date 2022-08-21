@@ -10,9 +10,11 @@ const localizer = luxonLocalizer(DateTime, { firstDayOfWeek: 7 });
 const events = [
     {
         title: "Event 1",
-        allDay: true,
-        start: new Date(2022, 8, 26),
-        end: new Date(2022, 8, 26),
+        allDay: false,
+        start: new Date(2022, 7, 26, 9, 0), 
+        // Aug 26, 2022 9am
+        end: new Date(2022, 7, 26, 10, 0),
+        // Aug 26, 2022 10am
         resource: null,
     },
 ];
@@ -23,7 +25,7 @@ export default function CalendarExample(props) {
     // setEventList(events)
 
     return (
-        <Box height={400} backgroundColor="white">
+        <Box height={600} backgroundColor="white">
             {/* Container element around Calender needs to have height specified for it to show up on the page */}
             <Calendar
                 localizer={localizer}
