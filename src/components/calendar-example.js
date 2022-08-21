@@ -4,16 +4,54 @@ import { DateTime } from "luxon";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { Box } from "@chakra-ui/react";
 import { useState } from "react";
+import {CheckCircleIcon, Icon} from '@chakra-ui/icons'
+import {FaQuestionCircle} from 'react-icons/fa'
 
 const localizer = luxonLocalizer(DateTime, { firstDayOfWeek: 7 });
 
 const events = [
     {
-        title: "Event 1",
+        title: <CheckCircleIcon/>,
         allDay: false,
         start: new Date(2022, 7, 26, 9, 0), 
         // Aug 26, 2022 9am
         end: new Date(2022, 7, 26, 10, 0),
+        // Aug 26, 2022 10am
+        resource: null,
+    },
+    {
+        title: <Icon as={FaQuestionCircle}/>,
+        allDay: false,
+        start: new Date(2022, 7, 25, 12, 0), 
+        // Aug 26, 2022 9am
+        end: new Date(2022, 7, 25, 13, 0),
+        // Aug 26, 2022 10am
+        resource: null,
+    },
+    {
+        title: <Icon as={FaQuestionCircle}/> ,
+        allDay: false,
+        start: new Date(2022, 7, 25, 9, 0), 
+        // Aug 26, 2022 9am
+        end: new Date(2022, 7, 25, 10, 0),
+        // Aug 26, 2022 10am
+        resource: null,
+    },
+    {
+        title: <Icon as={FaQuestionCircle}/>,
+        allDay: false,
+        start: new Date(2022, 7, 25, 14, 0), 
+        // Aug 26, 2022 9am
+        end: new Date(2022, 7, 25, 15, 0),
+        // Aug 26, 2022 10am
+        resource: null,
+    },
+    {
+        title: <Icon as={FaQuestionCircle}/>,
+        allDay: false,
+        start: new Date(2022, 7, 25, 7, 0), 
+        // Aug 26, 2022 9am
+        end: new Date(2022, 7, 25, 8, 0),
         // Aug 26, 2022 10am
         resource: null,
     },
@@ -32,6 +70,7 @@ export default function CalendarExample(props) {
                 events={events}
                 startAccessor="start"
                 endAccessor="end"
+                popup
             />
         </Box>
     );
