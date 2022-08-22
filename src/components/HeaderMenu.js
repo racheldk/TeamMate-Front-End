@@ -5,11 +5,12 @@ import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { Button } from "@chakra-ui/react";
 import Modal from "react-modal";
 import axios from "axios";
+import useLocalStorageState from "use-local-storage-state";
 
-
-function Header(token, setToken) {
+function Header() {
     const [modalIsOpen, setModalIsOpen] = useState(false);
-
+    // const [navigate, setNavigate] = useState(false);
+    const [token, setToken] = useLocalStorageState("teammateToken", null);
     const [error, setError] = useState([]);
 
 
@@ -28,8 +29,8 @@ function Header(token, setToken) {
         axios
             .post(
                 `https://teammate-app.herokuapp.com/auth/token/logout/`,
-                {},
-                {headers: { Authorization:`Token$ {token}`}}
+                {}, 
+                {headers: { Authorization:`Token ${token}`}}
             )
             .then(() => {
                 setToken(null);
@@ -43,7 +44,9 @@ function Header(token, setToken) {
             });
 
         }
-
+        if (!token) {
+            return <Navigate to="/" />;
+        }
 
     return (
         <div className="header">

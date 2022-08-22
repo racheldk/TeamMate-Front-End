@@ -118,8 +118,12 @@ export default function OpenGamesList({
                         value={filteredSession}
                         id="filter-type"
                         name="filter-type"
+
                     >
                         <option value="">Competitive Level</option>
+
+                        
+
                         <option value="Casual">Casual</option>
                         <option value="Competitive">Competitive</option>
                     </select>
@@ -128,17 +132,22 @@ export default function OpenGamesList({
                         value={filteredMatch}
                         id="filter-type"
                         name="filter-type"
-                    >
+                        >
                         <option value="">
+
                             Number of Players
+
                         </option>
                         <option value="Singles">Singles</option>
                         <option value="Doubles">Doubles</option>
                     </select>
+                        
                 </div>
+
                 <Button padding="10px 20px" width="100px" height="25px" fontSize='0.8em' 
                 marginLeft="8px" marginTop="8px" colorScheme='teal' 
                 onClick={() => handleSubmitFilter()}>Filter</Button>
+
 
                 {(!filtered)?  (<GamesList
                     token={token}

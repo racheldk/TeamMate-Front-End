@@ -2,13 +2,14 @@ import { Button } from '@chakra-ui/react'
 import axios from "axios";
 import { useState } from "react";
 import { Navigate, Link } from "react-router-dom";
+import useLocalStorageState from "use-local-storage-state";
 
 
 function Login({setAuth}) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState([]);
-    const [token, setToken] = useState(null)
+    const [token, setToken] = useLocalStorageState("teammateToken", null);
 
 
     const handleLogin = (event) => {
