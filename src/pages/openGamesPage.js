@@ -7,6 +7,7 @@ import ReactDatePicker from "react-datepicker";
 import subDays from "date-fns/subDays";
 import "react-datepicker/dist/react-datepicker.css";
 import { DateTime } from "luxon";
+import {Button} from '@chakra-ui/react'
 
 
 export default function OpenGamesList({
@@ -135,7 +136,8 @@ export default function OpenGamesList({
                         <option value="Doubles">Doubles</option>
                     </select>
                 </div>
-                <button onClick={() => handleSubmitFilter()}>Filter</button>
+                <Button padding="10px 20px" width="100px" height="25px" fontSize='0.8em' 
+                marginLeft="8px" marginTop="8px" colorScheme='teal' onClick={() => handleSubmitFilter()}>Filter</Button>
 
                 {(!filtered)?  (<GamesList
                     token={token}
