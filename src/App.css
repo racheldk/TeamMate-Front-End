@@ -409,7 +409,26 @@ h1{ color:#285E61; text-align: center; font-family: Verdana;
 .filter-options{display: flex; font-size: 9px;
     padding-left: 1px;}
 
-.filters{width: 100px; height: 20px; text-align: center; margin-right: -20px; 
-    border-radius: 6px; color: #285E61; margin-left: 30px;}
+.filters{width: 100px; height: 20px; text-align: center; margin-right: -45px; 
+    border-radius: 6px; color: #285E61; margin-left: 55px;}
+
+.filter-date{width: 80px; height: 20px; text-align: center; margin-right: px; 
+        border-radius: 6px; color: #285E61; margin-left: 10px;}
+h3{color: #fff;}
 
 
+.survey {
+    animation: fadein .5s;
+    border: 0;
+    border-radius: 20px;
+    width: 400px;
+    height: 400px;
+    margin: 0 auto;
+    text-align: left;  
+    background-color: #fff;  
+    padding-left: 20px;
+
+}
+.survey-text{
+    padding-left: 30px;
+}

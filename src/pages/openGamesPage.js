@@ -92,7 +92,7 @@ export default function OpenGamesList({
                 <h1>Open Games List</h1>
 
                 <div className="filter-options">
-                <ReactDatePicker className="filters"
+                <ReactDatePicker className="filter-date"
                     onChange={(date) => {
                         console.log(date);
                         setFilteredDate(date);

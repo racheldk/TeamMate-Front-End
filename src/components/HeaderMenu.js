@@ -88,8 +88,8 @@ function Header() {
                     <Link to="" className="hamburger-link">
                         Settings
                     </Link>
-                    <Link to="" className="hamburger-link">
-                        Support
+                    <Link to="/survey" className="hamburger-link">
+                        Survey
                     </Link>
                     <>
                         <Link
