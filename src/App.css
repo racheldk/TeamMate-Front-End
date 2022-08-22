@@ -384,3 +384,18 @@ label {
     padding: 5px 10px;
     
 }
+
+
+
+
+
+
+
+h1{ color:#285E61; text-align: center; font-family: Verdana; 
+    padding-bottom: 10px; padding-top: 5px;}
+
+.filter-options{display: flex; font-size: 11px; width: px; 
+    padding-left: 8px;}
+
+.filters{width: 100px; height: 20px; text-align: center; margin-right: 8px; 
+    border-radius: 6px;}

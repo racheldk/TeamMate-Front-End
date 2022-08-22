@@ -90,8 +90,8 @@ export default function OpenGamesList({
             <div className="app-body">
                 <h1>Open Games List</h1>
 
-                <div>
-                <ReactDatePicker
+                <div className="filter-options">
+                <ReactDatePicker className="filters"
                     onChange={(date) => {
                         console.log(date);
                         setFilteredDate(date);
@@ -99,15 +99,16 @@ export default function OpenGamesList({
                     }}
                     minDate={subDays(new Date(), 0)}
                     selected={filteredDate}
-                    placeholderText="Click to select a date"
+                    placeholderText="Date"
                 />
+                
                     <select className="filters"
                         onChange={handleFilterGameLoc}
                         value={filteredLoc}
                         id="filter-location"
                         name="filter-location"
                     >
-                        <option value="">Filter by location</option>
+                        <option value="">Location</option>
                         <option value="Pullen Park">Pullen Park</option>
                         <option value="Sanderford Park">Sanderford Park</option>
                     </select>
@@ -117,7 +118,7 @@ export default function OpenGamesList({
                         id="filter-type"
                         name="filter-type"
                     >
-                        <option value="">Filter by competitive level</option>
+                        <option value="">Competitive Level</option>
                         <option value="Casual">Casual</option>
                         <option value="Competitive">Competitive</option>
                     </select>
@@ -128,7 +129,7 @@ export default function OpenGamesList({
                         name="filter-type"
                     >
                         <option value="">
-                            Filter by number of players
+                            Number of Players
                         </option>
                         <option value="Singles">Singles</option>
                         <option value="Doubles">Doubles</option>
