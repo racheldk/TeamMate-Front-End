@@ -1,4 +1,4 @@
-import { Button } from '@chakra-ui/react'
+import { Button, Link } from '@chakra-ui/react'
 import axios from 'axios'
 import { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
@@ -39,11 +39,7 @@ export const Register = ({setAuth}) => {
 
     }
     if (token) {
-        axios
-        .post('https://teammate-app.herokuapp.com/profile/', {
-          }, console.log("profile made"))
-    
-    // return <Navigate to="/open-games" />;
+    return <Navigate to="/open-games" />;
     }
 
     
@@ -56,7 +52,7 @@ export const Register = ({setAuth}) => {
         {error && <div className="error">{error}</div>}
         <form id="new-user-form" onSubmit={handleSubmit}>
 
-        <label className="" >First Name</label>
+        <label className="">First Name</label>
         <input id="inputFirstname" className="form-control"  placeholder="First name"
             onChange={(e) => setFirstname(e.target.value)}/>
         <br/> 

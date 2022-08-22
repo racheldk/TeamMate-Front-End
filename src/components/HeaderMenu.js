@@ -7,17 +7,10 @@ import Modal from "react-modal";
 import axios from "axios";
 import useLocalStorageState from "use-local-storage-state";
 
-<<<<<<< HEAD
 function Header() {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     // const [navigate, setNavigate] = useState(false);
     const [token, setToken] = useLocalStorageState("teammateToken", null);
-=======
-
-function Header(token, setToken) {
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-
->>>>>>> main
     const [error, setError] = useState([]);
 
 
@@ -36,8 +29,8 @@ function Header(token, setToken) {
         axios
             .post(
                 `https://teammate-app.herokuapp.com/auth/token/logout/`,
-                {}, {withCredentials: true},
-                // {headers: { Authorization:`Token$ {token}`}}
+                {}, 
+                {headers: { Authorization:`Token ${token}`}}
             )
             .then(() => {
                 setToken(null);
@@ -51,13 +44,9 @@ function Header(token, setToken) {
             });
 
         }
-<<<<<<< HEAD
         if (!token) {
             return <Navigate to="/" />;
         }
-=======
-
->>>>>>> main
 
     return (
         <div className="header">
