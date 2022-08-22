@@ -107,34 +107,35 @@ export default function OpenGamesList({
                         id="filter-location"
                         name="filter-location"
                     >
-                        <option value="">Filter by location</option>
+                        <option value="">Location</option>
                         <option value="Pullen Park">Pullen Park</option>
                         <option value="Sanderford Park">Sanderford Park</option>
                     </select>
-                    <select
+                    <select className="filters"
                         onChange={handleFilterSession}
                         value={filteredSession}
                         id="filter-type"
                         name="filter-type"
-                    >
-                        <option value="">Filter by competitive level</option>
+                        >
+                        <option value="">Competitive level</option>
                         <option value="Casual">Casual</option>
                         <option value="Competitive">Competitive</option>
                     </select>
-                    <select
+                    <select className="filters"
                         onChange={handleFilterMatch}
                         value={filteredMatch}
                         id="filter-type"
                         name="filter-type"
-                    >
+                        >
                         <option value="">
-                            Filter by number of players
+                            Number of players
                         </option>
                         <option value="Singles">Singles</option>
                         <option value="Doubles">Doubles</option>
                     </select>
+                        
                 </div>
-                <button onClick={() => handleSubmitFilter()}>Filter</button>
+                <button className="button-filter" onClick={() => handleSubmitFilter()}>Filter</button>
 
                 {(!filtered)?  (<GamesList
                     token={token}
