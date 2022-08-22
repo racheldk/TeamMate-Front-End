@@ -25,14 +25,9 @@ import Footer from "../components/FooterMenu";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import GamesList from "../components/gamesList";
-<<<<<<< HEAD
-import { Button, IconButton } from '@chakra-ui/react'
-
-=======
 import { Button } from "@chakra-ui/react";
 import { DateTime } from "luxon";
 import { BsChevronCompactLeft } from "react-icons/bs";
->>>>>>> 487dcc7df5a6076fbf77a808f7111edd8af81c6c
 
 export default function MyGames({
     token,
@@ -162,72 +157,6 @@ export default function MyGames({
 
     return (
         <>
-<<<<<<< HEAD
-            <div className="app-body" style={{textAlign:"center"}}>
-            <Header />
-            <div className="nav_links">
-                <button className="buttonmtgames" onClick={() => handleMenuConfirmed()}>
-                    Confirmed Games
-                </button>
-                <br/>
-                <button className="buttonmygames" onClick={() => handleMenuPOVGuest()}>
-                    Pending Requests I Have Made
-                </button>
-                <button className="buttonmygames" onClick={() => handleMenuPOVHost()}>
-                    Pending Requests to Join my Games
-                </button>
-                <button className="buttonmygames" onClick={() => handleMenuMyOpen()}>
-                    My Open Games
-                </button>
-                
-            </div>
-            
-            <div>
-                {(() => {
-                    // Need to update which games array state is sent as games prop!!
-                    switch (listType) {
-                        case "confirmed":
-                            return (
-                                <GamesList
-                                    token={token}
-                                    games={allGamesList}
-                                    listType={listType}
-                                    listTitle={listTitle}
-                                />
-                            );
-                        case "pendingPOVGuest":
-                            return (
-                                <GamesList
-                                    token={token}
-                                    games={allGamesList}
-                                    listType={listType}
-                                    listTitle={listTitle}
-                                />
-                            );
-                        case "pendingPOVHost":
-                            return (
-                                <GamesList
-                                    token={token}
-                                    games={allGamesList}
-                                    listType={listType}
-                                    listTitle={listTitle}
-                                />
-                            );
-                        case "myOpen":
-                            return (
-                                <GamesList
-                                    token={token}
-                                    games={allGamesList}
-                                    listType={listType}
-                                    listTitle={listTitle}
-                                />
-                            );
-                        default:
-                            return null;
-                    }
-                })()}
-            </div>
-=======
             <div className="app-body">
                 <Header />
                 <div className="nav_links">
@@ -305,7 +234,6 @@ export default function MyGames({
                         }
                     })()}
                 </div>
->>>>>>> 487dcc7df5a6076fbf77a808f7111edd8af81c6c
             </div>
             <Footer />
         </>
