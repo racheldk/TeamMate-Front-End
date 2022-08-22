@@ -18,6 +18,7 @@ const events = [
         end: new Date(2022, 7, 26, 10, 0),
         // Aug 26, 2022 10am
         resource: null,
+        description: "this describes the event, pleasegit "
     },
     {
         title: <Icon as={FaQuestionCircle}/>,
