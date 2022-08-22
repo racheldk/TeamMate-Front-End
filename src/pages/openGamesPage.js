@@ -137,7 +137,8 @@ export default function OpenGamesList({
                     </select>
                 </div>
                 <Button padding="10px 20px" width="100px" height="25px" fontSize='0.8em' 
-                marginLeft="8px" marginTop="8px" colorScheme='teal' onClick={() => handleSubmitFilter()}>Filter</Button>
+                marginLeft="8px" marginTop="8px" colorScheme='teal' 
+                onClick={() => handleSubmitFilter()}>Filter</Button>
 
                 {(!filtered)?  (<GamesList
                     token={token}

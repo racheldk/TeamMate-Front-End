@@ -27,7 +27,8 @@ import axios from "axios";
 import GamesList from "../components/gamesList";
 import { Button } from "@chakra-ui/react";
 import { DateTime } from "luxon";
-import { BsChevronCompactLeft } from "react-icons/bs";
+import { BsChevronCompactLeft, BsCalendar2CheckFill, BsArrowDownSquare, BsArrowUpSquare, BsFillBookFill } from "react-icons/bs";
+
 
 export default function MyGames({
     token,
@@ -161,29 +162,29 @@ export default function MyGames({
                 <Header />
                 <div className="nav_links">
                     <button
-                        className="buttonmygames"
+                        className="buttonmygames" 
                         onClick={() => handleMenuConfirmed()}
                     >
-                        Confirmed Games
+                        {<BsCalendar2CheckFill fontSize='2.5em'/>}
                     </button>
                     <br />
                     <button
                         className="buttonmygames"
                         onClick={() => handleMenuPOVGuest()}
                     >
-                        Pending Requests I Have Made
+                        {<BsArrowUpSquare fontSize='2.5em'/>}
                     </button>
                     <button
                         className="buttonmygames"
                         onClick={() => handleMenuPOVHost()}
                     >
-                        Pending Requests to Join my Games
+                        {<BsArrowDownSquare fontSize='2.5em'/>}
                     </button>
                     <button
                         className="buttonmygames"
                         onClick={() => handleMenuMyOpen()}
                     >
-                        My Open Games
+                        {<BsFillBookFill fontSize='2.5em'/>}
                     </button>
                 </div>
 

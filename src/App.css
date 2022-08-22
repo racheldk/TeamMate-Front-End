@@ -380,12 +380,7 @@ label {
     line-height: 20px;
     
 }
-.buttonmygames{
-    padding: 5px 10px;
-    
-}
-
-
+.buttonmygames{margin-right: 10px; padding-left: 52px;}
 
 
 
@@ -398,4 +393,6 @@ h1{ color:#285E61; text-align: center; font-family: Verdana;
     padding-left: 8px;}
 
 .filters{width: 100px; height: 20px; text-align: center; margin-right: 8px; 
-    border-radius: 6px;}
+    border-radius: 6px; color: #285E61;}
+
+
