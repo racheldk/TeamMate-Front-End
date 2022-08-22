@@ -101,7 +101,7 @@ export default function OpenGamesList({
                     selected={filteredDate}
                     placeholderText="Click to select a date"
                 />
-                    <select
+                    <select className="filters"
                         onChange={handleFilterGameLoc}
                         value={filteredLoc}
                         id="filter-location"
@@ -111,7 +111,7 @@ export default function OpenGamesList({
                         <option value="Pullen Park">Pullen Park</option>
                         <option value="Sanderford Park">Sanderford Park</option>
                     </select>
-                    <select
+                    <select className="filters"
                         onChange={handleFilterSession}
                         value={filteredSession}
                         id="filter-type"
@@ -121,7 +121,7 @@ export default function OpenGamesList({
                         <option value="Casual">Casual</option>
                         <option value="Competitive">Competitive</option>
                     </select>
-                    <select
+                    <select className="filters"
                         onChange={handleFilterMatch}
                         value={filteredMatch}
                         id="filter-type"
@@ -155,3 +155,5 @@ export default function OpenGamesList({
         </>
     );
 }
+
+
