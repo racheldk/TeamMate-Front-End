@@ -48,7 +48,7 @@ export const Register = ({setAuth}) => {
         <Box className="form">
         <Heading color='teal' className="form-banner">Registration</Heading>
         {error && <Box className="error">{error}</Box>}
-        <FormControl id="new-user-form" onSubmit={handleSubmit}>
+        <FormControl id="new-user-form">
 
         <FormLabel className="">First Name</FormLabel>
         <input id="inputFirstname" className="form-control"  placeholder="First name"
@@ -62,12 +62,12 @@ export const Register = ({setAuth}) => {
         <input id="inputUsername" className="form-control"  placeholder="User name"
             onChange={(e) => setUsername(e.target.value)} type="username"/>
         <br/> 
-        <FormLabel class="">Password</FormLabel>
+        <FormLabel className="">Password</FormLabel>
         <input id="inputPassword" className="form-control" placeholder="Password"
             onChange={(e) => setPassword(e.target.value)} type="password"/>
         <br/>
         <br/>
-        <Button colorScheme="teal" type="submit" >Submit</Button>
+        <Button colorScheme="teal" type="submit" onClick={(e) => handleSubmit(e)}>Submit</Button>
         </FormControl>
         </Box>
         </Box>
