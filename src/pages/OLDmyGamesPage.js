@@ -29,7 +29,7 @@ import { Button } from "@chakra-ui/react";
 import { DateTime } from "luxon";
 import { BsChevronCompactLeft } from "react-icons/bs";
 
-export default function MyGames({
+export default function OldMyGames({
     token,
     username,
     listType,

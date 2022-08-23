@@ -9,11 +9,11 @@ import Register from "./pages/register";
 import Theme from "./components/theme";
 import { Text } from "@chakra-ui/react";
 import useLocalStorageState from "use-local-storage-state";
-import MyGames from "./pages/OLDmyGamesPage";
 import UserProfile from "./pages/userProfile";
 import axios from "axios";
 import EditGame from "./pages/editGame";
 import OpenGameDetail from "./components/OpenGameDetail";
+import MyGames from "./pages/myGamesPage";
 
 function App() {
     const [token, setToken] = useLocalStorageState("teammateToken", null);
@@ -75,15 +75,16 @@ function App() {
                     {/* login */}
                     <Route
                         path="my-games"
-                        element={
-                            <MyGames
-                                token={token}
-                                username={username}
-                                listType={listType}
-                                setListType={setListType}
-                                allGamesList={allGamesList}
-                            />
-                        }
+                        element={<MyGames token={token}/>}
+                        // element={
+                        //     <MyGames
+                        //         token={token}
+                        //         username={username}
+                        //         listType={listType}
+                        //         setListType={setListType}
+                        //         allGamesList={allGamesList}
+                        //     />
+                        // }
                     />
                     {/* my games - confirmed, pending requests as guest, pending requests as host, open */}
                     <Route path="/edit/">
