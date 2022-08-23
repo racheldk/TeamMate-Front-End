@@ -2,6 +2,7 @@ import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
 import axios from "axios";
 import { useState } from "react";
+import { Button, Box, Select, Heading } from "@chakra-ui/react";
 import ReactDatePicker from "react-datepicker";
 import subDays from "date-fns/subDays";
 import "react-datepicker/dist/react-datepicker.css";
@@ -79,21 +80,21 @@ export default function OpenGamesPage({ token, allGamesList }) {
     return (
         <>
             <Header />
-            <div className="app-body">
-                <h1>Open Games</h1>
+            <Box className="app-body">
+                <Heading color='teal' textAlign='center'>Open Games</Heading>
 
-                <div>
-                    <ReactDatePicker
-                        onChange={(date) => {
-                            console.log(date);
-                            setFilteredDate(date);
-                            handleFilterDate(date);
-                        }}
-                        minDate={subDays(new Date(), 0)}
-                        selected={filteredDate}
-                        placeholderText="Click to select a date"
-                    />
-                    <select
+                <Box>
+                <ReactDatePicker
+                    onChange={(date) => {
+                        console.log(date);
+                        setFilteredDate(date);
+                        handleFilterDate(date)
+                    }}
+                    minDate={subDays(new Date(), 0)}
+                    Selected={filteredDate}
+                    placeholderText="Click to Select a date"
+                />
+                    <Select w='50%' size='s' variant='filled'
                         onChange={handleFilterGameLoc}
                         value={filteredLoc}
                         id="filter-location"
@@ -102,9 +103,8 @@ export default function OpenGamesPage({ token, allGamesList }) {
                         <option value="">Location</option>
                         <option value="Pullen Park">Pullen Park</option>
                         <option value="Sanderford Park">Sanderford Park</option>
-                    </select>
-                    <select
-                        className="filters"
+                    </Select>
+                    <Select w='50%' size='s' variant='filled'
                         onChange={handleFilterSession}
                         value={filteredSession}
                         id="filter-type"
@@ -113,9 +113,8 @@ export default function OpenGamesPage({ token, allGamesList }) {
                         <option value="">Competitive level</option>
                         <option value="Casual">Casual</option>
                         <option value="Competitive">Competitive</option>
-                    </select>
-                    <select
-                        className="filters"
+                    </Select>
+                    <Select w='50%' size='s' variant='filled'
                         onChange={handleFilterMatch}
                         value={filteredMatch}
                         id="filter-type"
@@ -124,27 +123,25 @@ export default function OpenGamesPage({ token, allGamesList }) {
                         <option value="">Number of players</option>
                         <option value="Singles">Singles</option>
                         <option value="Doubles">Doubles</option>
-                    </select>
-                </div>
-                <button
-                    className="button-filter"
-                    onClick={() => handleSubmitFilter()}
-                >
-                    Filter
-                </button>
+                    </Select>
+                        
+                </Box>
+                <Button colorScheme='teal' onClick={() => handleSubmitFilter()}>Filter</Button>
 
-                <OpenGamesList token={token} games={allGamesList}/>
-
-            </div>
+                {(!filtered)?  (<OpenGamesList
+                    token={token}
+                    games={allGamesList}
+                /> ):(
+                    filteredGames.length>0 ? (
+                        <OpenGamesList 
+                        token={token}
+                        games={filteredGames} />
+                    ) : (
+                        <Box>No games were found matching your filters</Box>
+                    )
+                )}
+            </Box>
             <Footer />
         </>
     );
 }
-
-// {!filtered ? (
-//     <OpenGamesList token={token} games={allGamesList} />
-// ) : filteredGames.length > 0 ? (
-//     <OpenGamesList token={token} games={filteredGames} />
-// ) : (
-//     <div>No games were found matching your filters</div>
-// )}

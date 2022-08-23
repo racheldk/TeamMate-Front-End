@@ -1,14 +1,14 @@
 import { DateTime } from "luxon";
-
+import { Text, Heading, Image, Icon, IconButton, Button, Box } from "@chakra-ui/react";
+import noImage from "../images/no-image.jpg";
 
 export default function OldGameDetail({ game, listType, handleJoinClick, handleCancelRequest, handleAcceptRequest, handleRejectRequest, handleDeleteMyGame, handleCancelConfirmed, handleEditMyGame  }) {
     console.log(game);
     return (
-        <div>
-            <div>{game.location_info.park_name}</div>
-            <div>{game.location_info.address.address1} {game.location_info.address.address2} {game.location_info.address.city}, {game.location_info.address.state} {game.location_info.address.zipcode}</div>
-            <div>(park address)</div>
-            <div>
+        <Box className="modal-base">
+            <Box><Heading size="2xl" color="teal">{game.location_info.park_name}</Heading></Box>
+            <Box><Text>{game.location_info.address.address1} {game.location_info.address.address2} {game.location_info.address.city}, {game.location_info.address.state} {game.location_info.address.zipcode}</Text></Box>
+            <Box>
                         {DateTime.fromISO(game.date).toLocaleString({
                             weekday: "short",
                             month: "short",
@@ -18,59 +18,65 @@ export default function OldGameDetail({ game, listType, handleJoinClick, handleC
                         {DateTime.fromISO(game.time).toLocaleString(
                             DateTime.TIME_SIMPLE
                         )}
-                    </div>
-            <div>{game.host_info.first_name}</div>
-            <div>{game.host_info.last_name}</div>
-            <div>{game.host_info.username}</div>
+                    </Box>
+            <Box><Text>{game.host_info.first_name} {game.host_info.last_name}</Text></Box>
+            
+            {/* <Box>                <Image
+                  src={`${game.profile.profile_pic}`}
+                  alt={game.username}
+                  fallbackSrc={noImage}
+                  borderRadius="full"
+                  boxSize="150px"
+                /></Box> */}
 
             {(() => {
                 switch (listType) {
                     case "allOpen":
                         return (
-                            <button onClick={() => handleJoinClick(game)}>
+                            <Button colorScheme="teal" onClick={() => handleJoinClick(game)}>
                                 Join
-                            </button>
+                            </Button>
                         );
                     case "pendingPOVGuest":
                         return (
-                            <button onClick={() => handleCancelRequest(game)}>
+                            <Button onClick={() => handleCancelRequest(game)}>
                                 Cancel
-                            </button>
+                            </Button>
                         );
                     case "pendingPOVHost":
                         return (
                             <>
-                                <button onClick={() => handleAcceptRequest(game)}>
+                                <Button colorScheme='teal' w='50%' onClick={() => handleAcceptRequest(game)}>
                                     Accept
-                                </button>
-                                <button onClick={() => handleRejectRequest(game)}>
+                                </Button>&nbsp;
+                                <Button colorScheme='red' w='50%' onClick={() => handleRejectRequest(game)}>
                                     Reject
-                                </button>
+                                </Button>
                             </>
                         );
                     case "myOpen":
                         return (
                             <>
-                                <button
+                            <Button onClick={() => handleEditMyGame(game)} w='30%' colorScheme='teal'>
+                                    Edit
+                                </Button>&nbsp;
+                                <Button w='30%' colorScheme='red'
                                     onClick={() => handleDeleteMyGame(game)}
                                 >
                                     Delete
-                                </button>
-                                <button onClick={() => handleEditMyGame(game)}>
-                                    Edit
-                                </button>
+                                </Button>
                             </>
                         );
                     case "confirmed":
                         return (
-                            <button onClick={() => handleCancelConfirmed(game)}>
+                            <Button w='90%' colorScheme='red' onClick={() => handleCancelConfirmed(game)}>
                                 Cancel
-                            </button>
+                            </Button>
                         );
                     default:
                         return null;
                 }
             })()}
-        </div>
+        </Box>
     );
 }
