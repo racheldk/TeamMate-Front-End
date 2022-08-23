@@ -1,7 +1,10 @@
 import ReactDatePicker from "react-datepicker";
+import Header from "../components/HeaderMenu";
+import Footer from "../components/FooterMenu";
 import subDays from "date-fns/subDays";
 import "react-datepicker/dist/react-datepicker.css";
 import { useEffect, useState } from "react";
+import { Box, Button, Select, Heading, FormControl, FormLabel } from "@chakra-ui/react";
 import axios from "axios";
 import { DateTime } from "luxon";
 import { useParams } from 'react-router-dom';
@@ -117,7 +120,7 @@ useEffect(() => {
 
     if (editSubmitted) {
         return (
-            <div>you submitted an edit! </div>
+            <Box>you submitted an edit! </Box>
         );
     }
 
@@ -126,10 +129,12 @@ useEffect(() => {
     }
 
     return (
-        <div>
-            <h1>Edit your Game</h1>
-            <form>
-                <label htmlFor="date-time">When would you like to play?</label>
+        <>
+        <Header/>
+        <Box className="app-body">
+            <Heading>Edit your Game</Heading>
+            <FormControl>
+                <FormLabel htmlFor="date-time">Game Day</FormLabel>
                 <ReactDatePicker 
                 onChange={(date) => {
                     console.log(date)
@@ -137,11 +142,11 @@ useEffect(() => {
                     setConvertedDate(DateTime.fromJSDate(date).toISODate(DateTime.DATE_MED))
                 }}
                 minDate={subDays(new Date(), 0)}
-                selected={newGameDate}
+                Selected={newGameDate}
                 placeholderText={DateTime.fromISO(game.time).toLocaleString(DateTime.DATE_SHORT)}
                 />
                 <ReactDatePicker
-                    selected={newGameTime}
+                    Selected={newGameTime}
                     onChange={(date) => {
                         setNewGameTime(date);
                         setConvertedTime(
@@ -161,11 +166,11 @@ useEffect(() => {
 
                     placeholderText={DateTime.fromISO(game.time).toLocaleString(DateTime.TIME_SIMPLE)}
                 />
-                <div>
-                    <label htmlFor="location">
-                        Where would you like to play?
-                    </label>
-                    <select
+                <Box>
+                    <FormLabel htmlFor="location">
+                       Court
+                    </FormLabel>
+                    <Select w='50%' size='s' variant='filled'
                         onChange={handleChangeGameLoc}
                         value={newGameLoc}
                         id="location"
@@ -176,13 +181,13 @@ useEffect(() => {
                         </option>
                         <option value="2">Pullen Park</option>
                         <option value="1">Sanderford Park</option>
-                    </select>
-                </div>
-                <div>
-                    <label htmlFor="session-type">
-                        How competitive would you like your game to be?
-                    </label>
-                    <select
+                    </Select>
+                </Box>
+                <Box>
+                    <FormLabel htmlFor="session-type">
+                      Casual or Competitive?
+                    </FormLabel>
+                    <Select w='50%' size='s' variant='filled'
                         onChange={handleChangeSessionType}
                         value={newGameSessionType}
                         id="session-type"
@@ -193,13 +198,13 @@ useEffect(() => {
                         </option>
                         <option value="Casual">Casual</option>
                         <option value="Competitive">Competitive</option>
-                    </select>
-                </div>
-                <div>
-                    <label htmlFor="match-type">
-                        Would you like to play singles or doubles?
-                    </label>
-                    <select
+                    </Select>
+                </Box>
+                <Box>
+                    <FormLabel htmlFor="match-type">
+                        Game Type
+                    </FormLabel>
+                    <Select w='50%' size='s' variant='filled'
                         onChange={handleChangeMatchType}
                         value={newGameMatchType}
                         id="match-type"
@@ -210,11 +215,13 @@ useEffect(() => {
                         </option>
                         <option value="Singles">Singles</option>
                         <option value="Doubles">Doubles</option>
-                    </select>
-                </div>
-                <button onClick={()=>handleSubmitEdit()}>Submit</button>
-            </form>  
-        </div>
+                    </Select>
+                </Box>
+                <Button colorScheme='teal' w='50%' onClick={()=>handleSubmitEdit()}>Submit</Button>
+            </FormControl>  
+        </Box>
+        <Footer/>
+        </>
     );
 }
 
