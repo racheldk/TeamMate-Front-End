@@ -1,5 +1,5 @@
 import { IconButton} from '@chakra-ui/react'
-import { Button } from "@chakra-ui/react";
+import { Button, Box, Heading, } from "@chakra-ui/react";
 import {BsEmojiFrownFill, BsFillEmojiNeutralFill, BsFillEmojiSmileFill } from "react-icons/bs"
 
 
@@ -8,13 +8,13 @@ export const Survey = () => {
 
 
 return (
-<div className="survey">
-    <div className="">
-        <h2>Survey</h2>
+<Box className="survey">
+    <Box className="">
+    <Heading color='teal' marginLeft="90px">Survey</Heading>
         
 
 
-        <div className="survey-text">
+        <Box className="survey-text">
             <p>Did "user" come to the game?:</p>
             <Button variant="outline" backgroundColor="" colorScheme="teal" color="teal" 
             height="30px" width="100px" marginRight="30px" marginLeft="30px" marginTop="10px"  
@@ -48,11 +48,11 @@ return (
             
             <Button marginLeft="10px" width="300px" height="30px" variant="ghost"
             colorScheme="teal" backgroundColor="teal" color="white">Submit</Button>
-        </div>
-        </div>
+        </Box>
+        </Box>
         
 
-</div>
+</Box>
 )}
 
 export default Survey;
