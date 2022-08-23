@@ -418,17 +418,25 @@ h3{color: #fff;}
 
 
 .survey {
-    animation: fadein .5s;
     border: 0;
     border-radius: 20px;
     width: 400px;
-    height: 400px;
-    margin: 0 auto;
+    height: 500px;
     text-align: left;  
     background-color: #fff;  
-    padding-left: 20px;
-
+    padding-left: 40px;
+    margin: 0 auto;
 }
-.survey-text{
-    padding-left: 30px;
+.icon-survey {
+    max-width: 450px;
+    display: grid;
+    grid-template-columns: 33.3% 33.3% 33.3%;
+    margin: auto;
+    text-align: center;
+    background-color: white;
+    padding: 1.5em;
+    position: sticky;
+    bottom: 0;
+    width: 90%;
+    margin-right: 50px;
 }
