@@ -1,4 +1,4 @@
-import { Button, Link } from '@chakra-ui/react'
+import { Button, Link, Box, Heading, FormControl, FormLabel } from '@chakra-ui/react'
 import axios from 'axios'
 import { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
@@ -44,36 +44,33 @@ export const Register = ({setAuth}) => {
 
     
     return (
-        <div className="app-body">
-        <div className="register-box" style={{ textAlign: "center"}}>
-        <h1 className="form-banner">Please register</h1>
+        <Box className="app-body">
+        <Box className="form">
+        <Heading color='teal' className="form-banner">Registration</Heading>
+        {error && <Box className="error">{error}</Box>}
+        <FormControl id="new-user-form" onSubmit={handleSubmit}>
 
-        <div className='form-register'>
-        {error && <div className="error">{error}</div>}
-        <form id="new-user-form" onSubmit={handleSubmit}>
-
-        <label className="">First Name</label>
+        <FormLabel className="">First Name</FormLabel>
         <input id="inputFirstname" className="form-control"  placeholder="First name"
             onChange={(e) => setFirstname(e.target.value)}/>
         <br/> 
-        <label className="" >Last Name</label>
+        <FormLabel className="" >Last Name</FormLabel>
         <input id="inputLastname" className="form-control"  placeholder="Last name"
             onChange={(e) => setLastname(e.target.value)}/>
         <br/> 
-        <label className="" >Username</label>
+        <FormLabel className="" >Username</FormLabel>
         <input id="inputUsername" className="form-control"  placeholder="User name"
             onChange={(e) => setUsername(e.target.value)} type="username"/>
         <br/> 
-        <label class="sr-only">Password</label>
+        <FormLabel class="">Password</FormLabel>
         <input id="inputPassword" className="form-control" placeholder="Password"
             onChange={(e) => setPassword(e.target.value)} type="password"/>
         <br/>
         <br/>
         <Button colorScheme="teal" type="submit" >Submit</Button>
-        </form>
-        </div>
-        </div>
-        </div>
+        </FormControl>
+        </Box>
+        </Box>
     )
     }
 

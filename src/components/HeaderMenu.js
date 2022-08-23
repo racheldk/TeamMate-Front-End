@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { IconButton } from "@chakra-ui/react";
+import { IconButton, Box } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { Button } from "@chakra-ui/react";
 import Modal from "react-modal";
@@ -49,7 +49,7 @@ function Header() {
         }
 
     return (
-        <div className="header">
+        <Box maxW='450px' bg='white' m='auto' position='sticky' w='100%' justifyContent='end' display='flex'>
 
             <IconButton
                 onClick={() => {
@@ -81,7 +81,7 @@ function Header() {
                     <CloseIcon color="white" />
                 </Button>
 
-                <div className="header-menu">
+                <Box className="header-menu">
                     <Link to="/my-games" className="hamburger-link">
                         My Games
                     </Link>
@@ -102,10 +102,10 @@ function Header() {
                             Sign Out
                         </Link>
                     </>
-                </div>
+                </Box>
             </Modal>
 
-        </div>
+        </Box>
     );
 }
 
