@@ -4,10 +4,10 @@ import axios from "axios";
 import Modal from "react-modal";
 import { DateTime } from "luxon";
 import { Link } from "react-router-dom";
-import GameDetail from "./gameDetail";
+import GameDetail from "./OLDgameDetail";
 import EditGame from "../pages/editGame";
 
-export default function GamesList({ token, games, listType, listTitle }) {
+export default function OldGamesList({ token, games, listType, listTitle }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [error, setError] = useState(null);
     const [joinRequestSent, setJoinRequestSent] = useState(false);

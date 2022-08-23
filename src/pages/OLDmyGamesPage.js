@@ -24,7 +24,7 @@ import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import GamesList from "../components/gamesList";
+import GamesList from "../components/OLDgamesList";
 import { Button } from "@chakra-ui/react";
 import { DateTime } from "luxon";
 import { BsChevronCompactLeft } from "react-icons/bs";

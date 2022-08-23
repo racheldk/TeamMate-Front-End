@@ -1,4 +1,4 @@
-import GamesList from "../components/gamesList";
+import GamesList from "../components/OLDgamesList";
 import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
 import { useEffect, useState } from "react";

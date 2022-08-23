@@ -9,10 +9,11 @@ import Register from "./pages/register";
 import Theme from "./components/theme";
 import { Text } from "@chakra-ui/react";
 import useLocalStorageState from "use-local-storage-state";
-import MyGames from "./pages/myGamesPage";
+import MyGames from "./pages/OLDmyGamesPage";
 import UserProfile from "./pages/userProfile";
 import axios from "axios";
 import EditGame from "./pages/editGame";
+import OpenGameDetail from "./components/OpenGameDetail";
 
 function App() {
     const [token, setToken] = useLocalStorageState("teammateToken", null);
@@ -47,30 +48,29 @@ function App() {
         <ChakraProvider Theme={Theme} Text={Text}>
             <BrowserRouter>
                 <Routes>
-                    <Route
-                        path="/"
-                        element={
-                            <Login setAuth={setAuth} />
-                        }
-                    />
+                    <Route path="/" element={<Login setAuth={setAuth} />} />
                     {/* All Open Games (Game List component? separate component?) */}
                     <Route
                         path="/new"
                         element={<NewOpenGame token={token} />}
                     />
                     {/* make a new open game post  */}
-                    <Route path="register" element={<Register setAuth={setAuth} />} />
-                    {/* register new user */}
                     <Route
-                        path="open-games"
+                        path="register"
+                        element={<Register setAuth={setAuth} />}
+                    />
+                    <Route
+                        path="open-games/"
                         element={
                             <OpenGamesList
                                 token={token}
-                                listType={listType}
-                                setListType={setListType}
                                 allGamesList={allGamesList}
                             />
                         }
+                    />
+                    <Route
+                        path="open-games/:id"
+                        element={<OpenGameDetail token={token} />}
                     />
                     {/* login */}
                     <Route
