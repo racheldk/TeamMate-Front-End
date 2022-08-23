@@ -48,6 +48,10 @@ export default function OpenGameDetail({ token }) {
             <Heading>OpenGameDetail Component</Heading>
             <Box>{currentGame.id}</Box>
             <Box className="game-card" key={currentGame.id}>
+
+                {/* the following ternary is so the page doesn't break if the user's profile isn't filled out */}
+                {currentGame.host_info.first_name && (
+                    <>
                 <Text>{`${currentGame.host_info.first_name} ${currentGame.host_info.last_name}`}</Text>
                 <Text>{currentGame.host}</Text>
                 <Image
@@ -56,8 +60,12 @@ export default function OpenGameDetail({ token }) {
                     fallbackSrc={noImage}
                     borderRadius="full"
                     boxSize="150px"
-                />
+                    />
                 <Text>NTRP: {currentGame.host_info.profile.ntrp_rating} </Text>
+                    </>
+                )}
+                
+                
                 <Text>{currentGame.location_info.park_name}</Text>
                 <Text>{currentGame.match_type}</Text>
                 <Text>{currentGame.session_type}</Text>
