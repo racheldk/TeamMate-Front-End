@@ -15,6 +15,7 @@ import EditGame from "./pages/editGame";
 import OpenGameDetail from "./components/OpenGameDetail";
 import MyGames from "./pages/myGamesPage";
 import OpenGamesPage from "./pages/openGamesPage";
+import IncomingRequestDetail from "./components/IncomingRequestDetail";
 
 function App() {
     const [token, setToken] = useLocalStorageState("teammateToken", null);
@@ -77,7 +78,7 @@ function App() {
                     {/* login */}
                     <Route
                         path="my-games"
-                        element={<MyGames token={token}/>}
+                        element={<MyGames token={token} username={username}/>}
                         // element={
                         //     <MyGames
                         //         token={token}
@@ -95,6 +96,7 @@ function App() {
                             element={<EditGame token={token} />}
                         />
                     </Route>
+                    <Route path="incoming/:id" element={<IncomingRequestDetail token={token}/>}/>
                     <Route
                         path=":username"
                         element={
