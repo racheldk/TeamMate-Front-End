@@ -14,6 +14,7 @@ import axios from "axios";
 import EditGame from "./pages/editGame";
 import OpenGameDetail from "./components/OpenGameDetail";
 import MyGames from "./pages/myGamesPage";
+import OpenGamesPage from "./pages/openGamesPage";
 
 function App() {
     const [token, setToken] = useLocalStorageState("teammateToken", null);
@@ -42,7 +43,7 @@ function App() {
                 console.log(res.data);
                 setAllGamesList(res.data);
             });
-    }, [token, setAllGamesList, setListType]);
+    }, [token, setAllGamesList]);
 
     return (
         <ChakraProvider Theme={Theme} Text={Text}>
@@ -62,15 +63,16 @@ function App() {
                     <Route
                         path="open-games/"
                         element={
-                            <OpenGamesList
+                            <OpenGamesPage
                                 token={token}
                                 allGamesList={allGamesList}
+                                username={username}
                             />
                         }
                     />
                     <Route
                         path="open-games/:id"
-                        element={<OpenGameDetail token={token} />}
+                        element={<OpenGameDetail token={token}  />}
                     />
                     {/* login */}
                     <Route

@@ -1,7 +1,7 @@
 import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Box, Select, Heading } from "@chakra-ui/react";
 import ReactDatePicker from "react-datepicker";
 import subDays from "date-fns/subDays";
@@ -9,7 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { DateTime } from "luxon";
 import OpenGamesList from "../components/OpenGamesList";
 
-export default function OpenGamesPage({ token, allGamesList }) {
+export default function OpenGamesPage({ token, allGamesList, username }) {
     const [filteredDate, setFilteredDate] = useState(null);
     const [searchDate, setSearchDate] = useState("");
     const [filteredLoc, setFilteredLoc] = useState(null);

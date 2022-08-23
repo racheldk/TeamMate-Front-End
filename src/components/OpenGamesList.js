@@ -28,6 +28,8 @@ export default function OpenGamesList({ token, games }) {
                         <Text>{game.location_info.park_name}</Text>
                         <Text>{game.match_type}</Text>
                         <Text>{game.session_type}</Text>
+                        {/* final version won't have host name, just to check data is rendering correctly */}
+                        <Text>(Hosted by {game.host})</Text>
                         <Text>(Host rating will go here, too)</Text>
                         <Text>
                             {DateTime.fromISO(game.date).toLocaleString({
