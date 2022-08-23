@@ -2,6 +2,9 @@ import ReactDatePicker from "react-datepicker";
 import subDays from "date-fns/subDays";
 import "react-datepicker/dist/react-datepicker.css";
 import { useEffect, useState } from "react";
+import { Box, Button, Heading, FormControl, FormLabel, Select } from "@chakra-ui/react";
+import Header from "../components/HeaderMenu";
+import Footer from "../components/FooterMenu";
 import axios from "axios";
 import { DateTime } from "luxon";
 import { Link } from "react-router-dom";
@@ -80,10 +83,13 @@ export default function NewOpenGame({ token }) {
     }
 
     return (
-        <div>
-            <h1>Post a New Game</h1>
-            <form>
-                <label htmlFor="date-time">When would you like to play?</label>
+        <>
+        <Header/>
+        <Box className="app-body">
+            
+            <FormControl className="form">
+            <Heading className="form-banner">Post a New Game</Heading>
+                <FormLabel htmlFor="date-time">When would you like to play?</FormLabel>
                 <ReactDatePicker
                     onChange={(date) => {
                         console.log(date);
@@ -119,11 +125,11 @@ export default function NewOpenGame({ token }) {
                     dateFormat="h:mm aa"
                     placeholderText="Click to select a time"
                 />
-                <div>
-                    <label htmlFor="location">
+                <Box>
+                    <FormLabel htmlFor="location">
                         Where would you like to play?
-                    </label>
-                    <select
+                    </FormLabel>
+                    <Select
                         onChange={handleChangeGameLoc}
                         value={newGameLoc}
                         id="location"
@@ -136,13 +142,13 @@ export default function NewOpenGame({ token }) {
                         <option value="1">Sanderford Park</option>
 
                         {/* We could also make an API request for a list of parks, then map through them as dropdown option. This might also help store whatever data other than the park name the backend needs.  */}
-                    </select>
-                </div>
-                <div>
-                    <label htmlFor="session-type">
+                    </Select>
+                </Box>
+                <Box>
+                    <FormLabel htmlFor="session-type">
                         How competitive would you like your game to be?
-                    </label>
-                    <select
+                    </FormLabel>
+                    <Select
                         onChange={handleChangeSessionType}
                         value={newGameSessionType}
                         id="session-type"
@@ -153,13 +159,13 @@ export default function NewOpenGame({ token }) {
                         </option>
                         <option value="Casual">Casual</option>
                         <option value="Competitive">Competitive</option>
-                    </select>
-                </div>
-                <div>
-                    <label htmlFor="match-type">
+                    </Select>
+                </Box>
+                <Box>
+                    <FormLabel htmlFor="match-type">
                         Would you like to play singles or doubles?
-                    </label>
-                    <select
+                    </FormLabel>
+                    <Select
                         onChange={handleChangeMatchType}
                         value={newGameMatchType}
                         id="match-type"
@@ -170,19 +176,21 @@ export default function NewOpenGame({ token }) {
                         </option>
                         <option value="Singles">Singles</option>
                         <option value="Doubles">Doubles</option>
-                    </select>
-                </div>
-                <button onClick={handleSubmit}>Submit</button>
-            </form>
-        </div>
+                    </Select>
+                </Box>
+                <Button colorScheme='teal' onClick={handleSubmit}>Submit</Button>
+            </FormControl>
+        </Box>
+        <Footer/>
+        </>
     );
 }
 
 function AfterSubmit() {
     return (
-        <div>
-            <div>you submitted a game! </div>
+        <Box>
+            <Box>you submitted a game! </Box>
             <Link to={"/my-games"} >Return to My Games</Link>
-        </div>
+        </Box>
     );
 }
