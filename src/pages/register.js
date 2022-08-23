@@ -1,31 +1,44 @@
-import { Button } from '@chakra-ui/react'
+import { Button, Link } from '@chakra-ui/react'
 import axios from 'axios'
 import { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
+import useLocalStorageState from "use-local-storage-state";
 
-
-export const Register = () => {
+export const Register = ({setAuth}) => {
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
     const [username, setUsername] = useState('')
     const [password,  setPassword] = useState('')
     const [error, setError] = useState(null)
-    const [navigate, setNavigate] = useState(false);
+    const [token, setToken] = useLocalStorageState("teammateToken", null);
 
 
     const handleSubmit = async e => {
         e.preventDefault()
         
-        await axios.post(`https://teammate-app.herokuapp.com/auth/users/`, {
+        await axios
+        .post(`https://teammate-app.herokuapp.com/auth/users/`, {
             first_name: firstname,
             last_name: lastname, 
             username: username,
             password: password,
         })
+        .then(() => {
+            axios
+        .post('https://teammate-app.herokuapp.com/auth/token/login/', {
+            username: username,
+            password: password,
+      }, console.log("logged in"))
+      .then((res) => {
+        const token = res.data.auth_token;
+        setAuth(username, token)
+        setToken(token)
+    })
 
-        setNavigate(true);
+        })
+
     }
-    if (navigate) {
+    if (token) {
     return <Navigate to="/open-games" />;
     }
 
@@ -39,7 +52,7 @@ export const Register = () => {
         {error && <div className="error">{error}</div>}
         <form id="new-user-form" onSubmit={handleSubmit}>
 
-        <label className="" >First Name</label>
+        <label className="">First Name</label>
         <input id="inputFirstname" className="form-control"  placeholder="First name"
             onChange={(e) => setFirstname(e.target.value)}/>
         <br/> 
