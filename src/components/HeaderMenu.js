@@ -88,6 +88,7 @@ function Header() {
                     <Link to="" className="hamburger-link">
                         Settings
                     </Link>
+                    {/* I put it here just to link the survey page and see it in the browser */}
                     <Link to="/survey" className="hamburger-link">
                         Survey
                     </Link>
