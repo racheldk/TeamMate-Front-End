@@ -50,7 +50,7 @@ function App() {
                     <Route
                         path="/"
                         element={
-                            <Login setToken={setToken} setAuth={setAuth} />
+                            <Login setAuth={setAuth} />
                         }
                     />
                     {/* All Open Games (Game List component? separate component?) */}
@@ -59,7 +59,7 @@ function App() {
                         element={<NewOpenGame token={token} />}
                     />
                     {/* make a new open game post  */}
-                    <Route path="register" element={<Register />} />
+                    <Route path="register" element={<Register setAuth={setAuth} />} />
                     {/* register new user */}
                     <Route
                         path="open-games"
@@ -78,6 +78,7 @@ function App() {
                         element={
                             <MyGames
                                 token={token}
+                                username={username}
                                 listType={listType}
                                 setListType={setListType}
                                 allGamesList={allGamesList}

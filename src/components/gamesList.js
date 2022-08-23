@@ -6,14 +6,15 @@ import { DateTime } from "luxon";
 import { Link } from "react-router-dom";
 import GameDetail from "./gameDetail";
 import EditGame from "../pages/editGame";
-import { IconButton, Button, Text, Heading } from '@chakra-ui/react'
+import { IconButton, Button, Text, Heading,  } from '@chakra-ui/react'
+import { StarIcon, CloseIcon } from "@chakra-ui/icons";
 
 export default function GamesList({ token, games, listType, listTitle }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [error, setError] = useState(null);
     const [joinRequestSent, setJoinRequestSent] = useState(false);
     const [currentGame, setCurrentGame] = useState(null);
-    const [editClicked, setEditClicked] = useState(false)
+    const [editClicked, setEditClicked] = useState(false);
 
     Modal.setAppElement("#root");
 
@@ -151,16 +152,15 @@ export default function GamesList({ token, games, listType, listTitle }) {
     };
 
     const handleEditMyGame = (game) => {
-        console.log("click edit my game")
-        setEditClicked(true)
-        setCurrentGame(game)
+        console.log("click edit my game");
+        setEditClicked(true);
+        setCurrentGame(game);
         // axios request
         // What do we need to do if there's already a guest in the queue? BE?
     };
-    
-    if (editClicked) {
-        return <EditGame token={token} game={currentGame} />
 
+    if (editClicked) {
+        return <EditGame token={token} game={currentGame} />;
     }
 
     if (joinRequestSent) {
@@ -174,7 +174,7 @@ export default function GamesList({ token, games, listType, listTitle }) {
     <div>{listTitle}</div>
     {games.map((game) => (
         <div className="game-card" key={game.id}>
-        <div className='half-width'><Text>Location: {game.location_info.park_name}</Text></div>
+        <div className='half-width'><Text>{game.location_info.park_name}</Text></div>
         <div className='half-width'>
         <Button colorScheme='teal' size='xs'
                 onClick={() => {
@@ -195,82 +195,84 @@ export default function GamesList({ token, games, listType, listTitle }) {
 
                     </div>
                     
-                    
+                
 
+                    {(() => {
+                        switch (listType) {
+                            case "allOpen":
+                                return (
+                                    <button-join
+                                        onClick={() => handleJoinClick(game)}
+                                    >
+                                        Join
+                                    </button-join>
+                                );
+                            case "pendingPOVGuest":
+                                return (
+                                    <button-cancel
+                                        onClick={() =>
+                                            handleCancelRequest(game)
+                                        }
+                                    >
+                                        Cancel
+                                    </button-cancel>
+                                );
+                            case "pendingPOVHost":
+                                return (
+                                    <>
+                                        <button-accept
+                                            onClick={() =>
+                                                handleAcceptRequest(game)
+                                            }
+                                        >
+                                            Accept
+                                        </button-accept>
+                                        <button-reject
+                                            onClick={() =>
+                                                handleRejectRequest(game)
+                                            }
+                                        >
+                                            Reject
+                                        </button-reject>
+                                    </>
+                                );
+                            case "myOpen":
+                                return (
+                                    <>
+                                        <button-delete
+                                            onClick={() =>
+                                                handleDeleteMyGame(game)
+                                            }
+                                        >
+                                            Delete
+                                        </button-delete>
+                                        {/* <button onClick={()=> handleEditMyGame(game) }>Edit</button> */}
+                                        <Link
+                                            to={`/edit/${game.id}`}
+                                            token={token}
+                                            game={game}
+                                        >
+                                            Edit
+                                        </Link>
+                                    </>
+                                );
+                            case "confirmed":
+                                return (
+                                    <button-to-cancel
+                                        onClick={() =>
+                                            handleCancelConfirmed(game)
+                                        }
+                                    >
+                                        Cancel
+                                    </button-to-cancel>
+                                );
+                            default:
+                                return null;
+                        }
+                    })()}
 
-            {(() => {
-                switch (listType) {
-                    case "allOpen":
-                        return (
-                            <button-join
-                                onClick={() => handleJoinClick(game)}
-                            >
-                                Join
-                            </button-join>
-                        );
-                    case "pendingPOVGuest":
-                        return (
-                            <button-cancel
-                                onClick={() =>
-                                    handleCancelRequest(game)
-                                }
-                            >
-                                Cancel
-                            </button-cancel>
-                        );
-                    case "pendingPOVHost":
-                        return (
-                            <>
-                                <button-accept
-                                    onClick={() =>
-                                        handleAcceptRequest(game)
-                                    }
-                                >
-                                    Accept
-                                </button-accept>
-                                <button-reject
-                                    onClick={() =>
-                                        handleRejectRequest(game)
-                                    }
-                                >
-                                    Reject
-                                </button-reject>
-                            </>
-                        );
-                    case "myOpen":
-                        return (
-                            <>
-                                <button-delete
-                                    onClick={() =>
-                                        handleDeleteMyGame(game)
-                                    }
-                                >
-                                    Delete
-                                </button-delete>
-                                {/* <button onClick={()=> handleEditMyGame(game) }>Edit</button> */}
-                                <Link className="edit-myopengames" to={`/edit/${game.id}`} token={token} game={game}>
-                                    Edit
-                                </Link>
-                            </>
-                        );
-                    case "confirmed":
-                        return (
-                            <button-to-cancel
-                                onClick={() =>
-                                    handleCancelConfirmed(game)
-                                }
-                            >
-                                Cancel
-                            </button-to-cancel>
-                        );
-                    default:
-                        return null;
-                }
-            })()}
-
-
-            {/* <button>Join</button> */}
-        </div>
+                    {/* <button>Join</button> */}
+                </div>
             ))}
             <Modal
                 isOpen={modalIsOpen}
@@ -280,7 +282,16 @@ export default function GamesList({ token, games, listType, listTitle }) {
                 overlayClassName="modal-overlay"
                 listType={listType}
             >
-                <button onClick={() => handleCloseModal()}>close</button>
+                              <Button
+                    onClick={() => {
+                        handleCloseModal();
+                    }}
+                    className="close-modal-button"
+                    variant="ghost"
+                    colorScheme="teal"
+                >
+                    <CloseIcon color="white" />
+                </Button>
                 {modalIsOpen}
 
                 {/* switch case for sending different buttons through to the modal  */}

@@ -254,6 +254,15 @@ margin-top: 10px;
     text-align: right;    
 }
 
+.modal-base {
+    background-color: #ffffff;
+    border-radius: 20px;
+    color: #234E52;
+    padding: 1em;
+    margin: auto;
+    text-align: center;
+}
+
 .close-modal-button {
     border-radius: 100px!important;
 }
