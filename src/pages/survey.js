@@ -17,22 +17,24 @@ return (
         <div className="survey-text">
             <p>Did "user" come to the game?:</p>
             <Button variant="outline" backgroundColor="" colorScheme="teal" color="teal" 
-            height="30px" width="100px" marginRight="30px" marginLeft="30px">Yes</Button>
+            height="30px" width="100px" marginRight="30px" marginLeft="30px" marginTop="10px"  
+            marginBottom="20px">Yes</Button>
             <Button variant="outline" backgroundColor="" colorScheme="teal" color="teal" 
-            width="103px" height="30px">No</Button>
+            width="103px" height="30px" marginTop="10px"  marginBottom="20px">No</Button>
             <br/>
             <p>Who won?:</p>
             <Button variant="outline" backgroundColor="" colorScheme="teal" color="teal" 
-            height="30px" width="100px" marginRight="30px"marginLeft="30px">Me</Button>
+            height="30px" width="100px" marginRight="30px"marginLeft="30px"marginTop="10px"  
+            marginBottom="20px">Me</Button>
             <Button variant="outline" backgroundColor="" colorScheme="teal" color="teal" 
-            height="30px" width="103px" marginRight="30px">Username</Button>
-            <br/>
+            height="30px" width="103px" marginRight="30px"marginTop="10px" marginBottom="20px">Username</Button>
             <br/>
             <p>Would you play again with "user" again?:</p>
             <Button variant="outline" backgroundColor="" colorScheme="teal" color="teal" 
-            height="30px" width="100px" marginRight="30px" marginLeft="30px">Yes</Button>
+            height="30px" width="100px" marginRight="30px" marginLeft="30px" marginTop="10px"  
+            marginBottom="20px">Yes</Button>
             <Button variant="outline" backgroundColor="" colorScheme="teal" color="teal" 
-            width="103px" height="30px">No</Button>
+            width="103px" height="30px" marginTop="10px" marginBottom="20px">No</Button>
             <br/>
             <p>How do you rate the Court Quality?:</p>
                 <div className="icon-survey">
