@@ -91,7 +91,7 @@ export default function OpenGamesList({
             <Box className="app-body">
                 <Heading color='teal' textAlign='center'>Open Games</Heading>
 
-                <Box>
+                <Box textAlign='center' m={2}>
                 <ReactDatePicker
                     onChange={(date) => {
                         console.log(date);
@@ -102,7 +102,7 @@ export default function OpenGamesList({
                     Selected={filteredDate}
                     placeholderText="Click to Select a date"
                 />
-                    <Select w='50%' size='s' variant='filled'
+                    <Select w='25%' size='s' variant='filled' borderRadius={10} display='inline-block'
                         onChange={handleFilterGameLoc}
                         value={filteredLoc}
                         id="filter-location"
@@ -112,7 +112,7 @@ export default function OpenGamesList({
                         <option value="Pullen Park">Pullen Park</option>
                         <option value="Sanderford Park">Sanderford Park</option>
                     </Select>
-                    <Select w='50%' size='s' variant='filled'
+                    <Select  w='25%' size='s' m={2} variant='filled' borderRadius={10} display='inline-block'
                         onChange={handleFilterSession}
                         value={filteredSession}
                         id="filter-type"
@@ -122,7 +122,7 @@ export default function OpenGamesList({
                         <option value="Casual">Casual</option>
                         <option value="Competitive">Competitive</option>
                     </Select>
-                    <Select w='50%' size='s' variant='filled'
+                    <Select w='25%' size='s' m={2} variant='filled' borderRadius={10} display='inline-block'
                         onChange={handleFilterMatch}
                         value={filteredMatch}
                         id="filter-type"
@@ -134,9 +134,9 @@ export default function OpenGamesList({
                         <option value="Singles">Singles</option>
                         <option value="Doubles">Doubles</option>
                     </Select>
-                        
+                    <Button w='25%' colorScheme='teal' onClick={() => handleSubmitFilter()}>Filter</Button>
                 </Box>
-                <Button colorScheme='teal' onClick={() => handleSubmitFilter()}>Filter</Button>
+                
 
                 {(!filtered)?  (<GamesList
                     token={token}
@@ -149,7 +149,7 @@ export default function OpenGamesList({
                         games={filteredGames}
                         listType={listType}/>
                     ) : (
-                        <Box>No games were found matching your filters</Box>
+                        <Box textAlign='center'>No games were found matching your filters</Box>
                     )
                 )}
             </Box>

@@ -1,7 +1,7 @@
-import { Button, Link, Box, Heading, FormControl, FormLabel } from '@chakra-ui/react'
+import { Button, Box, Heading, FormControl, FormLabel, Text } from '@chakra-ui/react'
 import axios from 'axios'
 import { useState } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate, Link } from 'react-router-dom'
 import useLocalStorageState from "use-local-storage-state";
 
 export const Register = ({setAuth}) => {
@@ -44,33 +44,39 @@ export const Register = ({setAuth}) => {
 
     
     return (
+        <>
+        <Box className="spacer">&nbsp;</Box>
         <Box className="app-body">
         <Box className="form">
         <Heading color='teal' className="form-banner">Registration</Heading>
         {error && <Box className="error">{error}</Box>}
         <FormControl id="new-user-form">
-
-        <FormLabel className="">First Name</FormLabel>
+        <Box m={2}>
+        <FormLabel display='inline-block' color='#2C7A7B'>First Name</FormLabel>
         <input id="inputFirstname" className="form-control"  placeholder="First name"
             onChange={(e) => setFirstname(e.target.value)}/>
-        <br/> 
-        <FormLabel className="" >Last Name</FormLabel>
+        </Box>
+        <Box m={2}>
+        <FormLabel display='inline-block' color='#2C7A7B'>Last Name</FormLabel>
         <input id="inputLastname" className="form-control"  placeholder="Last name"
             onChange={(e) => setLastname(e.target.value)}/>
-        <br/> 
-        <FormLabel className="" >Username</FormLabel>
-        <input id="inputUsername" className="form-control"  placeholder="User name"
+        </Box>
+        <FormLabel display='inline-block' color='#2C7A7B'>Username</FormLabel>
+        <input id="inputUsername" className="form-control"  placeholder="Username"
             onChange={(e) => setUsername(e.target.value)} type="username"/>
-        <br/> 
-        <FormLabel className="">Password</FormLabel>
+        <Box m={2}>
+        <FormLabel display='inline-block' color='#2C7A7B'>Password</FormLabel>
         <input id="inputPassword" className="form-control" placeholder="Password"
             onChange={(e) => setPassword(e.target.value)} type="password"/>
-        <br/>
-        <br/>
-        <Button colorScheme="teal" type="submit" onClick={(e) => handleSubmit(e)}>Submit</Button>
+        </Box>    
+        <Box w='100' display='flex' justifyContent='center' m={2}> <Button colorScheme="teal" type="submit" onClick={(e) => handleSubmit(e)}>Submit</Button></Box>
+       
         </FormControl>
+        <Link to="/"><Text color='#285E61' fontSize='12px'>Back to Login</Text></Link>
         </Box>
         </Box>
+        <Box className="spacer">&nbsp;</Box>
+        </>
     )
     }
 
