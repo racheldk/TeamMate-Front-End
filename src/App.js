@@ -29,6 +29,7 @@ function App() {
     //   above is the listType to be used with GamesList component (which is rendered from OpenGamesList and MyGames components)
     const [allGamesList, setAllGamesList] = useState([]);
     const [currentGame, setCurrentGame] = useState({});
+    const [game, setGame] = useState()
 
 
     const setAuth = (username, token) => {
@@ -80,7 +81,7 @@ function App() {
                     />
                     <Route
                         path="my-games/"
-                        element={<MyGames token={token} username={username} />}
+                        element={<MyGames token={token} username={username} game={game} setGame={setGame}/>}
                     />
                     <Route path="my-games/host/:id" element={<UpdatedGameDetail token={token} currentGame={currentGame} setCurrentGame={setCurrentGame} />}/>
                     <Route path="/edit/">

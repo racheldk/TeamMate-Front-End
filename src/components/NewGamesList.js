@@ -17,15 +17,14 @@ import axios from "axios";
 import { Link as ReactLink} from "react-router-dom";
 import UpdatedGameDetail from "./UpdatedGameDetail";
 
-export default function NewGamesList({token, games}) {
+export default function NewGamesList({token, gamesList, setGame, game}) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [currentGame, setCurrentGame] = useState(null)
 
     const handleOpenModal = (game) => {
         console.log("click open");
         console.log("modal game" + game)
         setModalIsOpen(true);
-        setCurrentGame(game)
+        setGame(game)
     };
 
     const handleCloseModal = () => {
@@ -34,13 +33,14 @@ export default function NewGamesList({token, games}) {
     };
 
 
-    console.log(games)
+    console.log(gamesList)
+    console.log(game)
 
     return(
         <Box>
             <Heading>NewGamesList Component</Heading>
-            <Text>Category: {games[0].displayStatus}</Text>
-            {games.map((game) => (
+            <Text>Category: {gamesList[0].displayStatus}</Text>
+            {gamesList.map((game) => (
                 <Box>
                 {/* <LinkOverlay as={ReactLink} to={`${game.route}`}> */}
                     <Box className="game-card" bg=
@@ -77,11 +77,10 @@ export default function NewGamesList({token, games}) {
                 className="modal"
                 isOpen={modalIsOpen}
                 contentLabel="Game Detail Modal"
-                overlayClassName="modal-overlay"
-
-                game={currentGame}
+                overlayClassName="modal-overlay"            
+                game={game}
             >
-                <UpdatedGameDetail token={token} currentGame={currentGame} handleCloseModal={handleCloseModal}/>
+                <UpdatedGameDetail token={token} game={game} handleCloseModal={handleCloseModal}/>
 
             </Modal>
 

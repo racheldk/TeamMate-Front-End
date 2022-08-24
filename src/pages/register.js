@@ -2,7 +2,7 @@
 import { Button, Box, Heading, FormControl, FormLabel, Text, Link } from '@chakra-ui/react'
 import axios from 'axios'
 import { useState } from 'react'
-import { Navigate, useNavigate, Link } from 'react-router-dom'
+import { Navigate, Link as ReactLink } from 'react-router-dom'
 import useLocalStorageState from "use-local-storage-state";
 
 export const Register = ({ setAuth }) => {
@@ -73,7 +73,7 @@ export const Register = ({ setAuth }) => {
         <Box w='100' display='flex' justifyContent='center' m={2}> <Button colorScheme="teal" type="submit" onClick={(e) => handleSubmit(e)}>Submit</Button></Box>
        
         </FormControl>
-        <Link to="/"><Text color='#285E61' fontSize='12px'>Back to Login</Text></Link>
+        <ReactLink to="/"><Text color='#285E61' fontSize='12px'>Back to Login</Text></ReactLink>
         </Box>
         </Box>
         <Box className="spacer">&nbsp;</Box>

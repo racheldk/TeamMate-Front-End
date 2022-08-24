@@ -8,18 +8,16 @@ import axios from "axios";
 
 export default function UpdatedGameDetail({
     token,
-    currentGame,
+    game,
     handleCloseModal,
 }) {
-    console.log(currentGame.buttons[0].label);
+    console.log(game);
 
-    currentGame.buttons.map((button) => {
+    game.buttons.map((button) => {
         console.log(button.label);
     });
 
-    const variableHandler = `handle${currentGame.buttons[0].job}`;
-
-    const handleJoin = (game) => {
+    const handleJoin = () => {
         console.log("join click");
         console.log(game);
         axios
@@ -42,6 +40,29 @@ export default function UpdatedGameDetail({
             });
     };
 
+    // const handleJoin = (game) => {
+    //     console.log("join click");
+    //     console.log(game);
+    //     axios
+    //         .post(
+    //             `https://teammate-app.herokuapp.com/session/${game.id}/guest/`,
+    //             {},
+    //             {
+    //                 headers: {
+    //                     Authorization: `Token ${token}`,
+    //                 },
+    //             }
+    //         )
+    //         .then(() => {
+    //             console.log("guest posted");
+    //             alert("You sent a join request");
+    //             // setJoinRequestSent(true);
+    //         })
+    //         .catch((error) => {
+    //             alert(error.response.data.detail);
+    //         });
+    // };
+
     return (
         <Box className="modal-overlay">
             <Box className="modal-base">
@@ -56,59 +77,59 @@ export default function UpdatedGameDetail({
                 >
                     <CloseIcon color="red" />
                 </Button>
-                <Box>{currentGame.id}</Box>
-                <Box className="game-card" key={currentGame.id}>
+                <Box>{game.id}</Box>
+                <Box className="game-card" key={game.id}>
                     {/* the following ternary is so the page doesn't break if the user's profile isn't filled out */}
-                    {currentGame.guest_info.length > 0 && (
+                    {game.guest_info.length > 0 && (
                         <>
-                            <Text>{`${currentGame.host_info.first_name} ${currentGame.host_info.last_name}`}</Text>
-                            <Text>{currentGame.host}</Text>
+                            <Text>{`${game.host_info.first_name} ${game.host_info.last_name}`}</Text>
+                            <Text>{game.host}</Text>
                             <Image
-                                src={`${currentGame.host_info.profile.profile_pic}`}
-                                alt={currentGame.host_info.username}
+                                src={`${game.host_info.profile.profile_pic}`}
+                                alt={game.host_info.username}
                                 fallbackSrc={noImage}
                                 borderRadius="full"
                                 boxSize="150px"
                             />
                             <Text>
                                 NTRP:{" "}
-                                {currentGame.host_info.profile.ntrp_rating}{" "}
+                                {game.host_info.profile.ntrp_rating}{" "}
                             </Text>
                         </>
                     )}
 
-                    <Text>{currentGame.location_info.park_name}</Text>
-                    <Text>{currentGame.match_type}</Text>
-                    <Text>{currentGame.session_type}</Text>
+                    <Text>{game.location_info.park_name}</Text>
+                    <Text>{game.match_type}</Text>
+                    <Text>{game.session_type}</Text>
                     <Text>
-                        {DateTime.fromISO(currentGame.date).toLocaleString({
+                        {DateTime.fromISO(game.date).toLocaleString({
                             weekday: "short",
                             month: "short",
                             day: "numeric",
                         })}{" "}
                         at{" "}
-                        {DateTime.fromISO(currentGame.time).toLocaleString(
+                        {DateTime.fromISO(game.time).toLocaleString(
                             DateTime.TIME_SIMPLE
                         )}
                     </Text>
 
-                    {/* <Box>
-                        {currentGame.buttons.map((obj) => (
-                            <Button  key={obj.label} onClick={() => `${variableHandler}`(currentGame)
-                            }>
-                                <Text color="teal">{obj.label} </Text>
+                    <Box>
+                        {game.buttons.map((obj) => (
+                            <Button  key={obj.label} onClick={obj.job()}
+                            >
+                                <Text color="red">{obj.label} </Text>
                             </Button>
                         ))}
-                    </Box> */}
+                    </Box>
 
-                    <Box>
-                        {currentGame.buttons.map((obj) => (
-                            <Button onClick={() => handleJoin(currentGame)
+                    {/* <Box>
+                        {game.buttons.map((obj) => (
+                            <Button onClick={() => handleJoin(game)
                             }>
                                 <Text color="teal">test {obj.label} </Text>
                             </Button>
                         ))}
-                    </Box>
+                    </Box> */}
                 </Box>
             </Box>
         </Box>

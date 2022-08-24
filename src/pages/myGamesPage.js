@@ -16,11 +16,11 @@ import axios from "axios";
 import NewGamesList from "../components/NewGamesList";
 import { withTheme } from "@emotion/react";
 import { WarningIcon } from "@chakra-ui/icons";
-import GamesList from "../components/gamesList";
+// import GamesList from "../components/gamesList";
 import { DateTime } from "luxon";
 import { BsChevronCompactLeft, BsCalendar2CheckFill, BsArrowDownSquare, BsArrowUpSquare, BsFillBookFill } from "react-icons/bs";
 
-export default function MyGames({ token, username }) {
+export default function MyGames({ token, username, game, setGame }) {
     console.log(username);
 
     const [actionRequiredGames, setActionRequiredGames] = useState([]);
@@ -30,6 +30,32 @@ export default function MyGames({ token, username }) {
     const [noActionGames, setNoActionGames] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [openGames, setOpenGames] = useState([]);
+
+console.log(game)
+
+    const handleJoin = (game) => {
+        console.log("join click");
+        console.log(game);
+        axios
+            .post(
+                `https://teammate-app.herokuapp.com/session/${game.id}/guest/`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Token ${token}`,
+                    },
+                }
+            )
+            .then(() => {
+                console.log("guest posted");
+                alert("You sent a join request");
+                // setJoinRequestSent(true);
+            })
+            .catch((error) => {
+                alert(error.response.data.detail);
+            });
+    };
+    
 
     useEffect(() => {
         // setListType("allOpen")
@@ -48,7 +74,7 @@ export default function MyGames({ token, username }) {
                         icon: "FaExclamationCircle",
                         displayUsers: [obj.host_info],
                         buttons: [
-                            { label: "Join", job: "handleJoin" },
+                            { label: "Join", job: ()=>handleJoin(game) },
                         ],
                         route: `host/${obj.id}`,
                         ...obj,
@@ -150,7 +176,7 @@ export default function MyGames({ token, username }) {
             <Header />
             <Heading>MyGames Component</Heading>
 
-            <NewGamesList token={token} games={openGames} />
+            <NewGamesList token={token} gamesList={openGames} setGame={setGame} game={game}/>
 
             {/* <NewGamesList token={token} games={actionRequiredGames}/>
             <NewGamesList token={token} games={noActionGames}/> */}
