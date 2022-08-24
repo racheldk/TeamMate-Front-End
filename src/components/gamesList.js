@@ -6,8 +6,10 @@ import { DateTime } from "luxon";
 import { Link } from "react-router-dom";
 import GameDetail from "./gameDetail";
 import EditGame from "../pages/editGame";
+
 import { IconButton, Button, Text, Heading, Box } from '@chakra-ui/react'
 import { StarIcon, CloseIcon } from "@chakra-ui/icons";
+
 
 export default function GamesList({ token, games, listType, listTitle }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);

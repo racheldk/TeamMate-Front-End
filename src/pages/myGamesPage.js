@@ -27,7 +27,8 @@ import axios from "axios";
 import GamesList from "../components/gamesList";
 import { Button, Box } from "@chakra-ui/react";
 import { DateTime } from "luxon";
-import { BsChevronCompactLeft } from "react-icons/bs";
+import { BsChevronCompactLeft, BsCalendar2CheckFill, BsArrowDownSquare, BsArrowUpSquare, BsFillBookFill } from "react-icons/bs";
+
 
 export default function MyGames({
     token,
@@ -159,6 +160,7 @@ export default function MyGames({
         <>
             <Box className="app-body">
                 <Header />
+
                 <Box className="nav_links">
                     <Button
                         colorScheme='teal' fontSize='12px'
@@ -166,11 +168,13 @@ export default function MyGames({
                     >
                         Confirmed Games
                     </Button>
+
                     <br />
                     <Button
                         colorScheme='teal' fontSize='12px'
                         onClick={() => handleMenuPOVGuest()}
                     >
+
                         Pending Requests I Have Made
                     </Button>
                     <Button
@@ -186,6 +190,7 @@ export default function MyGames({
                         My Open Games
                     </Button>
                 </Box>
+
 
                 <Box>
                     {(() => {

@@ -13,6 +13,7 @@ import MyGames from "./pages/myGamesPage";
 import UserProfile from "./pages/userProfile";
 import axios from "axios";
 import EditGame from "./pages/editGame";
+import Survey from "./pages/survey";
 
 function App() {
     const [token, setToken] = useLocalStorageState("teammateToken", null);
@@ -58,6 +59,9 @@ function App() {
                         path="/new"
                         element={<NewOpenGame token={token} />}
                     />
+                    <Route
+                        path="survey" element={<Survey setAuth={setAuth}/>} />
+
                     {/* make a new open game post  */}
                     <Route path="register" element={<Register setAuth={setAuth} />} />
                     {/* register new user */}
