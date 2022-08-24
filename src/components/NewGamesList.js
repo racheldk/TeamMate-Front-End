@@ -17,8 +17,53 @@ import axios from "axios";
 import { Link as ReactLink} from "react-router-dom";
 import UpdatedGameDetail from "./UpdatedGameDetail";
 
-export default function NewGamesList({token, gamesList, setGame, game}) {
+export default function NewGamesList({token, gamesList, setGame, game, setNoActionGames, confirmedGames, pendingPOVGuestGames, noGuestGames, hostOpenDoublesGames, guestOpenDoublesGames, test}) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
+
+    // useEffect(()=>{
+    //     const combinedLists = confirmedGames.concat(
+    //         pendingPOVGuestGames,
+    //         noGuestGames,
+    //         hostOpenDoublesGames,
+    //         guestOpenDoublesGames
+    //     );
+    //     console.log(combinedLists);
+    //     const sortedCombined = combinedLists.sort(
+    //         (objA, objB) => Number(objA.date) - Number(objB.date)
+    //     );
+    //     console.log(sortedCombined);
+    //     setNoActionGames(sortedCombined);
+    // },[pendingPOVGuestGames, confirmedGames, noGuestGames, hostOpenDoublesGames, guestOpenDoublesGames, setNoActionGames])
+
+console.log(test)
+console.log(gamesList)
+
+    useEffect(()=> {
+        console.log(test)
+        console.log(confirmedGames)
+        console.log(pendingPOVGuestGames)
+        console.log(noGuestGames)
+        console.log(hostOpenDoublesGames)
+        console.log(guestOpenDoublesGames)
+
+
+        const combinedLists = []
+        // if (confirmedGames){
+        //     combinedLists.push(...confirmedGames)
+        // }
+            combinedLists.push(...pendingPOVGuestGames)
+        
+            combinedLists.push(...noGuestGames)
+        
+        // if (hostOpenDoublesGames){
+        //     combinedLists.push(...hostOpenDoublesGames)
+        // }
+        // if (guestOpenDoublesGames){
+        //     combinedLists.push(...guestOpenDoublesGames)
+        // }
+        console.log(combinedLists)
+        // setNoActionGames(combinedLists)
+    }, [pendingPOVGuestGames, confirmedGames, noGuestGames, hostOpenDoublesGames, guestOpenDoublesGames, setNoActionGames, test])
 
     const handleOpenModal = (game) => {
         console.log("click open");
@@ -34,7 +79,12 @@ export default function NewGamesList({token, gamesList, setGame, game}) {
 
 
     console.log(gamesList)
-    console.log(game)
+    // console.log(game)
+
+
+    if (gamesList.length == 0) {
+        return (<Text>You have no games to display - make a new game or join one. Trust us, it'll be great (NewGamesList)</Text>)
+    }
 
     return(
         <Box>
@@ -76,7 +126,7 @@ export default function NewGamesList({token, gamesList, setGame, game}) {
                 </Box>
             ))} 
             </Box>
-            }
+            } 
         
 
             <Modal

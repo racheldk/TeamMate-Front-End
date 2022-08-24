@@ -38,6 +38,7 @@ export default function MyGames({ token, username, game, setGame }) {
     const [guestOpenDoublesGames, setGuestOpenDoublesGames] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [openGames, setOpenGames] = useState([]);
+    const [test, setTest] = useState("original")
 
     // console.log(game);
 
@@ -87,11 +88,10 @@ export default function MyGames({ token, username, game, setGame }) {
                         ...obj,
                     }))
                 );
-                setIsLoading(false);
+                // setIsLoading(false);
             });
     }, [token, setOpenGames]);
 
-    //  THIS IS THE USEEFFECT WE'LL ACTUALLY USE, BUT ENDPOINTS AREN'T WORKING RIGHT NOW
     useEffect(() => {
         // ???!!!!????!!!!??? Do we also need unconfirmed guest and unconfirmed host? one to delete request and another to delete the game??
         const reqAction = axios.get(
@@ -153,20 +153,22 @@ export default function MyGames({ token, username, game, setGame }) {
             ])
             .then(
                 axios.spread((...responses) => {
+                    console.log(responses)
                     const responseAction = responses[0].data;
-                    console.log(responses[0].data)
-                    console.log(responseAction)
+                    console.log(responses[0].data);
                     const responseConfirmed = responses[1].data;
-                    console.log(responseConfirmed)
+                    console.log(responseConfirmed);
                     const responsePending = responses[2].data;
-                    console.log(responsePending)
+                    console.log(responsePending);
                     const responseNoGuest = responses[3].data;
-                    console.log(responseNoGuest)
+                    console.log(responseNoGuest);
                     const responseHostOpenDoubles = responses[4].data;
-                    console.log(responseHostOpenDoubles)
+                    console.log(responseHostOpenDoubles);
                     const responseGuestOpenDoubles = responses[5].data;
-                    console.log(responseGuestOpenDoubles)
+                    console.log(responseGuestOpenDoubles);
 
+                    if (responseAction.length>0) {
+                        console.log("action > 0")
                     setActionRequiredGames(
                         responseAction.map((obj) => ({
                             displayStatus: "actionRequired",
@@ -181,7 +183,10 @@ export default function MyGames({ token, username, game, setGame }) {
                             route: `host/${obj.id}`,
                             ...obj,
                         }))
-                    );
+                    );}
+
+                    if(responseConfirmed.length>0) {
+                        console.log('confirmed > 0')
                     setConfirmedGames(
                         responseConfirmed.map((obj) => ({
                             displayStatus: "confirmed",
@@ -192,7 +197,10 @@ export default function MyGames({ token, username, game, setGame }) {
                             route: `confirmed/${obj.id}`,
                             ...obj,
                         }))
-                    );
+                    );}
+
+                    if(responsePending.length>0) {
+                    console.log('pending > 0')
                     setPendingPOVGuestGames(
                         responsePending.map((obj) => ({
                             displayStatus: "pendingPOVGuest",
@@ -203,7 +211,10 @@ export default function MyGames({ token, username, game, setGame }) {
                             route: `pending/${obj.id}`,
                             ...obj,
                         }))
-                    );
+                    );}
+
+                    if (responseNoGuest.length>0) { 
+                        console.log('noGuest > 0')
                     setNoGuestGames(
                         responseNoGuest.map((obj) => ({
                             displayStatus: "no guests",
@@ -214,7 +225,10 @@ export default function MyGames({ token, username, game, setGame }) {
                             route: `unconfirmed/${obj.id}`,
                             ...obj,
                         }))
-                    );
+                    );}
+
+                    if (responseHostOpenDoubles.length>0) { 
+                        console.log('hostOpenDoubles > 0')
                     setHostOpenDoublesGames(
                         responseHostOpenDoubles.map((obj) => ({
                             displayStatus: "host open doubles",
@@ -225,7 +239,10 @@ export default function MyGames({ token, username, game, setGame }) {
                             route: `unconfirmed/${obj.id}`,
                             ...obj,
                         }))
-                    );
+                    );}
+
+                    if (responseGuestOpenDoubles.length>0) {
+                        console.log("guestOpenDoubles > 0") 
                     setGuestOpenDoublesGames(
                         responseGuestOpenDoubles.map((obj) => ({
                             displayStatus: "guest open doubles",
@@ -236,26 +253,33 @@ export default function MyGames({ token, username, game, setGame }) {
                             route: `unconfirmed/${obj.id}`,
                             ...obj,
                         }))
-                    );
-                    setIsLoading(false);
+                    );}
                 })
-            );
-    }, [token]);
+            )
+            .catch((error) => {
+                console.log(error);
+                alert(error.message);
+            });
+        setIsLoading(false);
+        setTest('please please work')
+    }, []);
 
-    useEffect(() => {
-        const combinedLists = confirmedGames.concat(
-            pendingPOVGuestGames,
-            noGuestGames,
-            hostOpenDoublesGames,
-            guestOpenDoublesGames
-        );
-        console.log(combinedLists);
-        const sortedCombined = combinedLists.sort(
-            (objA, objB) => Number(objA.date) - Number(objB.date)
-        );
-        console.log(sortedCombined);
-        setNoActionGames(sortedCombined);
-    }, [isLoading]);
+    // const combineLists = () => {
+    //     const combinedLists = confirmedGames.concat(
+    //         pendingPOVGuestGames,
+    //         noGuestGames,
+    //         hostOpenDoublesGames,
+    //         guestOpenDoublesGames
+    //     );
+    //     console.log(combinedLists);
+    //     const sortedCombined = combinedLists.sort(
+    //         (objA, objB) => Number(objA.date) - Number(objB.date)
+    //     );
+    //     console.log(sortedCombined);
+    //     setNoActionGames(sortedCombined);
+    // };
+
+
 
     if (isLoading) {
         return <Box>Loading...</Box>;
@@ -273,16 +297,32 @@ export default function MyGames({ token, username, game, setGame }) {
                 game={game}
             />
 
-            <NewGamesList token={token} gamesList={actionRequiredGames}/>
-            {/* <NewGamesList token={token} games={noActionGames}/> */}
 
-            {/* Confirmed endpoint is down at the moment  */}
-            {/* <NewGamesList token={token} games={confirmedGames}/> */}
+{/* The following ternaries are so Rachel can see where things are loading/not loading */}
+            {actionRequiredGames.length == 0 ? (
+                <Text>
+                    You don't have any games that require your attention
+                </Text>
+            ) : (
+                <NewGamesList token={token} gamesList={actionRequiredGames} />
+            )}
 
-            {/* component for games that need my attention - with accept/reject buttons, ordered soonest to furthest away  */}
-            {/* component for the rest of games, with cancel buttons (see Notes.txt), ordered soonest to furthest away */}
+            {noActionGames.length == 0 ? (
+                <Text>noActionGames array is empty</Text>
+            ) : (
+                <NewGamesList
+                    token={token}
+                    gamesList={noActionGames}
+                    setNoActionGames={setNoActionGames}
+                    confirmedGames={confirmedGames}
+                    pendingPOVGuestGames={pendingPOVGuestGames}
+                    noGuestGames={noGuestGames}
+                    hostOpenDoublesGames={hostOpenDoublesGames}
+                    guestOpenDoublesGames={guestOpenDoublesGames}
+                    test={test}
+                />
+            )}
             <Footer />
         </Box>
     );
 }
-
