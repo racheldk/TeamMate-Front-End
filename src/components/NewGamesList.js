@@ -6,7 +6,8 @@ import {
     Box,
     Icon,
     LinkBox,
-    LinkOverlay
+    LinkOverlay, 
+    Modal
 } from "@chakra-ui/react";
 import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
@@ -14,17 +15,34 @@ import { useParams } from "react-router-dom";
 import noImage from "../images/no-image.jpg";
 import axios from "axios";
 import { Link as ReactLink} from "react-router-dom";
+import UpdatedGameDetail from "./UpdatedGameDetail";
 
 export default function NewGamesList({token, games}) {
-console.log(games)
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [currentGame, setCurrentGame] = useState(null)
+
+    const handleOpenModal = (game) => {
+        console.log("click open");
+        console.log("modal game" + game)
+        setModalIsOpen(true);
+        setCurrentGame(game)
+    };
+
+    const handleCloseModal = () => {
+        console.log("click close");
+        setModalIsOpen(false);
+    };
+
+
+    console.log(games)
 
     return(
         <Box>
             <Heading>NewGamesList Component</Heading>
             <Text>Category: {games[0].displayStatus}</Text>
             {games.map((game) => (
-                <LinkBox>
-                <LinkOverlay as={ReactLink} to={`${game.route}`}>
+                <Box>
+                {/* <LinkOverlay as={ReactLink} to={`${game.route}`}> */}
                     <Box className="game-card" bg=
                 {`${game.bgColor}`} key={game.id}>
                     {/* final version won't have host name, id, or confirmed just to check data is rendering correctly */}
@@ -48,10 +66,25 @@ console.log(games)
                         {DateTime.fromISO(game.time).toLocaleString(
                             DateTime.TIME_SIMPLE
                         )}
-                    </Text></Box>
-                </LinkOverlay>
-                </LinkBox>
+                    </Text>
+                    <Button onClick={() => handleOpenModal(game)} >Manage This Game</Button>
+                    </Box>
+                {/* </LinkOverlay> */}
+                </Box>
             ))}
+
+            <Modal
+                className="modal"
+                isOpen={modalIsOpen}
+                contentLabel="Game Detail Modal"
+                overlayClassName="modal-overlay"
+
+                game={currentGame}
+            >
+                <UpdatedGameDetail token={token} currentGame={currentGame} handleCloseModal={handleCloseModal}/>
+
+            </Modal>
+
         </Box>
     )
 }

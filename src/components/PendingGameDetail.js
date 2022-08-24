@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import noImage from "../images/no-image.jpg";
 import axios from "axios";
 
-export default function UpdatedGameDetail({ token, currentGame, setCurrentGame }) {
+export default function PendingGameDetail({ token, currentGame, setCurrentGame }) {
     const [params] = useState(useParams());
     const [isLoading, setIsLoading] = useState(true);
     // const [currentGame, setCurrentGame] = useState({});
