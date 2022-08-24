@@ -17,6 +17,7 @@ import OpenGamesPage from "./pages/openGamesPage";
 import IncomingRequestDetail from "./components/IncomingRequestDetail";
 import UpdatedGameDetail from "./components/UpdatedGameDetail";
 import ConfirmedGameDetail from "./components/ConfirmedGameDetail";
+import Survey from "./pages/survey";
 
 function App() {
     const [token, setToken] = useLocalStorageState("teammateToken", null);
@@ -36,7 +37,6 @@ function App() {
     };
 
     useEffect(() => {
-        // setListType("allOpen")
         axios
             .get("https://teammate-app.herokuapp.com/session/", {
                 headers: {
@@ -58,6 +58,12 @@ function App() {
                         path="/new"
                         element={<NewOpenGame token={token} />}
                     />
+                    <Route
+                        path="survey" element={<Survey setAuth={setAuth}/>} />
+
+                    {/* make a new open game post  */}
+                    <Route path="register" element={<Register setAuth={setAuth} />} />
+                    {/* register new user */}
                     <Route
                         path="register"
                         element={<Register setAuth={setAuth} />}

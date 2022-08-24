@@ -87,9 +87,9 @@ export default function NewOpenGame({ token }) {
         <Header/>
         <Box className="app-body">
             
-            <FormControl className="form">
-            <Heading className="form-banner">Post a New Game</Heading>
-                <FormLabel htmlFor="date-time">When would you like to play?</FormLabel>
+            <FormControl className="form" mt={20}>
+            <Heading className="form-banner" color='#2C7A7B'>Post a New Game</Heading>
+                <FormLabel htmlFor="date-time" p={2}>When would you like to play?</FormLabel>
                 <ReactDatePicker
                     onChange={(date) => {
                         console.log(date);
@@ -125,7 +125,7 @@ export default function NewOpenGame({ token }) {
                     dateFormat="h:mm aa"
                     placeholderText="Click to select a time"
                 />
-                <Box>
+                <Box p={2}>
                     <FormLabel htmlFor="location">
                         Where would you like to play?
                     </FormLabel>
@@ -144,7 +144,7 @@ export default function NewOpenGame({ token }) {
                         {/* We could also make an API request for a list of parks, then map through them as dropdown option. This might also help store whatever data other than the park name the backend needs.  */}
                     </Select>
                 </Box>
-                <Box>
+                <Box p={2}>
                     <FormLabel htmlFor="session-type">
                         How competitive would you like your game to be?
                     </FormLabel>
@@ -161,7 +161,7 @@ export default function NewOpenGame({ token }) {
                         <option value="Competitive">Competitive</option>
                     </Select>
                 </Box>
-                <Box>
+                <Box p={2}>
                     <FormLabel htmlFor="match-type">
                         Would you like to play singles or doubles?
                     </FormLabel>

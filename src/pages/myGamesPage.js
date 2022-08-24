@@ -16,6 +16,9 @@ import axios from "axios";
 import NewGamesList from "../components/NewGamesList";
 import { withTheme } from "@emotion/react";
 import { WarningIcon } from "@chakra-ui/icons";
+import GamesList from "../components/gamesList";
+import { DateTime } from "luxon";
+import { BsChevronCompactLeft, BsCalendar2CheckFill, BsArrowDownSquare, BsArrowUpSquare, BsFillBookFill } from "react-icons/bs";
 
 export default function MyGames({ token, username }) {
     console.log(username);
