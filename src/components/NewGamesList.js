@@ -39,6 +39,9 @@ export default function NewGamesList({token, gamesList, setGame, game}) {
     return(
         <Box>
             <Heading>NewGamesList Component</Heading>
+            {gamesList.length>0 &&
+
+            <Box>
             <Text>Category: {gamesList[0].displayStatus}</Text>
             {gamesList.map((game) => (
                 <Box>
@@ -71,7 +74,10 @@ export default function NewGamesList({token, gamesList, setGame, game}) {
                     </Box>
                 {/* </LinkOverlay> */}
                 </Box>
-            ))}
+            ))} 
+            </Box>
+            }
+        
 
             <Modal
                 className="modal"
@@ -85,5 +91,6 @@ export default function NewGamesList({token, gamesList, setGame, game}) {
             </Modal>
 
         </Box>
+    
     )
 }

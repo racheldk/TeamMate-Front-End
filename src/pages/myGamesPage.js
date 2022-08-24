@@ -39,29 +39,29 @@ export default function MyGames({ token, username, game, setGame }) {
     const [isLoading, setIsLoading] = useState(true);
     const [openGames, setOpenGames] = useState([]);
 
-    console.log(game);
+    // console.log(game);
 
     const handleJoin = (game) => {
         console.log("join click");
         console.log(game);
-        axios
-            .post(
-                `https://teammate-app.herokuapp.com/session/${game.id}/guest/`,
-                {},
-                {
-                    headers: {
-                        Authorization: `Token ${token}`,
-                    },
-                }
-            )
-            .then(() => {
-                console.log("guest posted");
-                alert("You sent a join request");
-                // setJoinRequestSent(true);
-            })
-            .catch((error) => {
-                alert(error.response.data.detail);
-            });
+        // axios
+        //     .post(
+        //         `https://teammate-app.herokuapp.com/session/${game.id}/guest/`,
+        //         {},
+        //         {
+        //             headers: {
+        //                 Authorization: `Token ${token}`,
+        //             },
+        //         }
+        //     )
+        //     .then(() => {
+        //         console.log("guest posted");
+        //         alert("You sent a join request");
+        //         // setJoinRequestSent(true);
+        //     })
+        //     .catch((error) => {
+        //         alert(error.response.data.detail);
+        //     });
     };
 
     useEffect(() => {
@@ -95,7 +95,7 @@ export default function MyGames({ token, username, game, setGame }) {
     useEffect(() => {
         // ???!!!!????!!!!??? Do we also need unconfirmed guest and unconfirmed host? one to delete request and another to delete the game??
         const reqAction = axios.get(
-            "https://teammate-app.herokuapp.com/games/?my-games=AllConfirmed",
+            `https://teammate-app.herokuapp.com/${username}/games/?my-games=HostUnconfirmed`,
             {
                 headers: {
                     Authorization: `Token ${token}`,
@@ -103,7 +103,7 @@ export default function MyGames({ token, username, game, setGame }) {
             }
         );
         const reqConfirmed = axios.get(
-            `https://teammate-app.herokuapp.com/games/?my-games=HostUnconfirmed`,
+            `https://teammate-app.herokuapp.com/${username}/games/?my-games=AllConfirmed`,
             {
                 headers: {
                     Authorization: `Token ${token}`,
@@ -111,7 +111,7 @@ export default function MyGames({ token, username, game, setGame }) {
             }
         );
         const reqPending = axios.get(
-            `https://teammate-app.herokuapp.com/games/?my-games=GuestPending`,
+            `https://teammate-app.herokuapp.com/${username}/games/?my-games=GuestPending`,
             {
                 headers: {
                     Authorization: `Token ${token}`,
@@ -119,7 +119,7 @@ export default function MyGames({ token, username, game, setGame }) {
             }
         );
         const reqNoGuest = axios.get(
-            `https://teammate-app.herokuapp.com/games/?my-games=HostNoGuest`,
+            `https://teammate-app.herokuapp.com/${username}/games/?my-games=HostNoGuest`,
             {
                 headers: {
                     Authorization: `Token ${token}`,
@@ -127,7 +127,7 @@ export default function MyGames({ token, username, game, setGame }) {
             }
         );
         const reqHostOpenDoubles = axios.get(
-            `https://teammate-app.herokuapp.com/games/?my-games=HostNotPendingUnconfirmedDoubles`,
+            `https://teammate-app.herokuapp.com/${username}/games/?my-games=HostNotPendingUnconfirmedDoubles`,
             {
                 headers: {
                     Authorization: `Token ${token}`,
@@ -135,7 +135,7 @@ export default function MyGames({ token, username, game, setGame }) {
             }
         );
         const reqGuestOpenDoubles = axios.get(
-            `https://teammate-app.herokuapp.com/games/?my-games=GuestAcceptedUnconfirmedDoubles`,
+            `https://teammate-app.herokuapp.com/${username}/games/?my-games=GuestAcceptedUnconfirmedDoubles`,
             {
                 headers: {
                     Authorization: `Token ${token}`,
@@ -153,12 +153,19 @@ export default function MyGames({ token, username, game, setGame }) {
             ])
             .then(
                 axios.spread((...responses) => {
-                    const responseAction = responses[0];
-                    const responseConfirmed = responses[1];
-                    const responsePending = responses[2];
-                    const responseNoGuest = responses[3];
-                    const responseHostOpenDoubles = responses[4];
-                    const responseGuestOpenDoubles = responses[5];
+                    const responseAction = responses[0].data;
+                    console.log(responses[0].data)
+                    console.log(responseAction)
+                    const responseConfirmed = responses[1].data;
+                    console.log(responseConfirmed)
+                    const responsePending = responses[2].data;
+                    console.log(responsePending)
+                    const responseNoGuest = responses[3].data;
+                    console.log(responseNoGuest)
+                    const responseHostOpenDoubles = responses[4].data;
+                    console.log(responseHostOpenDoubles)
+                    const responseGuestOpenDoubles = responses[5].data;
+                    console.log(responseGuestOpenDoubles)
 
                     setActionRequiredGames(
                         responseAction.map((obj) => ({
@@ -266,8 +273,8 @@ export default function MyGames({ token, username, game, setGame }) {
                 game={game}
             />
 
-            {/* <NewGamesList token={token} games={actionRequiredGames}/>
-            <NewGamesList token={token} games={noActionGames}/> */}
+            <NewGamesList token={token} gamesList={actionRequiredGames}/>
+            {/* <NewGamesList token={token} games={noActionGames}/> */}
 
             {/* Confirmed endpoint is down at the moment  */}
             {/* <NewGamesList token={token} games={confirmedGames}/> */}
@@ -279,100 +286,3 @@ export default function MyGames({ token, username, game, setGame }) {
     );
 }
 
-// ActionRequired "!"
-// useEffect(() => {
-//     axios
-//     // this endpoint is being adjusted to only show open games with a pending guest
-//         .get(`https://teammate-app.herokuapp.com/${username}/open-host`, {
-//             headers: {
-//                 Authorization: `Token ${token}`,
-//             },
-//         })
-//         .then((res) => {
-//             console.log(res.data);
-//             setActionRequiredGames(res.data.map((obj) => ({
-//                 displayStatus: "actionRequired",
-//                 bgColor: "black",
-//                 icon: "FaExclamationCircle",
-//                 displayUsers: [obj.guest_info],
-//                 buttonLabels: ["Accept", "Reject"],
-//                 route: `host/${obj.id}`,
-//                 ...obj
-//             })));
-//             setIsLoading(false);
-//         });
-// }, []);
-
-// // Confirmed (color background)
-// useEffect(() =>{
-//     axios.get(`https://teammate-app.herokuapp.com/${username}/confirmed/`, {
-//         headers: {
-//             Authorization: `Token ${token}`,
-//         },
-//     })
-//     .then((res) => {
-//         console.log(res.data)
-//         setConfirmedGames(res.data.map((obj) => ({
-//             displayStatus: "confirmed",
-//             bgColor: "yellow",
-//             icon: null,
-//             displayUsers: [obj.host_info, ...obj.guest_info],
-//             buttonLabels: ["Cancel this game"],
-//             route: `confirmed/${obj.id}`,
-//             ...obj
-//         })))
-
-//     })
-// },[token])
-
-// // pendingPOVGuest "?"
-// useEffect(() =>{
-//     axios.get(`https://teammate-app.herokuapp.com/${username}/open-guest/`, {
-//         headers: {
-//             Authorization: `Token ${token}`,
-//         },
-//     })
-//     .then((res) => {
-//         console.log(res.data)
-//         setPendingPOVGuestGames(res.data.map((obj) => ({
-//             displayStatus: "pendingPOVGuest",
-//             bgColor: null,
-//             icon: "FaQuestionCircle",
-//             displayUsers: [obj.host_info],
-//             buttonLabels: ["Cancel request to join this game"],
-//             route: `pending/${obj.id}`,
-//             ...obj
-//         })))
-
-//     })
-// },[token])
-
-// // Open No Action - unconfirmed, no pending guest
-// // Update this endpoint
-// useEffect(() =>{
-//     axios.get(`https://teammate-app.herokuapp.com/${username}/open-guest/`, {
-//         headers: {
-//             Authorization: `Token ${token}`,
-//         },
-//     })
-//     .then((res) => {
-//         console.log(res.data)
-//         setUnconfirmedGames(res.data.map((obj) => ({
-//             displayStatus: "unconfirmed",
-//             bgColor: null,
-//             icon: null,
-//             displayUsers: [obj.guest_info],
-//             buttonLabels: ["Cancel this game"],
-//             route: `unconfirmed/${obj.id}`,
-//             ...obj
-//         })))
-
-//     })
-// },[token])
-
-// useEffect(() => {
-//     const combinedLists = confirmedGames.concat(pendingPOVGuestGames, unconfirmedGames)
-//     console.log(combinedLists)
-//     const sortedCombined = combinedLists.sort((objA, objB) => Number(objA.date) - Number(objB.date))
-//     console.log(sortedCombined)
-// },[])
