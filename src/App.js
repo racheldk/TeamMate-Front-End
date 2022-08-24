@@ -12,11 +12,11 @@ import useLocalStorageState from "use-local-storage-state";
 import UserProfile from "./pages/userProfile";
 import axios from "axios";
 import EditGame from "./pages/editGame";
-import OpenGameDetail from "./components/OpenGameDetail";
 import MyGames from "./pages/myGamesPage";
 import OpenGamesPage from "./pages/openGamesPage";
 import IncomingRequestDetail from "./components/IncomingRequestDetail";
-import NewGameDetail from "./components/NewGameDetail";
+import UpdatedGameDetail from "./components/UpdatedGameDetail";
+import ConfirmedGameDetail from "./components/ConfirmedGameDetail";
 
 function App() {
     const [token, setToken] = useLocalStorageState("teammateToken", null);
@@ -27,6 +27,8 @@ function App() {
     const [listType, setListType] = useState(null);
     //   above is the listType to be used with GamesList component (which is rendered from OpenGamesList and MyGames components)
     const [allGamesList, setAllGamesList] = useState([]);
+    const [currentGame, setCurrentGame] = useState({});
+
 
     const setAuth = (username, token) => {
         setToken(token);
@@ -52,12 +54,10 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Login setAuth={setAuth} />} />
-                    {/* All Open Games (Game List component? separate component?) */}
                     <Route
                         path="/new"
                         element={<NewOpenGame token={token} />}
                     />
-                    {/* make a new open game post  */}
                     <Route
                         path="register"
                         element={<Register setAuth={setAuth} />}
@@ -72,17 +72,11 @@ function App() {
                             />
                         }
                     />
-                    {/* login */}
                     <Route
                         path="my-games/"
                         element={<MyGames token={token} username={username} />}
                     />
-                        <Route
-                            path="my-games/:id"
-                            element={<NewGameDetail token={token} />}
-                        />
-
-                    {/* my games - confirmed, pending requests as guest, pending requests as host, open */}
+                    <Route path="my-games/host/:id" element={<UpdatedGameDetail token={token} currentGame={currentGame} setCurrentGame={setCurrentGame} />}/>
                     <Route path="/edit/">
                         <Route
                             path=":id"
@@ -93,6 +87,7 @@ function App() {
                         path="incoming/:id"
                         element={<IncomingRequestDetail token={token} />}
                     />
+                    <Route path="my-games/confirmed/:id" element={<ConfirmedGameDetail />}/>
                     <Route
                         path=":username"
                         element={
@@ -104,7 +99,6 @@ function App() {
                             />
                         }
                     />
-                    {/* This will be a user profile (Team Quokka did something like this with the users/:id route)  */}
                 </Routes>
             </BrowserRouter>
         </ChakraProvider>

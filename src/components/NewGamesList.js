@@ -24,7 +24,7 @@ console.log(games)
             <Text>Category: {games[0].displayStatus}</Text>
             {games.map((game) => (
                 <LinkBox>
-                <LinkOverlay as={ReactLink} to={`${game.id}`}>
+                <LinkOverlay as={ReactLink} to={`${game.route}`}>
                     <Box className="game-card" bg=
                 {`${game.bgColor}`} key={game.id}>
                     {/* final version won't have host name, id, or confirmed just to check data is rendering correctly */}
