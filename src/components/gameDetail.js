@@ -6,6 +6,8 @@ export default function GameDetail({ game, listType, handleJoinClick, handleCanc
     console.log(game);
     return (
         <Box className="modal-base">
+        { game && 
+        <>
             <Box><Heading size="2xl" color="teal">{game.location_info.park_name}</Heading></Box>
             <Box><Text>{game.location_info.address.address1} {game.location_info.address.address2} {game.location_info.address.city}, {game.location_info.address.state} {game.location_info.address.zipcode}</Text></Box>
             <Box>
@@ -19,7 +21,7 @@ export default function GameDetail({ game, listType, handleJoinClick, handleCanc
                             DateTime.TIME_SIMPLE
                         )}
                     </Box>
-            <Box><Text>{game.host_info.first_name} {game.host_info.last_name}</Text></Box>
+            <Box><Text>{game.host_info.first_name} {game.host_info.last_name}</Text></Box></>}
             
             {/* <Box>                <Image
                   src={`${game.profile.profile_pic}`}

@@ -173,7 +173,7 @@ body {
 /* styles form input fields */
 .form-control {
     width: 150px;
-    margin: .5em;
+    margin: 0 .5em;
     padding-left: .5em;
     text-align: left;
     border: solid 1px;
