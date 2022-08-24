@@ -10,6 +10,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { DateTime } from "luxon";
 
 
+
 export default function OpenGamesList({
     token,
     listType,
@@ -93,12 +94,14 @@ export default function OpenGamesList({
 
                 <Box textAlign='center' m={2}>
                 <ReactDatePicker
+
                     onChange={(date) => {
                         console.log(date);
                         setFilteredDate(date);
                         handleFilterDate(date)
                     }}
                     minDate={subDays(new Date(), 0)}
+
                     Selected={filteredDate}
                     placeholderText="Click to Select a date"
                 />
@@ -117,8 +120,12 @@ export default function OpenGamesList({
                         value={filteredSession}
                         id="filter-type"
                         name="filter-type"
-                        >
-                        <option value="">Competitive level</option>
+
+                    >
+                        <option value="">Competitive Level</option>
+
+                        
+
                         <option value="Casual">Casual</option>
                         <option value="Competitive">Competitive</option>
                     </Select>
@@ -129,7 +136,9 @@ export default function OpenGamesList({
                         name="filter-type"
                         >
                         <option value="">
-                            Number of players
+
+                            Number of Players
+
                         </option>
                         <option value="Singles">Singles</option>
                         <option value="Doubles">Doubles</option>
@@ -157,3 +166,5 @@ export default function OpenGamesList({
         </>
     );
 }
+
+

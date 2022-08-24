@@ -200,6 +200,52 @@ body {
     
 }
 
+.buttonmygames{margin-right: 10px; padding-left: 52px;}
+
+
+
+
+
+h1{ color:#285E61; text-align: center; font-family: Verdana; 
+    padding-bottom: 10px; padding-top: 5px;} 
+
+
+.filter-options{display: flex; font-size: 9px;
+    padding-left: 1px;}
+
+.filters{width: 100px; height: 20px; text-align: center; margin-right: -45px; 
+    border-radius: 6px; color: #285E61; margin-left: 55px;}
+
+.filter-date{width: 80px; height: 20px; text-align: center; margin-right: px; 
+        border-radius: 6px; color: #285E61; margin-left: 10px;}
+h3{color: #fff;}
+
+
+.survey {
+    border: 0;
+    border-radius: 20px;
+    width: 400px;
+    height: 500px;
+    text-align: left;  
+    background-color: #fff;  
+    padding-left: 40px;
+    margin: 0 auto;
+}
+.icon-survey {
+    max-width: 450px;
+    display: grid;
+    grid-template-columns: 33.3% 33.3% 33.3%;
+    margin: auto;
+    text-align: center;
+    background-color: white;
+    padding: 1.5em;
+    position: sticky;
+    bottom: 0;
+    width: 90%;
+    margin-right: 60px;
+}
+
+
 
 /* Our Animations */
 @keyframes mymove {
@@ -221,4 +267,5 @@ body {
 @keyframes expand-down {
     0% {height: 10px}
     100% {height:300px;}
+
 }

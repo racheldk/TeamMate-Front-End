@@ -28,8 +28,8 @@ export const Register = ({setAuth}) => {
         .post('https://teammate-app.herokuapp.com/auth/token/login/', {
             username: username,
             password: password,
-      }, console.log("logged in"))
-      .then((res) => {
+        }, console.log("logged in"))
+        .then((res) => {
         const token = res.data.auth_token;
         setAuth(username, token)
         setToken(token)
