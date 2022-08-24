@@ -363,24 +363,23 @@ function AfterJoinRequestSent({ game }) {
     console.log(game);
     return (
         <>
-            <Box>
+            <Box m={2} textAlign='left'>
                 <Text>You requested to join {game.host_info.first_name}'s game at{" "}
                 {game.location_info.park_name} on{" "}
                 {DateTime.fromISO(game.date).toLocaleString({
                     month: "long",
                     day: "numeric",
-                })}{" "}
+                })}<sup>th</sup>{" "}
                 at{" "}
                 {DateTime.fromISO(game.time).toLocaleString(
                     DateTime.TIME_SIMPLE
                 )}
                 .</Text>
-            </Box>
-            <Box>
                 <Text>You will be notified after {game.host_info.first_name} has
                 confirmed the game, or if they're unable to play.{" "}</Text>
-            </Box>
-            <Link to={"/my-games"}>Return to My Games</Link>
+             <Link to={"/my-games"}>Return to My Games</Link>
+             </Box>
+           
         </>
     );
 }
