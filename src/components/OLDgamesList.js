@@ -289,7 +289,7 @@ export default function OldGamesList({ token, games, listType, listTitle }) {
                 overlayClassName="modal-overlay"
                 listType={listType}
             >
-                              <Button
+                                <Button
                     onClick={() => {
                         handleCloseModal();
                     }}

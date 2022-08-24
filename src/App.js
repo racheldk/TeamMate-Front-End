@@ -16,6 +16,7 @@ import OpenGameDetail from "./components/OpenGameDetail";
 import MyGames from "./pages/myGamesPage";
 import OpenGamesPage from "./pages/openGamesPage";
 import IncomingRequestDetail from "./components/IncomingRequestDetail";
+import NewGameDetail from "./components/NewGameDetail";
 
 function App() {
     const [token, setToken] = useLocalStorageState("teammateToken", null);
@@ -71,24 +72,16 @@ function App() {
                             />
                         }
                     />
-                    <Route
-                        path="open-games/:id"
-                        element={<OpenGameDetail token={token}  />}
-                    />
                     {/* login */}
                     <Route
-                        path="my-games"
-                        element={<MyGames token={token} username={username}/>}
-                        // element={
-                        //     <MyGames
-                        //         token={token}
-                        //         username={username}
-                        //         listType={listType}
-                        //         setListType={setListType}
-                        //         allGamesList={allGamesList}
-                        //     />
-                        // }
+                        path="my-games/"
+                        element={<MyGames token={token} username={username} />}
                     />
+                        <Route
+                            path="my-games/:id"
+                            element={<NewGameDetail token={token} />}
+                        />
+
                     {/* my games - confirmed, pending requests as guest, pending requests as host, open */}
                     <Route path="/edit/">
                         <Route
@@ -96,7 +89,10 @@ function App() {
                             element={<EditGame token={token} />}
                         />
                     </Route>
-                    <Route path="incoming/:id" element={<IncomingRequestDetail token={token}/>}/>
+                    <Route
+                        path="incoming/:id"
+                        element={<IncomingRequestDetail token={token} />}
+                    />
                     <Route
                         path=":username"
                         element={

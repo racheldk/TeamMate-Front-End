@@ -2,34 +2,37 @@ import {
     Text,
     Heading,
     Image,
-    Icon,
-    IconButton,
     Button,
     Box,
+    Icon,
+    LinkBox,
+    LinkOverlay
 } from "@chakra-ui/react";
 import { DateTime } from "luxon";
-import { Link } from "react-router-dom";
-import { FaQuestionCircle, FaExclamationCircle, FaSun } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import noImage from "../images/no-image.jpg";
+import axios from "axios";
+import { Link as ReactLink} from "react-router-dom";
 
-export default function IncomingRequestList({ token, games }) {
-    console.log(games);
+export default function NewGamesList({token, games}) {
+console.log(games)
 
-    return (
+    return(
         <Box>
-            <Heading>Incoming Request List</Heading>
+            <Heading>NewGamesList Component</Heading>
+            <Text>Category: {games[0].displayStatus}</Text>
             {games.map((game) => (
-                <Box className="game-card" bg=
+                <LinkBox>
+                <LinkOverlay as={ReactLink} to={`${game.id}`}>
+                    <Box className="game-card" bg=
                 {`${game.bgColor}`} key={game.id}>
                     {/* final version won't have host name, id, or confirmed just to check data is rendering correctly */}
-                    <Text>{game.id} </Text>
 
-                    {/* inline button styling was just to make it visible while styles are being finalized */}
-                    <Link to={`/incoming/${game.id}`} token={token}>
-                        <Button size="sm" variant="outline">
-                            More details
-                        </Button>
-                    </Link>
+
+                    <Text>{game.id} </Text>
                     <Box>
+                        <Text>(This will be an icon)</Text>
                         <Icon as={`Fa${game.icon}`} color={`${game.backgroundColor}`}/>
                     </Box>
                     <Text>{game.location_info.park_name}</Text>
@@ -45,11 +48,10 @@ export default function IncomingRequestList({ token, games }) {
                         {DateTime.fromISO(game.time).toLocaleString(
                             DateTime.TIME_SIMPLE
                         )}
-                    </Text>
-                    <Button colorScheme="teal">Join</Button>
-                    {/* inline button styling was just to make it visible while styles are being finalized */}
-                </Box>
+                    </Text></Box>
+                </LinkOverlay>
+                </LinkBox>
             ))}
         </Box>
-    );
+    )
 }
