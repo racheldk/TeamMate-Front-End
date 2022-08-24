@@ -7,7 +7,7 @@ import Modal from "react-modal";
 import axios from "axios";
 import { StarIcon, CloseIcon } from "@chakra-ui/icons";
 import { BsPencil } from "react-icons/bs";
-import { Text, Heading, Image, Icon, IconButton, Button } from "@chakra-ui/react";
+import { Text, Heading, Image, Icon, IconButton, Button, Box } from "@chakra-ui/react";
 import noImage from "../images/no-image.jpg";
 
 function UserProfile({ token, setToken }) {
@@ -45,13 +45,13 @@ const handleCloseModal = (game) => {
     <>
       <Header token={token} setToken={setToken} />
 
-      <div className="app-body">
+      <Box className="app-body">
         {user && (
           <>
-            <div className="spacer">&nbsp;</div>
-            <div className="profile-body">
+            <Box className="spacer">&nbsp;</Box>
+            <Box className="profile-body">
             
-              <div className="user-name">
+              <Box className="user-name">
                 <Heading size="2xl" color="white">
                   {user.username}
                   <IconButton
@@ -68,8 +68,10 @@ const handleCloseModal = (game) => {
                     icon={<Icon as={BsPencil} />}
                   />
                 </Heading>
-              </div>
-              <div className="profile-pic">
+              </Box>
+              {user.profile > 0 && 
+              <>
+              <Box className="profile-pic">
                 <Image
                   src={`${user.profile.profile_pic}`}
                   alt={user.username}
@@ -77,19 +79,19 @@ const handleCloseModal = (game) => {
                   borderRadius="full"
                   boxSize="150px"
                 />
-              </div>
-              <div className="ranks">
+              </Box>
+              <Box className="ranks">
                 <Heading color="white">
                   NTRP: {user.profile.ntrp_rating}
                 </Heading>
-              </div>
-              <div className="games">  {user.game_session.map((game) => (
-          <div className="game-item" on>
-           <Text>{game.date}&nbsp;</Text>
-           <Text>{game.location_info.park_name}</Text>
-          </div>
-        ))}</div>
-            </div>
+              </Box>
+              <Box className="games">  {user.game_session.map((game) => (
+          <Box className="game-item" on>
+            <Text>{game.date}&nbsp;</Text>
+            <Text>{game.location_info.park_name}</Text>
+          </Box>
+        ))}</Box></>}
+            </Box>
             <Modal
                 isOpen={modalIsOpen}
                 contentLabel="Edit Profile Modal"
@@ -109,7 +111,7 @@ const handleCloseModal = (game) => {
             </Modal>
           </>
         )}
-      </div>
+      </Box>
 
       <Footer />
     </>

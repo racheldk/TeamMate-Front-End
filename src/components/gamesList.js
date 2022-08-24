@@ -7,6 +7,10 @@ import { Link } from "react-router-dom";
 import GameDetail from "./gameDetail";
 import EditGame from "../pages/editGame";
 
+import { IconButton, Button, Text, Heading, Box } from '@chakra-ui/react'
+import { StarIcon, CloseIcon } from "@chakra-ui/icons";
+
+
 export default function GamesList({ token, games, listType, listTitle }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [error, setError] = useState(null);
@@ -166,119 +170,118 @@ export default function GamesList({ token, games, listType, listTitle }) {
     }
     console.log(games);
     return (
-        <div>
-            <div>{listTitle}</div>
-            {games.map((game) => (
-                <div className="game-card" key={game.id}>
-                    {/* <div>
-                        {game.id}; host: {game.host_info.username};{" "}
-                    </div>
-                    {game.guest_info.length > 0 &&
-                        game.guest_info.map((guest) => (
-                            <div>
-                                {guest.id}
-                                {guest.user}
-                                {guest.status}
-                            </div>
-                        ))} */}
+        <Box>
 
-                    <div>Location: {game.location_info.park_name}</div>
-                    <div>
-                        {DateTime.fromISO(game.date).toLocaleString({
-                            weekday: "short",
-                            month: "short",
-                            day: "numeric",
-                        })}{" "}
-                        at{" "}
-                        {DateTime.fromISO(game.time).toLocaleString(
-                            DateTime.TIME_SIMPLE
-                        )}
-                    </div>
+            
+    <Box>{listTitle}</Box>
+    {games.map((game) => (
+        <Box className="game-card" key={game.id}>
+        <Box  w='50%'><Heading size="md">{game.location_info.park_name}</Heading></Box>
+        <Box w='50%' display='flex' justifyContent='end'>
+        <Button colorScheme='teal' size='xs'
+                onClick={() => {
+                    handleOpenModal(game);
+                }}
+            >Show more</Button>
+            </Box>
+            <Box className='full-width'>
+                {DateTime.fromISO(game.date).toLocaleString({
+                    weekday: "short",
+                    month: "short",
+                    day: "numeric",
+                })}{" "}
+                at {" "}
+                {DateTime.fromISO(game.time).toLocaleString(
+                    DateTime.TIME_SIMPLE
+                    )}
 
-                    <button-showmore
-                        onClick={() => {
-                            handleOpenModal(game);
-                        }}
-                    >
-                        Show more
-                    </button-showmore>
+                    </Box>
+                    
+                
 
                     {(() => {
                         switch (listType) {
                             case "allOpen":
                                 return (
-                                    <button-join
+                                    <Box w='100%' display='flex' justifyContent='end'>
+                                    <Button colorScheme='teal'
                                         onClick={() => handleJoinClick(game)}
                                     >
                                         Join
-                                    </button-join>
+                                    </Button>
+                                    </Box>
                                 );
                             case "pendingPOVGuest":
                                 return (
-                                    <button-cancel
+                                    <Button colorScheme='teal'
                                         onClick={() =>
                                             handleCancelRequest(game)
                                         }
                                     >
                                         Cancel
-                                    </button-cancel>
+                                    </Button>
                                 );
                             case "pendingPOVHost":
                                 return (
                                     <>
-                                        <button-accept
+                                    <Box w="100%" display="flex" justifyContent="center">
+                                        <Button colorScheme='teal' w='50%'
                                             onClick={() =>
                                                 handleAcceptRequest(game)
                                             }
                                         >
                                             Accept
-                                        </button-accept>
-                                        <button-reject
+                                        </Button>
+                                        &nbsp;
+                                        <Button colorScheme='red' w='50%'
                                             onClick={() =>
                                                 handleRejectRequest(game)
                                             }
                                         >
                                             Reject
-                                        </button-reject>
+                                        </Button>
+                                    </Box>
                                     </>
                                 );
                             case "myOpen":
                                 return (
                                     <>
-                                        <button-delete
-                                            onClick={() =>
-                                                handleDeleteMyGame(game)
-                                            }
-                                        >
-                                            Delete
-                                        </button-delete>
-                                        {/* <button onClick={()=> handleEditMyGame(game) }>Edit</button> */}
-                                        <Link
+                                    <Box w='100%' display='flex' justifyContent='center'>
+                                        <Button colorScheme='teal' w='50%'>
+                                           <Link
                                             to={`/edit/${game.id}`}
                                             token={token}
                                             game={game}
                                         >
                                             Edit
                                         </Link>
+                                        </Button>&nbsp;
+                                        <Button colorScheme='red' w='50%'
+                                            onClick={() =>
+                                                handleDeleteMyGame(game)
+                                            }
+                                        >
+                                            Delete
+                                        </Button>
+                                        </Box>
+                                    
                                     </>
                                 );
                             case "confirmed":
                                 return (
-                                    <button-to-cancel
+                                    <Button colorScheme='teal'
                                         onClick={() =>
                                             handleCancelConfirmed(game)
                                         }
                                     >
                                         Cancel
-                                    </button-to-cancel>
+                                    </Button>
                                 );
                             default:
                                 return null;
                         }
                     })()}
-
-                    {/* <button>Join</button> */}
-                </div>
+                </Box>
             ))}
             <Modal
                 isOpen={modalIsOpen}
@@ -288,7 +291,16 @@ export default function GamesList({ token, games, listType, listTitle }) {
                 overlayClassName="modal-overlay"
                 listType={listType}
             >
-                <button onClick={() => handleCloseModal()}>close</button>
+                              <Button
+                    onClick={() => {
+                        handleCloseModal();
+                    }}
+                    className="close-modal-button"
+                    variant="ghost"
+                    colorScheme="teal"
+                >
+                    <CloseIcon color="white" />
+                </Button>
                 {modalIsOpen}
 
                 {/* switch case for sending different buttons through to the modal  */}
@@ -343,7 +355,7 @@ export default function GamesList({ token, games, listType, listTitle }) {
                     }
                 })()}
             </Modal>
-        </div>
+        </Box>
     );
 }
 
@@ -351,8 +363,8 @@ function AfterJoinRequestSent({ game }) {
     console.log(game);
     return (
         <>
-            <div>
-                You requested to join {game.host_info.first_name}'s game at{" "}
+            <Box>
+                <Text>You requested to join {game.host_info.first_name}'s game at{" "}
                 {game.location_info.park_name} on{" "}
                 {DateTime.fromISO(game.date).toLocaleString({
                     month: "long",
@@ -362,12 +374,12 @@ function AfterJoinRequestSent({ game }) {
                 {DateTime.fromISO(game.time).toLocaleString(
                     DateTime.TIME_SIMPLE
                 )}
-                .
-            </div>
-            <div>
-                You will be notified after {game.host_info.first_name} has
-                confirmed the game, or if they're unable to play.{" "}
-            </div>
+                .</Text>
+            </Box>
+            <Box>
+                <Text>You will be notified after {game.host_info.first_name} has
+                confirmed the game, or if they're unable to play.{" "}</Text>
+            </Box>
             <Link to={"/my-games"}>Return to My Games</Link>
         </>
     );

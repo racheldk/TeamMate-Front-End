@@ -25,9 +25,10 @@ import Footer from "../components/FooterMenu";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import GamesList from "../components/gamesList";
-import { Button } from "@chakra-ui/react";
+import { Button, Box } from "@chakra-ui/react";
 import { DateTime } from "luxon";
-import { BsChevronCompactLeft } from "react-icons/bs";
+import { BsChevronCompactLeft, BsCalendar2CheckFill, BsArrowDownSquare, BsArrowUpSquare, BsFillBookFill } from "react-icons/bs";
+
 
 export default function MyGames({
     token,
@@ -157,37 +158,41 @@ export default function MyGames({
 
     return (
         <>
-            <div className="app-body">
+            <Box className="app-body">
                 <Header />
-                <div className="nav_links">
-                    <button
-                        className="buttonmygames"
+
+                <Box className="nav_links">
+                    <Button
+                        colorScheme='teal' fontSize='12px'
                         onClick={() => handleMenuConfirmed()}
                     >
                         Confirmed Games
-                    </button>
+                    </Button>
+
                     <br />
-                    <button
-                        className="buttonmygames"
+                    <Button
+                        colorScheme='teal' fontSize='12px'
                         onClick={() => handleMenuPOVGuest()}
                     >
+
                         Pending Requests I Have Made
-                    </button>
-                    <button
-                        className="buttonmygames"
+                    </Button>
+                    <Button
+                        colorScheme='teal' fontSize='12px'
                         onClick={() => handleMenuPOVHost()}
                     >
                         Pending Requests to Join my Games
-                    </button>
-                    <button
-                        className="buttonmygames"
+                    </Button>
+                    <Button
+                        colorScheme='teal' fontSize='12px'
                         onClick={() => handleMenuMyOpen()}
                     >
                         My Open Games
-                    </button>
-                </div>
+                    </Button>
+                </Box>
 
-                <div>
+
+                <Box>
                     {(() => {
                         // Need to update which games array state is sent as games prop!!
                         switch (listType) {
@@ -233,8 +238,8 @@ export default function MyGames({
                                 return null;
                         }
                     })()}
-                </div>
-            </div>
+                </Box>
+            </Box>
             <Footer />
         </>
     );

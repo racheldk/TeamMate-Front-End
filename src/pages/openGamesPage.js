@@ -3,10 +3,12 @@ import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
 import axios from "axios";
 import { useState } from "react";
+import { Button, Box, Select, Heading } from "@chakra-ui/react";
 import ReactDatePicker from "react-datepicker";
 import subDays from "date-fns/subDays";
 import "react-datepicker/dist/react-datepicker.css";
 import { DateTime } from "luxon";
+
 
 
 export default function OpenGamesList({
@@ -87,21 +89,25 @@ export default function OpenGamesList({
     return (
         <>
             <Header />
-            <div className="app-body">
-                <h1>Open Games List</h1>
+            <Box className="app-body">
+                <Heading color='teal' textAlign='center'>Open Games</Heading>
 
-                <div>
+
+                <Box>
                 <ReactDatePicker
+
                     onChange={(date) => {
                         console.log(date);
                         setFilteredDate(date);
                         handleFilterDate(date)
                     }}
                     minDate={subDays(new Date(), 0)}
-                    selected={filteredDate}
-                    placeholderText="Click to select a date"
+
+                    Selected={filteredDate}
+                    placeholderText="Click to Select a date"
                 />
-                    <select
+                    <Select w='50%' size='s' variant='filled'
+
                         onChange={handleFilterGameLoc}
                         value={filteredLoc}
                         id="filter-location"
@@ -110,32 +116,39 @@ export default function OpenGamesList({
                         <option value="">Location</option>
                         <option value="Pullen Park">Pullen Park</option>
                         <option value="Sanderford Park">Sanderford Park</option>
-                    </select>
-                    <select className="filters"
+                    </Select>
+                    <Select w='50%' size='s' variant='filled'
                         onChange={handleFilterSession}
                         value={filteredSession}
                         id="filter-type"
                         name="filter-type"
-                        >
-                        <option value="">Competitive level</option>
+
+                    >
+                        <option value="">Competitive Level</option>
+
+                        
+
                         <option value="Casual">Casual</option>
                         <option value="Competitive">Competitive</option>
-                    </select>
-                    <select className="filters"
+                    </Select>
+                    <Select w='50%' size='s' variant='filled'
                         onChange={handleFilterMatch}
                         value={filteredMatch}
                         id="filter-type"
                         name="filter-type"
                         >
                         <option value="">
-                            Number of players
+
+                            Number of Players
+
                         </option>
                         <option value="Singles">Singles</option>
                         <option value="Doubles">Doubles</option>
-                    </select>
+                    </Select>
                         
-                </div>
-                <button className="button-filter" onClick={() => handleSubmitFilter()}>Filter</button>
+
+                </Box>
+                <Button colorScheme='teal' onClick={() => handleSubmitFilter()}>Filter</Button>
 
                 {(!filtered)?  (<GamesList
                     token={token}
@@ -148,11 +161,13 @@ export default function OpenGamesList({
                         games={filteredGames}
                         listType={listType}/>
                     ) : (
-                        <div>No games were found matching your filters</div>
+                        <Box>No games were found matching your filters</Box>
                     )
                 )}
-            </div>
+            </Box>
             <Footer />
         </>
     );
 }
+
+

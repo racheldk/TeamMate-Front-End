@@ -1,4 +1,4 @@
-import { Button } from '@chakra-ui/react'
+import { Button, Box, Text, Heading, FormControl, FormLabel, FormHelperText, FormErrorMessage } from '@chakra-ui/react'
 import axios from "axios";
 import { useState } from "react";
 import { Navigate, Link } from "react-router-dom";
@@ -41,18 +41,16 @@ function Login({setAuth}) {
 
     return(
     <>
-    <div className="spacer">&nbsp;</div>
-    <div className="app-body">
-    <div className="login-box">
-        <div className='formlogin'>
-        <div className="form-login">
-        
-        <h1 className="form-banner">Login</h1>
-        <label className="sr-only">Username</label>
+    <Box className="spacer">&nbsp;</Box>
+    <Box className="app-body">
+    <Box className="login-box">
+        <FormControl className='form' w='300px' textAlign='center'>
+        <Heading className="form-banner" color='#285E61'>Login</Heading>
+        <FormLabel w='100%' textAlign='center'>Username</FormLabel>
         <input id="inputUsername" class="form-control" placeholder="Username" required autofocus
             onChange={(e) => setUsername(e.target.value)}/>
         <br/> 
-        <label for="inputPassword" className="sr-only">Password</label>
+        <FormLabel for="inputPassword" w='100%' textAlign='center'>Password</FormLabel>
         <input type="password" id="inputPassword" class="form-control" placeholder="Password" required
             onChange={(e) => setPassword(e.target.value)}/>
     
@@ -60,14 +58,11 @@ function Login({setAuth}) {
         <Button colorScheme="teal" type="submit" 
         onClick={(e) => handleLogin(e)}>Login</Button>
         <br/>
-        <Button size='xs' height='20px' width='100px'
-        colorScheme="teal" type="submit">
-        <Link to="register">Register</Link></Button>
-    </div>
-    </div>
-    </div>
-    </div>
-    <div className="spacer">&nbsp;</div>
+        <Link to="register"><Text fontSize='12px'>New User? Create an Account</Text></Link>
+    </FormControl>
+    </Box>
+    </Box>
+    <Box className="spacer">&nbsp;</Box>
     </>
     )
     }
