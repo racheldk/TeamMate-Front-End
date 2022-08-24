@@ -15,10 +15,13 @@ console.log(username)
 
     const [actionRequiredGames, setActionRequiredGames] = useState([]);
     const [confirmedGames, setConfirmedGames] = useState([])
+    const [pendingPOVGuestGames, setPendingPOVGuestGames] = useState([])
+    const [unconfirmedGames, setUnconfirmedGames] = useState([])
     const [isLoading, setIsLoading] = useState(true);
 
 
 
+    // ActionRequired "!"
     useEffect(() => {
         axios
         // this endpoint is being adjusted to only show open games with a pending guest
@@ -33,7 +36,7 @@ console.log(username)
                     displayStatus: "actionRequired", 
                     bgColor: "black", 
                     icon: "FaExclamationCircle", 
-                    displayUsers: obj.guest_info,
+                    displayUsers: [obj.guest_info],
                     buttonLabels: ["Accept", "Reject"],
                     route: `host/${obj.id}`,
                     ...obj
@@ -43,6 +46,7 @@ console.log(username)
     }, []);
 
 
+    // Confirmed (color background)
     useEffect(() =>{
         axios.get(`https://teammate-app.herokuapp.com/${username}/confirmed/`, {
             headers: {
@@ -58,6 +62,53 @@ console.log(username)
                 displayUsers: [obj.host_info, ...obj.guest_info],
                 buttonLabels: ["Cancel this game"],
                 route: `confirmed/${obj.id}`,
+                ...obj
+            })))
+            
+        })
+    },[token])
+
+
+    // pendingPOVGuest "?"
+    useEffect(() =>{
+        axios.get(`https://teammate-app.herokuapp.com/${username}/open-guest/`, {
+            headers: {
+                Authorization: `Token ${token}`,
+            },
+        })
+        .then((res) => {
+            console.log(res.data)
+            setPendingPOVGuestGames(res.data.map((obj) => ({
+                displayStatus: "pendingPOVGuest", 
+                bgColor: null, 
+                icon: "FaQuestionCircle", 
+                displayUsers: [obj.host_info],
+                buttonLabels: ["Cancel request to join this game"],
+                route: `pending/${obj.id}`,
+                ...obj
+            })))
+            
+        })
+    },[token])
+
+
+    // Open No Action - unconfirmed, no pending guest 
+    // Update this endpoint
+    useEffect(() =>{
+        axios.get(`https://teammate-app.herokuapp.com/${username}/open-guest/`, {
+            headers: {
+                Authorization: `Token ${token}`,
+            },
+        })
+        .then((res) => {
+            console.log(res.data)
+            setUnconfirmedGames(res.data.map((obj) => ({
+                displayStatus: "unconfirmed", 
+                bgColor: null, 
+                icon: null, 
+                displayUsers: [obj.guest_info],
+                buttonLabels: ["Cancel this game"],
+                route: `unconfirmed/${obj.id}`,
                 ...obj
             })))
             

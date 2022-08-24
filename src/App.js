@@ -87,6 +87,10 @@ function App() {
                         path="incoming/:id"
                         element={<IncomingRequestDetail token={token} />}
                     />
+                    <Route
+                        path="pending/:id"
+                        element={<IncomingRequestDetail token={token} />}
+                    />
                     <Route path="my-games/confirmed/:id" element={<ConfirmedGameDetail />}/>
                     <Route
                         path=":username"
