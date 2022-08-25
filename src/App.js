@@ -24,6 +24,7 @@ function App() {
     );
     const [allGamesList, setAllGamesList] = useState([]);
     const [currentGame, setCurrentGame] = useState({});
+    const [surveyGame, setSurveyGame] = useState(null)
     const [game, setGame] = useState()
 
 
@@ -57,6 +58,71 @@ function App() {
             });
     }, [token, setAllGamesList]);
 
+    // this is to hardcode a game to get Survey ready to connect to BE 
+    useEffect(() => {
+        const sampleGames= [{
+        id: 3,
+        host: "rachelk",
+        host_info: {
+            id: 2,
+            username: "SampleUser 1",
+            first_name: "Rachel",
+            last_name: "Kelly",
+            profile: {
+                id: 1,
+                user: "rachelk",
+                profile_pic: "",
+                ntrp_rating: "2.5",
+                profile_image_file: null
+            }
+        },
+        date: "2022-08-27",
+        time: "07:00:00",
+        session_type: "Competitive",
+        match_type: "Singles",
+        location: 1,
+        location_info: {
+            id: 1,
+            park_name: "Pullen Park",
+            court_count: 5,
+            court_surface: "Hard Court",
+            address: {
+                id: 1,
+                court: "Pullen Park",
+                address1: null,
+                address2: null,
+                city: "Raleigh",
+                state: "NC",
+                zipcode: "27606"
+            }
+        },
+        guest: [],
+        guest_info: [
+            {
+                id: 1,
+                user: "SampleUser 2",
+                game_session: 13,
+                status: "Accepted"
+            },
+            {
+                id: 2,
+                user: "SampleUser 3",
+                game_session: 12,
+                status: "Accepted"
+            }
+        ],
+        confirmed: true
+        }]
+        setSurveyGame(sampleGames.map((obj)=>({
+            displayUsers: [
+                obj.host_info,
+                ...obj.guest_info,
+            ],
+            ...obj
+        }
+        )))
+    },[])
+
     return (
         <ChakraProvider Theme={Theme} Text={Text}>
             <BrowserRouter>
@@ -67,7 +133,7 @@ function App() {
                         element={<NewOpenGame token={token} />}
                     />
                     <Route
-                        path="survey" element={<Survey setAuth={setAuth}/>} />
+                        path="survey" element={<Survey setAuth={setAuth} token={token} surveyGame={surveyGame}/>} />
                     <Route
                         path="register"
                         element={<Register setAuth={setAuth} />}
