@@ -1,14 +1,13 @@
 import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Box, Select, Heading } from "@chakra-ui/react";
 import ReactDatePicker from "react-datepicker";
 import subDays from "date-fns/subDays";
 import "react-datepicker/dist/react-datepicker.css";
 import { DateTime } from "luxon";
-import OpenGamesList from "../components/OpenGamesList";
-import NewGamesList from "../components/NewGamesList";
+import NewGamesList from "../components/GamesList";
 
 export default function OpenGamesPage({ token, allGamesList, username, game, setGame }) {
     const [filteredDate, setFilteredDate] = useState(null);
@@ -83,7 +82,7 @@ export default function OpenGamesPage({ token, allGamesList, username, game, set
         <>
             <Header />
             <Box className="app-body">
-                <Heading color='teal' textAlign='center'>Open Games</Heading>
+                <Heading  color='teal' textAlign='center'>Open Games</Heading>
 
                 <Box textAlign='center' m={2}>
                 <ReactDatePicker
@@ -154,19 +153,6 @@ export default function OpenGamesPage({ token, allGamesList, username, game, set
                         <Box textAlign='center'>No games were found matching your filters</Box>
                     )
                 )}
-
-                {/* {(!filtered)?  (<OpenGamesList
-                    token={token}
-                    games={allGamesList}
-                /> ):(
-                    filteredGames.length>0 ? (
-                        <OpenGamesList 
-                        token={token}
-                        games={filteredGames} />
-                    ) : (
-                        <Box textAlign='center'>No games were found matching your filters</Box>
-                    )
-                )} */}
             </Box>
             <Footer />
         </>

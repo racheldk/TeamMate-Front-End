@@ -1,11 +1,10 @@
-import GamesList from "../components/OLDgamesList";
 import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
 import { useEffect, useState } from "react";
 import useLocalStorageState from "use-local-storage-state";
 import Modal from "react-modal";
 import axios from "axios";
-import { StarIcon, CloseIcon } from "@chakra-ui/icons";
+import { CloseIcon } from "@chakra-ui/icons";
 import { BsPencil } from "react-icons/bs";
 import { Text, Heading, Image, Icon, IconButton, Button, Box } from "@chakra-ui/react";
 import noImage from "../images/no-image.jpg";

@@ -2,7 +2,6 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NewOpenGame from "./pages/newOpenGame";
 import { useEffect, useState } from "react";
-import OpenGamesList from "./pages/openGamesPage";
 import { ChakraProvider } from "@chakra-ui/react";
 import Login from "./pages/login.js";
 import Register from "./pages/register";
@@ -14,11 +13,7 @@ import axios from "axios";
 import EditGame from "./pages/editGame";
 import MyGames from "./pages/myGamesPage";
 import OpenGamesPage from "./pages/openGamesPage";
-import IncomingRequestDetail from "./components/IncomingRequestDetail";
-import UpdatedGameDetail from "./components/UpdatedGameDetail";
-import ConfirmedGameDetail from "./components/ConfirmedGameDetail";
 import Survey from "./pages/survey";
-import {  SunIcon } from "@chakra-ui/icons";
 
 
 function App() {
@@ -27,8 +22,6 @@ function App() {
         "teammateUsername",
         null
     );
-    const [listType, setListType] = useState(null);
-    //   above is the listType to be used with GamesList component (which is rendered from OpenGamesList and MyGames components)
     const [allGamesList, setAllGamesList] = useState([]);
     const [currentGame, setCurrentGame] = useState({});
     const [game, setGame] = useState()
@@ -52,7 +45,7 @@ function App() {
                     res.data.map((obj) => ({
                         displayStatus: "open to join",
                         bgColor: "pink",
-                        icon: <SunIcon/>,
+                        icon: null,
                         displayUsers: [obj.host_info],
                         buttons: [
                             { label: "Join", job: "send a join request" },
@@ -61,7 +54,6 @@ function App() {
                         ...obj,
                     }))
                 );
-                // setIsLoading(false);
             });
     }, [token, setAllGamesList]);
 
@@ -76,10 +68,6 @@ function App() {
                     />
                     <Route
                         path="survey" element={<Survey setAuth={setAuth}/>} />
-
-                    {/* make a new open game post  */}
-                    <Route path="register" element={<Register setAuth={setAuth} />} />
-                    {/* register new user */}
                     <Route
                         path="register"
                         element={<Register setAuth={setAuth} />}
@@ -100,7 +88,6 @@ function App() {
                         path="my-games/"
                         element={<MyGames token={token} username={username} game={game} setGame={setGame}/>}
                     />
-                    <Route path="my-games/host/:id" element={<UpdatedGameDetail token={token} currentGame={currentGame} setCurrentGame={setCurrentGame} />}/>
                     <Route path="/edit/">
                         <Route
                             path=":id"
@@ -108,21 +95,10 @@ function App() {
                         />
                     </Route>
                     <Route
-                        path="incoming/:id"
-                        element={<IncomingRequestDetail token={token} />}
-                    />
-                    <Route
-                        path="pending/:id"
-                        element={<IncomingRequestDetail token={token} />}
-                    />
-                    <Route path="my-games/confirmed/:id" element={<ConfirmedGameDetail />}/>
-                    <Route
                         path=":username"
                         element={
                             <UserProfile
                                 token={token}
-                                listType={listType}
-                                setListType={setListType}
                                 allGamesList={allGamesList}
                             />
                         }

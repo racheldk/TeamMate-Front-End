@@ -140,8 +140,8 @@ export default function NewOpenGame({ token }) {
                         </option>
                         <option value="1">Pullen Park</option>
                         <option value="2">Sanderford Park</option>
-
                         {/* We could also make an API request for a list of parks, then map through them as dropdown option. This might also help store whatever data other than the park name the backend needs.  */}
+
                     </Select>
                 </Box>
                 <Box p={2}>

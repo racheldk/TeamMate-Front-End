@@ -1,29 +1,15 @@
 import {
     Text,
     Heading,
-    Image,
     Icon,
-    IconButton,
-    Button,
     Box,
-    requiredChakraThemeKeys,
 } from "@chakra-ui/react";
 import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
-import IncomingRequestList from "../components/IncomingRequestList";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import NewGamesList from "../components/NewGamesList";
-import { withTheme } from "@emotion/react";
-import { WarningIcon, SunIcon } from "@chakra-ui/icons";
-// import GamesList from "../components/gamesList";
-import { DateTime } from "luxon";
+import GamesList from "../components/GamesList";
 import {
-    BsChevronCompactLeft,
-    BsCalendar2CheckFill,
-    BsArrowDownSquare,
-    BsArrowUpSquare,
-    BsFillBookFill,
     BsQuestionCircleFill,
     BsFillExclamationCircleFill
 } from "react-icons/bs";
@@ -39,10 +25,6 @@ export default function MyGames({ token, username, game, setGame }) {
     const [hostOpenDoublesGames, setHostOpenDoublesGames] = useState([]);
     const [guestOpenDoublesGames, setGuestOpenDoublesGames] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [openGames, setOpenGames] = useState([]);
-    const [test, setTest] = useState("original");
-
-    // console.log(game);
 
     const handleJoin = (game) => {
         console.log("join click");
@@ -68,34 +50,6 @@ export default function MyGames({ token, username, game, setGame }) {
     };
 
     useEffect(() => {
-        // setListType("allOpen")
-        axios
-            .get("https://teammate-app.herokuapp.com/session/", {
-                headers: {
-                    Authorization: `Token ${token}`,
-                },
-            })
-            .then((res) => {
-                console.log(res.data);
-                setOpenGames(
-                    res.data.map((obj) => ({
-                        displayStatus: "open to join",
-                        bgColor: "pink",
-                        icon: "FaExclamationCircle",
-                        displayUsers: [obj.host_info],
-                        buttons: [
-                            { label: "Join", job: () => handleJoin(game) },
-                        ],
-                        route: `host/${obj.id}`,
-                        ...obj,
-                    }))
-                );
-                // setIsLoading(false);
-            });
-    }, [token, setOpenGames]);
-
-    useEffect(() => {
-        // ???!!!!????!!!!??? Do we also need unconfirmed guest and unconfirmed host? one to delete request and another to delete the game??
         const reqAction = axios.get(
             `https://teammate-app.herokuapp.com/${username}/games/?my-games=HostUnconfirmed`,
             {
@@ -312,7 +266,6 @@ export default function MyGames({ token, username, game, setGame }) {
                 alert(error.message);
             });
         setIsLoading(false);
-        setTest("please please work");
     }, [token]);
 
     // const combineLists = () => {
@@ -337,14 +290,7 @@ export default function MyGames({ token, username, game, setGame }) {
     return (
         <Box className="app-body">
             <Header />
-            <Heading>MyGames Component</Heading>
-
-            {/* <NewGamesList
-                token={token}
-                gamesList={openGames}
-                setGame={setGame}
-                game={game}
-            /> */}
+            <Heading fontSize='1xl'>MyGames Component</Heading>
 
             {/* The following ternaries are so Rachel can see where things are loading/not loading */}
             {actionRequiredGames.length == 0 ? (
@@ -352,7 +298,7 @@ export default function MyGames({ token, username, game, setGame }) {
                     You don't have any games that require your attention
                 </Text>
             ) : (
-                <NewGamesList
+                <GamesList
                     token={token}
                     gamesList={actionRequiredGames}
                     setGame={setGame}
@@ -363,7 +309,7 @@ export default function MyGames({ token, username, game, setGame }) {
             {confirmedGames.length == 0 ? (
                 <Text>You don't have any confirmed games.</Text>
             ) : (
-                <NewGamesList
+                <GamesList
                     token={token}
                     gamesList={confirmedGames}
                     setGame={setGame}
@@ -374,7 +320,7 @@ export default function MyGames({ token, username, game, setGame }) {
             {pendingPOVGuestGames.length == 0 ? (
                 <Text>You don't have any pending requests to join games.</Text>
             ) : (
-                <NewGamesList
+                <GamesList
                     token={token}
                     gamesList={pendingPOVGuestGames}
                     setGame={setGame}
@@ -388,7 +334,7 @@ export default function MyGames({ token, username, game, setGame }) {
                     attached.
                 </Text>
             ) : (
-                <NewGamesList
+                <GamesList
                     token={token}
                     gamesList={noGuestGames}
                     setGame={setGame}
@@ -402,7 +348,7 @@ export default function MyGames({ token, username, game, setGame }) {
                     more participants.
                 </Text>
             ) : (
-                <NewGamesList
+                <GamesList
                     token={token}
                     gamesList={hostOpenDoublesGames}
                     setGame={setGame}
@@ -415,7 +361,7 @@ export default function MyGames({ token, username, game, setGame }) {
                     more participants.
                 </Text>
             ) : (
-                <NewGamesList
+                <GamesList
                     token={token}
                     gamesList={guestOpenDoublesGames}
                     setGame={setGame}
@@ -426,7 +372,7 @@ export default function MyGames({ token, username, game, setGame }) {
             {/* {noActionGames.length == 0 ? (
                 <Text>noActionGames array is empty</Text>
             ) : (
-                <NewGamesList
+                <GamesList
                     token={token}
                     gamesList={noActionGames}
                     // setNoActionGames={setNoActionGames}

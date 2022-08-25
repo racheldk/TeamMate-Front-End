@@ -4,7 +4,7 @@ import { DateTime } from "luxon";
 import noImage from "../images/no-image.jpg";
 import axios from "axios";
 
-export default function UpdatedGameDetail({
+export default function GameDetail({
     token,
     game,
     handleCloseModal,
