@@ -1,8 +1,6 @@
 import { Text, Heading, Image, Button, Box } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
 import { DateTime } from "luxon";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import noImage from "../images/no-image.jpg";
 import axios from "axios";
 
@@ -12,10 +10,6 @@ export default function UpdatedGameDetail({
     handleCloseModal,
 }) {
     console.log(game);
-
-    // game.buttons.map((button) => {
-    //     console.log(button.label);
-    // });
 
     const handleJoin = () => {
         console.log("join click");
@@ -40,28 +34,6 @@ export default function UpdatedGameDetail({
             });
     };
 
-    // const handleJoin = (game) => {
-    //     console.log("join click");
-    //     console.log(game);
-    //     axios
-    //         .post(
-    //             `https://teammate-app.herokuapp.com/session/${game.id}/guest/`,
-    //             {},
-    //             {
-    //                 headers: {
-    //                     Authorization: `Token ${token}`,
-    //                 },
-    //             }
-    //         )
-    //         .then(() => {
-    //             console.log("guest posted");
-    //             alert("You sent a join request");
-    //             // setJoinRequestSent(true);
-    //         })
-    //         .catch((error) => {
-    //             alert(error.response.data.detail);
-    //         });
-    // };
 
     return (
         <Box className="modal-overlay">
@@ -79,7 +51,6 @@ export default function UpdatedGameDetail({
                 </Button>
                 <Box>{game.id}</Box>
                 <Box className="game-card" key={game.id}>
-                    {/* the following ternary is so the page doesn't break if the user's profile isn't filled out */}
                     {game.displayUsers.length > 0 && (
                         <>
                             <Text>{`${game.host_info.first_name} ${game.host_info.last_name}`}</Text>

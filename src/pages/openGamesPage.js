@@ -8,8 +8,9 @@ import subDays from "date-fns/subDays";
 import "react-datepicker/dist/react-datepicker.css";
 import { DateTime } from "luxon";
 import OpenGamesList from "../components/OpenGamesList";
+import NewGamesList from "../components/NewGamesList";
 
-export default function OpenGamesPage({ token, allGamesList, username }) {
+export default function OpenGamesPage({ token, allGamesList, username, game, setGame }) {
     const [filteredDate, setFilteredDate] = useState(null);
     const [searchDate, setSearchDate] = useState("");
 
@@ -137,7 +138,24 @@ export default function OpenGamesPage({ token, allGamesList, username }) {
                 </Box>
                 
 
-                {(!filtered)?  (<OpenGamesList
+                {(!filtered)?  (<NewGamesList
+                    token={token}
+                    gamesList={allGamesList}
+                    setGame={setGame}
+                    game={game}
+                /> ):(
+                    filteredGames.length>0 ? (
+                        <NewGamesList 
+                        token={token}
+                        gamesList={filteredGames} 
+                        setGame={setGame}
+                        game={game}/>
+                    ) : (
+                        <Box textAlign='center'>No games were found matching your filters</Box>
+                    )
+                )}
+
+                {/* {(!filtered)?  (<OpenGamesList
                     token={token}
                     games={allGamesList}
                 /> ):(
@@ -148,7 +166,7 @@ export default function OpenGamesPage({ token, allGamesList, username }) {
                     ) : (
                         <Box textAlign='center'>No games were found matching your filters</Box>
                     )
-                )}
+                )} */}
             </Box>
             <Footer />
         </>

@@ -46,7 +46,20 @@ function App() {
             })
             .then((res) => {
                 console.log(res.data);
-                setAllGamesList(res.data);
+                setAllGamesList(
+                    res.data.map((obj) => ({
+                        displayStatus: "open to join",
+                        bgColor: "pink",
+                        icon: "FaExclamationCircle",
+                        displayUsers: [obj.host_info],
+                        buttons: [
+                            { label: "Join", job: "send a join request" },
+                        ],
+                        route: `host/${obj.id}`,
+                        ...obj,
+                    }))
+                );
+                // setIsLoading(false);
             });
     }, [token, setAllGamesList]);
 
@@ -76,6 +89,8 @@ function App() {
                                 token={token}
                                 allGamesList={allGamesList}
                                 username={username}
+                                setGame={setGame}
+                                game={game}
                             />
                         }
                     />

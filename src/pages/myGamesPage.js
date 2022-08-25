@@ -337,12 +337,12 @@ export default function MyGames({ token, username, game, setGame }) {
             <Header />
             <Heading>MyGames Component</Heading>
 
-            <NewGamesList
+            {/* <NewGamesList
                 token={token}
                 gamesList={openGames}
                 setGame={setGame}
                 game={game}
-            />
+            /> */}
 
             {/* The following ternaries are so Rachel can see where things are loading/not loading */}
             {actionRequiredGames.length == 0 ? (
