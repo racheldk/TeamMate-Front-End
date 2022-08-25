@@ -14,6 +14,7 @@ import EditGame from "./pages/editGame";
 import MyGames from "./pages/myGamesPage";
 import OpenGamesPage from "./pages/openGamesPage";
 import Survey from "./pages/survey";
+import NotificationsList from "./components/NotificationsList";
 
 
 function App() {
@@ -103,6 +104,8 @@ function App() {
                             />
                         }
                     />
+                    {/* Notifications path is just for during development - when header is ready this will be rendered in a modal */}
+                    <Route path="notifications" element={<NotificationsList token={token}/>}/>
                 </Routes>
             </BrowserRouter>
         </ChakraProvider>
