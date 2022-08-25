@@ -150,6 +150,9 @@ const Survey = () => {
                             height="30px"
                             key={user.id}
                             m={1}
+                            onClick={()=>
+                                {console.log({about_user: user.id, response: "Winner"})
+                                surveyResponses.push({about_user: user.id, response: "Winner"})}}
                         >
                             {user.username}
                         </Button>
@@ -178,6 +181,9 @@ const Survey = () => {
                             height="30px"
                             key={user.id}
                             m={1}
+                            onClick={()=>
+                                {console.log({about_user: user.id, response: "Block User"})
+                                surveyResponses.push({about_user: user.id, response: "Block User"})}}
                         >
                             {user.username}
                         </Button>
@@ -196,6 +202,9 @@ const Survey = () => {
                             variant="outline"
                             className=""
                             icon={<BsFillEmojiSmileFill />}
+                            onClick={()=>
+                                {console.log({about_court: game.location, response: "High Quality"})
+                                surveyResponses.push({about_court: game.location, response: "High Quality"})}}
                         />
                         <IconButton
                             aria-label="ProfileItem"
@@ -205,6 +214,9 @@ const Survey = () => {
                             variant="outline"
                             className=""
                             icon={<BsFillEmojiNeutralFill />}
+                            onClick={()=>
+                                {console.log({about_court: game.location, response: "Average Quality"})
+                                surveyResponses.push({about_court: game.location, response: "Average Quality"})}}
                         />
                         <IconButton
                             aria-label="Search Item"
@@ -214,6 +226,9 @@ const Survey = () => {
                             variant="outline"
                             className=""
                             icon={<BsEmojiFrownFill />}
+                            onClick={()=>
+                                {console.log({about_court: game.location, response: "Poor Quality"})
+                                surveyResponses.push({about_court: game.location, response: "Poor Quality"})}}
                         />
                     </div>
 
