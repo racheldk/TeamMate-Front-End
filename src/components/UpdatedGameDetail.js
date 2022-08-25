@@ -13,9 +13,9 @@ export default function UpdatedGameDetail({
 }) {
     console.log(game);
 
-    game.buttons.map((button) => {
-        console.log(button.label);
-    });
+    // game.buttons.map((button) => {
+    //     console.log(button.label);
+    // });
 
     const handleJoin = () => {
         console.log("join click");
@@ -80,7 +80,7 @@ export default function UpdatedGameDetail({
                 <Box>{game.id}</Box>
                 <Box className="game-card" key={game.id}>
                     {/* the following ternary is so the page doesn't break if the user's profile isn't filled out */}
-                    {game.guest_info.length > 0 && (
+                    {game.displayUsers.length > 0 && (
                         <>
                             <Text>{`${game.host_info.first_name} ${game.host_info.last_name}`}</Text>
                             <Text>{game.host}</Text>
@@ -115,7 +115,7 @@ export default function UpdatedGameDetail({
 
                     <Box>
                         {game.buttons.map((obj) => (
-                            <Button  key={obj.label} onClick={obj.job()}
+                            <Button  key={obj.label} onClick={()=>console.log(`${obj.label} clicked`)}
                             >
                                 <Text color="red">{obj.label} </Text>
                             </Button>

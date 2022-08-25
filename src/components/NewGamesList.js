@@ -113,7 +113,8 @@ console.log(gamesList)
                             DateTime.TIME_SIMPLE
                         )}
                     </Text>
-                    <Button onClick={() => handleOpenModal(game)} >Manage This Game</Button>
+                    <Button onClick={() => {
+                        handleOpenModal(game)}} >Manage This Game</Button>
                     </Box>
                 {/* </LinkOverlay> */}
                 </Box>

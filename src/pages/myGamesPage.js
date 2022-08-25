@@ -174,14 +174,16 @@ export default function MyGames({ token, username, game, setGame }) {
                                 displayStatus: "actionRequired",
                                 bgColor: "black",
                                 icon: "FaExclamationCircle",
-                                displayUsers: [obj.guest_info],
-                                buttonLabels: ["Accept", "Reject"],
+                                displayUsers: obj.guest_info,
                                 buttons: [
                                     {
                                         label: "Accept",
-                                        function: "handleAccept",
+                                        job: "handleAccept",
                                     },
-                                    {},
+                                    {
+                                        label: "Reject",
+                                        job: "handleReject",
+                                    },
                                 ],
                                 route: `host/${obj.id}`,
                                 ...obj,
@@ -200,7 +202,12 @@ export default function MyGames({ token, username, game, setGame }) {
                                     obj.host_info,
                                     ...obj.guest_info,
                                 ],
-                                buttonLabels: ["Cancel this game"],
+                                buttons: [
+                                    {
+                                        label: "Cancel this game",
+                                        job: "cancel confirmed",
+                                    },
+                                ],
                                 route: `confirmed/${obj.id}`,
                                 ...obj,
                             }))
@@ -214,9 +221,12 @@ export default function MyGames({ token, username, game, setGame }) {
                                 displayStatus: "pendingPOVGuest",
                                 bgColor: null,
                                 icon: "FaQuestionCircle",
-                                displayUsers: [obj.host_info],
-                                buttonLabels: [
-                                    "Cancel request to join this game",
+                                displayUsers: obj.host_info,
+                                buttons: [
+                                    {
+                                        label: "Cancel request to join this game",
+                                        job: "cancel pending request",
+                                    },
                                 ],
                                 route: `pending/${obj.id}`,
                                 ...obj,
@@ -231,8 +241,17 @@ export default function MyGames({ token, username, game, setGame }) {
                                 displayStatus: "no guests",
                                 bgColor: null,
                                 icon: null,
-                                displayUsers: null,
-                                buttonLabels: ["Delete", "Edit Game"],
+                                displayUsers: [],
+                                buttons: [
+                                    {
+                                        label: "Delete this game",
+                                        job: "delete game with no guests",
+                                    },
+                                    {
+                                        label: "Edit this game",
+                                        job: "Edit game with no guests",
+                                    },
+                                ],
                                 route: `unconfirmed/${obj.id}`,
                                 ...obj,
                             }))
@@ -250,7 +269,12 @@ export default function MyGames({ token, username, game, setGame }) {
                                     obj.host_info,
                                     ...obj.guest_info,
                                 ],
-                                buttonLabels: ["Cancel this Game"],
+                                buttons: [
+                                    {
+                                        label: "Cancel this Game",
+                                        job: "cancel game",
+                                    },
+                                ],
                                 route: `unconfirmed/${obj.id}`,
                                 ...obj,
                             }))
@@ -268,7 +292,12 @@ export default function MyGames({ token, username, game, setGame }) {
                                     obj.host_info,
                                     ...obj.guest_info,
                                 ],
-                                buttonLabels: ["Cancel this game"],
+                                buttons: [
+                                    {
+                                        label: "Cancel this game",
+                                        job: "cancel accepted request",
+                                    },
+                                ],
                                 route: `unconfirmed/${obj.id}`,
                                 ...obj,
                             }))
@@ -321,19 +350,34 @@ export default function MyGames({ token, username, game, setGame }) {
                     You don't have any games that require your attention
                 </Text>
             ) : (
-                <NewGamesList token={token} gamesList={actionRequiredGames} />
+                <NewGamesList
+                    token={token}
+                    gamesList={actionRequiredGames}
+                    setGame={setGame}
+                    game={game}
+                />
             )}
 
             {confirmedGames.length == 0 ? (
                 <Text>You don't have any confirmed games.</Text>
             ) : (
-                <NewGamesList token={token} gamesList={confirmedGames} />
+                <NewGamesList
+                    token={token}
+                    gamesList={confirmedGames}
+                    setGame={setGame}
+                    game={game}
+                />
             )}
 
             {pendingPOVGuestGames.length == 0 ? (
                 <Text>You don't have any pending requests to join games.</Text>
             ) : (
-                <NewGamesList token={token} gamesList={pendingPOVGuestGames} />
+                <NewGamesList
+                    token={token}
+                    gamesList={pendingPOVGuestGames}
+                    setGame={setGame}
+                    game={game}
+                />
             )}
 
             {noGuestGames.length == 0 ? (
@@ -342,7 +386,12 @@ export default function MyGames({ token, username, game, setGame }) {
                     attached.
                 </Text>
             ) : (
-                <NewGamesList token={token} gamesList={noGuestGames} />
+                <NewGamesList
+                    token={token}
+                    gamesList={noGuestGames}
+                    setGame={setGame}
+                    game={game}
+                />
             )}
 
             {hostOpenDoublesGames.length == 0 ? (
@@ -351,7 +400,12 @@ export default function MyGames({ token, username, game, setGame }) {
                     more participants.
                 </Text>
             ) : (
-                <NewGamesList token={token} gamesList={hostOpenDoublesGames} />
+                <NewGamesList
+                    token={token}
+                    gamesList={hostOpenDoublesGames}
+                    setGame={setGame}
+                    game={game}
+                />
             )}
             {guestOpenDoublesGames.length == 0 ? (
                 <Text>
@@ -359,7 +413,12 @@ export default function MyGames({ token, username, game, setGame }) {
                     more participants.
                 </Text>
             ) : (
-                <NewGamesList token={token} gamesList={guestOpenDoublesGames} />
+                <NewGamesList
+                    token={token}
+                    gamesList={guestOpenDoublesGames}
+                    setGame={setGame}
+                    game={game}
+                />
             )}
 
             {/* {noActionGames.length == 0 ? (
