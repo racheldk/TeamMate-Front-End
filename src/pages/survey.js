@@ -7,7 +7,10 @@ import {
     BsFillEmojiSmileFill,
 } from "react-icons/bs";
 
-export const Survey = () => {
+const Survey = () => {
+
+    const surveyResponses = []
+
     const game = {
         id: 3,
         host: "rachelk",
@@ -98,31 +101,28 @@ export const Survey = () => {
     console.log(game);
 
     return (
-        <Box 
-        className="survey"
-        >
+        <Box className="survey">
             <Box>
                 <Heading
                     color="teal"
-                    size='md'
+                    size="md"
                     // marginLeft="90px"
                 >
-                {game.match_type} game on {game.date}
+                    {game.match_type} game on {game.date}
                 </Heading>
 
                 <Box className="survey-text">
-                    <Text mt={3}
-                     >Did anyone NOT come to the game?</Text>
+                    <Text mt={3}>Did anyone NOT come to the game?</Text>
                     <Button
-                            variant="outline"
-                            backgroundColor=""
-                            colorScheme="teal"
-                            color="teal"
-                            height="30px"
-                            m={1}
-                        >
-                            No, everyone came
-                        </Button>
+                        variant="outline"
+                        backgroundColor=""
+                        colorScheme="teal"
+                        color="teal"
+                        height="30px"
+                        m={1}
+                    >
+                        No, everyone came
+                    </Button>
                     {game.displayUsers.map((user) => (
                         <Button
                             variant="outline"
@@ -130,7 +130,11 @@ export const Survey = () => {
                             colorScheme="teal"
                             color="teal"
                             height="30px"
+                            key={user.id}
                             m={1}
+                            onClick={()=>
+                                {console.log({about_user: user.id, response: "No Show"})
+                                surveyResponses.push({about_user: user.id, response: "No Show"})}}
                         >
                             {user.username}
                         </Button>
@@ -144,8 +148,8 @@ export const Survey = () => {
                             colorScheme="teal"
                             color="teal"
                             height="30px"
+                            key={user.id}
                             m={1}
-
                         >
                             {user.username}
                         </Button>
@@ -156,16 +160,15 @@ export const Survey = () => {
                         Would you like to block anyone from your future games?
                     </Text>
                     <Button
-                            variant="outline"
-                            backgroundColor=""
-                            colorScheme="teal"
-                            color="teal"
-                            height="30px"
-                            m={1}
-
-                        >
-                            No, I would play with them all again
-                        </Button>
+                        variant="outline"
+                        backgroundColor=""
+                        colorScheme="teal"
+                        color="teal"
+                        height="30px"
+                        m={1}
+                    >
+                        No, I would play with them all again
+                    </Button>
                     {game.displayUsers.map((user) => (
                         <Button
                             variant="outline"
@@ -173,14 +176,17 @@ export const Survey = () => {
                             colorScheme="teal"
                             color="teal"
                             height="30px"
+                            key={user.id}
                             m={1}
-
                         >
                             {user.username}
                         </Button>
                     ))}
                     <br />
-                    <Text mt={3}>How do you rate the court quality at {game.location_info.park_name}?</Text>
+                    <Text mt={3}>
+                        How do you rate the court quality at{" "}
+                        {game.location_info.park_name}?
+                    </Text>
                     <div className="icon-survey">
                         <IconButton
                             aria-label="ProfileItem"
@@ -215,10 +221,11 @@ export const Survey = () => {
                         marginLeft="10px"
                         width="300px"
                         height="30px"
-                        variant="ghost"
+                        // variant="ghost"
                         colorScheme="teal"
                         backgroundColor="teal"
                         color="white"
+                        onClick={()=>console.log(surveyResponses)}
                     >
                         Submit
                     </Button>
