@@ -69,9 +69,8 @@ const handleCloseModal = (game) => {
                   />
                 </Heading>
               </Box>
-              {user.profile > 0 && 
               <>
-              <Box className="profile-pic">
+              <Box className="profile-pic" m={2}>
                 <Image
                   src={`${user.profile.profile_pic}`}
                   alt={user.username}
@@ -90,7 +89,7 @@ const handleCloseModal = (game) => {
             <Text>{game.date}&nbsp;</Text>
             <Text>{game.location_info.park_name}</Text>
           </Box>
-        ))}</Box></>}
+        ))}</Box></>
             </Box>
             <Modal
                 isOpen={modalIsOpen}
