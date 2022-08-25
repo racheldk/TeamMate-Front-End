@@ -90,6 +90,7 @@ export default function NewOpenGame({ token }) {
             <FormControl className="form" mt={20}>
             <Heading className="form-banner" color='#2C7A7B'>Post a New Game</Heading>
                 <FormLabel htmlFor="date-time" p={2}>When would you like to play?</FormLabel>
+
                 <ReactDatePicker
                     onChange={(date) => {
                         console.log(date);

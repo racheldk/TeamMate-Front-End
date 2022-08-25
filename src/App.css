@@ -140,6 +140,29 @@ body {
     border-radius: 20px;
     width: 100%;
 }
+.tooltip {
+    position: relative;
+    display:inline-table;
+}
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 60px;
+    background-color: #c83b3b;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 2px;
+    font-size: 6px;
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    top: -35px;
+    left: -30%;
+}
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
 
 
 /* global form stylings */
