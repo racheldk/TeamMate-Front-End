@@ -2,18 +2,19 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NewOpenGame from "./pages/newOpenGame";
 import { useEffect, useState } from "react";
-import OpenGamesList from "./pages/openGamesPage";
 import { ChakraProvider } from "@chakra-ui/react";
 import Login from "./pages/login.js";
 import Register from "./pages/register";
 import Theme from "./components/theme";
 import { Text } from "@chakra-ui/react";
 import useLocalStorageState from "use-local-storage-state";
-import MyGames from "./pages/myGamesPage";
 import UserProfile from "./pages/userProfile";
 import axios from "axios";
 import EditGame from "./pages/editGame";
+import MyGames from "./pages/myGamesPage";
+import OpenGamesPage from "./pages/openGamesPage";
 import Survey from "./pages/survey";
+
 
 function App() {
     const [token, setToken] = useLocalStorageState("teammateToken", null);
@@ -21,9 +22,10 @@ function App() {
         "teammateUsername",
         null
     );
-    const [listType, setListType] = useState(null);
-    //   above is the listType to be used with GamesList component (which is rendered from OpenGamesList and MyGames components)
     const [allGamesList, setAllGamesList] = useState([]);
+    const [currentGame, setCurrentGame] = useState({});
+    const [game, setGame] = useState()
+
 
     const setAuth = (username, token) => {
         setToken(token);
@@ -39,56 +41,53 @@ function App() {
             })
             .then((res) => {
                 console.log(res.data);
-                setAllGamesList(res.data);
+                setAllGamesList(
+                    res.data.map((obj) => ({
+                        displayStatus: "open to join",
+                        bgColor: "pink",
+                        icon: null,
+                        displayUsers: [obj.host_info],
+                        buttons: [
+                            { label: "Join", job: "send a join request" },
+                        ],
+                        route: `host/${obj.id}`,
+                        ...obj,
+                    }))
+                );
             });
-    }, [token, setAllGamesList, setListType]);
+    }, [token, setAllGamesList]);
 
     return (
         <ChakraProvider Theme={Theme} Text={Text}>
             <BrowserRouter>
                 <Routes>
-                    <Route
-                        path="/"
-                        element={
-                            <Login setAuth={setAuth} />
-                        }
-                    />
-                    {/* All Open Games (Game List component? separate component?) */}
+                    <Route path="/" element={<Login setAuth={setAuth} />} />
                     <Route
                         path="/new"
                         element={<NewOpenGame token={token} />}
                     />
                     <Route
                         path="survey" element={<Survey setAuth={setAuth}/>} />
-
-                    {/* make a new open game post  */}
-                    <Route path="register" element={<Register setAuth={setAuth} />} />
-                    {/* register new user */}
                     <Route
-                        path="open-games"
-                        element={
-                            <OpenGamesList
-                                token={token}
-                                listType={listType}
-                                setListType={setListType}
-                                allGamesList={allGamesList}
-                            />
-                        }
+                        path="register"
+                        element={<Register setAuth={setAuth} />}
                     />
-                    {/* login */}
                     <Route
-                        path="my-games"
+                        path="open-games/"
                         element={
-                            <MyGames
+                            <OpenGamesPage
                                 token={token}
+                                allGamesList={allGamesList}
                                 username={username}
-                                listType={listType}
-                                setListType={setListType}
-                                allGamesList={allGamesList}
+                                setGame={setGame}
+                                game={game}
                             />
                         }
                     />
-                    {/* my games - confirmed, pending requests as guest, pending requests as host, open */}
+                    <Route
+                        path="my-games/"
+                        element={<MyGames token={token} username={username} game={game} setGame={setGame}/>}
+                    />
                     <Route path="/edit/">
                         <Route
                             path=":id"
@@ -100,13 +99,10 @@ function App() {
                         element={
                             <UserProfile
                                 token={token}
-                                listType={listType}
-                                setListType={setListType}
                                 allGamesList={allGamesList}
                             />
                         }
                     />
-                    {/* This will be a user profile (Team Quokka did something like this with the users/:id route)  */}
                 </Routes>
             </BrowserRouter>
         </ChakraProvider>

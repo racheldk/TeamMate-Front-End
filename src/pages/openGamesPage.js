@@ -1,4 +1,3 @@
-import GamesList from "../components/gamesList";
 import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
 import axios from "axios";
@@ -8,15 +7,11 @@ import ReactDatePicker from "react-datepicker";
 import subDays from "date-fns/subDays";
 import "react-datepicker/dist/react-datepicker.css";
 import { DateTime } from "luxon";
+import NewGamesList from "../components/GamesList";
 
-export default function OpenGamesList({
-    token,
-    listType,
-    setListType,
-    allGamesList,
-}) {
+    export default function OpenGamesPage({ token, allGamesList, username, game, setGame }) {
+        const [displayDate, setDisplayDate] = useState("")
     const [filteredDate, setFilteredDate] = useState(null);
-    const [displayDate, setDisplayDate] = useState("")
     const [searchDate, setSearchDate] = useState("");
     const [filteredLoc, setFilteredLoc] = useState(null);
     const [filteredSession, setFilteredSession] = useState(null);
@@ -26,8 +21,6 @@ export default function OpenGamesList({
     const [searchSession, setSearchSession] = useState("");
     const [searchMatch, setSearchMatch] = useState("");
     const [filtered, setFiltered] = useState(false);
-
-    setListType("allOpen");
     console.log(allGamesList);
     console.log(filteredGames);
 
@@ -88,10 +81,7 @@ export default function OpenGamesList({
         <>
             <Header />
             <Box className="app-body">
-                <Heading color="teal" textAlign="center">
-                    Open Games
-                </Heading>
-
+                <Heading  color='teal' textAlign='center'>Open Games</Heading>
                 <Box textAlign="center" 
                 // m={2}
                 >
@@ -172,23 +162,21 @@ export default function OpenGamesList({
                         Filter
                     </Button>
                 </Box>
-
-                {!filtered ? (
-                    <GamesList
+                {(!filtered)?  (<NewGamesList
+                    token={token}
+                    gamesList={allGamesList}
+                    setGame={setGame}
+                    game={game}
+                /> ):(
+                    filteredGames.length>0 ? (
+                        <NewGamesList 
                         token={token}
-                        games={allGamesList}
-                        listType={listType}
-                    />
-                ) : filteredGames.length > 0 ? (
-                    <GamesList
-                        token={token}
-                        games={filteredGames}
-                        listType={listType}
-                    />
-                ) : (
-                    <Box textAlign="center">
-                        No games were found matching your filters
-                    </Box>
+                        gamesList={filteredGames} 
+                        setGame={setGame}
+                        game={game}/>
+                    ) : (
+                        <Box textAlign='center'>No games were found matching your filters</Box>
+                    )
                 )}
             </Box>
             <Footer />
