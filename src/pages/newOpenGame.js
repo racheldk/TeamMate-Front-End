@@ -2,12 +2,14 @@ import ReactDatePicker from "react-datepicker";
 import subDays from "date-fns/subDays";
 import "react-datepicker/dist/react-datepicker.css";
 import { useEffect, useState } from "react";
-import { Box, Button, Heading, FormControl, FormLabel, Select } from "@chakra-ui/react";
+import { Box, Button, Heading, FormControl, FormLabel, Select, Text, Modal } from "@chakra-ui/react";
 import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
 import axios from "axios";
 import { DateTime } from "luxon";
 import { Link } from "react-router-dom";
+import { CloseIcon } from "@chakra-ui/icons";
+
 
 export default function NewOpenGame({ token }) {
     const [newGameDate, setNewGameDate] = useState("");
@@ -19,6 +21,8 @@ export default function NewOpenGame({ token }) {
     const [submitted, setSubmitted] = useState(false);
     const [convertedDate, setConvertedDate] = useState("");
     const [convertedTime, setConvertedTime] = useState("");
+    const [errorModalIsOpen, setErrorModalIsOpen] = useState(false);
+
 
     const handleChangeGameLoc = (event) => {
         console.log(event.target.value);
@@ -33,6 +37,11 @@ export default function NewOpenGame({ token }) {
     const handleChangeMatchType = (event) => {
         console.log(event.target.value);
         setNewGameMatchType(event.target.value);
+    };
+
+    const handleCloseModal = () => {
+        console.log("click close error modal");
+        setErrorModalIsOpen(false);
     };
 
     useEffect(() => {
@@ -65,11 +74,16 @@ export default function NewOpenGame({ token }) {
                     },
                 }
             )
-            .then(console.log("posted"))
+            // .then((res)=>{
+            //     console.log("posted")
+            //     console.log(res)
+            // })      
             .catch((error) => {
-                setError(error.message);
+                setError(error);
+                setErrorModalIsOpen(true)
+
+                // alert(error)
             });
-        setSubmitted(true);
     };
 
     if (submitted) {
@@ -78,16 +92,21 @@ export default function NewOpenGame({ token }) {
         );
     }
 
-    if (error) {
-        return { error };
+    // if (error) {
+    //     return (<Text>Uh oh, something went wrong. Please choose an option for every field before submitting a new game</Text>);
+    // }
+
+    if (submitted && !newGameDate) {
+        return(<Box><Text>Please choose an option in each of the required fields</Text></Box>)
     }
+    // could have this be a modal that opens 
 
     return (
         <>
         <Header/>
         <Box className="app-body">
             
-            <FormControl className="form" mt={20}>
+            <FormControl className="form" mt={20} isRequired>
             <Heading className="form-banner" color='#2C7A7B'>Post a New Game</Heading>
                 <FormLabel htmlFor="date-time" p={2}>When would you like to play?</FormLabel>
                 <ReactDatePicker
@@ -180,8 +199,27 @@ export default function NewOpenGame({ token }) {
                 </Box>
                 <Button colorScheme='teal' onClick={handleSubmit}>Submit</Button>
             </FormControl>
+
         </Box>
         <Footer/>
+            <Modal
+                className="modal"
+                isOpen={errorModalIsOpen}
+                contentLabel="Error Message Modal"
+                // className="modal-base"
+                overlayClassName="modal-overlay"
+            >
+                <Button
+                    onClick={() => {
+                        handleCloseModal();
+                    }}
+                    className="close-modal-button"
+                    variant="ghost"
+                    colorScheme="teal"
+                >
+                    <CloseIcon color="white" />
+                </Button><Text>Uh oh, something went wrong. Please choose an option for every field before submitting a new game</Text>
+                </Modal>
         </>
     );
 }

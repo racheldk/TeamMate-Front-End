@@ -16,6 +16,7 @@ export default function OpenGamesList({
     allGamesList,
 }) {
     const [filteredDate, setFilteredDate] = useState(null);
+    const [displayDate, setDisplayDate] = useState("")
     const [searchDate, setSearchDate] = useState("");
     const [filteredLoc, setFilteredLoc] = useState(null);
     const [filteredSession, setFilteredSession] = useState(null);
@@ -91,22 +92,27 @@ export default function OpenGamesList({
                     Open Games
                 </Heading>
 
-                <Box textAlign="center" m={2}>
+                <Box textAlign="center" 
+                // m={2}
+                >
                     <ReactDatePicker
                         onChange={(date) => {
                             console.log(date);
+                            setDisplayDate(date)
                             setFilteredDate(date);
                             handleFilterDate(date);
                         }}
                         minDate={subDays(new Date(), 0)}
-                        Selected={filteredDate}
+                        selected={displayDate}
                         placeholderText="Click to Select a date"
                         // isClearable
                     >
-                        <Button size='xs' onClick={()=>{
-                            console.log('any date button on calendar filter')
+                        {/* <Text fontSize="md" color="blue" onClick={()=>{
+                            console.log('any date button on calendar filter');
+                            setDisplayDate(null)
                             setFilteredDate(null)
-                        }}>Any date</Button>
+                            handleFilterDate(null)
+                        }}>Any date</Text> */}
                     </ReactDatePicker>
                     <Select
                         w="25%"
