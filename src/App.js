@@ -18,6 +18,8 @@ import IncomingRequestDetail from "./components/IncomingRequestDetail";
 import UpdatedGameDetail from "./components/UpdatedGameDetail";
 import ConfirmedGameDetail from "./components/ConfirmedGameDetail";
 import Survey from "./pages/survey";
+import {  SunIcon } from "@chakra-ui/icons";
+
 
 function App() {
     const [token, setToken] = useLocalStorageState("teammateToken", null);
@@ -50,7 +52,7 @@ function App() {
                     res.data.map((obj) => ({
                         displayStatus: "open to join",
                         bgColor: "pink",
-                        icon: "FaExclamationCircle",
+                        icon: <SunIcon/>,
                         displayUsers: [obj.host_info],
                         buttons: [
                             { label: "Join", job: "send a join request" },

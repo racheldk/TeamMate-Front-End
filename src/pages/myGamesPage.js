@@ -15,7 +15,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import NewGamesList from "../components/NewGamesList";
 import { withTheme } from "@emotion/react";
-import { WarningIcon } from "@chakra-ui/icons";
+import { WarningIcon, SunIcon } from "@chakra-ui/icons";
 // import GamesList from "../components/gamesList";
 import { DateTime } from "luxon";
 import {
@@ -24,6 +24,8 @@ import {
     BsArrowDownSquare,
     BsArrowUpSquare,
     BsFillBookFill,
+    BsQuestionCircleFill,
+    BsFillExclamationCircleFill
 } from "react-icons/bs";
 
 export default function MyGames({ token, username, game, setGame }) {
@@ -173,7 +175,7 @@ export default function MyGames({ token, username, game, setGame }) {
                             responseAction.map((obj) => ({
                                 displayStatus: "actionRequired",
                                 bgColor: "black",
-                                icon: "FaExclamationCircle",
+                                icon: <Icon color="red" as={BsFillExclamationCircleFill}/>,
                                 displayUsers: obj.guest_info,
                                 buttons: [
                                     {
@@ -219,8 +221,8 @@ export default function MyGames({ token, username, game, setGame }) {
                         setPendingPOVGuestGames(
                             responsePending.map((obj) => ({
                                 displayStatus: "pendingPOVGuest",
-                                bgColor: null,
-                                icon: "FaQuestionCircle",
+                                bgColor: "grey",
+                                icon: <Icon color="yellow" as={BsQuestionCircleFill}/>,
                                 displayUsers: obj.host_info,
                                 buttons: [
                                     {

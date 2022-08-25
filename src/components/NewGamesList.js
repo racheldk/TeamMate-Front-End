@@ -97,7 +97,7 @@ console.log(gamesList)
                     <Text>{game.id} </Text>
                     <Box>
                         <Text>(This will be an icon)</Text>
-                        <Icon as={`Fa${game.icon}`} color={`${game.backgroundColor}`}/>
+                        {game.icon}
                     </Box>
                     <Text>{game.location_info.park_name}</Text>
                     <Text>{game.match_type}</Text>
