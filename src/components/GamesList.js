@@ -4,6 +4,8 @@ import {
     Button,
     Box,
     Modal,
+    LinkOverlay,
+    LinkBox
 } from "@chakra-ui/react";
 import { DateTime } from "luxon";
 import { useState } from "react";
@@ -91,7 +93,10 @@ export default function GamesList({
                 <Box>
                     <Text>Category: {gamesList[0].displayStatus}</Text>
                     {gamesList.map((game) => (
-                        <Box>
+                        <LinkBox>
+                        <LinkOverlay  onClick={() => {
+                                        handleOpenModal(game);
+                                    }}>
                             <Box
                                 className="game-card"
                                 bg={`${game.bgColor}`}
@@ -116,15 +121,9 @@ export default function GamesList({
                                         DateTime.TIME_SIMPLE
                                     )}
                                 </Text>
-                                <Button
-                                    onClick={() => {
-                                        handleOpenModal(game);
-                                    }}
-                                >
-                                    Manage This Game
-                                </Button>
                             </Box>
-                        </Box>
+                            </LinkOverlay>
+                        </LinkBox>
                     ))}
                 </Box>
             )}
