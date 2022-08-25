@@ -1,22 +1,23 @@
-import { Button, Box, Heading, FormControl, FormLabel, Text } from '@chakra-ui/react'
+
+import { Button, Box, Heading, FormControl, FormLabel, Text, Link } from '@chakra-ui/react'
 import axios from 'axios'
 import { useState } from 'react'
-import { Navigate, useNavigate, Link } from 'react-router-dom'
+import { Navigate, Link as ReactLink } from 'react-router-dom'
 import useLocalStorageState from "use-local-storage-state";
 
-export const Register = ({setAuth}) => {
-    const [firstname, setFirstname] = useState('');
-    const [lastname, setLastname] = useState('');
-    const [username, setUsername] = useState('')
-    const [password,  setPassword] = useState('')
-    const [error, setError] = useState(null)
+export const Register = ({ setAuth }) => {
+    const [firstname, setFirstname] = useState("");
+    const [lastname, setLastname] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState(null);
     const [token, setToken] = useLocalStorageState("teammateToken", null);
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-    const handleSubmit = async e => {
-        e.preventDefault()
-        
         await axios
+
         .post(`https://teammate-app.herokuapp.com/auth/users/`, {
             first_name: firstname,
             last_name: lastname, 
@@ -39,14 +40,14 @@ export const Register = ({setAuth}) => {
 
     }
     if (token) {
-    return <Navigate to="/open-games" />;
+        return <Navigate to="/open-games" />;
     }
 
-    
     return (
         <>
         <Box className="spacer">&nbsp;</Box>
         <Box className="app-body">
+
         <Box className="form">
         <Heading color='teal' className="form-banner">Registration</Heading>
         {error && <Box className="error">{error}</Box>}
@@ -72,7 +73,7 @@ export const Register = ({setAuth}) => {
         <Box w='100' display='flex' justifyContent='center' m={2}> <Button colorScheme="teal" type="submit" onClick={(e) => handleSubmit(e)}>Submit</Button></Box>
        
         </FormControl>
-        <Link to="/"><Text color='#285E61' fontSize='12px'>Back to Login</Text></Link>
+        <ReactLink to="/"><Text color='#285E61' fontSize='12px'>Back to Login</Text></ReactLink>
         </Box>
         </Box>
         <Box className="spacer">&nbsp;</Box>
@@ -80,6 +81,4 @@ export const Register = ({setAuth}) => {
     )
     }
 
-    export default Register
-
-    
+export default Register;
