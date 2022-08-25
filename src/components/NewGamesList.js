@@ -35,35 +35,28 @@ export default function NewGamesList({token, gamesList, setGame, game, setNoActi
     //     setNoActionGames(sortedCombined);
     // },[pendingPOVGuestGames, confirmedGames, noGuestGames, hostOpenDoublesGames, guestOpenDoublesGames, setNoActionGames])
 
-console.log(test)
 console.log(gamesList)
 
-    useEffect(()=> {
-        console.log(test)
-        console.log(confirmedGames)
-        console.log(pendingPOVGuestGames)
-        console.log(noGuestGames)
-        console.log(hostOpenDoublesGames)
-        console.log(guestOpenDoublesGames)
+    // useEffect(()=> {
+    //     const combinedLists = [].concat(...pendingPOVGuestGames, ...noGuestGames)
+    //     // if (confirmedGames){
+    //     //     combinedLists.push(...confirmedGames)
+    //     // }
+    //         // combinedLists.push(pendingPOVGuestGames)
+        
+    //         // combinedLists.push(noGuestGames)
 
 
-        const combinedLists = []
-        // if (confirmedGames){
-        //     combinedLists.push(...confirmedGames)
-        // }
-            combinedLists.push(...pendingPOVGuestGames)
         
-            combinedLists.push(...noGuestGames)
-        
-        // if (hostOpenDoublesGames){
-        //     combinedLists.push(...hostOpenDoublesGames)
-        // }
-        // if (guestOpenDoublesGames){
-        //     combinedLists.push(...guestOpenDoublesGames)
-        // }
-        console.log(combinedLists)
-        // setNoActionGames(combinedLists)
-    }, [pendingPOVGuestGames, confirmedGames, noGuestGames, hostOpenDoublesGames, guestOpenDoublesGames, setNoActionGames, test])
+    //     // if (hostOpenDoublesGames){
+    //     //     combinedLists.push(...hostOpenDoublesGames)
+    //     // }
+    //     // if (guestOpenDoublesGames){
+    //     //     combinedLists.push(...guestOpenDoublesGames)
+    //     // }
+    //     console.log(combinedLists)
+    //     // setNoActionGames(combinedLists)
+    // }, [pendingPOVGuestGames, confirmedGames, noGuestGames, hostOpenDoublesGames, guestOpenDoublesGames, setNoActionGames, test])
 
     const handleOpenModal = (game) => {
         console.log("click open");

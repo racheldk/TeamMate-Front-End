@@ -38,7 +38,7 @@ export default function MyGames({ token, username, game, setGame }) {
     const [guestOpenDoublesGames, setGuestOpenDoublesGames] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [openGames, setOpenGames] = useState([]);
-    const [test, setTest] = useState("original")
+    const [test, setTest] = useState("original");
 
     // console.log(game);
 
@@ -153,7 +153,7 @@ export default function MyGames({ token, username, game, setGame }) {
             ])
             .then(
                 axios.spread((...responses) => {
-                    console.log(responses)
+                    console.log(responses);
                     const responseAction = responses[0].data;
                     console.log(responses[0].data);
                     const responseConfirmed = responses[1].data;
@@ -167,93 +167,113 @@ export default function MyGames({ token, username, game, setGame }) {
                     const responseGuestOpenDoubles = responses[5].data;
                     console.log(responseGuestOpenDoubles);
 
-                    if (responseAction.length>0) {
-                        console.log("action > 0")
-                    setActionRequiredGames(
-                        responseAction.map((obj) => ({
-                            displayStatus: "actionRequired",
-                            bgColor: "black",
-                            icon: "FaExclamationCircle",
-                            displayUsers: [obj.guest_info],
-                            buttonLabels: ["Accept", "Reject"],
-                            buttons: [
-                                { label: "Accept", function: "handleAccept" },
-                                {},
-                            ],
-                            route: `host/${obj.id}`,
-                            ...obj,
-                        }))
-                    );}
+                    if (responseAction.length > 0) {
+                        console.log("action > 0");
+                        setActionRequiredGames(
+                            responseAction.map((obj) => ({
+                                displayStatus: "actionRequired",
+                                bgColor: "black",
+                                icon: "FaExclamationCircle",
+                                displayUsers: [obj.guest_info],
+                                buttonLabels: ["Accept", "Reject"],
+                                buttons: [
+                                    {
+                                        label: "Accept",
+                                        function: "handleAccept",
+                                    },
+                                    {},
+                                ],
+                                route: `host/${obj.id}`,
+                                ...obj,
+                            }))
+                        );
+                    }
 
-                    if(responseConfirmed.length>0) {
-                        console.log('confirmed > 0')
-                    setConfirmedGames(
-                        responseConfirmed.map((obj) => ({
-                            displayStatus: "confirmed",
-                            bgColor: "yellow",
-                            icon: null,
-                            displayUsers: [obj.host_info, ...obj.guest_info],
-                            buttonLabels: ["Cancel this game"],
-                            route: `confirmed/${obj.id}`,
-                            ...obj,
-                        }))
-                    );}
+                    if (responseConfirmed.length > 0) {
+                        console.log("confirmed > 0");
+                        setConfirmedGames(
+                            responseConfirmed.map((obj) => ({
+                                displayStatus: "confirmed",
+                                bgColor: "yellow",
+                                icon: null,
+                                displayUsers: [
+                                    obj.host_info,
+                                    ...obj.guest_info,
+                                ],
+                                buttonLabels: ["Cancel this game"],
+                                route: `confirmed/${obj.id}`,
+                                ...obj,
+                            }))
+                        );
+                    }
 
-                    if(responsePending.length>0) {
-                    console.log('pending > 0')
-                    setPendingPOVGuestGames(
-                        responsePending.map((obj) => ({
-                            displayStatus: "pendingPOVGuest",
-                            bgColor: null,
-                            icon: "FaQuestionCircle",
-                            displayUsers: [obj.host_info],
-                            buttonLabels: ["Cancel request to join this game"],
-                            route: `pending/${obj.id}`,
-                            ...obj,
-                        }))
-                    );}
+                    if (responsePending.length > 0) {
+                        console.log("pending > 0");
+                        setPendingPOVGuestGames(
+                            responsePending.map((obj) => ({
+                                displayStatus: "pendingPOVGuest",
+                                bgColor: null,
+                                icon: "FaQuestionCircle",
+                                displayUsers: [obj.host_info],
+                                buttonLabels: [
+                                    "Cancel request to join this game",
+                                ],
+                                route: `pending/${obj.id}`,
+                                ...obj,
+                            }))
+                        );
+                    }
 
-                    if (responseNoGuest.length>0) { 
-                        console.log('noGuest > 0')
-                    setNoGuestGames(
-                        responseNoGuest.map((obj) => ({
-                            displayStatus: "no guests",
-                            bgColor: null,
-                            icon: null,
-                            displayUsers: null,
-                            buttonLabels: ["Delete", "Edit Game"],
-                            route: `unconfirmed/${obj.id}`,
-                            ...obj,
-                        }))
-                    );}
+                    if (responseNoGuest.length > 0) {
+                        console.log("noGuest > 0");
+                        setNoGuestGames(
+                            responseNoGuest.map((obj) => ({
+                                displayStatus: "no guests",
+                                bgColor: null,
+                                icon: null,
+                                displayUsers: null,
+                                buttonLabels: ["Delete", "Edit Game"],
+                                route: `unconfirmed/${obj.id}`,
+                                ...obj,
+                            }))
+                        );
+                    }
 
-                    if (responseHostOpenDoubles.length>0) { 
-                        console.log('hostOpenDoubles > 0')
-                    setHostOpenDoublesGames(
-                        responseHostOpenDoubles.map((obj) => ({
-                            displayStatus: "host open doubles",
-                            bgColor: null,
-                            icon: null,
-                            displayUsers: [obj.host_info, ...obj.guest_info],
-                            buttonLabels: ["Cancel this Game"],
-                            route: `unconfirmed/${obj.id}`,
-                            ...obj,
-                        }))
-                    );}
+                    if (responseHostOpenDoubles.length > 0) {
+                        console.log("hostOpenDoubles > 0");
+                        setHostOpenDoublesGames(
+                            responseHostOpenDoubles.map((obj) => ({
+                                displayStatus: "host open doubles",
+                                bgColor: null,
+                                icon: null,
+                                displayUsers: [
+                                    obj.host_info,
+                                    ...obj.guest_info,
+                                ],
+                                buttonLabels: ["Cancel this Game"],
+                                route: `unconfirmed/${obj.id}`,
+                                ...obj,
+                            }))
+                        );
+                    }
 
-                    if (responseGuestOpenDoubles.length>0) {
-                        console.log("guestOpenDoubles > 0") 
-                    setGuestOpenDoublesGames(
-                        responseGuestOpenDoubles.map((obj) => ({
-                            displayStatus: "guest open doubles",
-                            bgColor: null,
-                            icon: null,
-                            displayUsers: [obj.host_info, ...obj.guest_info],
-                            buttonLabels: ["Cancel this game"],
-                            route: `unconfirmed/${obj.id}`,
-                            ...obj,
-                        }))
-                    );}
+                    if (responseGuestOpenDoubles.length > 0) {
+                        console.log("guestOpenDoubles > 0");
+                        setGuestOpenDoublesGames(
+                            responseGuestOpenDoubles.map((obj) => ({
+                                displayStatus: "guest open doubles",
+                                bgColor: null,
+                                icon: null,
+                                displayUsers: [
+                                    obj.host_info,
+                                    ...obj.guest_info,
+                                ],
+                                buttonLabels: ["Cancel this game"],
+                                route: `unconfirmed/${obj.id}`,
+                                ...obj,
+                            }))
+                        );
+                    }
                 })
             )
             .catch((error) => {
@@ -261,8 +281,8 @@ export default function MyGames({ token, username, game, setGame }) {
                 alert(error.message);
             });
         setIsLoading(false);
-        setTest('please please work')
-    }, []);
+        setTest("please please work");
+    }, [token]);
 
     // const combineLists = () => {
     //     const combinedLists = confirmedGames.concat(
@@ -278,8 +298,6 @@ export default function MyGames({ token, username, game, setGame }) {
     //     console.log(sortedCombined);
     //     setNoActionGames(sortedCombined);
     // };
-
-
 
     if (isLoading) {
         return <Box>Loading...</Box>;
@@ -297,8 +315,7 @@ export default function MyGames({ token, username, game, setGame }) {
                 game={game}
             />
 
-
-{/* The following ternaries are so Rachel can see where things are loading/not loading */}
+            {/* The following ternaries are so Rachel can see where things are loading/not loading */}
             {actionRequiredGames.length == 0 ? (
                 <Text>
                     You don't have any games that require your attention
@@ -307,21 +324,58 @@ export default function MyGames({ token, username, game, setGame }) {
                 <NewGamesList token={token} gamesList={actionRequiredGames} />
             )}
 
-            {noActionGames.length == 0 ? (
+            {confirmedGames.length == 0 ? (
+                <Text>You don't have any confirmed games.</Text>
+            ) : (
+                <NewGamesList token={token} gamesList={confirmedGames} />
+            )}
+
+            {pendingPOVGuestGames.length == 0 ? (
+                <Text>You don't have any pending requests to join games.</Text>
+            ) : (
+                <NewGamesList token={token} gamesList={pendingPOVGuestGames} />
+            )}
+
+            {noGuestGames.length == 0 ? (
+                <Text>
+                    You don't have any games that don't already have a guest
+                    attached.
+                </Text>
+            ) : (
+                <NewGamesList token={token} gamesList={noGuestGames} />
+            )}
+
+            {hostOpenDoublesGames.length == 0 ? (
+                <Text>
+                    You aren't hosting any doubles games that are waiting for
+                    more participants.
+                </Text>
+            ) : (
+                <NewGamesList token={token} gamesList={hostOpenDoublesGames} />
+            )}
+            {guestOpenDoublesGames.length == 0 ? (
+                <Text>
+                    You aren't a guest in any doubles games that are waiting for
+                    more participants.
+                </Text>
+            ) : (
+                <NewGamesList token={token} gamesList={guestOpenDoublesGames} />
+            )}
+
+            {/* {noActionGames.length == 0 ? (
                 <Text>noActionGames array is empty</Text>
             ) : (
                 <NewGamesList
                     token={token}
                     gamesList={noActionGames}
-                    setNoActionGames={setNoActionGames}
-                    confirmedGames={confirmedGames}
-                    pendingPOVGuestGames={pendingPOVGuestGames}
-                    noGuestGames={noGuestGames}
-                    hostOpenDoublesGames={hostOpenDoublesGames}
-                    guestOpenDoublesGames={guestOpenDoublesGames}
-                    test={test}
+                    // setNoActionGames={setNoActionGames}
+                    // confirmedGames={confirmedGames}
+                    // pendingPOVGuestGames={pendingPOVGuestGames}
+                    // noGuestGames={noGuestGames}
+                    // hostOpenDoublesGames={hostOpenDoublesGames}
+                    // guestOpenDoublesGames={guestOpenDoublesGames}
                 />
-            )}
+            )} */}
             <Footer />
         </Box>
     );
