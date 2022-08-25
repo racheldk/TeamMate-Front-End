@@ -1,246 +1,389 @@
-// TO DO
-// [] figure out axios requests or filtering through games
-// [] update modal click options on gamesList
-
-// make all the axios requests and pass all those as props - or make these in App.js??
-// [] confirmed
-// [] pendingPOVguest
-// [] pendingPOVhost
-// [] myOpen
-
-// listType state is held in App.js
-
-// header
-// native menu (menu that's only on this page) to different types of lists
-// GamesList component of a certain list type - pass in listType state and the list data as props
-// GamesList: confirmed games
-// GamesList: pending requests to join other games "pendingPOVGuest"
-// GamesList: pending requests to join my games "pendingPOVHost"
-// GamesList: my open games (no requests yet to join, so I could delete them without it impacting anyon)
-
-// footer component
-
+import {
+    Text,
+    Heading,
+    Icon,
+    Box,
+} from "@chakra-ui/react";
 import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import GamesList from "../components/gamesList";
-import { Button, Box } from "@chakra-ui/react";
-import { DateTime } from "luxon";
-import { BsChevronCompactLeft, BsCalendar2CheckFill, BsArrowDownSquare, BsArrowUpSquare, BsFillBookFill } from "react-icons/bs";
+import GamesList from "../components/GamesList";
+import {
+    BsQuestionCircleFill,
+    BsFillExclamationCircleFill
+} from "react-icons/bs";
 
+export default function MyGames({ token, username, game, setGame }) {
+    console.log(username);
 
-export default function MyGames({
-    token,
-    username,
-    listType,
-    setListType,
-    allGamesList,
-}) {
-    const [listTitle, setListTitle] = useState(null);
-    const [userAllGames, setUserAllGames] = useState([]);
-    const [userConfirmedGames, setUserConfirmedGames] = useState([]);
-    const [userPendingPOVGuestGames, setUserPendingPOVGuestGames] = useState(
-        []
-    );
-    const [userPendingPOVHostGames, setUserPendingPOVHostGames] = useState([]);
-    const [userMyOpenGames, setUserMyOpenGames] = useState([]);
+    const [actionRequiredGames, setActionRequiredGames] = useState([]);
+    const [confirmedGames, setConfirmedGames] = useState([]);
+    const [pendingPOVGuestGames, setPendingPOVGuestGames] = useState([]);
+    const [noGuestGames, setNoGuestGames] = useState([]);
+    const [noActionGames, setNoActionGames] = useState([]);
+    const [hostOpenDoublesGames, setHostOpenDoublesGames] = useState([]);
+    const [guestOpenDoublesGames, setGuestOpenDoublesGames] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-    const handleMenuConfirmed = () => {
-        console.log("menu confirmed click");
-        setListType("confirmed");
-        setListTitle("My Confirmed Games");
-    };
-
-    const handleMenuPOVGuest = () => {
-        console.log("menu POVGuest clicked");
-        setListType("pendingPOVGuest");
-        setListTitle("Games I Have Requested to Join");
-    };
-
-    const handleMenuPOVHost = () => {
-        console.log("menu POVHost clicked");
-        setListType("pendingPOVHost");
-        setListTitle("Requests to Join my Games");
-    };
-
-    const handleMenuMyOpen = () => {
-        console.log("menu myOpen clicked");
-        setListType("myOpen");
-        setListTitle("My Open Games");
+    const handleJoin = (game) => {
+        console.log("join click");
+        console.log(game);
+        // axios
+        //     .post(
+        //         `https://teammate-app.herokuapp.com/session/${game.id}/guest/`,
+        //         {},
+        //         {
+        //             headers: {
+        //                 Authorization: `Token ${token}`,
+        //             },
+        //         }
+        //     )
+        //     .then(() => {
+        //         console.log("guest posted");
+        //         alert("You sent a join request");
+        //         // setJoinRequestSent(true);
+        //     })
+        //     .catch((error) => {
+        //         alert(error.response.data.detail);
+        //     });
     };
 
     useEffect(() => {
-        const allUserGames = [];
-        axios
-            .get(`https://teammate-app.herokuapp.com/${username}`, {
+        const reqAction = axios.get(
+            `https://teammate-app.herokuapp.com/${username}/games/?my-games=HostUnconfirmed`,
+            {
                 headers: {
                     Authorization: `Token ${token}`,
                 },
-            })
-            .then((res) => {
-                console.log(res.data);
-                console.log(res.data[0].game_session);
-                res.data[0].game_session.map((game) => allUserGames.push(game));
-                console.log(allUserGames);
-                filterGames(allUserGames);
-            });
-        const filterGames = (allUserGames) => {
-            const todayDate = DateTime.fromJSDate(new Date()).toLocaleString();
-            const todayTime = DateTime.fromJSDate(new Date()).toLocaleString(
-                DateTime.TIME_24_WITH_SECONDS
-            );
-            const futureGames = allUserGames.filter(function (game) {
-                const gameDate = DateTime.fromISO(game.date).toLocaleString();
-                return (
-                    gameDate >= todayDate ||
-                    (gameDate === todayDate && game.time > todayTime)
-                );
-            });
-            console.log(futureGames);
-            setUserAllGames(futureGames);
-        };
-    }, [token, username, setListType]);
-
-    useEffect(() => {
-        axios
-            .get(`https://teammate-app.herokuapp.com/${username}/confirmed`, {
+            }
+        );
+        const reqConfirmed = axios.get(
+            `https://teammate-app.herokuapp.com/${username}/games/?my-games=AllConfirmed`,
+            {
                 headers: {
                     Authorization: `Token ${token}`,
                 },
-            })
-            .then((res) => {
-                console.log(res.data);
-                setUserConfirmedGames(res.data);
-            });
-    }, []);
-
-    useEffect(() => {
-        axios
-            .get(`https://teammate-app.herokuapp.com/${username}/open-host`, {
+            }
+        );
+        const reqPending = axios.get(
+            `https://teammate-app.herokuapp.com/${username}/games/?my-games=GuestPending`,
+            {
                 headers: {
                     Authorization: `Token ${token}`,
                 },
-            })
-            .then((res) => {
-                console.log(res.data);
-                setUserPendingPOVHostGames(res.data);
-            });
-    }, []);
-
-    useEffect(() => {
-        axios
-            .get(`https://teammate-app.herokuapp.com/${username}/open-guest`, {
+            }
+        );
+        const reqNoGuest = axios.get(
+            `https://teammate-app.herokuapp.com/${username}/games/?my-games=HostNoGuest`,
+            {
                 headers: {
                     Authorization: `Token ${token}`,
                 },
-            })
-            .then((res) => {
-                console.log(res.data);
-                setUserPendingPOVGuestGames(res.data);
-            });
-    }, []);
-
-    useEffect(() => {
-        axios
-            .get(`https://teammate-app.herokuapp.com/${username}/open`, {
+            }
+        );
+        const reqHostOpenDoubles = axios.get(
+            `https://teammate-app.herokuapp.com/${username}/games/?my-games=HostNotPendingUnconfirmedDoubles`,
+            {
                 headers: {
                     Authorization: `Token ${token}`,
                 },
-            })
-            .then((res) => {
-                console.log(res.data);
-                setUserMyOpenGames(res.data);
+            }
+        );
+        const reqGuestOpenDoubles = axios.get(
+            `https://teammate-app.herokuapp.com/${username}/games/?my-games=GuestAcceptedUnconfirmedDoubles`,
+            {
+                headers: {
+                    Authorization: `Token ${token}`,
+                },
+            }
+        );
+        axios
+            .all([
+                reqAction,
+                reqConfirmed,
+                reqPending,
+                reqNoGuest,
+                reqHostOpenDoubles,
+                reqGuestOpenDoubles,
+            ])
+            .then(
+                axios.spread((...responses) => {
+                    console.log(responses);
+                    const responseAction = responses[0].data;
+                    console.log(responses[0].data);
+                    const responseConfirmed = responses[1].data;
+                    console.log(responseConfirmed);
+                    const responsePending = responses[2].data;
+                    console.log(responsePending);
+                    const responseNoGuest = responses[3].data;
+                    console.log(responseNoGuest);
+                    const responseHostOpenDoubles = responses[4].data;
+                    console.log(responseHostOpenDoubles);
+                    const responseGuestOpenDoubles = responses[5].data;
+                    console.log(responseGuestOpenDoubles);
+
+                    if (responseAction.length > 0) {
+                        console.log("action > 0");
+                        setActionRequiredGames(
+                            responseAction.map((obj) => ({
+                                displayStatus: "actionRequired",
+                                bgColor: "black",
+                                icon: <Icon color="red" as={BsFillExclamationCircleFill}/>,
+                                displayUsers: obj.guest_info,
+                                buttons: [
+                                    {
+                                        label: "Accept",
+                                        job: "handleAccept",
+                                    },
+                                    {
+                                        label: "Reject",
+                                        job: "handleReject",
+                                    },
+                                ],
+                                route: `host/${obj.id}`,
+                                ...obj,
+                            }))
+                        );
+                    }
+
+                    if (responseConfirmed.length > 0) {
+                        console.log("confirmed > 0");
+                        setConfirmedGames(
+                            responseConfirmed.map((obj) => ({
+                                displayStatus: "confirmed",
+                                bgColor: "yellow",
+                                icon: null,
+                                displayUsers: [
+                                    obj.host_info,
+                                    ...obj.guest_info,
+                                ],
+                                buttons: [
+                                    {
+                                        label: "Cancel this game",
+                                        job: "cancel confirmed",
+                                    },
+                                ],
+                                route: `confirmed/${obj.id}`,
+                                ...obj,
+                            }))
+                        );
+                    }
+
+                    if (responsePending.length > 0) {
+                        console.log("pending > 0");
+                        setPendingPOVGuestGames(
+                            responsePending.map((obj) => ({
+                                displayStatus: "pendingPOVGuest",
+                                bgColor: "grey",
+                                icon: <Icon color="yellow" as={BsQuestionCircleFill}/>,
+                                displayUsers: obj.host_info,
+                                buttons: [
+                                    {
+                                        label: "Cancel request to join this game",
+                                        job: "cancel pending request",
+                                    },
+                                ],
+                                route: `pending/${obj.id}`,
+                                ...obj,
+                            }))
+                        );
+                    }
+
+                    if (responseNoGuest.length > 0) {
+                        console.log("noGuest > 0");
+                        setNoGuestGames(
+                            responseNoGuest.map((obj) => ({
+                                displayStatus: "no guests",
+                                bgColor: null,
+                                icon: null,
+                                displayUsers: [],
+                                buttons: [
+                                    {
+                                        label: "Delete this game",
+                                        job: "delete game with no guests",
+                                    },
+                                    {
+                                        label: "Edit this game",
+                                        job: "Edit game with no guests",
+                                    },
+                                ],
+                                route: `unconfirmed/${obj.id}`,
+                                ...obj,
+                            }))
+                        );
+                    }
+
+                    if (responseHostOpenDoubles.length > 0) {
+                        console.log("hostOpenDoubles > 0");
+                        setHostOpenDoublesGames(
+                            responseHostOpenDoubles.map((obj) => ({
+                                displayStatus: "host open doubles",
+                                bgColor: null,
+                                icon: null,
+                                displayUsers: [
+                                    obj.host_info,
+                                    ...obj.guest_info,
+                                ],
+                                buttons: [
+                                    {
+                                        label: "Cancel this Game",
+                                        job: "cancel game",
+                                    },
+                                ],
+                                route: `unconfirmed/${obj.id}`,
+                                ...obj,
+                            }))
+                        );
+                    }
+
+                    if (responseGuestOpenDoubles.length > 0) {
+                        console.log("guestOpenDoubles > 0");
+                        setGuestOpenDoublesGames(
+                            responseGuestOpenDoubles.map((obj) => ({
+                                displayStatus: "guest open doubles",
+                                bgColor: null,
+                                icon: null,
+                                displayUsers: [
+                                    obj.host_info,
+                                    ...obj.guest_info,
+                                ],
+                                buttons: [
+                                    {
+                                        label: "Cancel this game",
+                                        job: "cancel accepted request",
+                                    },
+                                ],
+                                route: `unconfirmed/${obj.id}`,
+                                ...obj,
+                            }))
+                        );
+                    }
+                })
+            )
+            .catch((error) => {
+                console.log(error);
+                alert(error.message);
             });
-    }, []);
+        setIsLoading(false);
+    }, [token]);
 
+    // const combineLists = () => {
+    //     const combinedLists = confirmedGames.concat(
+    //         pendingPOVGuestGames,
+    //         noGuestGames,
+    //         hostOpenDoublesGames,
+    //         guestOpenDoublesGames
+    //     );
+    //     console.log(combinedLists);
+    //     const sortedCombined = combinedLists.sort(
+    //         (objA, objB) => Number(objA.date) - Number(objB.date)
+    //     );
+    //     console.log(sortedCombined);
+    //     setNoActionGames(sortedCombined);
+    // };
 
+    if (isLoading) {
+        return <Box>Loading...</Box>;
+    }
 
     return (
-        <>
-            <Box className="app-body">
-                <Header />
+        <Box className="app-body">
+            <Header />
+            <Heading fontSize='1xl'>MyGames Component</Heading>
 
-                <Box className="nav_links">
-                    <Button
-                        colorScheme='teal' fontSize='12px'
-                        onClick={() => handleMenuConfirmed()}
-                    >
-                        Confirmed Games
-                    </Button>
+            {/* The following ternaries are so Rachel can see where things are loading/not loading */}
+            {actionRequiredGames.length == 0 ? (
+                <Text>
+                    You don't have any games that require your attention
+                </Text>
+            ) : (
+                <GamesList
+                    token={token}
+                    gamesList={actionRequiredGames}
+                    setGame={setGame}
+                    game={game}
+                />
+            )}
 
-                    <br />
-                    <Button
-                        colorScheme='teal' fontSize='12px'
-                        onClick={() => handleMenuPOVGuest()}
-                    >
+            {confirmedGames.length == 0 ? (
+                <Text>You don't have any confirmed games.</Text>
+            ) : (
+                <GamesList
+                    token={token}
+                    gamesList={confirmedGames}
+                    setGame={setGame}
+                    game={game}
+                />
+            )}
 
-                        Pending Requests I Have Made
-                    </Button>
-                    <Button
-                        colorScheme='teal' fontSize='12px'
-                        onClick={() => handleMenuPOVHost()}
-                    >
-                        Pending Requests to Join my Games
-                    </Button>
-                    <Button
-                        colorScheme='teal' fontSize='12px'
-                        onClick={() => handleMenuMyOpen()}
-                    >
-                        My Open Games
-                    </Button>
-                </Box>
+            {pendingPOVGuestGames.length == 0 ? (
+                <Text>You don't have any pending requests to join games.</Text>
+            ) : (
+                <GamesList
+                    token={token}
+                    gamesList={pendingPOVGuestGames}
+                    setGame={setGame}
+                    game={game}
+                />
+            )}
 
+            {noGuestGames.length == 0 ? (
+                <Text>
+                    You don't have any games that don't already have a guest
+                    attached.
+                </Text>
+            ) : (
+                <GamesList
+                    token={token}
+                    gamesList={noGuestGames}
+                    setGame={setGame}
+                    game={game}
+                />
+            )}
 
-                <Box>
-                    {(() => {
-                        // Need to update which games array state is sent as games prop!!
-                        switch (listType) {
-                            case "confirmed":
-                                return (
-                                    <GamesList
-                                        token={token}
-                                        games={userConfirmedGames}
-                                        listType={listType}
-                                        listTitle={listTitle}
-                                    />
-                                );
-                            case "pendingPOVGuest":
-                                return (
-                                    <GamesList
-                                        token={token}
-                                        games={userPendingPOVGuestGames}
-                                        listType={listType}
-                                        listTitle={listTitle}
-                                    />
-                                );
-                            case "pendingPOVHost":
-                                return (
-                                    <GamesList
-                                        token={token}
-                                        games={userPendingPOVHostGames}
-                                        listType={listType}
-                                        listTitle={listTitle}
-                                    />
-                                );
-                            case "myOpen":
-                                return (
-                                    <GamesList
-                                        token={token}
-                                        games={userMyOpenGames}
-                                        // this currently shows all games that are open and attached to that user
-                                        // this is redundant with pendingPOVGuest and pendingPOVHost 
-                                        listType={listType}
-                                        listTitle={listTitle}
-                                    />
-                                );
-                            default:
-                                return null;
-                        }
-                    })()}
-                </Box>
-            </Box>
+            {hostOpenDoublesGames.length == 0 ? (
+                <Text>
+                    You aren't hosting any doubles games that are waiting for
+                    more participants.
+                </Text>
+            ) : (
+                <GamesList
+                    token={token}
+                    gamesList={hostOpenDoublesGames}
+                    setGame={setGame}
+                    game={game}
+                />
+            )}
+            {guestOpenDoublesGames.length == 0 ? (
+                <Text>
+                    You aren't a guest in any doubles games that are waiting for
+                    more participants.
+                </Text>
+            ) : (
+                <GamesList
+                    token={token}
+                    gamesList={guestOpenDoublesGames}
+                    setGame={setGame}
+                    game={game}
+                />
+            )}
+
+            {/* {noActionGames.length == 0 ? (
+                <Text>noActionGames array is empty</Text>
+            ) : (
+                <GamesList
+                    token={token}
+                    gamesList={noActionGames}
+                    // setNoActionGames={setNoActionGames}
+                    // confirmedGames={confirmedGames}
+                    // pendingPOVGuestGames={pendingPOVGuestGames}
+                    // noGuestGames={noGuestGames}
+                    // hostOpenDoublesGames={hostOpenDoublesGames}
+                    // guestOpenDoublesGames={guestOpenDoublesGames}
+                />
+            )} */}
             <Footer />
-        </>
+        </Box>
     );
 }

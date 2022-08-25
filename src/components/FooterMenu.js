@@ -1,13 +1,14 @@
 import { IconButton, Box} from '@chakra-ui/react'
 import { Link } from "react-router-dom";
-import { BsFillPersonFill, BsFillHouseFill } from "react-icons/bs"
-import {SearchIcon, PlusSquareIcon, Icon} from '@chakra-ui/icons'
+import { BsFillPersonFill, BsFillHouseFill } from "react-icons/bs";
+import { SearchIcon, PlusSquareIcon, Icon } from "@chakra-ui/icons";
 import useLocalStorageState from "use-local-storage-state";
 
-
-
-function Footer () {
-    const [username, setUsername] = useLocalStorageState("teammateUsername", null)
+function Footer() {
+    const [username, setUsername] = useLocalStorageState(
+        "teammateUsername",
+        null
+    );
 
     return (
             <Box className="footer">
@@ -20,4 +21,4 @@ function Footer () {
     )
 }
 
-export default Footer
+export default Footer;
