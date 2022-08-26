@@ -1,7 +1,8 @@
-import { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, Navigate, LinkOverlay } from "react-router-dom";
 import { IconButton, Box } from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import { HamburgerIcon, CloseIcon, BellIcon } from "@chakra-ui/icons";
+
 import { Button } from "@chakra-ui/react";
 import Modal from "react-modal";
 import axios from "axios";
@@ -12,8 +13,22 @@ function Header() {
     // const [navigate, setNavigate] = useState(false);
     const [token, setToken] = useLocalStorageState("teammateToken", null);
     const [error, setError] = useState([]);
+    const [notifications, setNotifications] = useState(null)
+    let alertIcon = 'teal'
+    let alert = ''
 
-
+    useEffect(() => {
+        axios
+          .get(`https://teammate-app.herokuapp.com/notification/check/`, {
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          })
+          .then((res) => {
+            setNotifications(res.data);
+            console.log(notifications)
+          });
+      }, [token]);
 
     const handleOpenModal = () => {
         console.log("click open");
@@ -24,6 +39,11 @@ function Header() {
         console.log("click close");
         setModalIsOpen(false);
     };
+
+    if (notifications && notifications.length > 0) {
+        alertIcon = "white"
+        alert = "red"
+    }
 
     const handleLogOut = () => {
         axios
@@ -49,64 +69,22 @@ function Header() {
         }
 
     return (
-        <Box maxW='450px' bg='white' m='auto' position='sticky' w='100%' justifyContent='end' display='flex'>
+        <Box className="header">
+<IconButton variant='ghost' bg={alert} borderRadius="20px" fontSize='1.5em' p={2} m={0} w='24px'><BellIcon color={alertIcon} /></IconButton>
+<Box display='flex' justifyContent='end' m={2} color='teal'>
+<Button colorScheme='teal' variant='outline' m={0} h='24px' p={2}>
+<Link
+     to="/"
+     onClick={(e) => {
+     handleLogOut(e);
+     }}
+    >
+      Signout
+</Link>
+</Button>
+</Box>
 
-            <IconButton
-                onClick={() => {
-                    handleOpenModal();
-                }}
-                aria-label="Hamburger Menu"
-                on
-                fontSize="2em"
-                colorScheme="teal"
-                border="none"
-                variant="outline"
-                icon={<HamburgerIcon />}
-            />
-
-            <Modal
-                className="modal"
-                isOpen={modalIsOpen}
-                contentLabel="Header Menu Modal"
-                overlayClassName="modal-overlay"
-            >
-                <Button
-                    onClick={() => {
-                        handleCloseModal();
-                    }}
-                    className="close-modal-button"
-                    variant="ghost"
-                    colorScheme="teal"
-                >
-                    <CloseIcon color="white" />
-                </Button>
-
-                <Box className="header-menu">
-                    <Link to="/my-games" className="hamburger-link">
-                        My Games
-                    </Link>
-                    <Link to="" className="hamburger-link">
-                        Settings
-                    </Link>
-                    {/* I put it here just to link the survey page and see it in the browser */}
-                    <Link to="/survey" className="hamburger-link">
-                        Survey
-                    </Link>
-                    <>
-                        <Link
-                            to="/"
-                            className="hamburger-link"
-                            onClick={(e) => {
-                                handleLogOut(e);
-                            }}
-                        >
-                            Sign Out
-                        </Link>
-                    </>
-                </Box>
-            </Modal>
-
-        </Box>
+ </Box>
     );
 }
 

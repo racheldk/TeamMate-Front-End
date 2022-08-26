@@ -194,10 +194,13 @@ export default function NewOpenGame({ token }) {
 function AfterSubmit() {
     return (
         <Box className="app-body" display='grid' gridTemplateColumns='auto'>
-            <Box p={10} className="form">you submitted a game!
+            <Box p={10} className="form" color="teal">you submitted a game!
             <br/>
-            <Link to={"/my-games"} ><Button variant="outline" colorScheme="teal" color="teal" 
-            height="30px" width="300px">Return to My Games</Button></Link>
+            <br/>
+            <Link to={"/my-games"} ><Button fontSize="12px"  marginRight="8px" variant="outline" colorScheme="" color="white" 
+            height="30px" width="150px" backgroundColor="teal">Return to My Games</Button></Link>
+            <Link to={"/open-games"} ><Button  fontSize="12px" variant="outline" colorScheme="teal" color="teal" 
+            height="30px" width="150px">Go to Open Games</Button></Link>
         </Box>
         </Box>
     );
