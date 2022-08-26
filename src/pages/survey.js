@@ -6,10 +6,26 @@ import {
     BsFillEmojiNeutralFill,
     BsFillEmojiSmileFill,
 } from "react-icons/bs";
+import axios from "axios";
 
-const Survey = () => {
-
+const Survey = ({token}) => {
+    const [surveyPK, setSurveyPK] = useState(null)
     const surveyResponses = []
+
+useEffect(()=>{
+    setSurveyPK(1)
+},[])
+
+    const sampleResponses = [
+        {
+            about_user: 1,
+            response: 'Winner'
+        },
+        {
+            about_user: 2,
+            response: 'No Show'
+        }
+    ]
 
     const game = {
         id: 3,
@@ -98,7 +114,33 @@ const Survey = () => {
         ],
     };
 
-    console.log(game);
+    
+    const handleSubmit = () => {
+        console.log(surveyResponses)
+        console.log(surveyPK)
+        // make an axios request for each object in surveyResponses 
+        // make each one a variable and then axios.all() 
+
+
+        const axiosPosts = sampleResponses.map((obj)=> (
+            axios.post(`https://teammate-app.herokuapp.com/session/${game.id}/survey/${surveyPK}/response`, {
+                obj
+            },  {
+                headers: {
+                    Authorization: `Token ${token}`,
+                },
+            }).then((res)=>{
+                console.log(res)
+            }).catch((error)=>{
+                console.log(error)
+                alert(error)
+            })
+        ))
+
+        console.log(axiosPosts)
+    }
+
+    // console.log(game);
 
     return (
         <Box className="survey">
@@ -170,7 +212,7 @@ const Survey = () => {
                         height="30px"
                         m={1}
                     >
-                        No, I would play with them all again
+                        No, I would play with them again
                     </Button>
                     {game.displayUsers.map((user) => (
                         <Button
@@ -240,7 +282,7 @@ const Survey = () => {
                         colorScheme="teal"
                         backgroundColor="teal"
                         color="white"
-                        onClick={()=>console.log(surveyResponses)}
+                        onClick={()=>handleSubmit()}
                     >
                         Submit
                     </Button>
