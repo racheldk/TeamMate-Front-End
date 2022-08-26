@@ -9,6 +9,7 @@ import axios from "axios";
 import { DateTime } from "luxon";
 import { Link } from "react-router-dom";
 
+
 export default function NewOpenGame({ token }) {
     const [newGameDate, setNewGameDate] = useState("");
     const [newGameTime, setNewGameTime] = useState("");
@@ -89,9 +90,9 @@ export default function NewOpenGame({ token }) {
             
             <FormControl className="form" mt={20}>
             <Heading className="form-banner" color='#2C7A7B'>Post a New Game</Heading>
-                {/* <FormLabel htmlFor="date-time" p={2}>When would you like to play?</FormLabel> */}
-<Box display="Flex" marginLeft="20px" m={4} fontSize="17px" color='teal' fontWeight="extrabold">
-                <ReactDatePicker
+            
+            <Box display="Flex" marginLeft="20px" m={4} fontSize="17px" color='teal' fontWeight="extrabold">
+                <ReactDatePicker 
                     onChange={(date) => {
                         console.log(date);
                         setNewGameDate(date);
@@ -105,7 +106,7 @@ export default function NewOpenGame({ token }) {
                             }}
                             minDate={subDays(new Date(), 0)}
                             selected={newGameDate}
-                            placeholderText="Click to Select a Date"
+                            placeholderText="Click to Select a Date" 
                             />
                             
                             
@@ -127,10 +128,11 @@ export default function NewOpenGame({ token }) {
                     timeCaption="Time"
                     dateFormat="h:mm aa"
                     placeholderText="Click to Select a Time"
-                /></Box>
+                />
+                </Box>
                 <Box p={3}>
                     <FormLabel htmlFor="location">
-                        {/* Where would you like to play? */}
+                        
                     </FormLabel>
                     <Select
                         onChange={handleChangeGameLoc}
@@ -149,7 +151,7 @@ export default function NewOpenGame({ token }) {
                 </Box>
                 <Box p={3}>
                     <FormLabel htmlFor="session-type">
-                        {/* How competitive would you like your game to be? */}
+            
                     </FormLabel>
                     <Select
                         onChange={handleChangeSessionType}
@@ -166,7 +168,7 @@ export default function NewOpenGame({ token }) {
                 </Box>
                 <Box p={3} >
                     <FormLabel htmlFor="match-type">
-                        {/* Would you like to play singles or doubles? */}
+                
                     </FormLabel>
                     <Select
                         onChange={handleChangeMatchType}
