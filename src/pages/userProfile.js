@@ -62,7 +62,6 @@ const handleCloseModal = (game) => {
       <Box className="app-body">
         {user && 
           <>
-            <Box className="spacer">&nbsp;</Box>
             <Box className="profile-body">
             
               <Box className="user-name">

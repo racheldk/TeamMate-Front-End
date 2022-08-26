@@ -26,41 +26,10 @@ export default function GamesList({
 }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
-    // useEffect(()=>{
-    //     const combinedLists = confirmedGames.concat(
-    //         pendingPOVGuestGames,
-    //         noGuestGames,
-    //         hostOpenDoublesGames,
-    //         guestOpenDoublesGames
-    //     );
-    //     console.log(combinedLists);
-    //     const sortedCombined = combinedLists.sort(
-    //         (objA, objB) => Number(objA.date) - Number(objB.date)
-    //     );
-    //     console.log(sortedCombined);
-    //     setNoActionGames(sortedCombined);
-    // },[pendingPOVGuestGames, confirmedGames, noGuestGames, hostOpenDoublesGames, guestOpenDoublesGames, setNoActionGames])
 
     console.log(gamesList);
 
-    // useEffect(()=> {
-    //     const combinedLists = [].concat(...pendingPOVGuestGames, ...noGuestGames)
-    //     // if (confirmedGames){
-    //     //     combinedLists.push(...confirmedGames)
-    //     // }
-    //         // combinedLists.push(pendingPOVGuestGames)
 
-    //         // combinedLists.push(noGuestGames)
-
-    //     // if (hostOpenDoublesGames){
-    //     //     combinedLists.push(...hostOpenDoublesGames)
-    //     // }
-    //     // if (guestOpenDoublesGames){
-    //     //     combinedLists.push(...guestOpenDoublesGames)
-    //     // }
-    //     console.log(combinedLists)
-    //     // setNoActionGames(combinedLists)
-    // }, [pendingPOVGuestGames, confirmedGames, noGuestGames, hostOpenDoublesGames, guestOpenDoublesGames, setNoActionGames, test])
 
     const handleOpenModal = (game) => {
         console.log("click open");
@@ -77,7 +46,7 @@ export default function GamesList({
     console.log(gamesList);
     // console.log(game)
 
-    if (gamesList.length == 0) {
+    if (gamesList.length === 0) {
         return (
             <Text>
                 You have no games to display - make a new game or join one.
@@ -87,11 +56,10 @@ export default function GamesList({
     }
 
     return (
-        <Box>
-            <Heading fontSize='1xl'>NewGamesList Component</Heading>
+        <Box display='flex' flexWrap='wrap' maxW="300px" m='auto' justifyContent='center' textAlign='center'>
             {gamesList.length > 0 && (
-                <Box>
-                    <Text>Category: {gamesList[0].displayStatus}</Text>
+            <>
+                    <Heading textTransform='capitalize' color='#285E61'>{gamesList[0].displayStatus}</Heading>
                     {gamesList.map((game) => (
                         <LinkBox>
                         <LinkOverlay  onClick={() => {
@@ -105,7 +73,7 @@ export default function GamesList({
 
                                 {/* <Text>{game.id} </Text> */}
                                 <Box>{game.icon}</Box>
-                                <Text>{game.location_info.park_name}</Text>
+                                <Heading>{game.location_info.park_name}</Heading>
                                 <Text>{game.match_type}</Text>
                                 <Text>{game.session_type}</Text>
                                 <Text>
@@ -125,7 +93,7 @@ export default function GamesList({
                             </LinkOverlay>
                         </LinkBox>
                     ))}
-                </Box>
+                </>
             )}
 
             <Modal

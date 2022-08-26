@@ -37,8 +37,7 @@ export default function GameDetail({
 
     return (
         <Box className="modal-overlay">
-            <Box className="modal-base">
-                <Heading>UpdatedGameDetail Component</Heading>
+            <Box className="modal">
                 <Button
                     onClick={() => {
                         handleCloseModal();
@@ -49,18 +48,18 @@ export default function GameDetail({
                 >
                     <CloseIcon color="red" />
                 </Button>
-                <Box>{game.id}</Box>
-                <Box className="game-card" key={game.id}>
+                <Box className="modal-base" key={game.id}>
                     {game.displayUsers.length > 0 && (
                         <>
-                            <Text>{`${game.host_info.first_name} ${game.host_info.last_name}`}</Text>
-                            <Text>{game.host}</Text>
+                            <Heading>{`${game.host_info.first_name} ${game.host_info.last_name}`}</Heading>
+                            <Text>@{game.host}</Text>
                             <Image
                                 src={`${game.host_info.profile.profile_pic}`}
                                 alt={game.host_info.username}
                                 fallbackSrc={noImage}
                                 borderRadius="full"
                                 boxSize="150px"
+                                m='auto'
                             />
                             <Text>
                                 NTRP:{" "}
@@ -69,9 +68,9 @@ export default function GameDetail({
                         </>
                     )}
 
-                    <Text>{game.location_info.park_name}</Text>
-                    <Text>{game.match_type}</Text>
-                    <Text>{game.session_type}</Text>
+                    <Text fontWeight='700'>{game.location_info.park_name}</Text>
+                    <Text>{game.match_type} | {game.session_type}</Text>
+                    <Text></Text>
                     <Text>
                         {DateTime.fromISO(game.date).toLocaleString({
                             weekday: "short",
@@ -84,14 +83,13 @@ export default function GameDetail({
                         )}
                     </Text>
 
-                    <Box>
+
                         {game.buttons.map((obj) => (
-                            <Button  key={obj.label} onClick={()=>console.log(`${obj.label} clicked`)}
+                            <Button m={2} colorScheme='teal'  key={obj.label} onClick={()=>console.log(`${obj.label} clicked`)}
                             >
-                                <Text color="red">{obj.label} </Text>
+                                <Text color="white">{obj.label} </Text>
                             </Button>
                         ))}
-                    </Box>
 
                     {/* <Box>
                         {game.buttons.map((obj) => (
