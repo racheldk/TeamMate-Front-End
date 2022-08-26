@@ -2,22 +2,13 @@ import ReactDatePicker from "react-datepicker";
 import subDays from "date-fns/subDays";
 import "react-datepicker/dist/react-datepicker.css";
 import { useEffect, useState } from "react";
-import {
-    Box,
-    Button,
-    Heading,
-    FormControl,
-    FormLabel,
-    Select,
-    Text,
-    Modal,
-} from "@chakra-ui/react";
+import { Box, Button, Heading, FormControl, FormLabel, Select } from "@chakra-ui/react";
 import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
 import axios from "axios";
 import { DateTime } from "luxon";
 import { Link } from "react-router-dom";
-import { CloseIcon } from "@chakra-ui/icons";
+
 
 export default function NewOpenGame({ token }) {
     const [newGameDate, setNewGameDate] = useState("");
@@ -29,7 +20,6 @@ export default function NewOpenGame({ token }) {
     const [submitted, setSubmitted] = useState(false);
     const [convertedDate, setConvertedDate] = useState("");
     const [convertedTime, setConvertedTime] = useState("");
-    const [errorModalIsOpen, setErrorModalIsOpen] = useState(false);
 
     const handleChangeGameLoc = (event) => {
         console.log(event.target.value);
@@ -44,11 +34,6 @@ export default function NewOpenGame({ token }) {
     const handleChangeMatchType = (event) => {
         console.log(event.target.value);
         setNewGameMatchType(event.target.value);
-    };
-
-    const handleCloseModal = () => {
-        console.log("click close error modal");
-        setErrorModalIsOpen(false);
     };
 
     useEffect(() => {
@@ -81,172 +66,139 @@ export default function NewOpenGame({ token }) {
                     },
                 }
             )
-            // .then((res)=>{
-            //     console.log("posted")
-            //     console.log(res)
-            // })
+            .then(console.log("posted"))
             .catch((error) => {
-                setError(error);
-                setErrorModalIsOpen(true);
-
-                // alert(error)
+                setError(error.message);
             });
+        setSubmitted(true);
     };
 
     if (submitted) {
-        return <AfterSubmit />;
-    }
-
-    // if (error) {
-    //     return (<Text>Uh oh, something went wrong. Please choose an option for every field before submitting a new game</Text>);
-    // }
-
-    if (submitted && !newGameDate) {
         return (
-            <Box>
-                <Text>
-                    Please choose an option in each of the required fields
-                </Text>
-            </Box>
+            <AfterSubmit/>
         );
     }
-    // could have this be a modal that opens
+
+    if (error) {
+        return { error };
+    }
 
     return (
         <>
-            <Header />
-            <Box className="app-body">
-                <FormControl className="form" mt={20} isRequired>
-                    <Heading className="form-banner" color="#2C7A7B">
-                        Post a New Game
-                    </Heading>
-                    <FormLabel htmlFor="date-time" p={2}>
-                        When would you like to play?
+        <Header/>
+        <Box className="app-body">
+            
+            <FormControl className="form" mt={20}>
+            <Heading className="form-banner" color='#2C7A7B'>Post a New Game</Heading>
+            
+            <Box display="Flex" marginLeft="20px" m={4} fontSize="17px" color='teal' fontWeight="extrabold">
+                <ReactDatePicker 
+                    onChange={(date) => {
+                        console.log(date);
+                        setNewGameDate(date);
+                        setConvertedDate(
+                            DateTime.fromJSDate(date).toISODate(
+                                DateTime.DATE_MED
+                                )
+                                );
+                                console.log(newGameDate);
+                                console.log(convertedDate);
+                            }}
+                            minDate={subDays(new Date(), 0)}
+                            selected={newGameDate}
+                            placeholderText="Click to Select a Date" 
+                            />
+                            
+                            
+                <ReactDatePicker
+                    selected={newGameTime}
+                    onChange={(date) => {
+                        setNewGameTime(date);
+                        setConvertedTime(
+                            DateTime.fromJSDate(date).toLocaleString(
+                                DateTime.TIME_24_WITH_SECONDS
+                            )
+                        );
+                        console.log(newGameTime);
+                        console.log(convertedTime);
+                    }}
+                    showTimeSelect
+                    showTimeSelectOnly
+                    timeIntervals={15}
+                    timeCaption="Time"
+                    dateFormat="h:mm aa"
+                    placeholderText="Click to Select a Time"
+                />
+                </Box>
+                <Box p={3}>
+                    <FormLabel htmlFor="location">
+                        
                     </FormLabel>
-                    <ReactDatePicker
-                        onChange={(date) => {
-                            console.log(date);
-                            setNewGameDate(date);
-                            setConvertedDate(
-                                DateTime.fromJSDate(date).toISODate(
-                                    DateTime.DATE_MED
-                                )
-                            );
-                            console.log(newGameDate);
-                            console.log(convertedDate);
-                        }}
-                        minDate={subDays(new Date(), 0)}
-                        selected={newGameDate}
-                        placeholderText="Click to select a date"
-                    />
-                    <ReactDatePicker
-                        selected={newGameTime}
-                        onChange={(date) => {
-                            setNewGameTime(date);
-                            setConvertedTime(
-                                DateTime.fromJSDate(date).toLocaleString(
-                                    DateTime.TIME_24_WITH_SECONDS
-                                )
-                            );
-                            console.log(newGameTime);
-                            console.log(convertedTime);
-                        }}
-                        showTimeSelect
-                        showTimeSelectOnly
-                        timeIntervals={15}
-                        timeCaption="Time"
-                        dateFormat="h:mm aa"
-                        placeholderText="Click to select a time"
-                    />
-                    <Box p={2}>
-                        <FormLabel htmlFor="location">
-                            Where would you like to play?
-                        </FormLabel>
-                        <Select
-                            onChange={handleChangeGameLoc}
-                            value={newGameLoc}
-                            id="location"
-                            name="location"
-                        >
-                            <option value="" disabled hidden>
-                                Choose a location
-                            </option>
-                            <option value="1">Pullen Park</option>
-                            <option value="2">Sanderford Park</option>
-                            {/* We could also make an API request for a list of parks, then map through them as dropdown option. This might also help store whatever data other than the park name the backend needs.  */}
-                        </Select>
-                    </Box>
-                    <Box p={2}>
-                        <FormLabel htmlFor="session-type">
-                            How competitive would you like your game to be?
-                        </FormLabel>
-                        <Select
-                            onChange={handleChangeSessionType}
-                            value={newGameSessionType}
-                            id="session-type"
-                            name="session-type"
-                        >
-                            <option value="" disabled hidden>
-                                Choose a competitive level
-                            </option>
-                            <option value="Casual">Casual</option>
-                            <option value="Competitive">Competitive</option>
-                        </Select>
-                    </Box>
-                    <Box p={2}>
-                        <FormLabel htmlFor="match-type">
-                            Would you like to play singles or doubles?
-                        </FormLabel>
-                        <Select
-                            onChange={handleChangeMatchType}
-                            value={newGameMatchType}
-                            id="match-type"
-                            name="match-type"
-                        >
-                            <option value="" disabled hidden>
-                                Choose number of players
-                            </option>
-                            <option value="Singles">Singles</option>
-                            <option value="Doubles">Doubles</option>
-                        </Select>
-                    </Box>
-                    <Button colorScheme="teal" onClick={handleSubmit}>
-                        Submit
-                    </Button>
-                </FormControl>
-
-            </Box>
-            <Footer />
-                <Modal
-                    className="modal"
-                    isOpen={errorModalIsOpen}
-                    contentLabel="Error Message Modal"
-                    overlayClassName="modal-overlay"
-                >
-                    <Button
-                        onClick={() => {
-                            handleCloseModal();
-                        }}
-                        className="close-modal-button"
-                        variant="ghost"
-                        colorScheme="teal"
+                    <Select
+                        onChange={handleChangeGameLoc}
+                        value={newGameLoc}
+                        id="location"
+                        name="location"
                     >
-                        <CloseIcon color="white" />
-                    </Button>
-                    <Text>
-                        Uh oh, something went wrong. Please choose an option for
-                        every field before submitting a new game
-                    </Text>
-                </Modal>
+                        <option value="" disabled hidden>
+                            Choose a location
+                        </option>
+                        <option value="1">Pullen Park</option>
+                        <option value="2">Sanderford Park</option>
+                        {/* We could also make an API request for a list of parks, then map through them as dropdown option. This might also help store whatever data other than the park name the backend needs.  */}
+
+                    </Select>
+                </Box>
+                <Box p={3}>
+                    <FormLabel htmlFor="session-type">
+            
+                    </FormLabel>
+                    <Select
+                        onChange={handleChangeSessionType}
+                        value={newGameSessionType}
+                        id="session-type"
+                        name="session-type"
+                    >
+                        <option value="" disabled hidden>
+                            Choose a competitive level
+                        </option>
+                        <option value="Casual">Casual</option>
+                        <option value="Competitive">Competitive</option>
+                    </Select>
+                </Box>
+                <Box p={3} >
+                    <FormLabel htmlFor="match-type">
+                
+                    </FormLabel>
+                    <Select
+                        onChange={handleChangeMatchType}
+                        value={newGameMatchType}
+                        id="match-type"
+                        name="match-type"
+                    >
+                        <option value="" disabled hidden>
+                            Choose number of players
+                        </option>
+                        <option value="Singles">Singles</option>
+                        <option value="Doubles">Doubles</option>
+                    </Select>
+                </Box>
+                <Button m={4} colorScheme='teal' onClick={handleSubmit}>Submit</Button>
+            </FormControl>
+        </Box>
+        <Footer/>
         </>
     );
 }
 
 function AfterSubmit() {
     return (
-        <Box>
-            <Box>you submitted a game! </Box>
-            <Link to={"/my-games"}>Return to My Games</Link>
+        <Box className="app-body" display='grid' gridTemplateColumns='auto'>
+            <Box p={10} className="form">you submitted a game!
+            <br/>
+            <Link to={"/my-games"} ><Button variant="outline" colorScheme="teal" color="teal" 
+            height="30px" width="300px">Return to My Games</Button></Link>
+        </Box>
         </Box>
     );
 }
