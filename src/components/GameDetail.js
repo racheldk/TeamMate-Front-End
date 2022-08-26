@@ -3,11 +3,13 @@ import { CloseIcon } from "@chakra-ui/icons";
 import { DateTime } from "luxon";
 import noImage from "../images/no-image.jpg";
 import axios from "axios";
+import EditGame from "../pages/editGame";
 
 export default function GameDetail({
     token,
     game,
     handleCloseModal,
+    username
 }) {
     console.log(game);
 
@@ -20,6 +22,15 @@ const handleClick=(game, button)=>{
     }
     if (button.label === 'Reject') {
         rejectRequest(game)
+    }
+    if ((game.displayStatus === 'confirmed' && game.host ===  username)|| button.label === "Delete this game" || game.displayStatus === 'host open doubles') {
+        cancelGame(game)
+    }
+    if ((game.displayStatus === 'confirmed' && game.host !== username) || game.displayStatus === 'pendingPOVGuest' || game.displayStatus === 'guest open doubles') {
+        cancelGuest(game)
+    }
+    if (button.label === "Edit this game") {
+        editGame(game)
     }
 }
 
@@ -39,7 +50,6 @@ const handleClick=(game, button)=>{
             .then(() => {
                 console.log("guest posted");
                 alert("You sent a join request");
-                // setJoinRequestSent(true);
             })
             .catch((error) => {
                 alert(error.response.data.detail);
@@ -90,6 +100,53 @@ const handleClick=(game, button)=>{
             });
     }
     
+    const cancelGame = (game) => {
+        console.log("join click");
+        console.log(game);
+        axios
+            .delete(
+                `https://teammate-app.herokuapp.com/session/${game.id}`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Token ${token}`,
+                    },
+                }
+            )
+            .then(() => {
+                console.log("delete game sent");
+                alert("You cancelled a game");
+            })
+            .catch((error) => {
+                alert(error.response.data.detail);
+            });
+    };
+
+    const cancelGuest = (game) => {
+        console.log("cancel guest click");
+        console.log(game);
+        axios
+            .delete(
+                `https://teammate-app.herokuapp.com/session/${game.id}/guest/${game.guest[0]}`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Token ${token}`,
+                    },
+                }
+            )
+            .then(() => {
+                console.log("delete guest session sent");
+                alert("You cancelled a request to join a game");
+            })
+            .catch((error) => {
+                alert(error.response.data.detail);
+            });
+    };
+
+    const editGame = (game) => {
+        return(<EditGame token={token} game={game}/>)
+    }
 
 
     return (

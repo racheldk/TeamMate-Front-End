@@ -16,6 +16,7 @@ export default function GamesList({
     gamesList,
     setGame,
     game,
+    username,
     setNoActionGames,
     confirmedGames,
     pendingPOVGuestGames,
@@ -139,6 +140,7 @@ export default function GamesList({
                     token={token}
                     game={game}
                     handleCloseModal={handleCloseModal}
+                    username={username}
                 />
             </Modal>
         </Box>

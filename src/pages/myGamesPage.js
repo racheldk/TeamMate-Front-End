@@ -303,6 +303,7 @@ export default function MyGames({ token, username, game, setGame }) {
                     gamesList={actionRequiredGames}
                     setGame={setGame}
                     game={game}
+                    username={username}
                 />
             )}
 
@@ -314,6 +315,8 @@ export default function MyGames({ token, username, game, setGame }) {
                     gamesList={confirmedGames}
                     setGame={setGame}
                     game={game}
+                    username={username}
+
                 />
             )}
 
@@ -325,6 +328,7 @@ export default function MyGames({ token, username, game, setGame }) {
                     gamesList={pendingPOVGuestGames}
                     setGame={setGame}
                     game={game}
+                    username={username}
                 />
             )}
 
@@ -339,6 +343,7 @@ export default function MyGames({ token, username, game, setGame }) {
                     gamesList={noGuestGames}
                     setGame={setGame}
                     game={game}
+                    username={username}
                 />
             )}
 
@@ -353,6 +358,7 @@ export default function MyGames({ token, username, game, setGame }) {
                     gamesList={hostOpenDoublesGames}
                     setGame={setGame}
                     game={game}
+                    username={username}
                 />
             )}
             {guestOpenDoublesGames.length == 0 ? (
@@ -366,6 +372,7 @@ export default function MyGames({ token, username, game, setGame }) {
                     gamesList={guestOpenDoublesGames}
                     setGame={setGame}
                     game={game}
+                    username={username}
                 />
             )}
 
