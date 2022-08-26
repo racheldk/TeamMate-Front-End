@@ -26,29 +26,6 @@ export default function MyGames({ token, username, game, setGame }) {
     const [guestOpenDoublesGames, setGuestOpenDoublesGames] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    const handleJoin = (game) => {
-        console.log("join click");
-        console.log(game);
-        // axios
-        //     .post(
-        //         `https://teammate-app.herokuapp.com/session/${game.id}/guest/`,
-        //         {},
-        //         {
-        //             headers: {
-        //                 Authorization: `Token ${token}`,
-        //             },
-        //         }
-        //     )
-        //     .then(() => {
-        //         console.log("guest posted");
-        //         alert("You sent a join request");
-        //         // setJoinRequestSent(true);
-        //     })
-        //     .catch((error) => {
-        //         alert(error.response.data.detail);
-        //     });
-    };
-
     useEffect(() => {
         const reqAction = axios.get(
             `https://teammate-app.herokuapp.com/${username}/games/?my-games=HostUnconfirmed`,
