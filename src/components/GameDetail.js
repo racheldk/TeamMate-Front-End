@@ -11,9 +11,15 @@ export default function GameDetail({
 }) {
     console.log(game);
 
-const handleClick=(game)=>{
+const handleClick=(game, button)=>{
     if (game.displayStatus === 'join') {
         joinSession(game)
+    }
+    if (button.label === 'Accept') {
+        acceptRequest(game)
+    }
+    if (button.label === 'Reject') {
+        rejectRequest(game)
     }
 }
 
@@ -40,6 +46,51 @@ const handleClick=(game)=>{
             });
     };
 
+    const acceptRequest = (game) => {
+        console.log("accept request click");
+        console.log(game);
+        axios
+            .patch(
+                `https://teammate-app.herokuapp.com/session/${game.id}/guest/${game.displayUsers.id}`,
+                {status: 'Accepted'},
+                {
+                    headers: {
+                        Authorization: `Token ${token}`,
+                    },
+                }
+            )
+            .then(() => {
+                console.log("acceptRequest patch sent");
+                alert("You accepted a request to join your game");
+            })
+            .catch((error) => {
+                alert(error.response.data.detail);
+            });
+    }
+
+    const rejectRequest = (game) => {
+        console.log("accept request click");
+        console.log(game);
+        axios
+            .patch(
+                `https://teammate-app.herokuapp.com/session/${game.id}/guest/${game.displayUsers.id}`,
+                {status: 'Rejected'},
+                {
+                    headers: {
+                        Authorization: `Token ${token}`,
+                    },
+                }
+            )
+            .then(() => {
+                console.log("rejectRequest patch sent");
+                alert("You did not accept a request to join your game");
+            })
+            .catch((error) => {
+                alert(error.response.data.detail);
+            });
+    }
+    
+
 
     return (
         <Box className="modal-overlay">
@@ -58,21 +109,23 @@ const handleClick=(game)=>{
                 <Box>{game.id}</Box>
                 <Box className="game-card" key={game.id}>
                     {game.displayUsers.length > 0 && (
-                        <>
-                            <Text>{`${game.host_info.first_name} ${game.host_info.last_name}`}</Text>
-                            <Text>{game.host}</Text>
-                            <Image
+                        game.displayUsers.map((user)=> (
+                            <>
+                            <Text>{`${user.user}`}</Text>
+                            <Text color="pink">User profile info will go here - currently not returning guest info. </Text>
+                            {/* <Image
                                 src={`${game.host_info.profile.profile_pic}`}
                                 alt={game.host_info.username}
                                 fallbackSrc={noImage}
                                 borderRadius="full"
                                 boxSize="150px"
-                            />
+                                />
                             <Text>
                                 NTRP:{" "}
                                 {game.host_info.profile.ntrp_rating}{" "}
-                            </Text>
+                            </Text> */}
                         </>
+                                ))
                     )}
 
                     <Text>{game.location_info.park_name}</Text>
@@ -91,19 +144,19 @@ const handleClick=(game)=>{
                     </Text>
 
                     <Box>
-                        {game.buttons.map((obj) => (
-                            <Button  key={obj.label} onClick={()=>handleClick(game)}
+                        {game.buttons.map((button) => (
+                            <Button  key={button.label} onClick={()=>handleClick(game, button)}
                             >
-                                <Text color="red">{obj.label} </Text>
+                                <Text color="red">{button.label} </Text>
                             </Button>
                         ))}
                     </Box>
 
                     {/* <Box>
-                        {game.buttons.map((obj) => (
+                        {game.buttons.map((button) => (
                             <Button onClick={() => handleJoin(game)
                             }>
-                                <Text color="teal">test {obj.label} </Text>
+                                <Text color="teal">test {button.label} </Text>
                             </Button>
                         ))}
                     </Box> */}
