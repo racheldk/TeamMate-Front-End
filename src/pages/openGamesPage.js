@@ -81,9 +81,8 @@ import NewGamesList from "../components/GamesList";
         <>
             <Header />
             <Box className="app-body">
-                <Heading  color='teal' textAlign='center'>Open Games</Heading>
                 <Box textAlign="center" 
-                // m={2}
+                marginTop={5} marginBottom={2}
                 >
                     <ReactDatePicker
                         onChange={(date) => {

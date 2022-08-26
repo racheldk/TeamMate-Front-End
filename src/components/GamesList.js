@@ -73,9 +73,8 @@ export default function GamesList({
 
                                 {/* <Text>{game.id} </Text> */}
                                 <Box>{game.icon}</Box>
-                                <Heading>{game.location_info.park_name}</Heading>
-                                <Text>{game.match_type}</Text>
-                                <Text>{game.session_type}</Text>
+                                <Heading fontSize={33}>{game.location_info.park_name}</Heading>
+                                <Text>{game.match_type} | {game.session_type}</Text>
                                 <Text>
                                     {DateTime.fromISO(game.date).toLocaleString(
                                         {
