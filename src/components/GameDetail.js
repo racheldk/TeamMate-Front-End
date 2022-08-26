@@ -3,36 +3,55 @@ import { CloseIcon } from "@chakra-ui/icons";
 import { DateTime } from "luxon";
 import noImage from "../images/no-image.jpg";
 import axios from "axios";
-import EditGame from "../pages/editGame";
+import { Navigate } from "react-router-dom";
+import { useState } from "react";
 
 export default function GameDetail({
     token,
     game,
     handleCloseModal,
-    username
+    username,
 }) {
-    console.log(game);
+    const [editClicked, setEditClicked] = useState(false);
 
-const handleClick=(game, button)=>{
-    if (game.displayStatus === 'join') {
-        joinSession(game)
+    console.log(game);
+    console.log(token);
+
+    const handleClick = (game, button) => {
+        if (game.displayStatus === "join") {
+            joinSession(game);
+        }
+        if (button.job === "handleAccept") {
+            acceptRequest(game);
+        }
+        if (button.job === "handleReject") {
+            rejectRequest(game);
+        }
+        if (
+            (game.displayStatus === "confirmed" && game.host === username) ||
+            button.label === "Delete this game" ||
+            game.displayStatus === "host open doubles"
+        ) {
+            cancelGame(game);
+        }
+        if (
+            (game.displayStatus === "confirmed" && game.host !== username) ||
+            game.displayStatus === "pendingPOVGuest" ||
+            game.displayStatus === "guest open doubles"
+        ) {
+            cancelGuest(game);
+        }
+        if (button.label === "Edit this game") {
+            console.log("edit clicked");
+            handleCloseModal();
+            setEditClicked(true);
+        }
+    };
+
+    if (editClicked) {
+        console.log(game)
+        return <Navigate to={`edit/${game.id}`} />;
     }
-    if (button.label === 'Accept') {
-        acceptRequest(game)
-    }
-    if (button.label === 'Reject') {
-        rejectRequest(game)
-    }
-    if ((game.displayStatus === 'confirmed' && game.host ===  username)|| button.label === "Delete this game" || game.displayStatus === 'host open doubles') {
-        cancelGame(game)
-    }
-    if ((game.displayStatus === 'confirmed' && game.host !== username) || game.displayStatus === 'pendingPOVGuest' || game.displayStatus === 'guest open doubles') {
-        cancelGuest(game)
-    }
-    if (button.label === "Edit this game") {
-        editGame(game)
-    }
-}
 
     const joinSession = (game) => {
         console.log("join click");
@@ -54,6 +73,7 @@ const handleClick=(game, button)=>{
             .catch((error) => {
                 alert(error.response.data.detail);
             });
+        handleCloseModal();
     };
 
     const acceptRequest = (game) => {
@@ -62,7 +82,7 @@ const handleClick=(game, button)=>{
         axios
             .patch(
                 `https://teammate-app.herokuapp.com/session/${game.id}/guest/${game.displayUsers.id}`,
-                {status: 'Accepted'},
+                { status: "Accepted" },
                 {
                     headers: {
                         Authorization: `Token ${token}`,
@@ -76,7 +96,7 @@ const handleClick=(game, button)=>{
             .catch((error) => {
                 alert(error.response.data.detail);
             });
-    }
+    };
 
     const rejectRequest = (game) => {
         console.log("accept request click");
@@ -84,7 +104,7 @@ const handleClick=(game, button)=>{
         axios
             .patch(
                 `https://teammate-app.herokuapp.com/session/${game.id}/guest/${game.displayUsers.id}`,
-                {status: 'Rejected'},
+                { status: "Rejected" },
                 {
                     headers: {
                         Authorization: `Token ${token}`,
@@ -98,21 +118,17 @@ const handleClick=(game, button)=>{
             .catch((error) => {
                 alert(error.response.data.detail);
             });
-    }
-    
+    };
+
     const cancelGame = (game) => {
         console.log("join click");
         console.log(game);
         axios
-            .delete(
-                `https://teammate-app.herokuapp.com/session/${game.id}`,
-                {},
-                {
-                    headers: {
-                        Authorization: `Token ${token}`,
-                    },
-                }
-            )
+            .delete(`https://teammate-app.herokuapp.com/session/${game.id}`, {
+                headers: {
+                    Authorization: `Token ${token}`,
+                },
+            })
             .then(() => {
                 console.log("delete game sent");
                 alert("You cancelled a game");
@@ -128,7 +144,6 @@ const handleClick=(game, button)=>{
         axios
             .delete(
                 `https://teammate-app.herokuapp.com/session/${game.id}/guest/${game.guest[0]}`,
-                {},
                 {
                     headers: {
                         Authorization: `Token ${token}`,
@@ -143,11 +158,6 @@ const handleClick=(game, button)=>{
                 alert(error.response.data.detail);
             });
     };
-
-    const editGame = (game) => {
-        return(<EditGame token={token} game={game}/>)
-    }
-
 
     return (
         <Box className="modal-overlay">
@@ -165,12 +175,15 @@ const handleClick=(game, button)=>{
                 </Button>
                 <Box>{game.id}</Box>
                 <Box className="game-card" key={game.id}>
-                    {game.displayUsers.length > 0 && (
-                        game.displayUsers.map((user)=> (
-                            <>
-                            <Text>{`${user.user}`}</Text>
-                            <Text color="pink">User profile info will go here - currently not returning guest info. </Text>
-                            {/* <Image
+                    {game.displayUsers.length > 0 &&
+                        game.displayUsers.map((user) => (
+                            <Box key={user}>
+                                <Text>{`${user.user}`}</Text>
+                                <Text color="pink">
+                                    User profile info will go here - currently
+                                    not returning guest info.{" "}
+                                </Text>
+                                {/* <Image
                                 src={`${game.host_info.profile.profile_pic}`}
                                 alt={game.host_info.username}
                                 fallbackSrc={noImage}
@@ -181,9 +194,8 @@ const handleClick=(game, button)=>{
                                 NTRP:{" "}
                                 {game.host_info.profile.ntrp_rating}{" "}
                             </Text> */}
-                        </>
-                                ))
-                    )}
+                            </Box>
+                        ))}
 
                     <Text>{game.location_info.park_name}</Text>
                     <Text>{game.match_type}</Text>
@@ -201,8 +213,16 @@ const handleClick=(game, button)=>{
                     </Text>
 
                     <Box>
+                        {game.buttonTitle && (
+                            <Text>
+                                {game.buttonTitle}
+                                {game.guest}?
+                            </Text>
+                        )}
                         {game.buttons.map((button) => (
-                            <Button  key={button.label} onClick={()=>handleClick(game, button)}
+                            <Button
+                                key={button.label}
+                                onClick={() => handleClick(game, button)}
                             >
                                 <Text color="red">{button.label} </Text>
                             </Button>

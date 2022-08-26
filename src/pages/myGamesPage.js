@@ -131,13 +131,15 @@ export default function MyGames({ token, username, game, setGame }) {
                                 bgColor: "black",
                                 icon: <Icon color="red" as={BsFillExclamationCircleFill}/>,
                                 displayUsers: obj.guest_info,
+                                // if the button.job changes, the conditional inside of handleClick on GameDetail also needs to change
+                                buttonTitle: "Do you want to play with ",
                                 buttons: [
                                     {
-                                        label: "Accept",
+                                        label: "Yes",
                                         job: "handleAccept",
                                     },
                                     {
-                                        label: "Reject",
+                                        label: "No, thank you",
                                         job: "handleReject",
                                     },
                                 ],
@@ -158,6 +160,7 @@ export default function MyGames({ token, username, game, setGame }) {
                                     obj.host_info,
                                     ...obj.guest_info,
                                 ],
+                                buttonTitle: null,
                                 buttons: [
                                     {
                                         label: "Cancel this game",
@@ -178,6 +181,7 @@ export default function MyGames({ token, username, game, setGame }) {
                                 bgColor: "grey",
                                 icon: <Icon color="yellow" as={BsQuestionCircleFill}/>,
                                 displayUsers: obj.host_info,
+                                buttonTitle: null,
                                 buttons: [
                                     {
                                         label: "Cancel request to join this game",
@@ -198,6 +202,7 @@ export default function MyGames({ token, username, game, setGame }) {
                                 bgColor: null,
                                 icon: null,
                                 displayUsers: [],
+                                buttonTitle: null,
                                 buttons: [
                                     {
                                         label: "Delete this game",
@@ -225,6 +230,7 @@ export default function MyGames({ token, username, game, setGame }) {
                                     obj.host_info,
                                     ...obj.guest_info,
                                 ],
+                                buttonTitle: null,
                                 buttons: [
                                     {
                                         label: "Cancel this Game",
@@ -248,6 +254,7 @@ export default function MyGames({ token, username, game, setGame }) {
                                     obj.host_info,
                                     ...obj.guest_info,
                                 ],
+                                buttonTitle: null,
                                 buttons: [
                                     {
                                         label: "Cancel this game",

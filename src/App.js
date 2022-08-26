@@ -86,14 +86,16 @@ function App() {
                     />
                     <Route
                         path="my-games/"
-                        element={<MyGames token={token} username={username} game={game} setGame={setGame}/>}
-                    />
-                    <Route path="/edit/">
+                        element={<MyGames token={token} username={username} game={game} setGame={setGame}/>}>
+
+                        </Route>
+                    <Route path="my-games/edit/">
                         <Route
                             path=":id"
                             element={<EditGame token={token} />}
                         />
                     </Route>
+                    
                     <Route
                         path=":username"
                         element={
