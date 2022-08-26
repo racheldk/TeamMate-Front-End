@@ -40,7 +40,7 @@ function Header() {
         setModalIsOpen(false);
     };
 
-    if (notifications.length > 0) {
+    if (notifications && notifications.length > 0) {
         alertIcon = "white"
         alert = "red"
     }
