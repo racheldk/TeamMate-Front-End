@@ -11,7 +11,13 @@ export default function GameDetail({
 }) {
     console.log(game);
 
-    const handleJoin = () => {
+const handleClick=(game)=>{
+    if (game.displayStatus === 'join') {
+        joinSession(game)
+    }
+}
+
+    const joinSession = (game) => {
         console.log("join click");
         console.log(game);
         axios
@@ -86,7 +92,7 @@ export default function GameDetail({
 
                     <Box>
                         {game.buttons.map((obj) => (
-                            <Button  key={obj.label} onClick={()=>console.log(`${obj.label} clicked`)}
+                            <Button  key={obj.label} onClick={()=>handleClick(game)}
                             >
                                 <Text color="red">{obj.label} </Text>
                             </Button>

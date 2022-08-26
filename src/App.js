@@ -43,7 +43,7 @@ function App() {
                 console.log(res.data);
                 setAllGamesList(
                     res.data.map((obj) => ({
-                        displayStatus: "open to join",
+                        displayStatus: "join",
                         bgColor: "pink",
                         icon: null,
                         displayUsers: [obj.host_info],
