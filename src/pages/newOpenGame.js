@@ -9,6 +9,7 @@ import axios from "axios";
 import { DateTime } from "luxon";
 import { Link } from "react-router-dom";
 
+
 export default function NewOpenGame({ token }) {
     const [newGameDate, setNewGameDate] = useState("");
     const [newGameTime, setNewGameTime] = useState("");
@@ -89,23 +90,26 @@ export default function NewOpenGame({ token }) {
             
             <FormControl className="form" mt={20}>
             <Heading className="form-banner" color='#2C7A7B'>Post a New Game</Heading>
-                <FormLabel htmlFor="date-time" p={2}>When would you like to play?</FormLabel>
-                <ReactDatePicker
+            
+            <Box display="Flex" marginLeft="20px" m={4} fontSize="17px" color='teal' fontWeight="extrabold">
+                <ReactDatePicker 
                     onChange={(date) => {
                         console.log(date);
                         setNewGameDate(date);
                         setConvertedDate(
                             DateTime.fromJSDate(date).toISODate(
                                 DateTime.DATE_MED
-                            )
-                        );
-                        console.log(newGameDate);
-                        console.log(convertedDate);
-                    }}
-                    minDate={subDays(new Date(), 0)}
-                    selected={newGameDate}
-                    placeholderText="Click to select a date"
-                />
+                                )
+                                );
+                                console.log(newGameDate);
+                                console.log(convertedDate);
+                            }}
+                            minDate={subDays(new Date(), 0)}
+                            selected={newGameDate}
+                            placeholderText="Click to Select a Date" 
+                            />
+                            
+                            
                 <ReactDatePicker
                     selected={newGameTime}
                     onChange={(date) => {
@@ -123,11 +127,12 @@ export default function NewOpenGame({ token }) {
                     timeIntervals={15}
                     timeCaption="Time"
                     dateFormat="h:mm aa"
-                    placeholderText="Click to select a time"
+                    placeholderText="Click to Select a Time"
                 />
-                <Box p={2}>
+                </Box>
+                <Box p={3}>
                     <FormLabel htmlFor="location">
-                        Where would you like to play?
+                        
                     </FormLabel>
                     <Select
                         onChange={handleChangeGameLoc}
@@ -144,9 +149,9 @@ export default function NewOpenGame({ token }) {
 
                     </Select>
                 </Box>
-                <Box p={2}>
+                <Box p={3}>
                     <FormLabel htmlFor="session-type">
-                        How competitive would you like your game to be?
+            
                     </FormLabel>
                     <Select
                         onChange={handleChangeSessionType}
@@ -161,9 +166,9 @@ export default function NewOpenGame({ token }) {
                         <option value="Competitive">Competitive</option>
                     </Select>
                 </Box>
-                <Box p={2}>
+                <Box p={3} >
                     <FormLabel htmlFor="match-type">
-                        Would you like to play singles or doubles?
+                
                     </FormLabel>
                     <Select
                         onChange={handleChangeMatchType}
@@ -178,7 +183,7 @@ export default function NewOpenGame({ token }) {
                         <option value="Doubles">Doubles</option>
                     </Select>
                 </Box>
-                <Button colorScheme='teal' onClick={handleSubmit}>Submit</Button>
+                <Button m={4} colorScheme='teal' onClick={handleSubmit}>Submit</Button>
             </FormControl>
         </Box>
         <Footer/>
@@ -188,9 +193,12 @@ export default function NewOpenGame({ token }) {
 
 function AfterSubmit() {
     return (
-        <Box>
-            <Box>you submitted a game! </Box>
-            <Link to={"/my-games"} >Return to My Games</Link>
+        <Box className="app-body" display='grid' gridTemplateColumns='auto'>
+            <Box p={10} className="form">you submitted a game!
+            <br/>
+            <Link to={"/my-games"} ><Button variant="outline" colorScheme="teal" color="teal" 
+            height="30px" width="300px">Return to My Games</Button></Link>
+        </Box>
         </Box>
     );
 }

@@ -45,7 +45,6 @@ function UserProfile({ token, setToken }) {
 
   const handleOpenModal = (game) => {
     console.log("click modal open");
-    // console.log(game)
     setModalIsOpen(true);
     console.log(modalIsOpen);
 };
@@ -87,7 +86,7 @@ const handleCloseModal = (game) => {
               <>
               <Box className="profile-pic" m={2}>
                 <Image
-                  src={`${user.profile_image_file}`}
+                  src={user.profile.profile_image_file}
                   alt={user.username}
                   fallbackSrc={noImage}
                   borderRadius="full"
