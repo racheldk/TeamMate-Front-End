@@ -23,6 +23,7 @@ body {
     background-color: #4FD1C5;
     min-width: 450px;
     min-height: 668px;
+    height: 100vh;
     margin: auto;
     overflow: scroll;
 }
