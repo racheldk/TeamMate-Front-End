@@ -94,7 +94,7 @@ export default function GamesList({
                 <Box>
                     <Text>Category: {gamesList[0].displayStatus}</Text>
                     {gamesList.map((game) => (
-                        <LinkBox>
+                        <LinkBox key={game.game_session_id}>
                         <LinkOverlay  onClick={() => {
                                         handleOpenModal(game);
                                     }}>

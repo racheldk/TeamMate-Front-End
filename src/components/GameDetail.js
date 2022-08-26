@@ -58,7 +58,7 @@ export default function GameDetail({
         console.log(game);
         axios
             .post(
-                `https://teammate-app.herokuapp.com/session/${game.id}/guest/`,
+                `https://teammate-app.herokuapp.com/session/${game.game_session_id}/guest/`,
                 {},
                 {
                     headers: {
@@ -143,7 +143,7 @@ export default function GameDetail({
         console.log(game);
         axios
             .delete(
-                `https://teammate-app.herokuapp.com/session/${game.id}/guest/${game.guest[0]}`,
+                `https://teammate-app.herokuapp.com/session/${game.game_session_id}/guest/${game.guest[1]}`,
                 {
                     headers: {
                         Authorization: `Token ${token}`,
@@ -173,27 +173,24 @@ export default function GameDetail({
                 >
                     <CloseIcon color="red" />
                 </Button>
-                <Box>{game.id}</Box>
                 <Box className="game-card" key={game.id}>
+                    <Text>{game.game_session_id}</Text>
                     {game.displayUsers.length > 0 &&
                         game.displayUsers.map((user) => (
-                            <Box key={user}>
+                            <Box key={user.user_id}>
+                                <Text>{`${user.user_info.first_name} ${user.user_info.last_name}`}</Text>
                                 <Text>{`${user.user}`}</Text>
-                                <Text color="pink">
-                                    User profile info will go here - currently
-                                    not returning guest info.{" "}
-                                </Text>
-                                {/* <Image
-                                src={`${game.host_info.profile.profile_pic}`}
-                                alt={game.host_info.username}
+                                <Image
+                                src={`${user.user_info.profile.profile_pic}`}
+                                alt={user}
                                 fallbackSrc={noImage}
                                 borderRadius="full"
                                 boxSize="150px"
                                 />
                             <Text>
                                 NTRP:{" "}
-                                {game.host_info.profile.ntrp_rating}{" "}
-                            </Text> */}
+                                {user.user_info.profile.ntrp_rating}{" "}
+                            </Text>
                             </Box>
                         ))}
 

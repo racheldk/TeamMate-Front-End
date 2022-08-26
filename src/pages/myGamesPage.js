@@ -1,9 +1,4 @@
-import {
-    Text,
-    Heading,
-    Icon,
-    Box,
-} from "@chakra-ui/react";
+import { Text, Heading, Icon, Box } from "@chakra-ui/react";
 import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
 import { useState, useEffect } from "react";
@@ -11,7 +6,7 @@ import axios from "axios";
 import GamesList from "../components/GamesList";
 import {
     BsQuestionCircleFill,
-    BsFillExclamationCircleFill
+    BsFillExclamationCircleFill,
 } from "react-icons/bs";
 
 export default function MyGames({ token, username, game, setGame }) {
@@ -106,7 +101,14 @@ export default function MyGames({ token, username, game, setGame }) {
                             responseAction.map((obj) => ({
                                 displayStatus: "actionRequired",
                                 bgColor: "black",
-                                icon: <Icon color="red" as={BsFillExclamationCircleFill}/>,
+                                icon: (
+                                    <Icon
+                                        color="red"
+                                        as={BsFillExclamationCircleFill}
+                                    />
+                                ),
+                                // display: guest with pending request
+                                // WILL NEED A SEPARATE GAME CARD FOR EACH REQUEST
                                 displayUsers: obj.guest_info,
                                 // if the button.job changes, the conditional inside of handleClick on GameDetail also needs to change
                                 buttonTitle: "Do you want to play with ",
@@ -128,18 +130,13 @@ export default function MyGames({ token, username, game, setGame }) {
 
                     if (responseConfirmed.length > 0) {
                         console.log("confirmed > 0");
-// do reformatting here, 
-// 
-
                         setConfirmedGames(
                             responseConfirmed.map((obj) => ({
                                 displayStatus: "confirmed",
                                 bgColor: "yellow",
                                 icon: null,
-                                displayUsers: [
-                                    obj.host_info,
-                                    ...obj.guest_info,
-                                ],
+                                // display: host and any confirmed guests
+                                displayUsers: [...obj.guest_info],
                                 buttonTitle: null,
                                 buttons: [
                                     {
@@ -159,8 +156,13 @@ export default function MyGames({ token, username, game, setGame }) {
                             responsePending.map((obj) => ({
                                 displayStatus: "pendingPOVGuest",
                                 bgColor: "grey",
-                                icon: <Icon color="yellow" as={BsQuestionCircleFill}/>,
-                                displayUsers: obj.host_info,
+                                icon: (
+                                    <Icon
+                                        color="yellow"
+                                        as={BsQuestionCircleFill}
+                                    />
+                                ),
+                                displayUsers: [obj.guest_info[0]],
                                 buttonTitle: null,
                                 buttons: [
                                     {
@@ -206,10 +208,7 @@ export default function MyGames({ token, username, game, setGame }) {
                                 displayStatus: "host open doubles",
                                 bgColor: null,
                                 icon: null,
-                                displayUsers: [
-                                    obj.host_info,
-                                    ...obj.guest_info,
-                                ],
+                                displayUsers: [obj.guest_info],
                                 buttonTitle: null,
                                 buttons: [
                                     {
@@ -277,7 +276,7 @@ export default function MyGames({ token, username, game, setGame }) {
     return (
         <Box className="app-body">
             <Header />
-            <Heading fontSize='1xl'>MyGames Component</Heading>
+            <Heading fontSize="1xl">MyGames Component</Heading>
 
             {/* The following ternaries are so Rachel can see where things are loading/not loading */}
             {actionRequiredGames.length == 0 ? (
@@ -303,7 +302,6 @@ export default function MyGames({ token, username, game, setGame }) {
                     setGame={setGame}
                     game={game}
                     username={username}
-
                 />
             )}
 

@@ -46,7 +46,7 @@ function App() {
                         displayStatus: "join",
                         bgColor: "pink",
                         icon: null,
-                        displayUsers: [obj.host_info],
+                        displayUsers: obj.guest_info,
                         buttons: [
                             { label: "Join", job: "send a join request" },
                         ],

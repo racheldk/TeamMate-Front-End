@@ -19,7 +19,7 @@ function Header() {
 
     useEffect(() => {
         axios
-          .get(`https://teammate-app.herokuapp.com/notification/check/`, {
+          .get(`https://teammate-app.herokuapp.com/notification/count`, {
             headers: {
               Authorization: `Token ${token}`,
             },
