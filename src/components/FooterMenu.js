@@ -28,7 +28,7 @@ function Footer() {
                 border= 'none' variant='outline' className='footer-button' icon={<Icon as={BsFillPersonFill} />} />
                 <span className='tooltiptext'>My Profile</span></a></Link>
 
-                <Link to='/open-games'><a className='tooltip'><IconButton aria-label='Search Item' fontSize='1.9em' colorScheme='teal' 
+                <Link to='/my-games'><a className='tooltip'><IconButton aria-label='Search Item' fontSize='1.9em' colorScheme='teal' 
                 border= 'none' variant='outline' className='footer-button' icon={<BsStickies/>} />
                 <span className='tooltiptext'>My Games</span></a></Link>
 
