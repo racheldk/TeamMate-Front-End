@@ -81,7 +81,7 @@ export default function GameDetail({
         console.log(game);
         axios
             .patch(
-                `https://teammate-app.herokuapp.com/session/${game.id}/guest/${game.displayUsers.id}`,
+                `https://teammate-app.herokuapp.com/session/${game.id}/guest/${game.displayUsers.id}/`,
                 { status: "Accepted" },
                 {
                     headers: {
@@ -103,7 +103,7 @@ export default function GameDetail({
         console.log(game);
         axios
             .patch(
-                `https://teammate-app.herokuapp.com/session/${game.id}/guest/${game.displayUsers.id}`,
+                `https://teammate-app.herokuapp.com/session/${game.id}/guest/${game.displayUsers.id}/`,
                 { status: "Rejected" },
                 {
                     headers: {

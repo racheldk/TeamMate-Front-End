@@ -128,6 +128,9 @@ export default function MyGames({ token, username, game, setGame }) {
 
                     if (responseConfirmed.length > 0) {
                         console.log("confirmed > 0");
+// do reformatting here, 
+// 
+
                         setConfirmedGames(
                             responseConfirmed.map((obj) => ({
                                 displayStatus: "confirmed",
