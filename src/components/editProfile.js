@@ -13,7 +13,6 @@ export default function EditProfile({token, setModalIsOpen}) {
 
 
 if (picture) {
-    console.log(picture)
     const selectedFile = document.getElementById('inputPicture').files[0];
     axios
     .patch(
