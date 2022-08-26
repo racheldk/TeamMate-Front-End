@@ -1,5 +1,6 @@
 import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
+import EditProfile from "../components/editProfile"
 import { useEffect, useState } from "react";
 import useLocalStorageState from "use-local-storage-state";
 import Modal from "react-modal";
@@ -12,6 +13,7 @@ import noImage from "../images/no-image.jpg";
 function UserProfile({ token, setToken }) {
   const [user, setUser] = useState(null);
   const [username, setUsername] = useLocalStorageState("teammateUsername", null);
+  const [history, setHistory] = useState(null)
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   useEffect(() => {
@@ -23,6 +25,20 @@ function UserProfile({ token, setToken }) {
       })
       .then((res) => {
         setUser(res.data);
+        console.log(res.data);
+      });
+  }, [token, username, modalIsOpen]);
+  
+
+  useEffect(() => {
+    axios
+      .get(`https://teammate-app.herokuapp.com/${username}/games/?my-games=MyPreviousGames`, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      })
+      .then((res) => {
+        setHistory(res.data);
         console.log(res.data);
       });
   }, [token, username]);
@@ -45,7 +61,7 @@ const handleCloseModal = (game) => {
       <Header token={token} setToken={setToken} />
 
       <Box className="app-body">
-        {user && (
+        {user && 
           <>
             <Box className="spacer">&nbsp;</Box>
             <Box className="profile-body">
@@ -71,7 +87,7 @@ const handleCloseModal = (game) => {
               <>
               <Box className="profile-pic" m={2}>
                 <Image
-                  src={`${user.profile.profile_pic}`}
+                  src={`${user.profile_image_file}`}
                   alt={user.username}
                   fallbackSrc={noImage}
                   borderRadius="full"
@@ -83,12 +99,13 @@ const handleCloseModal = (game) => {
                   NTRP: {user.profile.ntrp_rating}
                 </Heading>
               </Box>
-              <Box className="games">  {user.game_session.map((game) => (
-          <Box className="game-item" on>
-            <Text>{game.date}&nbsp;</Text>
-            <Text>{game.location_info.park_name}</Text>
+              {history && 
+              <Box className="games">  {history.map((history) => (
+          <Box className="game-item">
+            <Text>{history.date}&nbsp;</Text>
+            <Text>{history.location_info.park_name}</Text>
           </Box>
-        ))}</Box></>
+        ))}</Box>}</>
             </Box>
             <Modal
                 isOpen={modalIsOpen}
@@ -106,9 +123,10 @@ const handleCloseModal = (game) => {
                 >
                     <CloseIcon color="white" />
                 </Button>
+                <EditProfile token={token} setModalIsOpen={setModalIsOpen}/>
             </Modal>
           </>
-        )}
+        }
       </Box>
 
       <Footer />

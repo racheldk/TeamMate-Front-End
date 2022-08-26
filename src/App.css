@@ -2,7 +2,7 @@
 
 .game-card {
     width: 400px;
-    background-color:#2C7A7B;
+    background-color:#4FD1C5;
     box-shadow: 0 8px 16px -8px rgba(0,0,0,0.4);
     border-radius: 20px;
     position: relative;
@@ -17,19 +17,18 @@
 /* Global Styling */
 
 body {
-    background-color: #2C7A7B!important;
+    background-color: #4FD1C5!important;
 }
 .app-body {
     background-color: #4FD1C5;
-    max-width: 450px;
-    height: 668px;
+    min-width: 450px;
+    min-height: 668px;
     margin: auto;
     overflow: scroll;
 }
 .spacer {
     height: 72px;
     background-color: #4FD1C5;
-    max-width: 450px;
     margin: auto;
 }
 
@@ -91,6 +90,7 @@ body {
 .modal-overlay {
     position: absolute;
     animation: colorfadein .5s;
+    z-index: 20;
     animation-fill-mode: forwards;
     top: 0;
     width: 100%;
@@ -103,6 +103,7 @@ body {
     overflow-y: hidden;
     border: 0;
     border-radius: 20px;
+    z-index: 20;
     width: 400px;
     height: 800px;
     margin: 0 auto;
@@ -122,9 +123,25 @@ body {
     border-radius: 100px!important;
 }
 
+/* Header Menu Stylings */
+
+.header {
+    min-width: 450px;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    margin: auto;
+    z-index: 10;
+    padding: .2em;
+    text-align: center;
+    background-color: white;
+    position: sticky;
+    top: 0;
+    width: 100%;
+}
+
 /* Footer Menu Stylings */
 .footer {
-    max-width: 450px;
+    min-width: 450px;
     display: grid;
     grid-template-columns: 33.3% 33.3% 33.3%;
     margin: auto;

@@ -1,54 +1,69 @@
 import axios from "axios";
-import { Button } from '@chakra-ui/react'
+import { Button, Box, Text, Heading, FormControl, FormLabel } from '@chakra-ui/react'
 import { useEffect, useState } from "react";
 
 
 
 
-export default function EditProfile({token}) {
+export default function EditProfile({token, setModalIsOpen}) {
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
     const [rank, setRank] = useState('');
     const [picture,  setPicture] = useState('')
 
-const PatchProfile = () => {
+
+if (picture) {
+    console.log(picture)
+    const selectedFile = document.getElementById('inputPicture').files[0];
     axios
     .patch(
-        `https://teammate-app.herokuapp.com/profile/`, 
+        `https://teammate-app.herokuapp.com/profile/`, selectedFile,
         {
             headers: {
                 Authorization: `Token ${token}`,
-            },
-            first_name: firstname,
-            last_name: lastname, 
-            ntrp_rating: rank,
-            profile_pic: picture,
+                'Content-Type': selectedFile.type,
+                'Content-Disposition': `attachment; filename=${selectedFile.name}`
+            }
         }
     )
+}
+
+const PatchProfile = (event) => {
+    event.preventDefault();
+
+    axios
+    .patch(
+        `https://teammate-app.herokuapp.com/profile/`,
+        {
+            ntrp_rating: rank,
+        },
+        {
+            headers: {
+                Authorization: `Token ${token}`,
+            }
+        }
+    )
+    .then(handleCloseModal())
     .catch((error) => {
         alert(error.response.data.detail);
     });}
 
-    return (
-        <div><form id="edit-user-form" onSubmit={PatchProfile}>
+    const handleCloseModal = (game) => {
+        console.log("click close");
+        setModalIsOpen(false);
+    };
 
-        <label className="">First Name</label>
-        <input id="inputFirstname" className="form-control"  placeholder="First name"
-            onChange={(e) => setFirstname(e.target.value)}/>
-        <br/> 
-        <label className="" >Last Name</label>
-        <input id="inputLastname" className="form-control"  placeholder="Last name"
-            onChange={(e) => setLastname(e.target.value)}/>
-        <br/>
-        <label className="" >Profile Picture</label>
-        <input id="inputPicture" type='file' className="form-control"  placeholder="Profile Picture"
+    return (
+        <Box className='modal-base'><FormControl id="edit-user-form" >
+        <FormLabel className="" enctype="multipart/form-data" >Profile Picture</FormLabel>
+        <input id="inputPicture" type='file' accept=".png,.jpg,.gif" className="form-control"  placeholder="Profile Picture"
             onChange={(e) => setPicture(e.target.value)}/>
         <br/>
-        <label className="" >Profile Picture</label>
+        <FormLabel className="" >NTRP Rating</FormLabel>
         <input id="inputRank" className="form-control"  placeholder="NTRP Rating"
             onChange={(e) => setRank(e.target.value)}/>
         <br/>
-        <Button colorScheme="teal" type="submit" >Submit</Button>
-        </form></div>
+        <Button colorScheme="teal" type="submit" onClick={(e) => PatchProfile(e)} >Submit</Button>
+        </FormControl></Box>
     )
 }
