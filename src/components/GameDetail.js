@@ -81,7 +81,7 @@ export default function GameDetail({
         console.log(game);
         axios
             .patch(
-                `https://teammate-app.herokuapp.com/session/${game.id}/guest/${game.displayUsers.id}/`,
+                `https://teammate-app.herokuapp.com/session/${game.game_session_id}/guest/${game.displayUsers[0].guest_id}/`,
                 { status: "Accepted" },
                 {
                     headers: {
@@ -99,11 +99,11 @@ export default function GameDetail({
     };
 
     const rejectRequest = (game) => {
-        console.log("accept request click");
+        console.log("reject request click");
         console.log(game);
         axios
             .patch(
-                `https://teammate-app.herokuapp.com/session/${game.id}/guest/${game.displayUsers.id}/`,
+                `https://teammate-app.herokuapp.com/session/${game.game_session_id}/guest/${game.displayUsers[0].guest_id}/`,
                 { status: "Rejected" },
                 {
                     headers: {
@@ -213,7 +213,7 @@ export default function GameDetail({
                         {game.buttonTitle && (
                             <Text>
                                 {game.buttonTitle}
-                                {game.guest}?
+                                {game.displayUsers[0].user}?
                             </Text>
                         )}
                         {game.buttons.map((button) => (
