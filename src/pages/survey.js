@@ -7,12 +7,37 @@ import {
     BsFillEmojiSmileFill,
 } from "react-icons/bs";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const Survey = ({token}) => {
     const [surveyPK, setSurveyPK] = useState(null)
+    const [params] = useState(useParams())
+    const [isLoading, setIsLoading] = useState(true)
+    const [surveyGame, setSurveyGame] = useState(null)
+    
+    
     const surveyResponses = []
 
+// use params to get game information 
+
 useEffect(()=>{
+    console.log(params.id)
+    console.log('load game data')
+    axios.get(`https://teammate-app.herokuapp.com//session/${parseInt(params.id)}`, {headers: {
+        Authorization: `Token ${token}`,
+    },
+}).then((res)=>{
+    // adapt data to have only host and accepted players in displayUsers
+    console.log(res.data)})
+    
+    
+    
+    setIsLoading(false)
+},[params.id, token])
+
+
+useEffect(()=>{
+    // get surveyPK
     setSurveyPK(1)
 },[])
 
@@ -118,10 +143,6 @@ useEffect(()=>{
     const handleSubmit = () => {
         console.log(surveyResponses)
         console.log(surveyPK)
-        // make an axios request for each object in surveyResponses 
-        // make each one a variable and then axios.all() 
-
-
         const axiosPosts = sampleResponses.map((obj)=> (
             axios.post(`https://teammate-app.herokuapp.com/session/${game.id}/survey/${surveyPK}/response`, {
                 obj
@@ -136,11 +157,13 @@ useEffect(()=>{
                 alert(error)
             })
         ))
-
         console.log(axiosPosts)
     }
+    // ??!!! Where does the user go after their survey is submitted? 
 
-    // console.log(game);
+    if(isLoading) {
+        return <Box>...Loading</Box>
+    }
 
     return (
         <Box className="survey">

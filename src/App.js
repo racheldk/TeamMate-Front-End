@@ -26,6 +26,7 @@ function App() {
     const [currentGame, setCurrentGame] = useState({});
     const [surveyGame, setSurveyGame] = useState(null)
     const [game, setGame] = useState()
+    const [isLoading, setIsLoading] = useState(true)
 
 
     const setAuth = (username, token) => {
@@ -58,6 +59,8 @@ function App() {
             });
     }, [token, setAllGamesList]);
 
+
+
     return (
         <ChakraProvider Theme={Theme} Text={Text}>
             <BrowserRouter>
@@ -68,7 +71,7 @@ function App() {
                         element={<NewOpenGame token={token} />}
                     />
                     <Route
-                        path="survey" element={<Survey setAuth={setAuth} token={token} surveyGame={surveyGame}/>} />
+                        path="survey/:id" element={<Survey setAuth={setAuth} token={token} surveyGame={surveyGame}/>} />
                     <Route
                         path="register"
                         element={<Register setAuth={setAuth} />}
