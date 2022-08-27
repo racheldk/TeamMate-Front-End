@@ -16,7 +16,6 @@ import OpenGamesPage from "./pages/openGamesPage";
 import Survey from "./pages/survey";
 import NotificationsList from "./components/NotificationsList";
 
-
 function App() {
     const [token, setToken] = useLocalStorageState("teammateToken", null);
     const [username, setUsername] = useLocalStorageState(
