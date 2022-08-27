@@ -98,40 +98,47 @@ export default function MyGames({ token, username, game, setGame }) {
                     if (responseAction.length > 0) {
                         console.log("action > 0");
                         const actionGames = []
-                    //     responseAction.forEach(obj=>{console.log(obj)
-                    //         if (obj.guest_info[1].status === "Pending") {
-                    //             console.log(obj)
-                    //             let newGame={
-                    //                 displayStatus: "actionRequired",
-                    //                 bgColor: "black",
-                    //                 icon: (
-                    //                     <Icon
-                    //                         color="red"
-                    //                         as={BsFillExclamationCircleFill}
-                    //                     />
-                    //                 ),
-                    //                 displayUsers: [obj.guest_info[1]],
-                    //                 buttonTitle: "Do you want to play with ",
-                    //                 buttons: [
-                    //                     {
-                    //                         label: "Yes",
-                    //                         job: "handleAccept",
-                    //                     },
-                    //                     {
-                    //                         label: "No, thank you",
-                    //                         job: "handleReject",
-                    //                     },
-                    //                 ],
-                    //                 // ...guest,
-                    //             }
-                    //         actionGames.push(newGame)      
-                    // }})
-
-                        // responseAction.forEach(game => {
-                        //     for (let guest of game.guest_info) {
-                        //         if (guest.status === "Pending") {
-                        //             console.log(guest)
-                        //             let newGame={
+                        for (let game of responseAction) {
+                            console.log(game)
+                            console.log(game.guest_info)
+                            console.log(...game.guest_info)
+                            const eachGuest = [...game.guest_info]
+                            console.log(eachGuest)
+                            let guestIndvl = []
+                        }
+                        
+                        // for (let game of responseAction) {
+                        //     if (game.guest_info[1].status==="Pending") {
+                        //         console.log('guest [1]')
+                        //         const NewGame = {
+                        //             displayStatus: "actionRequired",
+                        //             bgColor: "black",
+                        //             icon: (
+                        //                 <Icon
+                        //                     color="red"
+                        //                     as={BsFillExclamationCircleFill}
+                        //                 />
+                        //             ),
+                        //             buttonTitle: "Do you want to play with ",
+                        //             displayUsers: [game.guest_info[1]],
+                        //             buttons: [
+                        //                 {
+                        //                     label: "Yes",
+                        //                     job: "handleAccept",
+                        //                 },
+                        //                 {
+                        //                     label: "No, thank you",
+                        //                     job: "handleReject",
+                        //                 },
+                        //             ],
+                        //             route: `host/${game.game_session_id}`,
+                        //             ...game
+                        //         }
+                        //         actionGames.push(NewGame)
+                        //     } 
+                        //     if (game.guest_info[2].status==="Pending") {
+                        //         console.log('guest [2]')
+                        //             const NewGame = {
                         //                 displayStatus: "actionRequired",
                         //                 bgColor: "black",
                         //                 icon: (
@@ -140,8 +147,8 @@ export default function MyGames({ token, username, game, setGame }) {
                         //                         as={BsFillExclamationCircleFill}
                         //                     />
                         //                 ),
-                        //                 displayUsers: [guest],
                         //                 buttonTitle: "Do you want to play with ",
+                        //                 displayUsers: [game.guest_info[1]],
                         //                 buttons: [
                         //                     {
                         //                         label: "Yes",
@@ -152,81 +159,107 @@ export default function MyGames({ token, username, game, setGame }) {
                         //                         job: "handleReject",
                         //                     },
                         //                 ],
-                        //                 route: `host/${game.id}`,
-                        //                 // ...guest,
+                        //                 route: `host/${game.game_session_id}`,
+                        //                 ...game
                         //             }
-                        //         actionGames.push(newGame)       
-                        //     }}})
-
-
-                        for (let response of responseAction) {
-                            // for each game run the following 
-                            console.log(response)
-                            for(let guest of response.guest_info) {
-                                // for each guest in guest_info
-                            if (guest.status === "Pending") {
-                                console.log(guest)
-                                let newGame={
-                                    displayStatus: "actionRequired",
-                                    bgColor: "black",
-                                    icon: (
-                                        <Icon
-                                            color="red"
-                                            as={BsFillExclamationCircleFill}
-                                        />
-                                    ),
-                                    displayUsers: [guest],
-                                    buttonTitle: "Do you want to play with ",
-                                    buttons: [
-                                        {
-                                            label: "Yes",
-                                            job: "handleAccept",
-                                        },
-                                        {
-                                            label: "No, thank you",
-                                            job: "handleReject",
-                                        },
-                                    ],
-                                    route: `host/${response.game_session_id}`,
-                                    ...guest,
-                                }
-                            actionGames.push(newGame)       
-                            }
-                        }}
-
-
-                        console.log(actionGames)
-
-                        setActionRequiredGames(
-                            responseAction.map((obj) => ({
-                                displayStatus: "actionRequired",
-                                bgColor: "black",
-                                icon: (
-                                    <Icon
-                                        color="red"
-                                        as={BsFillExclamationCircleFill}
-                                    />
-                                ),
-                                // display: guest with pending request
-                                // WILL NEED A SEPARATE GAME CARD FOR EACH REQUEST
-                                displayUsers: obj.guest_info,
-                                // if the button.job changes, the conditional inside of handleClick on GameDetail also needs to change
-                                buttonTitle: "Do you want to play with ",
-                                buttons: [
-                                    {
-                                        label: "Yes",
-                                        job: "handleAccept",
-                                    },
-                                    {
-                                        label: "No, thank you",
-                                        job: "handleReject",
-                                    },
-                                ],
-                                route: `host/${obj.id}`,
-                                ...obj,
-                            }))
-                        );
+                        //             actionGames.push(NewGame)
+                        //         } console.log(actionGames)
+                        //     } 
+                        //     setActionRequiredGames(actionGames)
+                        //     }
                     }
+
+
+
+
+                        // for (let response of responseAction) {
+                        //     // for each game run the following 
+                        //     console.log(response)
+                        //     for(let guest of response.guest_info) {
+                        //         // for each guest in guest_info
+                        //         let NewGame={
+                        //             displayStatus: "actionRequired",
+                        //             bgColor: "black",
+                        //             icon: (
+                        //                 <Icon
+                        //                     color="red"
+                        //                     as={BsFillExclamationCircleFill}
+                        //                 />
+                        //             ),
+                        //             buttonTitle: "Do you want to play with ",
+                        //             buttons: [
+                        //                 {
+                        //                     label: "Yes",
+                        //                     job: "handleAccept",
+                        //                 },
+                        //                 {
+                        //                     label: "No, thank you",
+                        //                     job: "handleReject",
+                        //                 },
+                        //             ],
+                        //             route: `host/${response.game_session_id}`,
+                        //         }
+
+                        //         if (guest.status === "Pending") {
+                        //         console.log(guest)
+                        //         let newGuest={
+                        //             displayStatus: "actionRequired",
+                        //             bgColor: "black",
+                        //             icon: (
+                        //                 <Icon
+                        //                     color="red"
+                        //                     as={BsFillExclamationCircleFill}
+                        //                 />
+                        //             ),
+                        //             displayUsers: [guest],
+                        //             buttonTitle: "Do you want to play with ",
+                        //             buttons: [
+                        //                 {
+                        //                     label: "Yes",
+                        //                     job: "handleAccept",
+                        //                 },
+                        //                 {
+                        //                     label: "No, thank you",
+                        //                     job: "handleReject",
+                        //                 },
+                        //             ],
+                        //             route: `host/${response.game_session_id}`,
+                        //             ...guest,
+                        //         }
+                        //     actionGames.push(newGame)       
+                        //     }
+                        // }}
+
+                    //     setActionRequiredGames(
+                    //         responseAction.map((obj) => ({
+                    //             displayStatus: "actionRequired",
+                    //             bgColor: "black",
+                    //             icon: (
+                    //                 <Icon
+                    //                     color="red"
+                    //                     as={BsFillExclamationCircleFill}
+                    //                 />
+                    //             ),
+                    //             // display: guest with pending request
+                    //             // WILL NEED A SEPARATE GAME CARD FOR EACH REQUEST
+                    //             displayUsers: obj.guest_info,
+                    //             // if the button.job changes, the conditional inside of handleClick on GameDetail also needs to change
+                    //             buttonTitle: "Do you want to play with ",
+                    //             buttons: [
+                    //                 {
+                    //                     label: "Yes",
+                    //                     job: "handleAccept",
+                    //                 },
+                    //                 {
+                    //                     label: "No, thank you",
+                    //                     job: "handleReject",
+                    //                 },
+                    //             ],
+                    //             route: `host/${obj.id}`,
+                    //             ...obj,
+                    //         }))
+                    //     );
+                    // }
 
                     if (responseConfirmed.length > 0) {
                         console.log("confirmed > 0");
