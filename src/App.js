@@ -16,7 +16,6 @@ import OpenGamesPage from "./pages/openGamesPage";
 import Survey from "./pages/survey";
 import NotificationsList from "./components/NotificationsList";
 
-
 function App() {
     const [token, setToken] = useLocalStorageState("teammateToken", null);
     const [username, setUsername] = useLocalStorageState(
@@ -45,10 +44,10 @@ function App() {
                 console.log(res.data);
                 setAllGamesList(
                     res.data.map((obj) => ({
-                        displayStatus: "open to join",
+                        displayStatus: "join",
                         bgColor: "pink",
                         icon: null,
-                        displayUsers: [obj.host_info],
+                        displayUsers: obj.guest_info,
                         buttons: [
                             { label: "Join", job: "send a join request" },
                         ],
@@ -88,14 +87,16 @@ function App() {
                     />
                     <Route
                         path="my-games/"
-                        element={<MyGames token={token} username={username} game={game} setGame={setGame}/>}
-                    />
-                    <Route path="/edit/">
+                        element={<MyGames token={token} username={username} game={game} setGame={setGame}/>}>
+
+                        </Route>
+                    <Route path="my-games/edit/">
                         <Route
                             path=":id"
                             element={<EditGame token={token} />}
                         />
                     </Route>
+                    
                     <Route
                         path=":username"
                         element={
