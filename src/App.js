@@ -14,6 +14,7 @@ import EditGame from "./pages/editGame";
 import MyGames from "./pages/myGamesPage";
 import OpenGamesPage from "./pages/openGamesPage";
 import Survey from "./pages/survey";
+import NotificationsList from "./components/NotificationsList";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
     );
     const [allGamesList, setAllGamesList] = useState([]);
     const [currentGame, setCurrentGame] = useState({});
+    const [surveyGame, setSurveyGame] = useState(null)
     const [game, setGame] = useState()
 
 
@@ -67,7 +69,7 @@ function App() {
                         element={<NewOpenGame token={token} />}
                     />
                     <Route
-                        path="survey" element={<Survey setAuth={setAuth}/>} />
+                        path="survey" element={<Survey setAuth={setAuth} token={token} surveyGame={surveyGame}/>} />
                     <Route
                         path="register"
                         element={<Register setAuth={setAuth} />}
@@ -105,6 +107,8 @@ function App() {
                             />
                         }
                     />
+                    {/* Notifications path is just for during development - when header is ready this will be rendered in a modal */}
+                    <Route path="notifications" element={<NotificationsList token={token}/>}/>
                 </Routes>
             </BrowserRouter>
         </ChakraProvider>
