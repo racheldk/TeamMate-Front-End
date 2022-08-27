@@ -3,12 +3,15 @@ import {
     Heading,
     Button,
     Box,
+    Icon,
     Modal,
     LinkOverlay,
-    LinkBox
+    LinkBox,
+    Image
 } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
 import { DateTime } from "luxon";
-import { useState } from "react";
+import { IoMdTennisball } from "react-icons/io";
 import GameDetail from "./GameDetail";
 
 export default function GamesList({
@@ -26,10 +29,19 @@ export default function GamesList({
     test,
 }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [rank, setRank] = useState('teal');
 
+    useEffect((game) => {
+        if (game && game.host_info.profile.ntrp_rating === 2.5) {
+        setRank('brown')
+     }
+        if (game && game.host_info.profile.ntrp_rating > 0) {
+        setRank('gold')
+     }
+    }, [game]);
 
+    
     console.log(gamesList);
-
 
 
     const handleOpenModal = (game) => {
@@ -56,6 +68,8 @@ export default function GamesList({
         );
     }
 
+    
+
     return (
         <Box display='flex' flexWrap='wrap' maxW="300px" m='auto' justifyContent='center' textAlign='center'>
             {gamesList.length > 0 && (
@@ -71,8 +85,13 @@ export default function GamesList({
                                 bg={`${game.bgColor}`}
                                 key={game.id}
                             >
+                            <Box borderRadius='100px' borderColor='white' bg='white' position='absolute' top={0} left={0}>
+                            <Icon as={IoMdTennisball} color={rank} fontSize='3em' display='flex' />
+                            </Box>
                                 <Box>{game.icon}</Box>
-                                <Heading fontSize={33} color='teal'>{game.location_info.park_name}</Heading>
+                                <Box w='15%' display='inline-block'>&nbsp;</Box>
+                                <Box w='85%' display='inline-block'>
+                                <Heading fontSize={30} color='teal'>{game.location_info.park_name}</Heading>
                                 <Text color='#285E61'>{game.match_type} | {game.session_type}</Text>
                                 <Text color='#285E61'>
                                     {DateTime.fromISO(game.date).toLocaleString(
@@ -86,7 +105,7 @@ export default function GamesList({
                                     {DateTime.fromISO(game.time).toLocaleString(
                                         DateTime.TIME_SIMPLE
                                     )}
-                                </Text>
+                                </Text></Box>
                             </Box>
                             </LinkOverlay>
                         </LinkBox>

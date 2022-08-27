@@ -2,7 +2,7 @@
 
 .game-card {
     width: 100%;
-    min-width: 300px;
+    min-width: 320px;
     background-color:#4FD1C5;
     box-shadow: 0 8px 16px -8px rgba(0,0,0,0.4);
     border-radius: 20px;
