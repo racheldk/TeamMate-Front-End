@@ -96,10 +96,8 @@ export default function GamesList({
             )}
 
             <Modal
-                className="modal"
                 isOpen={modalIsOpen}
                 contentLabel="Game Detail Modal"
-                overlayClassName="modal-overlay"
                 game={game}
             >
                 <GameDetail

@@ -1,4 +1,4 @@
-import { Text, Heading, Image, Button, Box } from "@chakra-ui/react";
+import { Text, Heading, Image, Button, IconButton, Box } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
 import { DateTime } from "luxon";
 import noImage from "../images/no-image.jpg";
@@ -38,16 +38,7 @@ export default function GameDetail({
     return (
         <Box className="modal-overlay">
             <Box className="modal">
-                <Button
-                    onClick={() => {
-                        handleCloseModal();
-                    }}
-                    className="close-modal-button"
-                    variant="ghost"
-                    colorScheme="teal"
-                >
-                    <CloseIcon color="red" />
-                </Button>
+            <IconButton onClick={()=>handleCloseModal()} className="close-modal-button" variant='outline' colorScheme='teal'><CloseIcon color='white'/></IconButton>
                 <Box className="modal-base" key={game.id}>
                     {game.displayUsers.length > 0 && (
                         <>

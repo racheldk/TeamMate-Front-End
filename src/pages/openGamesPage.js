@@ -82,7 +82,7 @@ import NewGamesList from "../components/GamesList";
             <Header />
             <Box className="app-body">
                 <Box textAlign="center" 
-                marginTop={5} marginBottom={2} maxW='400px' marginRight='auto' marginLeft='auto'
+                marginTop={5} marginBottom={2} maxW='350px' marginRight='auto' marginLeft='auto'
                 >
                     <ReactDatePicker
                         onChange={(date) => {

@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, Navigate, LinkOverlay } from "react-router-dom";
-import { IconButton, Box, Text } from "@chakra-ui/react";
+import { IconButton, Box, Text, Button } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, BellIcon } from "@chakra-ui/icons";
-import { Button } from "@chakra-ui/react";
 import Modal from "react-modal";
 import axios from "axios";
 import useLocalStorageState from "use-local-storage-state";
@@ -68,7 +67,7 @@ function Header() {
     }
 
     return (
-        <Box className="header modal-base">
+        <Box className="header">
             <IconButton
                 variant="ghost"
                 bg={alert}
@@ -99,11 +98,10 @@ function Header() {
                     </Link>
                 </Button>
             </Box>
-            <Modal isOpen={modalIsOpen} contentLabel="Notifications Modal" overlayClassName="modal-overlay" handleCloseModal={handleCloseModal}>
-                <Box className="modal" >
-                    <Button onClick={()=>handleCloseModal()} className="close-modal-button" variant='ghost' colorScheme='teal'><CloseIcon color='teal'/></Button>
-                    <NotificationsList token={token} notifications={notifications}/>
-                </Box>
+            <Modal isOpen={modalIsOpen} contentLabel="Notifications Modal" overlayClassName="modal-overlay" className="modal" handleCloseModal={handleCloseModal}>
+            <IconButton onClick={()=>handleCloseModal()} className="close-modal-button" variant='outline' colorScheme='teal'><CloseIcon color='white'/></IconButton>
+            <NotificationsList token={token} notifications={notifications}/>
+       
             </Modal>
         </Box>
     );

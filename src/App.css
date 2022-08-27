@@ -106,9 +106,9 @@ body {
     border: 0;
     border-radius: 20px;
     z-index: 20;
-    max-width: 400px;
+    max-width: 350px;
     height: 100vh;
-    margin: 0 auto;
+    margin: 2em auto 0 auto;
     text-align: right;    
 }
 
@@ -123,7 +123,9 @@ body {
 
 .close-modal-button {
     border-radius: 100px!important;
+    margin: .5em;
 }
+
 
 /* Header Menu Stylings */
 
