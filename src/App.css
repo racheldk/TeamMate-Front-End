@@ -194,7 +194,7 @@ body {
     animation: fadein 1s, mymove 1s ;
     animation-fill-mode: forwards;
     margin: auto;
-    max-width: 400px;
+    max-width: 300px;
     padding: .1em;
     text-align: center;
     text-transform: uppercase;
@@ -233,9 +233,13 @@ body {
 Input {
     border-radius: 20px;
     padding: 0 1em!important;
+    width: 100%;
 }
 
-Om
+Input:hover {
+    background-color: #B2F5EA;
+    cursor: pointer;
+}
 
 
 /* Navbar my games page */

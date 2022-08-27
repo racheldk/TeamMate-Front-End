@@ -288,8 +288,10 @@ export default function MyGames({ token, username, game, setGame }) {
     }
 
     return (
+        <>
+        <Header />
         <Box className="app-body">
-            <Header />
+            
             <Heading fontSize='1xl'>MyGames Component</Heading>
 
             {/* The following ternaries are so Rachel can see where things are loading/not loading */}
@@ -383,7 +385,7 @@ export default function MyGames({ token, username, game, setGame }) {
                     // guestOpenDoublesGames={guestOpenDoublesGames}
                 />
             )} */}
-            <Footer />
-        </Box>
+           
+        </Box> <Footer /></>
     );
 }
