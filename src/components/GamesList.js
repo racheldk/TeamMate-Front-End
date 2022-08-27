@@ -71,12 +71,10 @@ export default function GamesList({
                                 bg={`${game.bgColor}`}
                                 key={game.id}
                             >
-
-                                <Text>{game.game_session_id} </Text>
                                 <Box>{game.icon}</Box>
-                                <Heading fontSize={33}>{game.location_info.park_name}</Heading>
-                                <Text>{game.match_type} | {game.session_type}</Text>
-                                <Text>
+                                <Heading fontSize={33} color='teal'>{game.location_info.park_name}</Heading>
+                                <Text color='#285E61'>{game.match_type} | {game.session_type}</Text>
+                                <Text color='#285E61'>
                                     {DateTime.fromISO(game.date).toLocaleString(
                                         {
                                             weekday: "short",

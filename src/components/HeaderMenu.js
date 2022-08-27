@@ -13,8 +13,8 @@ function Header() {
     const [token, setToken] = useLocalStorageState("teammateToken", null);
     const [error, setError] = useState([]);
     const [notifications, setNotifications] = useState(null);
-    let alertIcon = "teal";
-    let alert = "";
+    const [alertIcon, setAlertIcon] = useState('')
+    const [alert, setAlert] = useState('')
 
     useEffect(() => {
         axios
@@ -40,10 +40,18 @@ function Header() {
         setModalIsOpen(false);
     };
 
-    if (notifications && notifications.length > 0) {
-        alertIcon = "white";
-        alert = "red";
-    }
+    useEffect(() => {
+        if (notifications) {
+        setAlert('red')
+        setAlertIcon('white')
+     }
+        if (notifications && notifications.length === 0) {
+        setAlert('')
+        setAlertIcon('teal')
+     }
+    }, [notifications]);
+
+
 
     const handleLogOut = () => {
         axios

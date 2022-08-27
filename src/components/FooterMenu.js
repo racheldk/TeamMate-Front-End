@@ -13,24 +13,24 @@ function Footer() {
     return (
 
             <Box className="footer">
-                <Link to='/open-games'><a className='tooltip'><IconButton aria-label='Search Item' fontSize='1.9em' colorScheme='teal' 
+                <Link to='/open-games'><Box className='tooltip'><IconButton aria-label='Search Item' fontSize='1.9em' colorScheme='teal' 
                 border= 'none' variant='outline' className='footer-button' icon={<BsFillHouseFill />} />
-                <span className='tooltiptext'>Open Games</span></a></Link>
+                <span className='tooltiptext'>Open Games</span></Box></Link>
             
 
 
-                <Link to='/new'><a className='tooltip'><IconButton aria-label='ProfileItem' fontSize='1.9em' colorScheme='teal' 
+                <Link to='/new'><Box className='tooltip'><IconButton aria-label='ProfileItem' fontSize='1.9em' colorScheme='teal' 
                 border= 'none' variant='outline' className='footer-button' icon={<PlusSquareIcon/>} />
-                <span className='tooltiptext'>New Game</span></a></Link>  
+                <span className='tooltiptext'>New Game</span></Box></Link>  
 
 
-                <Link to={`/${username}`}><a className='tooltip'><IconButton aria-label='ProfileItem' fontSize='1.9em' colorScheme='teal' 
+                <Link to={`/${username}`}><Box className='tooltip'><IconButton aria-label='ProfileItem' fontSize='1.9em' colorScheme='teal' 
                 border= 'none' variant='outline' className='footer-button' icon={<Icon as={BsFillPersonFill} />} />
-                <span className='tooltiptext'>My Profile</span></a></Link>
+                <span className='tooltiptext'>My Profile</span></Box></Link>
 
-                <Link to='/my-games'><a className='tooltip'><IconButton aria-label='Search Item' fontSize='1.9em' colorScheme='teal' 
+                <Link to='/my-games'><Box className='tooltip'><IconButton aria-label='Search Item' fontSize='1.9em' colorScheme='teal' 
                 border= 'none' variant='outline' className='footer-button' icon={<BsStickies/>} />
-                <span className='tooltiptext'>My Games</span></a></Link>
+                <span className='tooltiptext'>My Games</span></Box></Link>
 
             </Box>
     

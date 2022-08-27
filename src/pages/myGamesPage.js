@@ -278,7 +278,7 @@ export default function MyGames({ token, username, game, setGame }) {
             <Heading fontSize="1xl">MyGames Component</Heading>
 
             {/* The following ternaries are so Rachel can see where things are loading/not loading */}
-            {actionRequiredGames.length == 0 ? (
+            {actionRequiredGames.length === 0 ? (
                 <Text>
                     You don't have any games that require your attention
                 </Text>
@@ -316,7 +316,7 @@ export default function MyGames({ token, username, game, setGame }) {
                 />
             )}
 
-            {noGuestGames.length == 0 ? (
+            {noGuestGames.length === 0 ? (
                 <Text>
                     You don't have any games that don't already have a guest
                     attached.

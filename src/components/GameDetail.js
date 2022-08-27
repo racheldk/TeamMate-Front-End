@@ -161,43 +161,34 @@ export default function GameDetail({
 
     return (
         <Box className="modal-overlay">
-            <Box className="modal-base">
-                <Heading>UpdatedGameDetail Component</Heading>
-                <Button
-                    onClick={() => {
-                        handleCloseModal();
-                    }}
-                    className="close-modal-button"
-                    variant="ghost"
-                    colorScheme="teal"
-                >
-                    <CloseIcon color="red" />
-                </Button>
-                <Box className="game-card" key={game.id}>
-                    <Text>{game.game_session_id}</Text>
+            <Box textAlign='right' className="modal">
+            <IconButton onClick={()=>handleCloseModal()} className="close-modal-button" variant='outline' colorScheme='teal'><CloseIcon color='white'/></IconButton>
+            
+                <Box className="modal-base" display='flex' flexWrap='wrap' key={game.id} justifyContent='center'>
+                <Heading fontWeight='700' w='100%'>{game.location_info.park_name}</Heading>
+                <Box w='350px' display='flex' justifyContent='center'>
                     {game.displayUsers.length > 0 &&
                         game.displayUsers.map((user) => (
-                            <Box key={user.user_id}>
+                            <Box key={user.user_id} m='auto'>
                                 <Text>{`${user.user_info.first_name} ${user.user_info.last_name}`}</Text>
-                                <Text>{`${user.user}`}</Text>
+                                <Text>{`@${user.user}`}</Text>
                                 <Image
                                 src={`${user.user_info.profile.profile_pic}`}
                                 alt={user}
                                 fallbackSrc={noImage}
                                 borderRadius="full"
-                                boxSize="150px"
+                                boxSize="150px" m='auto'
                                 />
                             <Text>
                                 NTRP:{" "}
                                 {user.user_info.profile.ntrp_rating}{" "}
                             </Text>
                             </Box>
-                        ))}
+                        ))}</Box>
 
-                    <Text fontWeight='700'>{game.location_info.park_name}</Text>
-                    <Text>{game.match_type} | {game.session_type}</Text>
-                    <Text></Text>
-                    <Text>
+                    
+                    <Text w='100%' marginTop={3}>{game.match_type} | {game.session_type}</Text>
+                    <Text fontWeight='700'>
                         {DateTime.fromISO(game.date).toLocaleString({
                             weekday: "short",
                             month: "short",
@@ -209,7 +200,7 @@ export default function GameDetail({
                         )}
                     </Text>
 
-                    <Box>
+                    <Box w='100%' m={3}>
                         {game.buttonTitle && (
                             <Text>
                                 {game.buttonTitle}
@@ -217,11 +208,11 @@ export default function GameDetail({
                             </Text>
                         )}
                         {game.buttons.map((button) => (
-                            <Button
+                            <Button colorScheme='teal'
                                 key={button.label}
                                 onClick={() => handleClick(game, button)}
                             >
-                                <Text color="red">{button.label} </Text>
+                                <Text color="white">{button.label} </Text>
                             </Button>
                         ))}
 
