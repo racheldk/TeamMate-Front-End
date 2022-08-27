@@ -138,14 +138,18 @@ useEffect(()=>{
         ))
 
         console.log(axiosPosts)
+    
     }
 
     // console.log(game);
 
+    
+
     return (
         <Box className="survey">
             <Box>
-                <Heading
+                <Heading 
+        
                     color="teal"
                     size="md"
                     // marginLeft="90px"
@@ -153,45 +157,62 @@ useEffect(()=>{
                     {game.match_type} game on {game.date}
                 </Heading>
 
-                <Box className="survey-text">
-                    <Text mt={3}>Did anyone NOT come to the game?</Text>
+                <Box marginLeft="10px" marginRight="12px">
+                    <Text mt={4}>Did anyone NOT come to the game?</Text>
                     <Button
+                    _focus={ {backgroundColor:"#4FD1C5"}}
+                    _active={{
+                        transform: 'translateY(5px)', color:"white"}}
                         variant="outline"
-                        backgroundColor=""
-                        colorScheme="teal"
+                        backgroundColor="white"
+                        colorScheme=""
                         color="teal"
                         height="30px"
-                        m={1}
+                        width="318px"
+                        letterSpacing="1px"
+                        fontSize="13px"
+                        m={2}
                     >
                         No, everyone came
                     </Button>
                     {game.displayUsers.map((user) => (
-                        <Button
-                            variant="outline"
-                            backgroundColor=""
-                            colorScheme="teal"
-                            color="teal"
-                            height="30px"
-                            key={user.id}
-                            m={1}
-                            onClick={()=>
-                                {console.log({about_user: user.id, response: "No Show"})
-                                surveyResponses.push({about_user: user.id, response: "No Show"})}}
-                        >
-                            {user.username}
-                        </Button>
+                    <Button className="won"
+                        _focus={ {backgroundColor:"#4FD1C5"}}
+                        _active={{transform: 'translateY(5px)', color:"white"}}
+                        variant="outline"
+                        backgroundColor="white"
+                        colorScheme=""
+                        color="teal"
+                        height="30px"
+                        width="150px"
+                        letterSpacing="2px"
+                        fontSize="13px"
+                        key={user.id}
+                        m={2}
+                        onClick={()=>
+                            {console.log({about_user: user.id, response: "No Show"})
+                            surveyResponses.push({about_user: user.id, response: "No Show"})}}
+                    >
+                        {user.username}
+                    </Button>
+                    
                     ))}
                     <br />
                     <Text mt={3}>Who won?</Text>
                     {game.displayUsers.map((user) => (
-                        <Button
+                    <Button
+                        _focus={ {backgroundColor:"#4FD1C5"}}
+                        _active={{transform: 'translateY(5px)', color:"white"}}
                             variant="outline"
-                            backgroundColor=""
-                            colorScheme="teal"
+                            backgroundColor="white"
+                            colorScheme=""
                             color="teal"
                             height="30px"
+                            width="150px"
+                            letterSpacing="2px"
+                            fontSize="13px"
                             key={user.id}
-                            m={1}
+                            m={2}
                             onClick={()=>
                                 {console.log({about_user: user.id, response: "Winner"})
                                 surveyResponses.push({about_user: user.id, response: "Winner"})}}
@@ -199,30 +220,42 @@ useEffect(()=>{
                             {user.username}
                         </Button>
                     ))}
-
+                        
+                
                     <br />
-                    <Text mt={3}>
+                    <Text mt={3} color="">
                         Would you like to block anyone from your future games?
                     </Text>
                     <Button
+                    _focus={ {backgroundColor:"#4FD1C5"}}
+                    _active={{
+                        transform: 'translateY(5px)', color:"white"}}
                         variant="outline"
-                        backgroundColor=""
-                        colorScheme="teal"
+                        backgroundColor="white"
+                        colorScheme=""
                         color="teal"
                         height="30px"
-                        m={1}
+                        width="318px"
+                        letterSpacing="1px"
+                        fontSize="13px"
+                        m={2}
                     >
                         No, I would play with them again
                     </Button>
                     {game.displayUsers.map((user) => (
                         <Button
-                            variant="outline"
-                            backgroundColor=""
-                            colorScheme="teal"
-                            color="teal"
-                            height="30px"
-                            key={user.id}
-                            m={1}
+                        _focus={ {backgroundColor:"#4FD1C5"}}
+                        _active={{transform: 'translateY(5px)', color:"white"}}
+                        variant="outline"
+                        backgroundColor="white"
+                        colorScheme=""
+                        color="teal"
+                        height="30px"
+                        width="150px"
+                        letterSpacing="2px"
+                        fontSize="13px"
+                        key={user.id}
+                        m={2}
                             onClick={()=>
                                 {console.log({about_user: user.id, response: "Block User"})
                                 surveyResponses.push({about_user: user.id, response: "Block User"})}}
@@ -273,6 +306,7 @@ useEffect(()=>{
                                 surveyResponses.push({about_court: game.location, response: "Poor Quality"})}}
                         />
                     </div>
+                    
 
                     <Button
                         marginLeft="10px"
