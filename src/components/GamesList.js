@@ -16,6 +16,7 @@ export default function GamesList({
     gamesList,
     setGame,
     game,
+    username,
     setNoActionGames,
     confirmedGames,
     pendingPOVGuestGames,
@@ -93,7 +94,7 @@ export default function GamesList({
                 <Box>
                     <Text>Category: {gamesList[0].displayStatus}</Text>
                     {gamesList.map((game) => (
-                        <LinkBox>
+                        <LinkBox key={game.game_session_id}>
                         <LinkOverlay  onClick={() => {
                                         handleOpenModal(game);
                                     }}>
@@ -103,7 +104,7 @@ export default function GamesList({
                                 key={game.id}
                             >
 
-                                {/* <Text>{game.id} </Text> */}
+                                <Text>{game.game_session_id} </Text>
                                 <Box>{game.icon}</Box>
                                 <Text>{game.location_info.park_name}</Text>
                                 <Text>{game.match_type}</Text>
@@ -139,6 +140,7 @@ export default function GamesList({
                     token={token}
                     game={game}
                     handleCloseModal={handleCloseModal}
+                    username={username}
                 />
             </Modal>
         </Box>

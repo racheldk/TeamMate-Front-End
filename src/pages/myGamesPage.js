@@ -1,9 +1,4 @@
-import {
-    Text,
-    Heading,
-    Icon,
-    Box,
-} from "@chakra-ui/react";
+import { Text, Heading, Icon, Box } from "@chakra-ui/react";
 import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
 import { useState, useEffect } from "react";
@@ -11,7 +6,7 @@ import axios from "axios";
 import GamesList from "../components/GamesList";
 import {
     BsQuestionCircleFill,
-    BsFillExclamationCircleFill
+    BsFillExclamationCircleFill,
 } from "react-icons/bs";
 
 export default function MyGames({ token, username, game, setGame }) {
@@ -25,29 +20,6 @@ export default function MyGames({ token, username, game, setGame }) {
     const [hostOpenDoublesGames, setHostOpenDoublesGames] = useState([]);
     const [guestOpenDoublesGames, setGuestOpenDoublesGames] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-
-    const handleJoin = (game) => {
-        console.log("join click");
-        console.log(game);
-        // axios
-        //     .post(
-        //         `https://teammate-app.herokuapp.com/session/${game.id}/guest/`,
-        //         {},
-        //         {
-        //             headers: {
-        //                 Authorization: `Token ${token}`,
-        //             },
-        //         }
-        //     )
-        //     .then(() => {
-        //         console.log("guest posted");
-        //         alert("You sent a join request");
-        //         // setJoinRequestSent(true);
-        //     })
-        //     .catch((error) => {
-        //         alert(error.response.data.detail);
-        //     });
-    };
 
     useEffect(() => {
         const reqAction = axios.get(
@@ -125,27 +97,33 @@ export default function MyGames({ token, username, game, setGame }) {
 
                     if (responseAction.length > 0) {
                         console.log("action > 0");
-                        setActionRequiredGames(
-                            responseAction.map((obj) => ({
-                                displayStatus: "actionRequired",
-                                bgColor: "black",
-                                icon: <Icon color="red" as={BsFillExclamationCircleFill}/>,
-                                displayUsers: obj.guest_info,
-                                buttons: [
-                                    {
-                                        label: "Accept",
-                                        job: "handleAccept",
-                                    },
-                                    {
-                                        label: "Reject",
-                                        job: "handleReject",
-                                    },
-                                ],
-                                route: `host/${obj.id}`,
-                                ...obj,
-                            }))
-                        );
+                        const pendingGuests = [];
+                        for (let game of responseAction) {
+                            for (let guest of game.guest_info) {
+                                console.log(guest);
+                                if (guest.status === "Pending") {
+                                    console.log("this guest is pending");
+                                    pendingGuests.push({pendingGuest: guest, displayStatus: "action required",
+                                    bgColor: null, 
+                                    icon: (<Icon color="red" as={BsFillExclamationCircleFill} />),
+                                    displayUsers: [guest],
+                                    buttonTitle: "Do you want to play with ",
+                                    buttons: [
+                                    {label: "Yes", 
+                                    job: "handleAccept"},
+                                    {label: "No, thank you", 
+                                    job: "handleReject"}
+                                    ],
+                                    ...game});
+                                }
+                            }
+                        }
+                        console.log(pendingGuests)
+                        setActionRequiredGames(pendingGuests)
                     }
+
+
+
 
                     if (responseConfirmed.length > 0) {
                         console.log("confirmed > 0");
@@ -154,10 +132,9 @@ export default function MyGames({ token, username, game, setGame }) {
                                 displayStatus: "confirmed",
                                 bgColor: "yellow",
                                 icon: null,
-                                displayUsers: [
-                                    obj.host_info,
-                                    ...obj.guest_info,
-                                ],
+                                // display: host and any confirmed guests
+                                displayUsers: [...obj.guest_info],
+                                buttonTitle: null,
                                 buttons: [
                                     {
                                         label: "Cancel this game",
@@ -176,8 +153,14 @@ export default function MyGames({ token, username, game, setGame }) {
                             responsePending.map((obj) => ({
                                 displayStatus: "pendingPOVGuest",
                                 bgColor: "grey",
-                                icon: <Icon color="yellow" as={BsQuestionCircleFill}/>,
-                                displayUsers: obj.host_info,
+                                icon: (
+                                    <Icon
+                                        color="yellow"
+                                        as={BsQuestionCircleFill}
+                                    />
+                                ),
+                                displayUsers: [obj.guest_info[0]],
+                                buttonTitle: null,
                                 buttons: [
                                     {
                                         label: "Cancel request to join this game",
@@ -198,6 +181,7 @@ export default function MyGames({ token, username, game, setGame }) {
                                 bgColor: null,
                                 icon: null,
                                 displayUsers: [],
+                                buttonTitle: null,
                                 buttons: [
                                     {
                                         label: "Delete this game",
@@ -221,10 +205,8 @@ export default function MyGames({ token, username, game, setGame }) {
                                 displayStatus: "host open doubles",
                                 bgColor: null,
                                 icon: null,
-                                displayUsers: [
-                                    obj.host_info,
-                                    ...obj.guest_info,
-                                ],
+                                displayUsers: [obj.guest_info],
+                                buttonTitle: null,
                                 buttons: [
                                     {
                                         label: "Cancel this Game",
@@ -248,6 +230,7 @@ export default function MyGames({ token, username, game, setGame }) {
                                     obj.host_info,
                                     ...obj.guest_info,
                                 ],
+                                buttonTitle: null,
                                 buttons: [
                                     {
                                         label: "Cancel this game",
@@ -290,7 +273,7 @@ export default function MyGames({ token, username, game, setGame }) {
     return (
         <Box className="app-body">
             <Header />
-            <Heading fontSize='1xl'>MyGames Component</Heading>
+            <Heading fontSize="1xl">MyGames Component</Heading>
 
             {/* The following ternaries are so Rachel can see where things are loading/not loading */}
             {actionRequiredGames.length == 0 ? (
@@ -303,6 +286,7 @@ export default function MyGames({ token, username, game, setGame }) {
                     gamesList={actionRequiredGames}
                     setGame={setGame}
                     game={game}
+                    username={username}
                 />
             )}
 
@@ -314,6 +298,7 @@ export default function MyGames({ token, username, game, setGame }) {
                     gamesList={confirmedGames}
                     setGame={setGame}
                     game={game}
+                    username={username}
                 />
             )}
 
@@ -325,6 +310,7 @@ export default function MyGames({ token, username, game, setGame }) {
                     gamesList={pendingPOVGuestGames}
                     setGame={setGame}
                     game={game}
+                    username={username}
                 />
             )}
 
@@ -339,6 +325,7 @@ export default function MyGames({ token, username, game, setGame }) {
                     gamesList={noGuestGames}
                     setGame={setGame}
                     game={game}
+                    username={username}
                 />
             )}
 
@@ -353,6 +340,7 @@ export default function MyGames({ token, username, game, setGame }) {
                     gamesList={hostOpenDoublesGames}
                     setGame={setGame}
                     game={game}
+                    username={username}
                 />
             )}
             {guestOpenDoublesGames.length == 0 ? (
@@ -366,6 +354,7 @@ export default function MyGames({ token, username, game, setGame }) {
                     gamesList={guestOpenDoublesGames}
                     setGame={setGame}
                     game={game}
+                    username={username}
                 />
             )}
 
