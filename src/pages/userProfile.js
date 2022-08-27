@@ -1,6 +1,6 @@
 import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
-import EditProfile from "../components/editProfile"
+import EditProfile from "../components/editProfile";
 import { useEffect, useState } from "react";
 import useLocalStorageState from "use-local-storage-state";
 import Modal from "react-modal";
