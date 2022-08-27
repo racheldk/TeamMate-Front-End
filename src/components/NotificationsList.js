@@ -6,31 +6,31 @@ import {
     Modal,
     LinkOverlay,
     LinkBox,
+    Stack
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-export default function NotificationsList({ token }) {
-    const [notifications, setNotifications] = useState([]);
+export default function NotificationsList({ token, notifications }) {
+    // const [notifications, setNotifications] = useState([]);
 
-    useEffect(() => {
-        axios
-            .get("https://teammate-app.herokuapp.com/notification/count", {
-                headers: {
-                    Authorization: `Token ${token}`,
-                },
-            })
-            .then((res) => {
-                console.log(res.data);
-                setNotifications(res.data);
-            });
-    }, []);
+    // useEffect(() => {
+    //     axios
+    //         .get("https://teammate-app.herokuapp.com/notification/all", {
+    //             headers: {
+    //                 Authorization: `Token ${token}`,
+    //             },
+    //         })
+    //         .then((res) => {
+    //             console.log(res.data);
+    //             setNotifications(res.data);
+    //         });
+    // }, []);
 
     return (
-        <Box className="app-body">
-            <Heading>NotificationsList Component</Heading>
+        <Box className="modal-base">
             {notifications.map((obj) => (
-                <Box>
+                <Box >
                     <Text>{obj.message}</Text>
                 </Box>
             ))}
