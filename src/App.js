@@ -24,6 +24,7 @@ function App() {
     );
     const [allGamesList, setAllGamesList] = useState([]);
     const [currentGame, setCurrentGame] = useState({});
+    const [surveyGame, setSurveyGame] = useState(null)
     const [game, setGame] = useState()
 
 
@@ -67,7 +68,7 @@ function App() {
                         element={<NewOpenGame token={token} />}
                     />
                     <Route
-                        path="survey" element={<Survey setAuth={setAuth}/>} />
+                        path="survey" element={<Survey setAuth={setAuth} token={token} surveyGame={surveyGame}/>} />
                     <Route
                         path="register"
                         element={<Register setAuth={setAuth} />}
