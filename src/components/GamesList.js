@@ -104,7 +104,7 @@ export default function GamesList({
                                 key={game.id}
                             >
 
-                                {/* <Text>{game.id} </Text> */}
+                                <Text>{game.game_session_id} </Text>
                                 <Box>{game.icon}</Box>
                                 <Text>{game.location_info.park_name}</Text>
                                 <Text>{game.match_type}</Text>

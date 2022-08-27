@@ -97,6 +97,106 @@ export default function MyGames({ token, username, game, setGame }) {
 
                     if (responseAction.length > 0) {
                         console.log("action > 0");
+                        const actionGames = []
+                    //     responseAction.forEach(obj=>{console.log(obj)
+                    //         if (obj.guest_info[1].status === "Pending") {
+                    //             console.log(obj)
+                    //             let newGame={
+                    //                 displayStatus: "actionRequired",
+                    //                 bgColor: "black",
+                    //                 icon: (
+                    //                     <Icon
+                    //                         color="red"
+                    //                         as={BsFillExclamationCircleFill}
+                    //                     />
+                    //                 ),
+                    //                 displayUsers: [obj.guest_info[1]],
+                    //                 buttonTitle: "Do you want to play with ",
+                    //                 buttons: [
+                    //                     {
+                    //                         label: "Yes",
+                    //                         job: "handleAccept",
+                    //                     },
+                    //                     {
+                    //                         label: "No, thank you",
+                    //                         job: "handleReject",
+                    //                     },
+                    //                 ],
+                    //                 // ...guest,
+                    //             }
+                    //         actionGames.push(newGame)      
+                    // }})
+
+                        // responseAction.forEach(game => {
+                        //     for (let guest of game.guest_info) {
+                        //         if (guest.status === "Pending") {
+                        //             console.log(guest)
+                        //             let newGame={
+                        //                 displayStatus: "actionRequired",
+                        //                 bgColor: "black",
+                        //                 icon: (
+                        //                     <Icon
+                        //                         color="red"
+                        //                         as={BsFillExclamationCircleFill}
+                        //                     />
+                        //                 ),
+                        //                 displayUsers: [guest],
+                        //                 buttonTitle: "Do you want to play with ",
+                        //                 buttons: [
+                        //                     {
+                        //                         label: "Yes",
+                        //                         job: "handleAccept",
+                        //                     },
+                        //                     {
+                        //                         label: "No, thank you",
+                        //                         job: "handleReject",
+                        //                     },
+                        //                 ],
+                        //                 route: `host/${game.id}`,
+                        //                 // ...guest,
+                        //             }
+                        //         actionGames.push(newGame)       
+                        //     }}})
+
+
+                        for (let response of responseAction) {
+                            // for each game run the following 
+                            console.log(response)
+                            for(let guest of response.guest_info) {
+                                // for each guest in guest_info
+                            if (guest.status === "Pending") {
+                                console.log(guest)
+                                let newGame={
+                                    displayStatus: "actionRequired",
+                                    bgColor: "black",
+                                    icon: (
+                                        <Icon
+                                            color="red"
+                                            as={BsFillExclamationCircleFill}
+                                        />
+                                    ),
+                                    displayUsers: [guest],
+                                    buttonTitle: "Do you want to play with ",
+                                    buttons: [
+                                        {
+                                            label: "Yes",
+                                            job: "handleAccept",
+                                        },
+                                        {
+                                            label: "No, thank you",
+                                            job: "handleReject",
+                                        },
+                                    ],
+                                    route: `host/${response.game_session_id}`,
+                                    ...guest,
+                                }
+                            actionGames.push(newGame)       
+                            }
+                        }}
+
+
+                        console.log(actionGames)
+
                         setActionRequiredGames(
                             responseAction.map((obj) => ({
                                 displayStatus: "actionRequired",
