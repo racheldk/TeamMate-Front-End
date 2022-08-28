@@ -89,11 +89,12 @@ export default function NewOpenGame({ token }) {
             <Header />
             <Box className="app-body">
                 <FormControl className="form" mt={20}>
-                    <Heading className="form-banner" color="#2C7A7B">New Game</Heading>
+                    <Heading className="form-banner" color="#234E52">New Game</Heading>
 
-                    <Box display="Flex" marginLeft="20px" m={4} fontSize="17px" color='teal' fontWeight="extrabold">
+                    <Box display="Flex" m={4} fontSize="18px" 
+                    color='teal' fontWeight="extrabold">
 
-                        <ReactDatePicker
+                        <ReactDatePicker 
                             onChange={(date) => {
                                 console.log(date);
                                 setNewGameDate(date);

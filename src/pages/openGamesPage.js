@@ -105,7 +105,8 @@ import NewGamesList from "../components/GamesList";
                         }}>Any date</Text> */}
                     </ReactDatePicker>
                     <Select
-                        w="25%"
+                        textAlign="right"
+                        w="29%"
                         size="s"
                         variant="filled"
                         borderRadius={10}
@@ -115,13 +116,14 @@ import NewGamesList from "../components/GamesList";
                         id="filter-location"
                         name="filter-location"
                     >
-                        <option value="">Location</option>
+                        <option value="">Where</option>
                         <option value="">All</option>
                         <option value="Pullen Park">Pullen Park</option>
                         <option value="Sanderford Park">Sanderford Park</option>
                     </Select>
                     <Select
-                        w="25%"
+                        textAlign="right"
+                        w="29%"
                         size="s"
                         m={2}
                         variant="filled"
@@ -132,13 +134,14 @@ import NewGamesList from "../components/GamesList";
                         id="filter-type"
                         name="filter-type"
                     >
-                        <option value="">Competitive Level</option>
+                        <option value="">Level</option>
                         <option value="">All</option>
                         <option value="Casual">Casual</option>
                         <option value="Competitive">Competitive</option>
                     </Select>
                     <Select
-                        w="25%"
+                        textAlign="right"
+                        w="29%"
                         size="s"
                         m={2}
                         variant="filled"
@@ -149,7 +152,7 @@ import NewGamesList from "../components/GamesList";
                         id="filter-type"
                         name="filter-type"
                     >
-                        <option value="">Number of Players</option>
+                        <option value="">Players</option>
                         <option value="">All</option>
                         <option value="Singles">Singles</option>
                         <option value="Doubles">Doubles</option>
