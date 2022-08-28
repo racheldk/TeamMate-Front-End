@@ -280,7 +280,7 @@ export default function MyGames({ token, username, game, setGame }) {
         <Header />
         <Box className="app-body">
             {/* if this heading changes we also need to change notifications message */}
-            <Heading>My Games</Heading>
+            <Heading color="#234E52" textAlign="center">My Games</Heading>
 
             {/* The following ternaries are so Rachel can see where things are loading/not loading */}
             {/* {actionRequiredGames.length === 0 ? (

@@ -158,7 +158,17 @@ useEffect(()=>{
                 </Heading>
 
                 <Box marginLeft="10px" marginRight="12px">
-                    <Text mt={4}>Did anyone NOT come to the game?</Text>
+                    <Text mt={4} colorScheme="teal"
+                        backgroundColor="teal"
+                        paddingLeft="10px"
+                        borderRadius="5px"
+                        height="40px"
+                        fontSize="14px"
+                        width="335px"
+                        display="table-cell"
+                        verticalAlign="middle"
+                        color="white"
+                        >Did anyone NOT come to the game?</Text>
                     <Button
                     _focus={ {backgroundColor:"#4FD1C5"}}
                     _active={{
@@ -198,7 +208,16 @@ useEffect(()=>{
                     
                     ))}
                     <br />
-                    <Text mt={3}>Who won?</Text>
+                    <Text mt={3}  backgroundColor="teal"
+                        paddingLeft="10px"
+                        borderRadius="5px"
+                        height="40px"
+                        color="white"
+                        fontSize="14px"
+                        width="335px"
+                        display="table-cell"
+                        verticalAlign="middle"
+                        >Who won?</Text>
                     {game.displayUsers.map((user) => (
                     <Button
                         _focus={ {backgroundColor:"#4FD1C5"}}
@@ -223,8 +242,16 @@ useEffect(()=>{
                         
                 
                     <br />
-                    <Text mt={3} color="">
-                        Would you like to block anyone from your future games?
+                    <Text mt={3}  backgroundColor="teal"
+                        paddingLeft="10px"
+                        borderRadius="5px"
+                        color="white"
+                        height="40px"
+                        fontSize="14px"
+                        width="335px"
+                        display="table-cell"
+                        verticalAlign="middle"
+                        >Would you like to block anyone from your future games?
                     </Text>
                     <Button
                     _focus={ {backgroundColor:"#4FD1C5"}}
@@ -264,8 +291,16 @@ useEffect(()=>{
                         </Button>
                     ))}
                     <br />
-                    <Text mt={3}>
-                        How do you rate the court quality at{" "}
+                    <Text mt={3}  backgroundColor="teal"
+                        paddingLeft="10px"
+                        borderRadius="5px"
+                        color="white"
+                        height="40px"
+                        fontSize="14px"
+                        width="335px"
+                        display="table-cell"
+                        verticalAlign="middle"
+                        >How do you rate the court quality at{" "}
                         {game.location_info.park_name}?
                     </Text>
                     <div className="icon-survey">
@@ -318,8 +353,8 @@ useEffect(()=>{
                     
 
                     <Button
-                        marginLeft="10px"
-                        width="300px"
+                        marginLeft="85px"
+                        width="150px"
                         height="30px"
                         // variant="ghost"
                         colorScheme="teal"
