@@ -45,7 +45,7 @@ function App() {
                 setAllGamesList(
                     res.data.map((obj) => ({
                         displayStatus: "join",
-                        bgColor: "pink",
+                        bgColor: "#ffffff",
                         icon: null,
                         displayUsers: [obj.guest_info[0]],
                         buttons: [
