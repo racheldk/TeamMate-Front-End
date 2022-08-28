@@ -124,31 +124,63 @@ export default function MyGames({ token, username, game, setGame }) {
                     }
 
 
-
-
                     if (responseConfirmed.length > 0) {
                         console.log("confirmed > 0");
-                        setConfirmedGames(
-                            responseConfirmed.map((obj) => ({
-                                displayStatus: "confirmed",
-                                bgColor: "gold",
-                                icon: null,
-                                // display: host and any confirmed guests
-                                // if guest status === host or accepted, add to display users 
-                                // do this separately and then setConfirmed to that array 
-                                displayUsers: [...obj.guest_info],
-                                buttonTitle: null,
-                                buttons: [
-                                    {
-                                        label: "Cancel this game",
-                                        job: "cancel confirmed",
-                                    },
-                                ],
-                                route: `confirmed/${obj.id}`,
-                                ...obj,
-                            }))
-                        );
+                        const confirmedExpandedGames = []
+                        const exampleGame= responseConfirmed[0]
+                            console.log(exampleGame.game_session_id)
+                            const confirmedPlayers = []
+                            for (let guest of exampleGame.guest_info) {
+                                console.log(guest)
+                                if (guest.status === "Host" || guest.status === "Accepted") {
+                                    console.log('Confirmed Player')
+                                    confirmedPlayers.push(guest)
+                                }
+                                console.log(confirmedPlayers)
+                                const expandedGame = {
+                                    displayStatus: "confirmed",
+                                    bgColor: "white",
+                                    icon: "checkmark",
+                                    displayUsers: confirmedPlayers, 
+                                    buttonTitle: null,
+                                    buttons: [
+                                        {
+                                            label: "Cancel this game",
+                                            job: "cancel confirmed",
+                                        },
+                                    ],
+                                    route: `confirmed/${exampleGame.game_session_id}`,
+                                    ...game
+                                }
+                                console.log(expandedGame)
+                                confirmedExpandedGames.push(expandedGame)
+                            }
+                            // setConfirmedGames(confirmedExpandedGames)
                     }
+
+                    // if (responseConfirmed.length > 0) {
+                    //     console.log("confirmed > 0");
+                    //     setConfirmedGames(
+                    //         responseConfirmed.map((obj) => ({
+                    //             displayStatus: "confirmed",
+                    //             bgColor: "white",
+                    //             icon: null,
+                    //             // display: host and any confirmed guests
+                    //             // if guest status === host or accepted, add to display users 
+                    //             // do this separately and then setConfirmed to that array 
+                    //             displayUsers: [...obj.guest_info],
+                    //             buttonTitle: null,
+                    //             buttons: [
+                    //                 {
+                    //                     label: "Cancel this game",
+                    //                     job: "cancel confirmed",
+                    //                 },
+                    //             ],
+                    //             route: `confirmed/${obj.id}`,
+                    //             ...obj,
+                    //         }))
+                    //     );
+                    // }
 
                     if (responsePending.length > 0) {
                         console.log("pending > 0");
