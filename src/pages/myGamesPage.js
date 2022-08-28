@@ -107,7 +107,7 @@ export default function MyGames({ token, username, game, setGame }) {
                                     pendingGuests.push({
                                         pendingGuest: guest,
                                         displayStatus: "action required",
-                                        bgColor: "white",
+                                        bgColor: "#ffffff",
                                         // iconColor: 'example',
                                         icon: (
                                             <Icon
@@ -155,7 +155,7 @@ export default function MyGames({ token, username, game, setGame }) {
                             }
                             const expandedGame = {
                                 displayStatus: "confirmed",
-                                bgColor: "white",
+                                bgColor: "#ffffff",
                                 icon: (<CheckCircleIcon color="#32CD32"/>),
                                 displayUsers: confirmedPlayers,
                                 buttonTitle: null,
@@ -177,7 +177,7 @@ export default function MyGames({ token, username, game, setGame }) {
                     if (responsePending.length > 0) {
                         console.log("pending > 0");
                         const pendingExpandedGames = [];
-                        for (let game of responseConfirmed) {
+                        for (let game of responsePending) {
                             const confirmedPlayers = [];
                             for (let guest of game.guest_info) {
                                 console.log(guest);
@@ -192,7 +192,7 @@ export default function MyGames({ token, username, game, setGame }) {
                             }
                             const expandedGame = {
                                 displayStatus: "pendingPOVGuest",
-                                bgColor: "white",
+                                bgColor: "#ffffff",
                                 icon: (
                                     <Icon
                                         color="gold"
@@ -221,7 +221,7 @@ export default function MyGames({ token, username, game, setGame }) {
                     if (responseNoGuest.length > 0) {
                         console.log("noGuest > 0");
                         const noGuestExpandedGames = [];
-                        for (let game of responseConfirmed) {
+                        for (let game of responseNoGuest) {
                             const confirmedPlayers = [];
                             for (let guest of game.guest_info) {
                                 console.log(guest);
@@ -236,7 +236,7 @@ export default function MyGames({ token, username, game, setGame }) {
                             }
                             const expandedGame = {
                                 displayStatus: "no guests",
-                                bgColor: "white",
+                                bgColor: "#ffffff",
                                 icon: null,
                                 displayUsers: confirmedPlayers,
                                 buttonTitle: null,
@@ -260,7 +260,7 @@ export default function MyGames({ token, username, game, setGame }) {
                     if (responseHostOpenDoubles.length > 0) {
                         console.log("hostOpenDoubles > 0");
                         const hostOpenDoublesExpandedGames = [];
-                        for (let game of responseConfirmed) {
+                        for (let game of responseHostOpenDoubles) {
                             const confirmedPlayers = [];
                             for (let guest of game.guest_info) {
                                 console.log(guest);
@@ -275,7 +275,7 @@ export default function MyGames({ token, username, game, setGame }) {
                             }
                             const expandedGame = {
                                 displayStatus: "host open doubles",
-                                bgColor: "white",
+                                bgColor: "#ffffff",
                                 icon: null,
                                 displayUsers: confirmedPlayers,
                                 buttonTitle: null,
@@ -290,7 +290,6 @@ export default function MyGames({ token, username, game, setGame }) {
                             console.log(expandedGame);
                             hostOpenDoublesExpandedGames.push(expandedGame);
                         }
-
                         setHostOpenDoublesGames(hostOpenDoublesExpandedGames)
                     }
 
@@ -298,7 +297,7 @@ export default function MyGames({ token, username, game, setGame }) {
                     if (responseGuestOpenDoubles.length > 0) {
                         console.log("guestOpenDoubles > 0");
                         const guestOpenDoublesExpandedGames = [];
-                        for (let game of responseConfirmed) {
+                        for (let game of responseGuestOpenDoubles) {
                             const confirmedPlayers = [];
                             for (let guest of game.guest_info) {
                                 console.log(guest);
@@ -313,7 +312,7 @@ export default function MyGames({ token, username, game, setGame }) {
                             }
                             const expandedGame = {
                                 displayStatus: "guest open doubles",
-                                bgColor: "white",
+                                bgColor: "#ffffff",
                                 icon: null,
                                 displayUsers: confirmedPlayers,
                                 buttonTitle: null,
