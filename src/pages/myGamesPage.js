@@ -140,8 +140,6 @@ export default function MyGames({ token, username, game, setGame }) {
                     if (responseConfirmed.length > 0) {
                         console.log("confirmed > 0");
                         const confirmedExpandedGames = [];
-                        const exampleGame = responseConfirmed[0];
-                        console.log(exampleGame.game_session_id);
                         for (let game of responseConfirmed) {
                             const confirmedPlayers = [];
                             for (let guest of game.guest_info) {
@@ -167,7 +165,6 @@ export default function MyGames({ token, username, game, setGame }) {
                                         job: "cancel confirmed",
                                     },
                                 ],
-                                route: `confirmed/${game.game_session_id}`,
                                 ...game,
                             };
                             console.log(expandedGame);
@@ -179,8 +176,21 @@ export default function MyGames({ token, username, game, setGame }) {
 
                     if (responsePending.length > 0) {
                         console.log("pending > 0");
-                        setPendingPOVGuestGames(
-                            responsePending.map((obj) => ({
+                        const pendingExpandedGames = [];
+                        for (let game of responseConfirmed) {
+                            const confirmedPlayers = [];
+                            for (let guest of game.guest_info) {
+                                console.log(guest);
+                                if (
+                                    guest.status === "Host" ||
+                                    guest.status === "Accepted"
+                                ) {
+                                    console.log("Confirmed Player");
+                                    confirmedPlayers.push(guest);
+                                }
+                                console.log(confirmedPlayers);
+                            }
+                            const expandedGame = {
                                 displayStatus: "pendingPOVGuest",
                                 bgColor: "white",
                                 icon: (
@@ -191,7 +201,7 @@ export default function MyGames({ token, username, game, setGame }) {
                                         borderRadius="100px"
                                     />
                                 ),
-                                displayUsers: [obj.guest_info[0]],
+                                displayUsers: confirmedPlayers,
                                 buttonTitle: null,
                                 buttons: [
                                     {
@@ -199,20 +209,36 @@ export default function MyGames({ token, username, game, setGame }) {
                                         job: "cancel pending request",
                                     },
                                 ],
-                                route: `pending/${obj.id}`,
-                                ...obj,
-                            }))
-                        );
+                                ...game,
+                            };
+                            console.log(expandedGame);
+                            pendingExpandedGames.push(expandedGame);
+                        }
+                        console.log(pendingExpandedGames);
+                        setPendingPOVGuestGames(pendingExpandedGames)
                     }
 
                     if (responseNoGuest.length > 0) {
                         console.log("noGuest > 0");
-                        setNoGuestGames(
-                            responseNoGuest.map((obj) => ({
+                        const noGuestExpandedGames = [];
+                        for (let game of responseConfirmed) {
+                            const confirmedPlayers = [];
+                            for (let guest of game.guest_info) {
+                                console.log(guest);
+                                if (
+                                    guest.status === "Host" ||
+                                    guest.status === "Accepted"
+                                ) {
+                                    console.log("Confirmed Player");
+                                    confirmedPlayers.push(guest);
+                                }
+                                console.log(confirmedPlayers);
+                            }
+                            const expandedGame = {
                                 displayStatus: "no guests",
                                 bgColor: "white",
                                 icon: null,
-                                displayUsers: [],
+                                displayUsers: confirmedPlayers,
                                 buttonTitle: null,
                                 buttons: [
                                     {
@@ -224,20 +250,34 @@ export default function MyGames({ token, username, game, setGame }) {
                                         job: "Edit game with no guests",
                                     },
                                 ],
-                                route: `unconfirmed/${obj.id}`,
-                                ...obj,
-                            }))
-                        );
+                                ...game,
+                            };
+                            console.log(expandedGame);
+                            noGuestExpandedGames.push(expandedGame);
+                        } setNoGuestGames(noGuestExpandedGames)
                     }
 
                     if (responseHostOpenDoubles.length > 0) {
                         console.log("hostOpenDoubles > 0");
-                        setHostOpenDoublesGames(
-                            responseHostOpenDoubles.map((obj) => ({
+                        const hostOpenDoublesExpandedGames = [];
+                        for (let game of responseConfirmed) {
+                            const confirmedPlayers = [];
+                            for (let guest of game.guest_info) {
+                                console.log(guest);
+                                if (
+                                    guest.status === "Host" ||
+                                    guest.status === "Accepted"
+                                ) {
+                                    console.log("Confirmed Player");
+                                    confirmedPlayers.push(guest);
+                                }
+                                console.log(confirmedPlayers);
+                            }
+                            const expandedGame = {
                                 displayStatus: "host open doubles",
-                                bgColor: null,
+                                bgColor: "white",
                                 icon: null,
-                                displayUsers: [obj.guest_info],
+                                displayUsers: confirmedPlayers,
                                 buttonTitle: null,
                                 buttons: [
                                     {
@@ -245,23 +285,37 @@ export default function MyGames({ token, username, game, setGame }) {
                                         job: "cancel game",
                                     },
                                 ],
-                                route: `unconfirmed/${obj.id}`,
-                                ...obj,
-                            }))
-                        );
+                                ...game,
+                            };
+                            console.log(expandedGame);
+                            hostOpenDoublesExpandedGames.push(expandedGame);
+                        }
+
+                        setHostOpenDoublesGames(hostOpenDoublesExpandedGames)
                     }
+
 
                     if (responseGuestOpenDoubles.length > 0) {
                         console.log("guestOpenDoubles > 0");
-                        setGuestOpenDoublesGames(
-                            responseGuestOpenDoubles.map((obj) => ({
+                        const guestOpenDoublesExpandedGames = [];
+                        for (let game of responseConfirmed) {
+                            const confirmedPlayers = [];
+                            for (let guest of game.guest_info) {
+                                console.log(guest);
+                                if (
+                                    guest.status === "Host" ||
+                                    guest.status === "Accepted"
+                                ) {
+                                    console.log("Confirmed Player");
+                                    confirmedPlayers.push(guest);
+                                }
+                                console.log(confirmedPlayers);
+                            }
+                            const expandedGame = {
                                 displayStatus: "guest open doubles",
-                                bgColor: null,
+                                bgColor: "white",
                                 icon: null,
-                                displayUsers: [
-                                    obj.host_info,
-                                    ...obj.guest_info,
-                                ],
+                                displayUsers: confirmedPlayers,
                                 buttonTitle: null,
                                 buttons: [
                                     {
@@ -269,10 +323,12 @@ export default function MyGames({ token, username, game, setGame }) {
                                         job: "cancel accepted request",
                                     },
                                 ],
-                                route: `unconfirmed/${obj.id}`,
-                                ...obj,
-                            }))
-                        );
+                                ...game,
+                            };
+                            console.log(expandedGame);
+                            guestOpenDoublesExpandedGames.push(expandedGame);
+                        }
+                        setGuestOpenDoublesGames(guestOpenDoublesExpandedGames)
                     }
                 })
             )
