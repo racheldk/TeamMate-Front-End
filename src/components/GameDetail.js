@@ -21,6 +21,7 @@ export default function GameDetail({
     setAllGamesList,
     setReload,
     setRefresh,
+    reload
 }) {
     const [editClicked, setEditClicked] = useState(false);
 

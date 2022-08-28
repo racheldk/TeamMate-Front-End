@@ -11,8 +11,6 @@ import {
 import { CheckCircleIcon } from '@chakra-ui/icons'
 
 export default function MyGames({ token, username, game, setGame, setAllGamesList }) {
-    console.log(username);
-
     const [actionRequiredGames, setActionRequiredGames] = useState([]);
     const [confirmedGames, setConfirmedGames] = useState([]);
     const [pendingPOVGuestGames, setPendingPOVGuestGames] = useState([]);
@@ -21,23 +19,11 @@ export default function MyGames({ token, username, game, setGame, setAllGamesLis
     const [hostOpenDoublesGames, setHostOpenDoublesGames] = useState([]);
     const [guestOpenDoublesGames, setGuestOpenDoublesGames] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [reload, setReload] = useState(false)
-    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [reload, setReload] = useState(1)
 
-
-
-    const handleOpenModal = (game) => {
-        console.log("click modal open");
-        setModalIsOpen(true);
-        setGame(game);
-    };
-
-    const handleCloseModal = () => {
-        console.log("click close");
-        setModalIsOpen(false);
-    };
 
     useEffect(() => {
+        console.log('giant useEffect in MyGames initiated')
         const reqAction = axios.get(
             `https://teammate-app.herokuapp.com/${username}/games/?my-games=HostUnconfirmed`,
             {
@@ -97,28 +83,28 @@ export default function MyGames({ token, username, game, setGame, setAllGamesLis
             ])
             .then(
                 axios.spread((...responses) => {
-                    console.log(responses);
+                    // console.log(responses);
                     const responseAction = responses[0].data;
-                    console.log(responses[0].data);
+                    // console.log(responses[0].data);
                     const responseConfirmed = responses[1].data;
-                    console.log(responseConfirmed);
+                    // console.log(responseConfirmed);
                     const responsePending = responses[2].data;
-                    console.log(responsePending);
+                    // console.log(responsePending);
                     const responseNoGuest = responses[3].data;
-                    console.log(responseNoGuest);
+                    // console.log(responseNoGuest);
                     const responseHostOpenDoubles = responses[4].data;
-                    console.log(responseHostOpenDoubles);
+                    // console.log(responseHostOpenDoubles);
                     const responseGuestOpenDoubles = responses[5].data;
-                    console.log(responseGuestOpenDoubles);
+                    // console.log(responseGuestOpenDoubles);
 
                     if (responseAction.length > 0) {
-                        console.log("action > 0");
+                        // console.log("action > 0");
                         const pendingGuests = [];
                         for (let game of responseAction) {
                             for (let guest of game.guest_info) {
-                                console.log(guest);
+                                // console.log(guest);
                                 if (guest.status === "Pending") {
-                                    console.log("this guest is pending");
+                                    // console.log("this guest is pending");
                                     pendingGuests.push({
                                         pendingGuest: guest,
                                         displayStatus: "action required",
@@ -148,25 +134,25 @@ export default function MyGames({ token, username, game, setGame, setAllGamesLis
                                 }
                             }
                         }
-                        console.log(pendingGuests);
+                        // console.log(pendingGuests);
                         setActionRequiredGames(pendingGuests);
                     }
 
                     if (responseConfirmed.length > 0) {
-                        console.log("confirmed > 0");
+                        // console.log("confirmed > 0");
                         const confirmedExpandedGames = [];
                         for (let game of responseConfirmed) {
                             const confirmedPlayers = [];
                             for (let guest of game.guest_info) {
-                                console.log(guest);
+                                // console.log(guest);
                                 if (
                                     guest.status === "Host" ||
                                     guest.status === "Accepted"
                                 ) {
-                                    console.log("Confirmed Player");
+                                    // console.log("Confirmed Player");
                                     confirmedPlayers.push(guest);
                                 }
-                                console.log(confirmedPlayers);
+                                // console.log(confirmedPlayers);
                             }
                             const expandedGame = {
                                 displayStatus: "confirmed",
@@ -182,28 +168,28 @@ export default function MyGames({ token, username, game, setGame, setAllGamesLis
                                 ],
                                 ...game,
                             };
-                            console.log(expandedGame);
+                            // console.log(expandedGame);
                             confirmedExpandedGames.push(expandedGame);
                         }
-                        console.log(confirmedExpandedGames);
+                        // console.log(confirmedExpandedGames);
                         setConfirmedGames(confirmedExpandedGames)
                     }
 
                     if (responsePending.length > 0) {
-                        console.log("pending > 0");
+                        // console.log("pending > 0");
                         const pendingExpandedGames = [];
                         for (let game of responsePending) {
                             const confirmedPlayers = [];
                             for (let guest of game.guest_info) {
-                                console.log(guest);
+                                // console.log(guest);
                                 if (
                                     guest.status === "Host" ||
                                     guest.status === "Accepted"
                                 ) {
-                                    console.log("Confirmed Player");
+                                    // console.log("Confirmed Player");
                                     confirmedPlayers.push(guest);
                                 }
-                                console.log(confirmedPlayers);
+                                // console.log(confirmedPlayers);
                             }
                             const expandedGame = {
                                 displayStatus: "pendingPOVGuest",
@@ -226,20 +212,20 @@ export default function MyGames({ token, username, game, setGame, setAllGamesLis
                                 ],
                                 ...game,
                             };
-                            console.log(expandedGame);
+                            // console.log(expandedGame);
                             pendingExpandedGames.push(expandedGame);
                         }
-                        console.log(pendingExpandedGames);
+                        // console.log(pendingExpandedGames);
                         setPendingPOVGuestGames(pendingExpandedGames)
                     }
 
                     if (responseNoGuest.length > 0) {
-                        console.log("noGuest > 0");
+                        // console.log("noGuest > 0");
                         const noGuestExpandedGames = [];
                         for (let game of responseNoGuest) {
                             const confirmedPlayers = [];
                             for (let guest of game.guest_info) {
-                                console.log(guest);
+                                // console.log(guest);
                                 if (
                                     guest.status === "Host" ||
                                     guest.status === "Accepted"
@@ -247,7 +233,7 @@ export default function MyGames({ token, username, game, setGame, setAllGamesLis
                                     console.log("Confirmed Player");
                                     confirmedPlayers.push(guest);
                                 }
-                                console.log(confirmedPlayers);
+                                // console.log(confirmedPlayers);
                             }
                             const expandedGame = {
                                 displayStatus: "no guests",
@@ -267,26 +253,26 @@ export default function MyGames({ token, username, game, setGame, setAllGamesLis
                                 ],
                                 ...game,
                             };
-                            console.log(expandedGame);
+                            // console.log(expandedGame);
                             noGuestExpandedGames.push(expandedGame);
                         } setNoGuestGames(noGuestExpandedGames)
                     }
 
                     if (responseHostOpenDoubles.length > 0) {
-                        console.log("hostOpenDoubles > 0");
+                        // console.log("hostOpenDoubles > 0");
                         const hostOpenDoublesExpandedGames = [];
                         for (let game of responseHostOpenDoubles) {
                             const confirmedPlayers = [];
                             for (let guest of game.guest_info) {
-                                console.log(guest);
+                                // console.log(guest);
                                 if (
                                     guest.status === "Host" ||
                                     guest.status === "Accepted"
                                 ) {
-                                    console.log("Confirmed Player");
+                                    // console.log("Confirmed Player");
                                     confirmedPlayers.push(guest);
                                 }
-                                console.log(confirmedPlayers);
+                                // console.log(confirmedPlayers);
                             }
                             const expandedGame = {
                                 displayStatus: "host open doubles",
@@ -302,7 +288,7 @@ export default function MyGames({ token, username, game, setGame, setAllGamesLis
                                 ],
                                 ...game,
                             };
-                            console.log(expandedGame);
+                            // console.log(expandedGame);
                             hostOpenDoublesExpandedGames.push(expandedGame);
                         }
                         setHostOpenDoublesGames(hostOpenDoublesExpandedGames)
@@ -310,20 +296,20 @@ export default function MyGames({ token, username, game, setGame, setAllGamesLis
 
 
                     if (responseGuestOpenDoubles.length > 0) {
-                        console.log("guestOpenDoubles > 0");
+                        // console.log("guestOpenDoubles > 0");
                         const guestOpenDoublesExpandedGames = [];
                         for (let game of responseGuestOpenDoubles) {
                             const confirmedPlayers = [];
                             for (let guest of game.guest_info) {
-                                console.log(guest);
+                                // console.log(guest);
                                 if (
                                     guest.status === "Host" ||
                                     guest.status === "Accepted"
                                 ) {
-                                    console.log("Confirmed Player");
+                                    // console.log("Confirmed Player");
                                     confirmedPlayers.push(guest);
                                 }
-                                console.log(confirmedPlayers);
+                                // console.log(confirmedPlayers);
                             }
                             const expandedGame = {
                                 displayStatus: "guest open doubles",
@@ -339,7 +325,7 @@ export default function MyGames({ token, username, game, setGame, setAllGamesLis
                                 ],
                                 ...game,
                             };
-                            console.log(expandedGame);
+                            // console.log(expandedGame);
                             guestOpenDoublesExpandedGames.push(expandedGame);
                         }
                         setGuestOpenDoublesGames(guestOpenDoublesExpandedGames)
@@ -351,7 +337,7 @@ export default function MyGames({ token, username, game, setGame, setAllGamesLis
                 alert(error.message);
             });
         setIsLoading(false);
-    }, [token, modalIsOpen ]);
+    }, [token, reload ]);
 
 
     if (isLoading) {
@@ -379,9 +365,8 @@ export default function MyGames({ token, username, game, setGame, setAllGamesLis
                     username={username}
                     setAllGamesList={setAllGamesList}
                     setReload={setReload}
-                    handleOpenModal={handleOpenModal}
-                    handleCloseModal={handleCloseModal}
-                    modalIsOpen={modalIsOpen}
+                    reload={reload}
+                
                 />
                 {/* )} */}
 
@@ -396,9 +381,9 @@ export default function MyGames({ token, username, game, setGame, setAllGamesLis
                     username={username}
                     setAllGamesList={setAllGamesList}
                     setReload={setReload}
-                    handleOpenModal={handleOpenModal}
-                    handleCloseModal={handleCloseModal}
-                    modalIsOpen={modalIsOpen}
+                    reload={reload}
+
+                
                 />
                 {/* )} */}
 
@@ -413,9 +398,9 @@ export default function MyGames({ token, username, game, setGame, setAllGamesLis
                     username={username}
                     setAllGamesList={setAllGamesList}
                     setReload={setReload}
-                    handleOpenModal={handleOpenModal}
-                    handleCloseModal={handleCloseModal}
-                    modalIsOpen={modalIsOpen}
+                    reload={reload}
+
+                   
                 />
                 {/* )} */}
 
@@ -433,9 +418,9 @@ export default function MyGames({ token, username, game, setGame, setAllGamesLis
                     username={username}
                     setAllGamesList={setAllGamesList}
                     setReload={setReload}
-                    handleOpenModal={handleOpenModal}
-                    handleCloseModal={handleCloseModal}
-                    modalIsOpen={modalIsOpen}
+                    reload={reload}
+
+                
                 />
                 {/* )} */}
 
@@ -453,9 +438,9 @@ export default function MyGames({ token, username, game, setGame, setAllGamesLis
                     username={username}
                     setAllGamesList={setAllGamesList}
                     setReload={setReload}
-                    handleOpenModal={handleOpenModal}
-                    handleCloseModal={handleCloseModal}
-                    modalIsOpen={modalIsOpen}
+                    reload={reload}
+
+             
                 />
                 {/* )} */}
                 {/* {guestOpenDoublesGames.length === 0 ? (
@@ -472,9 +457,9 @@ export default function MyGames({ token, username, game, setGame, setAllGamesLis
                     username={username}
                     setAllGamesList={setAllGamesList}
                     setReload={setReload}
-                    handleOpenModal={handleOpenModal}
-                    handleCloseModal={handleCloseModal}
-                    modalIsOpen={modalIsOpen}
+                    reload={reload}
+
+                  
                 />
 
             </Box>{" "}

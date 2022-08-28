@@ -23,11 +23,9 @@ export default function GamesList({
     setRefresh,
     setAllGamesList,
     setReload,
-    handleOpenModal,
-    handleCloseModal,
-    modalIsOpen,
+    reload
 }) {
-    // const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
     const [rank, setRank] = useState('teal');
 
     useEffect((game) => {
@@ -42,16 +40,18 @@ export default function GamesList({
     // console.log(gamesList);
 
 
-    // const handleOpenModal = (game) => {
-    //     console.log("click modal open");
-    //     setModalIsOpen(true);
-    //     setGame(game);
-    // };
+    const handleOpenModal = (game) => {
+        console.log("click modal open");
+        setModalIsOpen(true);
+        setGame(game);
+    };
 
-    // const handleCloseModal = () => {
-    //     console.log("click close");
-    //     setModalIsOpen(false);
-    // };
+    const handleCloseModal = () => {
+        console.log("click close");
+        setReload(reload+1);
+        console.log('reload from handleCloseModal ' + reload)
+        setModalIsOpen(false);
+    };
 
     // console.log(gamesList);
     // console.log(game)
@@ -122,6 +122,8 @@ export default function GamesList({
                     setRefresh={setRefresh}
                     setAllGamesList={setAllGamesList}
                     setReload={setReload}
+                    reload={reload}
+
 
                 />
             </Modal>

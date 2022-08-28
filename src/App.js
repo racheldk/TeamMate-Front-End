@@ -47,15 +47,15 @@ function App() {
                 for (let game of responseOpen) {
                     const confirmedPlayers = [];
                     for (let guest of game.guest_info) {
-                        console.log(guest);
+                        // console.log(guest);
                         if (
                             guest.status === "Host" ||
                             guest.status === "Accepted"
                         ) {
-                            console.log("Confirmed Player");
+                            // console.log("Confirmed Player");
                             confirmedPlayers.push(guest);
                         }
-                        console.log(confirmedPlayers);
+                        // console.log(confirmedPlayers);
                     }
                     const expandedGame = {
                         displayStatus: "join",
@@ -68,7 +68,7 @@ function App() {
                         ],
                         ...game,
                     };
-                    console.log(expandedGame);
+                    // console.log(expandedGame);
                     openExpandedGames.push(expandedGame);
 
                     setAllGamesList(openExpandedGames);
