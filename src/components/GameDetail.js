@@ -6,6 +6,7 @@ import axios from "axios";
 import { Navigate } from "react-router-dom";
 import { useState } from "react";
 
+
 export default function GameDetail({
     token,
     game,
@@ -67,6 +68,7 @@ export default function GameDetail({
                     },
                 }
             )
+            
             .then(() => {
                 console.log("guest posted");
                 alert("You sent a join request");
