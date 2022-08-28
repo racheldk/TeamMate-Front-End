@@ -43,21 +43,38 @@ function App() {
             })
             .then((res) => {
                 console.log(res.data);
-                setAllGamesList(
-                    res.data.map((obj) => ({
+                const responseOpen = res.data
+                const openExpandedGames = [];
+                for (let game of responseOpen) {
+                    const confirmedPlayers = [];
+                    for (let guest of game.guest_info) {
+                        console.log(guest);
+                        if (
+                            guest.status === "Host" ||
+                            guest.status === "Accepted"
+                        ) {
+                            console.log("Confirmed Player");
+                            confirmedPlayers.push(guest);
+                        }
+                        console.log(confirmedPlayers);
+                    }
+                    const expandedGame = {
                         displayStatus: "join",
                         bgColor: "#ffffff",
-                        // iconColor: "empty"
                         icon: null,
                         tennisBall: TbBallTennis,
-                        displayUsers: [obj.guest_info[0]],
+                        displayUsers: confirmedPlayers,
+                        buttonTitle: null,
                         buttons: [
                             { label: "Join", job: "send a join request" },
                         ],
-                        route: `host/${obj.id}`,
-                        ...obj,
-                    }))
-                );
+                        ...game,
+                    };
+                    console.log(expandedGame);
+                    openExpandedGames.push(expandedGame);
+
+                setAllGamesList(openExpandedGames);
+                }
             });
     }, [token, setAllGamesList]);
 
