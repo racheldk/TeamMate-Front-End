@@ -1,4 +1,4 @@
-import { IconButton } from "@chakra-ui/react";
+import { IconButton, scaleFadeConfig } from "@chakra-ui/react";
 import { Button, Box, Heading, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import {
@@ -273,6 +273,9 @@ useEffect(()=>{
                             aria-label="ProfileItem"
                             fontSize="2.5em"
                             colorScheme="green"
+                            color="#8fbc8f"
+                            _focus={ {color:"#32CD32"}}
+                            _hover={{ transform: "scale(1.5)" }}
                             border="none"
                             variant="outline"
                             className=""
@@ -285,6 +288,9 @@ useEffect(()=>{
                             aria-label="ProfileItem"
                             fontSize="2.5em"
                             colorScheme="yellow"
+                            color="#f0e68c"
+                            _focus={ {color:"#ffd700"}}
+                            _hover={{ transform: "scale(1.5)" }}
                             border="none"
                             variant="outline"
                             className=""
@@ -297,7 +303,10 @@ useEffect(()=>{
                             aria-label="Search Item"
                             fontSize="2.5em"
                             colorScheme="red"
-                            border="none"
+                            color="#ab4b52"
+                            _focus={{color:"#ed1c24"}}
+                            _hover={{ transform: "scale(1.5)" }}
+                            border=""
                             variant="outline"
                             className=""
                             icon={<BsEmojiFrownFill />}
