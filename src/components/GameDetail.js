@@ -16,7 +16,7 @@ export default function GameDetail({
 
     console.log(game);
     console.log(token);
-    
+
 
     const handleClick = (game, button) => {
         if (game.displayStatus === "join") {
@@ -51,7 +51,7 @@ export default function GameDetail({
 
     if (editClicked) {
         console.log(game)
-        return <Navigate to={`edit/${game.id}`} />;
+        return <Navigate to={`edit/${game.game_session_id}`} />;
     }
 
     const joinSession = (game) => {
