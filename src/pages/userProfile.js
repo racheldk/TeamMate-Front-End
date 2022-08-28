@@ -5,8 +5,10 @@ import { useEffect, useState } from "react";
 import useLocalStorageState from "use-local-storage-state";
 import Modal from "react-modal";
 import axios from "axios";
+import { DateTime } from "luxon";
 import { CloseIcon } from "@chakra-ui/icons";
 import { BsPencil } from "react-icons/bs";
+import { IoMdTennisball } from "react-icons/io";
 import { Text, Heading, Image, Icon, IconButton, Button, Box } from "@chakra-ui/react";
 import noImage from "../images/no-image.jpg";
 
@@ -14,6 +16,7 @@ function UserProfile({ token, setToken }) {
   const [user, setUser] = useState(null);
   const [username, setUsername] = useLocalStorageState("teammateUsername", null);
   const [history, setHistory] = useState(null)
+  const [confirmed, setConfirmed] = useState(null)
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   useEffect(() => {
@@ -25,6 +28,19 @@ function UserProfile({ token, setToken }) {
       })
       .then((res) => {
         setUser(res.data);
+        console.log(res.data);
+      });
+  }, [token, username, modalIsOpen]);
+
+  useEffect(() => {
+    axios
+      .get(`https://teammate-app.herokuapp.com/${username}/games/?my-games=AllConfirmed`, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      })
+      .then((res) => {
+        setConfirmed(res.data);
         console.log(res.data);
       });
   }, [token, username, modalIsOpen]);
@@ -98,9 +114,23 @@ const handleCloseModal = (game) => {
                   NTRP: {user.profile.ntrp_rating}
                 </Heading>
               </Box>
+              <Box className='confirmed-games' w='100%'>  {confirmed && 
+              <Box className="games">
+              <Heading color='#234E52' m={2}>Upcoming Games</Heading>
+            {confirmed.map((game) => (
+          <Box className="profile-item" display='flex' flexWrap='wrap' p={.5} marginTop={2}>
+          <Icon as={IoMdTennisball} color='teal' fontSize='3em' display='flex'/>
+          <Box w='80%' m='auto' marginBottom='0' marginTop='0'>
+          <Heading fontSize='xl' color='teal'>{game.location_info.park_name}</Heading>
+            <Text color='teal'>{DateTime.fromISO(game.datetime).toLocaleString(
+                     DateTime.DATETIME_MED_WITH_WEEKDAY
+                  )}</Text>
+           </Box>
+          </Box>
+        ))}</Box>}</Box>
               {history && 
               <Box className="games">  {history.map((history) => (
-          <Box className="game-item">
+          <Box className="profile-item">
             <Text>{history.date}&nbsp;</Text>
             <Text>{history.location_info.park_name}</Text>
           </Box>
