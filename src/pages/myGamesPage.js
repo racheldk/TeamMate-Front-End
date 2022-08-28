@@ -104,7 +104,7 @@ export default function MyGames({ token, username, game, setGame }) {
                                 if (guest.status === "Pending") {
                                     console.log("this guest is pending");
                                     pendingGuests.push({pendingGuest: guest, displayStatus: "action required",
-                                    bgColor: null, 
+                                    bgColor: 'null', 
                                     icon: (<Icon color="red" as={BsFillExclamationCircleFill} />),
                                     displayUsers: [guest],
                                     buttonTitle: "Do you want to play with ",
@@ -130,7 +130,7 @@ export default function MyGames({ token, username, game, setGame }) {
                         setConfirmedGames(
                             responseConfirmed.map((obj) => ({
                                 displayStatus: "confirmed",
-                                bgColor: "yellow",
+                                bgColor: "gold",
                                 icon: null,
                                 // display: host and any confirmed guests
                                 displayUsers: [...obj.guest_info],
@@ -152,11 +152,13 @@ export default function MyGames({ token, username, game, setGame }) {
                         setPendingPOVGuestGames(
                             responsePending.map((obj) => ({
                                 displayStatus: "pendingPOVGuest",
-                                bgColor: "grey",
+                                bgColor: "white",
                                 icon: (
                                     <Icon
-                                        color="yellow"
+                                        color="gold"
                                         as={BsQuestionCircleFill}
+                                        fontSize='30px'
+                                        borderRadius='100px'
                                     />
                                 ),
                                 displayUsers: [obj.guest_info[0]],
@@ -178,7 +180,7 @@ export default function MyGames({ token, username, game, setGame }) {
                         setNoGuestGames(
                             responseNoGuest.map((obj) => ({
                                 displayStatus: "no guests",
-                                bgColor: null,
+                                bgColor: 'white',
                                 icon: null,
                                 displayUsers: [],
                                 buttonTitle: null,
@@ -271,12 +273,12 @@ export default function MyGames({ token, username, game, setGame }) {
     }
 
     return (
+        <>
+        <Header />
         <Box className="app-body">
-            <Header />
-            <Heading fontSize="1xl">MyGames Component</Heading>
 
             {/* The following ternaries are so Rachel can see where things are loading/not loading */}
-            {actionRequiredGames.length == 0 ? (
+            {actionRequiredGames.length === 0 ? (
                 <Text>
                     You don't have any games that require your attention
                 </Text>
@@ -290,7 +292,7 @@ export default function MyGames({ token, username, game, setGame }) {
                 />
             )}
 
-            {confirmedGames.length == 0 ? (
+            {confirmedGames.length === 0 ? (
                 <Text>You don't have any confirmed games.</Text>
             ) : (
                 <GamesList
@@ -302,7 +304,7 @@ export default function MyGames({ token, username, game, setGame }) {
                 />
             )}
 
-            {pendingPOVGuestGames.length == 0 ? (
+            {pendingPOVGuestGames.length === 0 ? (
                 <Text>You don't have any pending requests to join games.</Text>
             ) : (
                 <GamesList
@@ -314,7 +316,7 @@ export default function MyGames({ token, username, game, setGame }) {
                 />
             )}
 
-            {noGuestGames.length == 0 ? (
+            {noGuestGames.length === 0 ? (
                 <Text>
                     You don't have any games that don't already have a guest
                     attached.
@@ -329,7 +331,7 @@ export default function MyGames({ token, username, game, setGame }) {
                 />
             )}
 
-            {hostOpenDoublesGames.length == 0 ? (
+            {hostOpenDoublesGames.length === 0 ? (
                 <Text>
                     You aren't hosting any doubles games that are waiting for
                     more participants.
@@ -343,7 +345,7 @@ export default function MyGames({ token, username, game, setGame }) {
                     username={username}
                 />
             )}
-            {guestOpenDoublesGames.length == 0 ? (
+            {guestOpenDoublesGames.length === 0 ? (
                 <Text>
                     You aren't a guest in any doubles games that are waiting for
                     more participants.
@@ -372,7 +374,7 @@ export default function MyGames({ token, username, game, setGame }) {
                     // guestOpenDoublesGames={guestOpenDoublesGames}
                 />
             )} */}
-            <Footer />
-        </Box>
+           
+        </Box> <Footer /></>
     );
 }
