@@ -4,6 +4,7 @@ import Footer from "../components/FooterMenu";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import GamesList from "../components/GamesList";
+import { IoMdTennisball } from "react-icons/io";
 import {
     BsQuestionCircleFill,
     BsFillExclamationCircleFill,
@@ -106,6 +107,7 @@ export default function MyGames({ token, username, game, setGame }) {
                                     console.log("this guest is pending");
                                     pendingGuests.push({
                                         pendingGuest: guest,
+                                        tennisBall: IoMdTennisball,
                                         displayStatus: "action required",
                                         bgColor: "#ffffff",
                                         // iconColor: 'example',
@@ -156,6 +158,7 @@ export default function MyGames({ token, username, game, setGame }) {
                             const expandedGame = {
                                 displayStatus: "confirmed",
                                 bgColor: "#ffffff",
+                                tennisBall: IoMdTennisball,
                                 icon: (<CheckCircleIcon color="#32CD32"/>),
                                 displayUsers: confirmedPlayers,
                                 buttonTitle: null,
@@ -192,6 +195,7 @@ export default function MyGames({ token, username, game, setGame }) {
                             }
                             const expandedGame = {
                                 displayStatus: "pendingPOVGuest",
+                                tennisBall: IoMdTennisball,
                                 bgColor: "#ffffff",
                                 icon: (
                                     <Icon
@@ -237,6 +241,7 @@ export default function MyGames({ token, username, game, setGame }) {
                             const expandedGame = {
                                 displayStatus: "no guests",
                                 bgColor: "#ffffff",
+                                tennisBall: IoMdTennisball,
                                 icon: null,
                                 displayUsers: confirmedPlayers,
                                 buttonTitle: null,
@@ -276,6 +281,7 @@ export default function MyGames({ token, username, game, setGame }) {
                             const expandedGame = {
                                 displayStatus: "host open doubles",
                                 bgColor: "#ffffff",
+                                tennisBall: IoMdTennisball,
                                 icon: null,
                                 displayUsers: confirmedPlayers,
                                 buttonTitle: null,
@@ -313,6 +319,7 @@ export default function MyGames({ token, username, game, setGame }) {
                             const expandedGame = {
                                 displayStatus: "guest open doubles",
                                 bgColor: "#ffffff",
+                                tennisBall: IoMdTennisball,
                                 icon: null,
                                 displayUsers: confirmedPlayers,
                                 buttonTitle: null,
