@@ -4,6 +4,7 @@ import Footer from "../components/FooterMenu";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import GamesList from "../components/GamesList";
+import { IoMdTennisball } from "react-icons/io";
 import {
     BsQuestionCircleFill,
     BsFillExclamationCircleFill,
@@ -104,7 +105,8 @@ export default function MyGames({ token, username, game, setGame }) {
                                 if (guest.status === "Pending") {
                                     console.log("this guest is pending");
                                     pendingGuests.push({pendingGuest: guest, displayStatus: "action required",
-                                    bgColor: 'white', 
+                                    bgColor: 'white',
+                                    tennisBall: IoMdTennisball,
                                     // iconColor: 'example',
                                     icon: (<Icon color="red" as={BsFillExclamationCircleFill} />),
                                     displayUsers: [guest],
@@ -132,6 +134,7 @@ export default function MyGames({ token, username, game, setGame }) {
                             responseConfirmed.map((obj) => ({
                                 displayStatus: "confirmed",
                                 bgColor: "gold",
+                                tennisBall: IoMdTennisball,
                                 icon: null,
                                 // display: host and any confirmed guests
                                 // if guest status === host or accepted, add to display users 
@@ -156,6 +159,7 @@ export default function MyGames({ token, username, game, setGame }) {
                             responsePending.map((obj) => ({
                                 displayStatus: "pendingPOVGuest",
                                 bgColor: "white",
+                                tennisBall: IoMdTennisball,
                                 icon: (
                                     <Icon
                                         color="gold"
@@ -184,6 +188,7 @@ export default function MyGames({ token, username, game, setGame }) {
                             responseNoGuest.map((obj) => ({
                                 displayStatus: "no guests",
                                 bgColor: 'white',
+                                tennisBall: IoMdTennisball,
                                 icon: null,
                                 displayUsers: [],
                                 buttonTitle: null,
@@ -209,6 +214,7 @@ export default function MyGames({ token, username, game, setGame }) {
                             responseHostOpenDoubles.map((obj) => ({
                                 displayStatus: "host open doubles",
                                 bgColor: null,
+                                tennisBall: IoMdTennisball,
                                 icon: null,
                                 displayUsers: [obj.guest_info],
                                 buttonTitle: null,
@@ -230,6 +236,7 @@ export default function MyGames({ token, username, game, setGame }) {
                             responseGuestOpenDoubles.map((obj) => ({
                                 displayStatus: "guest open doubles",
                                 bgColor: null,
+                                tennisBall: IoMdTennisball,
                                 icon: null,
                                 displayUsers: [
                                     obj.host_info,

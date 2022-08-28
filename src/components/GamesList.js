@@ -96,7 +96,7 @@ export default function GamesList({
                                 </Text></Box>
                             </Box>
                             <Box borderRadius='100px' borderColor='white' bg={game.bgColor} position='absolute' top={0} right={0}>
-                            <Icon as={IoMdTennisball} color={rank} fontSize='3em' display='flex' />
+                            <Icon as={game.tennisBall} color={rank} fontSize='3em' display='flex' />
                             </Box>
                             </LinkOverlay>
                         </LinkBox>

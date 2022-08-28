@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NewOpenGame from "./pages/newOpenGame";
 import { useEffect, useState } from "react";
 import { ChakraProvider } from "@chakra-ui/react";
+import { TbBallTennis } from "react-icons/tb";
 import Login from "./pages/login.js";
 import Register from "./pages/register";
 import Theme from "./components/theme";
@@ -48,6 +49,7 @@ function App() {
                         bgColor: "#ffffff",
                         // iconColor: "empty"
                         icon: null,
+                        tennisBall: TbBallTennis,
                         displayUsers: [obj.guest_info[0]],
                         buttons: [
                             { label: "Join", job: "send a join request" },
@@ -104,6 +106,8 @@ function App() {
                             <UserProfile
                                 token={token}
                                 allGamesList={allGamesList}
+                                game={game}
+                                
                             />
                         }
                     />
