@@ -104,7 +104,8 @@ export default function MyGames({ token, username, game, setGame }) {
                                 if (guest.status === "Pending") {
                                     console.log("this guest is pending");
                                     pendingGuests.push({pendingGuest: guest, displayStatus: "action required",
-                                    bgColor: 'null', 
+                                    bgColor: 'white', 
+                                    // iconColor: 'example',
                                     icon: (<Icon color="red" as={BsFillExclamationCircleFill} />),
                                     displayUsers: [guest],
                                     buttonTitle: "Do you want to play with ",
@@ -133,6 +134,8 @@ export default function MyGames({ token, username, game, setGame }) {
                                 bgColor: "gold",
                                 icon: null,
                                 // display: host and any confirmed guests
+                                // if guest status === host or accepted, add to display users 
+                                // do this separately and then setConfirmed to that array 
                                 displayUsers: [...obj.guest_info],
                                 buttonTitle: null,
                                 buttons: [
@@ -276,13 +279,15 @@ export default function MyGames({ token, username, game, setGame }) {
         <>
         <Header />
         <Box className="app-body">
+            {/* if this heading changes we also need to change notifications message */}
+            <Heading>My Games</Heading>
 
             {/* The following ternaries are so Rachel can see where things are loading/not loading */}
-            {actionRequiredGames.length === 0 ? (
+            {/* {actionRequiredGames.length === 0 ? (
                 <Text>
                     You don't have any games that require your attention
                 </Text>
-            ) : (
+            ) : ( */}
                 <GamesList
                     token={token}
                     gamesList={actionRequiredGames}
@@ -290,11 +295,11 @@ export default function MyGames({ token, username, game, setGame }) {
                     game={game}
                     username={username}
                 />
-            )}
+            {/* )} */}
 
-            {confirmedGames.length === 0 ? (
+            {/* {confirmedGames.length === 0 ? (
                 <Text>You don't have any confirmed games.</Text>
-            ) : (
+            ) : ( */}
                 <GamesList
                     token={token}
                     gamesList={confirmedGames}
@@ -302,11 +307,11 @@ export default function MyGames({ token, username, game, setGame }) {
                     game={game}
                     username={username}
                 />
-            )}
+            {/* )} */}
 
-            {pendingPOVGuestGames.length === 0 ? (
+            {/* {pendingPOVGuestGames.length === 0 ? (
                 <Text>You don't have any pending requests to join games.</Text>
-            ) : (
+            ) : ( */}
                 <GamesList
                     token={token}
                     gamesList={pendingPOVGuestGames}
@@ -314,14 +319,14 @@ export default function MyGames({ token, username, game, setGame }) {
                     game={game}
                     username={username}
                 />
-            )}
+            {/* )} */}
 
-            {noGuestGames.length === 0 ? (
+            {/* {noGuestGames.length === 0 ? (
                 <Text>
                     You don't have any games that don't already have a guest
                     attached.
                 </Text>
-            ) : (
+            ) : ( */}
                 <GamesList
                     token={token}
                     gamesList={noGuestGames}
@@ -329,14 +334,14 @@ export default function MyGames({ token, username, game, setGame }) {
                     game={game}
                     username={username}
                 />
-            )}
+            {/* )} */}
 
-            {hostOpenDoublesGames.length === 0 ? (
+            {/* {hostOpenDoublesGames.length === 0 ? (
                 <Text>
                     You aren't hosting any doubles games that are waiting for
                     more participants.
                 </Text>
-            ) : (
+            ) : ( */}
                 <GamesList
                     token={token}
                     gamesList={hostOpenDoublesGames}
@@ -344,13 +349,13 @@ export default function MyGames({ token, username, game, setGame }) {
                     game={game}
                     username={username}
                 />
-            )}
-            {guestOpenDoublesGames.length === 0 ? (
+            {/* )} */}
+            {/* {guestOpenDoublesGames.length === 0 ? (
                 <Text>
                     You aren't a guest in any doubles games that are waiting for
                     more participants.
                 </Text>
-            ) : (
+            ) : ( */}
                 <GamesList
                     token={token}
                     gamesList={guestOpenDoublesGames}
@@ -358,7 +363,7 @@ export default function MyGames({ token, username, game, setGame }) {
                     game={game}
                     username={username}
                 />
-            )}
+            {/* )} */}
 
             {/* {noActionGames.length == 0 ? (
                 <Text>noActionGames array is empty</Text>

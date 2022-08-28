@@ -166,7 +166,6 @@ export default function GameDetail({
             <IconButton onClick={()=>handleCloseModal()} className="close-modal-button" variant='outline' colorScheme='teal'><CloseIcon color='white'/></IconButton>
             
                 <Box className="modal-base" display='flex' flexWrap='wrap' key={game.id} justifyContent='center'>
-                <Heading fontWeight='700' w='100%'>{game.location_info.park_name}</Heading>
                 <Box w='350px' display='flex' justifyContent='center'>
                     {game.displayUsers.length > 0 &&
                         game.displayUsers.map((user) => (
@@ -189,6 +188,8 @@ export default function GameDetail({
                             </Box>
                         ))}</Box>
 
+                        <Heading fontWeight='700' w='100%'>{game.location_info.park_name}</Heading>
+                        <Text>park address</Text>
                     
                     <Text w='100%' marginTop={3}>{game.match_type} | {game.session_type}</Text>
                     <Text fontWeight='700'>
@@ -201,7 +202,7 @@ export default function GameDetail({
                         {game.buttonTitle && (
                             <Text>
                                 {game.buttonTitle}
-                                {game.displayUsers[0].user}?
+                                {game.displayUsers[0].user_info.first_name}?
                             </Text>
                         )}
                         {game.buttons.map((button) => (

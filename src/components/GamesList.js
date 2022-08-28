@@ -58,14 +58,14 @@ export default function GamesList({
     console.log(gamesList);
     // console.log(game)
 
-    if (gamesList.length === 0) {
-        return (
-            <Text>
-                You have no games to display - make a new game or join one.
-                Trust us, it'll be great (NewGamesList)
-            </Text>
-        );
-    }
+    // if (gamesList.length === 0) {
+    //     return (
+    //         <Text>
+    //             You have no games to display - make a new game or join one.
+    //             Trust us, it'll be great (NewGamesList)
+    //         </Text>
+    //     );
+    // }
 
     
 
@@ -73,7 +73,7 @@ export default function GamesList({
         <Box display='flex' flexWrap='wrap' maxW="350px" m='auto' justifyContent='center' textAlign='center'>
             {gamesList.length > 0 && (
             <>
-                    <Heading textTransform='capitalize' color='#285E61'>{gamesList[0].displayStatus}</Heading>
+                    {/* <Heading textTransform='capitalize' color='#285E61'>{gamesList[0].displayStatus}</Heading> */}
                     {gamesList.map((game) => (
                         <LinkBox key={game.game_session_id} cursor='pointer'>
                         <LinkOverlay  onClick={() => {
