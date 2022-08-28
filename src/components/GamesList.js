@@ -110,17 +110,7 @@ export default function GamesList({
                                 <Text>{game.match_type}</Text>
                                 <Text>{game.session_type}</Text>
                                 <Text>
-                                    {DateTime.fromISO(game.date).toLocaleString(
-                                        {
-                                            weekday: "short",
-                                            month: "short",
-                                            day: "numeric",
-                                        }
-                                    )}{" "}
-                                    at{" "}
-                                    {DateTime.fromISO(game.time).toLocaleString(
-                                        DateTime.TIME_SIMPLE
-                                    )}
+                                    {DateTime.fromISO(game.datetime).toLocaleString(DateTime.DATETIME_MED_WITH_WEEKDAY)}
                                 </Text>
                             </Box>
                             </LinkOverlay>

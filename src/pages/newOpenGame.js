@@ -12,7 +12,6 @@ import { Link } from "react-router-dom";
 
 export default function NewOpenGame({ token }) {
     const [newGameDate, setNewGameDate] = useState("");
-    const [newGameTime, setNewGameTime] = useState("");
     const [newGameLoc, setNewGameLoc] = useState("");
     const [newGameSessionType, setNewGameSessionType] = useState("");
     const [newGameMatchType, setNewGameMatchType] = useState("");
@@ -44,7 +43,6 @@ export default function NewOpenGame({ token }) {
     const handleSubmit = () => {
         console.log(
             newGameDate,
-            newGameTime,
             newGameSessionType,
             newGameMatchType,
             newGameLoc,
@@ -54,8 +52,7 @@ export default function NewOpenGame({ token }) {
             .post(
                 "https://teammate-app.herokuapp.com/session/",
                 {
-                    date: convertedDate,
-                    time: convertedTime,
+                    datetime: newGameDate,
                     session_type: newGameSessionType,
                     match_type: newGameMatchType,
                     location: newGameLoc,
@@ -96,39 +93,21 @@ export default function NewOpenGame({ token }) {
                     onChange={(date) => {
                         console.log(date);
                         setNewGameDate(date);
-                        setConvertedDate(
-                            DateTime.fromJSDate(date).toISODate(
-                                DateTime.DATE_MED
-                                )
-                                );
-                                console.log(newGameDate);
-                                console.log(convertedDate);
+                        // setConvertedDate(
+                        //     DateTime.fromJSDate(date).toISODate(
+                        //         DateTime.DATE_MED
+                        //         )
+                        //         );
+                        //         console.log(newGameDate);
+                        //         console.log(convertedDate);
                             }}
+                            showTimeSelect
+                            timeIntervals={15}
                             minDate={subDays(new Date(), 0)}
                             selected={newGameDate}
                             placeholderText="Click to Select a Date" 
+                            dateFormat="MMM d, yyyy    h:mm aa"
                             />
-                            
-                            
-                <ReactDatePicker
-                    selected={newGameTime}
-                    onChange={(date) => {
-                        setNewGameTime(date);
-                        setConvertedTime(
-                            DateTime.fromJSDate(date).toLocaleString(
-                                DateTime.TIME_24_WITH_SECONDS
-                            )
-                        );
-                        console.log(newGameTime);
-                        console.log(convertedTime);
-                    }}
-                    showTimeSelect
-                    showTimeSelectOnly
-                    timeIntervals={15}
-                    timeCaption="Time"
-                    dateFormat="h:mm aa"
-                    placeholderText="Click to Select a Time"
-                />
                 </Box>
                 <Box p={3}>
                     <FormLabel htmlFor="location">

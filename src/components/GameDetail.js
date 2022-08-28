@@ -16,6 +16,7 @@ export default function GameDetail({
 
     console.log(game);
     console.log(token);
+    
 
     const handleClick = (game, button) => {
         if (game.displayStatus === "join") {
@@ -198,15 +199,7 @@ export default function GameDetail({
                     <Text>{game.match_type}</Text>
                     <Text>{game.session_type}</Text>
                     <Text>
-                        {DateTime.fromISO(game.date).toLocaleString({
-                            weekday: "short",
-                            month: "short",
-                            day: "numeric",
-                        })}{" "}
-                        at{" "}
-                        {DateTime.fromISO(game.time).toLocaleString(
-                            DateTime.TIME_SIMPLE
-                        )}
+                    {DateTime.fromISO(game.datetime).toLocaleString(DateTime.DATETIME_MED_WITH_WEEKDAY)}
                     </Text>
 
                     <Box>
