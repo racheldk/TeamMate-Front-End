@@ -172,13 +172,15 @@ export default function GameDetail({
                             <Box key={user.user_id} m='auto'>
                                 <Text>{`${user.user_info.first_name} ${user.user_info.last_name}`}</Text>
                                 <Text>{`@${user.user}`}</Text>
+                                <Box boxSize="100px" display='flex' >
                                 <Image
-                                src={`${user.user_info.profile.profile_pic}`}
+                                src={`${user.user_info.profile.profile_image_file}`}
                                 alt={user}
                                 fallbackSrc={noImage}
                                 borderRadius="full"
-                                boxSize="150px" m='auto'
+                                 m='auto'
                                 />
+                                </Box>
                             <Text>
                                 NTRP:{" "}
                                 {user.user_info.profile.ntrp_rating}{" "}

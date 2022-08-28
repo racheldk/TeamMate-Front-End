@@ -83,15 +83,16 @@ const handleCloseModal = (game) => {
                 </Heading>
               </Box>
               <>
-              <Box className="profile-pic" m={2}>
+              <Box w='100%' display='flex' justifyContent='center'>
+              <Box className="profile-pic" m={2} boxSize="150px">
                 <Image
                   src={user.profile.profile_image_file}
                   alt={user.username}
                   fallbackSrc={noImage}
                   borderRadius="full"
-                  boxSize="150px"
+                  
                 />
-              </Box>
+              </Box></Box>
               <Box className="ranks">
                 <Heading color="white">
                   NTRP: {user.profile.ntrp_rating}
