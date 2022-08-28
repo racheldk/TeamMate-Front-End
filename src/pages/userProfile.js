@@ -90,11 +90,10 @@ const handleCloseModal = (game) => {
                       handleOpenModal();
                     }}
                     fontSize=".5em"
-                    colorScheme="white"
+                    colorScheme="teal"
                     border="none"
-                    variant="ghost"
-                    className="edit-profile"
-                    icon={<Icon as={BsPencil} />}
+                    variant='solid'
+                    icon={<Icon as={BsPencil} color='white'/>}
                   />
                 </Heading>
               </Box>
