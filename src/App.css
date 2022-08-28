@@ -66,11 +66,18 @@ body {
     flex-wrap: wrap;
 }
 .profile-pic {
-    width: 100%;
     margin: auto;
     display: flex;
     justify-content: center;
+    object-fit: cover;
 
+}
+
+.profile-item {
+    width: 300px;
+    margin: auto;
+    background-color: #ffffff;
+    border-radius: 20px;
 }
 .user-name {
     width: 100%;

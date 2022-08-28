@@ -10,7 +10,10 @@ export default function EditProfile({token, setModalIsOpen}) {
     const [lastname, setLastname] = useState('');
     const [rank, setRank] = useState('');
     const [picture,  setPicture] = useState('')
-
+    const handleCloseModal = (game) => {
+        console.log("click close");
+        setModalIsOpen(false);
+    };
 
 if (picture) {
     const selectedFile = document.getElementById('inputPicture').files[0];
@@ -43,14 +46,9 @@ const PatchProfile = (event) => {
         }
     )
     .then(handleCloseModal())
-    .catch((error) => {
-        alert(error.response.data.detail);
-    });}
+   ;}
 
-    const handleCloseModal = (game) => {
-        console.log("click close");
-        setModalIsOpen(false);
-    };
+
 
     return (
         <Box className='modal-base'><FormControl id="edit-user-form" >
