@@ -125,6 +125,7 @@ export default function MyGames({ token, username, game, setGame }) {
                                                 label: "Yes",
                                                 job: "handleAccept",
                                             },
+                                            
                                             {
                                                 label: "No, thank you",
                                                 job: "handleReject",
@@ -366,10 +367,12 @@ export default function MyGames({ token, username, game, setGame }) {
 
     return (
         <>
-            <Header />
-            <Box className="app-body">
-                {/* if this heading changes we also need to change notifications message */}
-                <Heading>My Games</Heading>
+        <Header />
+        <Box className="app-body">
+            {/* if this heading changes we also need to change notifications message */}
+            <Heading color="#234E52" textAlign="center">My Games</Heading>
+
+
 
                 {/* The following ternaries are so Rachel can see where things are loading/not loading */}
                 {/* {actionRequiredGames.length === 0 ? (

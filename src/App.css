@@ -179,7 +179,7 @@ body {
     position: absolute;
     z-index: 1;
     top: -35px;
-    left: -30%;
+    left: -70%;
 }
 .tooltip:hover .tooltiptext {
     visibility: visible;

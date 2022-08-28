@@ -44,11 +44,11 @@ function Header() {
         if (notifications) {
         setAlert('red')
         setAlertIcon('white')
-     }
+        }
         if (notifications && notifications.length === 0) {
         setAlert('')
         setAlertIcon('teal')
-     }
+        }
     }, [notifications]);
 
 
@@ -109,7 +109,7 @@ function Header() {
             <Modal isOpen={modalIsOpen} contentLabel="Notifications Modal" overlayClassName="modal-overlay" className="modal" handleCloseModal={handleCloseModal}>
             <IconButton onClick={()=>handleCloseModal()} className="close-modal-button" variant='outline' colorScheme='teal'><CloseIcon color='white'/></IconButton>
             <NotificationsList token={token} notifications={notifications}/>
-       
+
             </Modal>
         </Box>
     );
