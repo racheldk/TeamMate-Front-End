@@ -152,6 +152,7 @@ body {
     background-color: white;
     padding: 1em;
     position: sticky;
+    bottom: 0;
     width: 100%;
 }
 
