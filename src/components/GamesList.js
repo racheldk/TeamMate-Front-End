@@ -75,7 +75,7 @@ export default function GamesList({
             <>
                     <Heading textTransform='capitalize' color='#285E61'>{gamesList[0].displayStatus}</Heading>
                     {gamesList.map((game) => (
-                        <LinkBox key={game.game_session_id}>
+                        <LinkBox key={game.game_session_id} cursor='pointer'>
                         <LinkOverlay  onClick={() => {
                                         handleOpenModal(game);
                                     }}>

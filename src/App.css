@@ -3,18 +3,13 @@
 .game-card {
     width: 100%;
     min-width: 350px;
-    background-color:#4FD1C5;
     box-shadow: 0 8px 16px -8px rgba(0,0,0,0.4);
     border-radius: 20px;
     text-align: left;
     margin: .5em 0;
-    color: #fff;
     padding: 1em;
 }
 
-.game-card:hover {
-    cursor: pointer;
-}
 
 /* Global Styling */
 
