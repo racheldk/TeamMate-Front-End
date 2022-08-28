@@ -11,6 +11,7 @@ export default function GameDetail({
     game,
     handleCloseModal,
     username,
+    setRefresh
 }) {
     const [editClicked, setEditClicked] = useState(false);
 
@@ -75,6 +76,7 @@ export default function GameDetail({
                 alert(error.response.data.detail);
             });
         handleCloseModal();
+        setRefresh(true)
     };
 
     const acceptRequest = (game) => {
@@ -125,7 +127,7 @@ export default function GameDetail({
         console.log("join click");
         console.log(game);
         axios
-            .delete(`https://teammate-app.herokuapp.com/session/${game.id}`, {
+            .delete(`https://teammate-app.herokuapp.com/session/${game.game_session_id}`, {
                 headers: {
                     Authorization: `Token ${token}`,
                 },

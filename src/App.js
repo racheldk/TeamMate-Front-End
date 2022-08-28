@@ -26,6 +26,7 @@ function App() {
     const [currentGame, setCurrentGame] = useState({});
     const [surveyGame, setSurveyGame] = useState(null)
     const [game, setGame] = useState()
+    const [refresh, setRefresh] = useState(false)
 
 
     const setAuth = (username, token) => {
@@ -57,7 +58,7 @@ function App() {
                     }))
                 );
             });
-    }, [token, setAllGamesList]);
+    }, [token, setAllGamesList, refresh]);
 
     return (
         <ChakraProvider Theme={Theme} Text={Text}>
@@ -83,6 +84,7 @@ function App() {
                                 username={username}
                                 setGame={setGame}
                                 game={game}
+                                setRefresh={setRefresh}
                             />
                         }
                     />
