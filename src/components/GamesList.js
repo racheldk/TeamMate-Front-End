@@ -21,15 +21,13 @@ export default function GamesList({
     game,
     username,
     setRefresh,
-    setNoActionGames,
-    confirmedGames,
-    pendingPOVGuestGames,
-    noGuestGames,
-    hostOpenDoublesGames,
-    guestOpenDoublesGames,
-    test,
+    setAllGamesList,
+    setReload,
+    handleOpenModal,
+    handleCloseModal,
+    modalIsOpen,
 }) {
-    const [modalIsOpen, setModalIsOpen] = useState(false);
+    // const [modalIsOpen, setModalIsOpen] = useState(false);
     const [rank, setRank] = useState('teal');
 
     useEffect((game) => {
@@ -41,22 +39,21 @@ export default function GamesList({
      }
     }, [game]);
     
-    console.log(gamesList);
+    // console.log(gamesList);
 
 
-    const handleOpenModal = (game) => {
-        console.log("click open");
-        console.log("modal game" + game);
-        setModalIsOpen(true);
-        setGame(game);
-    };
+    // const handleOpenModal = (game) => {
+    //     console.log("click modal open");
+    //     setModalIsOpen(true);
+    //     setGame(game);
+    // };
 
-    const handleCloseModal = () => {
-        console.log("click close");
-        setModalIsOpen(false);
-    };
+    // const handleCloseModal = () => {
+    //     console.log("click close");
+    //     setModalIsOpen(false);
+    // };
 
-    console.log(gamesList);
+    // console.log(gamesList);
     // console.log(game)
 
     // if (gamesList.length === 0) {
@@ -67,6 +64,10 @@ export default function GamesList({
     //         </Text>
     //     );
     // }
+
+    // useEffect(()=>{
+    //     console.log('after modal has closed')
+    // }, [modalIsOpen])
 
     
 
@@ -109,6 +110,9 @@ export default function GamesList({
                 isOpen={modalIsOpen}
                 contentLabel="Game Detail Modal"
                 game={game}
+                setAllGamesList={setAllGamesList}
+                setReload={setReload}
+
             >
                 <GameDetail
                     token={token}
@@ -116,6 +120,9 @@ export default function GamesList({
                     handleCloseModal={handleCloseModal}
                     username={username}
                     setRefresh={setRefresh}
+                    setAllGamesList={setAllGamesList}
+                    setReload={setReload}
+
                 />
             </Modal>
         </Box>

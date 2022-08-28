@@ -9,7 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { DateTime } from "luxon";
 import NewGamesList from "../components/GamesList";
 
-    export default function OpenGamesPage({ token, allGamesList, username, game, setGame, setRefresh }) {
+    export default function OpenGamesPage({ token, allGamesList, username, game, setGame, setRefresh, setAllGamesList }) {
         const [displayDate, setDisplayDate] = useState("")
     const [filteredDate, setFilteredDate] = useState(null);
     const [searchDate, setSearchDate] = useState("");
@@ -21,6 +21,7 @@ import NewGamesList from "../components/GamesList";
     const [searchSession, setSearchSession] = useState("");
     const [searchMatch, setSearchMatch] = useState("");
     const [filtered, setFiltered] = useState(false);
+
     console.log(allGamesList);
     console.log(filteredGames);
 
@@ -167,6 +168,7 @@ import NewGamesList from "../components/GamesList";
                     setGame={setGame}
                     game={game}
                     setRefresh={setRefresh}
+                                setAllGamesList={setAllGamesList}
 
                 /> ):(
                     filteredGames.length>0 ? (
@@ -176,6 +178,8 @@ import NewGamesList from "../components/GamesList";
                         setGame={setGame}
                         game={game}
                         setRefresh={setRefresh}
+                        setAllGamesList={setAllGamesList}
+
                         />
                     ) : (
                         <Box textAlign='center'>No games were found matching your filters</Box>

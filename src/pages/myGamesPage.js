@@ -10,7 +10,7 @@ import {
 } from "react-icons/bs";
 import { CheckCircleIcon } from '@chakra-ui/icons'
 
-export default function MyGames({ token, username, game, setGame }) {
+export default function MyGames({ token, username, game, setGame, setAllGamesList }) {
     console.log(username);
 
     const [actionRequiredGames, setActionRequiredGames] = useState([]);
@@ -21,6 +21,21 @@ export default function MyGames({ token, username, game, setGame }) {
     const [hostOpenDoublesGames, setHostOpenDoublesGames] = useState([]);
     const [guestOpenDoublesGames, setGuestOpenDoublesGames] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [reload, setReload] = useState(false)
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+
+
+
+    const handleOpenModal = (game) => {
+        console.log("click modal open");
+        setModalIsOpen(true);
+        setGame(game);
+    };
+
+    const handleCloseModal = () => {
+        console.log("click close");
+        setModalIsOpen(false);
+    };
 
     useEffect(() => {
         const reqAction = axios.get(
@@ -336,22 +351,8 @@ export default function MyGames({ token, username, game, setGame }) {
                 alert(error.message);
             });
         setIsLoading(false);
-    }, [token]);
+    }, [token, modalIsOpen ]);
 
-    // const combineLists = () => {
-    //     const combinedLists = confirmedGames.concat(
-    //         pendingPOVGuestGames,
-    //         noGuestGames,
-    //         hostOpenDoublesGames,
-    //         guestOpenDoublesGames
-    //     );
-    //     console.log(combinedLists);
-    //     const sortedCombined = combinedLists.sort(
-    //         (objA, objB) => Number(objA.date) - Number(objB.date)
-    //     );
-    //     console.log(sortedCombined);
-    //     setNoActionGames(sortedCombined);
-    // };
 
     if (isLoading) {
         return <Box>Loading...</Box>;
@@ -376,6 +377,11 @@ export default function MyGames({ token, username, game, setGame }) {
                     setGame={setGame}
                     game={game}
                     username={username}
+                    setAllGamesList={setAllGamesList}
+                    setReload={setReload}
+                    handleOpenModal={handleOpenModal}
+                    handleCloseModal={handleCloseModal}
+                    modalIsOpen={modalIsOpen}
                 />
                 {/* )} */}
 
@@ -388,6 +394,11 @@ export default function MyGames({ token, username, game, setGame }) {
                     setGame={setGame}
                     game={game}
                     username={username}
+                    setAllGamesList={setAllGamesList}
+                    setReload={setReload}
+                    handleOpenModal={handleOpenModal}
+                    handleCloseModal={handleCloseModal}
+                    modalIsOpen={modalIsOpen}
                 />
                 {/* )} */}
 
@@ -400,6 +411,11 @@ export default function MyGames({ token, username, game, setGame }) {
                     setGame={setGame}
                     game={game}
                     username={username}
+                    setAllGamesList={setAllGamesList}
+                    setReload={setReload}
+                    handleOpenModal={handleOpenModal}
+                    handleCloseModal={handleCloseModal}
+                    modalIsOpen={modalIsOpen}
                 />
                 {/* )} */}
 
@@ -415,6 +431,11 @@ export default function MyGames({ token, username, game, setGame }) {
                     setGame={setGame}
                     game={game}
                     username={username}
+                    setAllGamesList={setAllGamesList}
+                    setReload={setReload}
+                    handleOpenModal={handleOpenModal}
+                    handleCloseModal={handleCloseModal}
+                    modalIsOpen={modalIsOpen}
                 />
                 {/* )} */}
 
@@ -430,6 +451,11 @@ export default function MyGames({ token, username, game, setGame }) {
                     setGame={setGame}
                     game={game}
                     username={username}
+                    setAllGamesList={setAllGamesList}
+                    setReload={setReload}
+                    handleOpenModal={handleOpenModal}
+                    handleCloseModal={handleCloseModal}
+                    modalIsOpen={modalIsOpen}
                 />
                 {/* )} */}
                 {/* {guestOpenDoublesGames.length === 0 ? (
@@ -444,23 +470,13 @@ export default function MyGames({ token, username, game, setGame }) {
                     setGame={setGame}
                     game={game}
                     username={username}
+                    setAllGamesList={setAllGamesList}
+                    setReload={setReload}
+                    handleOpenModal={handleOpenModal}
+                    handleCloseModal={handleCloseModal}
+                    modalIsOpen={modalIsOpen}
                 />
-                {/* )} */}
 
-                {/* {noActionGames.length == 0 ? (
-                <Text>noActionGames array is empty</Text>
-            ) : (
-                <GamesList
-                    token={token}
-                    gamesList={noActionGames}
-                    // setNoActionGames={setNoActionGames}
-                    // confirmedGames={confirmedGames}
-                    // pendingPOVGuestGames={pendingPOVGuestGames}
-                    // noGuestGames={noGuestGames}
-                    // hostOpenDoublesGames={hostOpenDoublesGames}
-                    // guestOpenDoublesGames={guestOpenDoublesGames}
-                />
-            )} */}
             </Box>{" "}
             <Footer />
         </>

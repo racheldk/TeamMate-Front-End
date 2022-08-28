@@ -24,10 +24,9 @@ function App() {
     );
     const [allGamesList, setAllGamesList] = useState([]);
     const [currentGame, setCurrentGame] = useState({});
-    const [surveyGame, setSurveyGame] = useState(null)
-    const [game, setGame] = useState()
-    const [refresh, setRefresh] = useState(false)
-
+    const [surveyGame, setSurveyGame] = useState(null);
+    const [game, setGame] = useState();
+    const [refresh, setRefresh] = useState(false);
 
     const setAuth = (username, token) => {
         setToken(token);
@@ -43,7 +42,7 @@ function App() {
             })
             .then((res) => {
                 console.log(res.data);
-                const responseOpen = res.data
+                const responseOpen = res.data;
                 const openExpandedGames = [];
                 for (let game of responseOpen) {
                     const confirmedPlayers = [];
@@ -72,7 +71,7 @@ function App() {
                     console.log(expandedGame);
                     openExpandedGames.push(expandedGame);
 
-                setAllGamesList(openExpandedGames);
+                    setAllGamesList(openExpandedGames);
                 }
             });
     }, [token, setAllGamesList, refresh]);
@@ -87,7 +86,15 @@ function App() {
                         element={<NewOpenGame token={token} />}
                     />
                     <Route
-                        path="survey" element={<Survey setAuth={setAuth} token={token} surveyGame={surveyGame}/>} />
+                        path="survey"
+                        element={
+                            <Survey
+                                setAuth={setAuth}
+                                token={token}
+                                surveyGame={surveyGame}
+                            />
+                        }
+                    />
                     <Route
                         path="register"
                         element={<Register setAuth={setAuth} />}
@@ -102,21 +109,29 @@ function App() {
                                 setGame={setGame}
                                 game={game}
                                 setRefresh={setRefresh}
+                                setAllGamesList={setAllGamesList}
                             />
                         }
                     />
                     <Route
                         path="my-games/"
-                        element={<MyGames token={token} username={username} game={game} setGame={setGame}/>}>
-
-                        </Route>
+                        element={
+                            <MyGames
+                                token={token}
+                                username={username}
+                                game={game}
+                                setGame={setGame}
+                                setAllGamesList={setAllGamesList}
+                            />
+                        }
+                    ></Route>
                     <Route path="my-games/edit/">
                         <Route
                             path=":id"
                             element={<EditGame token={token} />}
                         />
                     </Route>
-                    
+
                     <Route
                         path=":username"
                         element={
@@ -127,7 +142,10 @@ function App() {
                         }
                     />
                     {/* Notifications path is just for during development - when header is ready this will be rendered in a modal */}
-                    <Route path="notifications" element={<NotificationsList token={token}/>}/>
+                    <Route
+                        path="notifications"
+                        element={<NotificationsList token={token} />}
+                    />
                 </Routes>
             </BrowserRouter>
         </ChakraProvider>
