@@ -103,59 +103,77 @@ export default function MyGames({ token, username, game, setGame }) {
                                 console.log(guest);
                                 if (guest.status === "Pending") {
                                     console.log("this guest is pending");
-                                    pendingGuests.push({pendingGuest: guest, displayStatus: "action required",
-                                    bgColor: 'white', 
-                                    // iconColor: 'example',
-                                    icon: (<Icon color="red" as={BsFillExclamationCircleFill} />),
-                                    displayUsers: [guest],
-                                    buttonTitle: "Do you want to play with ",
-                                    buttons: [
-                                    {label: "Yes", 
-                                    job: "handleAccept"},
-                                    {label: "No, thank you", 
-                                    job: "handleReject"}
-                                    ],
-                                    ...game});
+                                    pendingGuests.push({
+                                        pendingGuest: guest,
+                                        displayStatus: "action required",
+                                        bgColor: "white",
+                                        // iconColor: 'example',
+                                        icon: (
+                                            <Icon
+                                                color="red"
+                                                as={BsFillExclamationCircleFill}
+                                            />
+                                        ),
+                                        displayUsers: [guest],
+                                        buttonTitle:
+                                            "Do you want to play with ",
+                                        buttons: [
+                                            {
+                                                label: "Yes",
+                                                job: "handleAccept",
+                                            },
+                                            {
+                                                label: "No, thank you",
+                                                job: "handleReject",
+                                            },
+                                        ],
+                                        ...game,
+                                    });
                                 }
                             }
                         }
-                        console.log(pendingGuests)
-                        setActionRequiredGames(pendingGuests)
+                        console.log(pendingGuests);
+                        setActionRequiredGames(pendingGuests);
                     }
-
 
                     if (responseConfirmed.length > 0) {
                         console.log("confirmed > 0");
-                        const confirmedExpandedGames = []
-                        const exampleGame= responseConfirmed[0]
-                            console.log(exampleGame.game_session_id)
-                            const confirmedPlayers = []
-                            for (let guest of exampleGame.guest_info) {
-                                console.log(guest)
-                                if (guest.status === "Host" || guest.status === "Accepted") {
-                                    console.log('Confirmed Player')
-                                    confirmedPlayers.push(guest)
+                        const confirmedExpandedGames = [];
+                        const exampleGame = responseConfirmed[0];
+                        console.log(exampleGame.game_session_id);
+                        for (let game of responseConfirmed) {
+                            const confirmedPlayers = [];
+                            for (let guest of game.guest_info) {
+                                console.log(guest);
+                                if (
+                                    guest.status === "Host" ||
+                                    guest.status === "Accepted"
+                                ) {
+                                    console.log("Confirmed Player");
+                                    confirmedPlayers.push(guest);
                                 }
-                                console.log(confirmedPlayers)
-                                const expandedGame = {
-                                    displayStatus: "confirmed",
-                                    bgColor: "white",
-                                    icon: "checkmark",
-                                    displayUsers: confirmedPlayers, 
-                                    buttonTitle: null,
-                                    buttons: [
-                                        {
-                                            label: "Cancel this game",
-                                            job: "cancel confirmed",
-                                        },
-                                    ],
-                                    route: `confirmed/${exampleGame.game_session_id}`,
-                                    ...game
-                                }
-                                console.log(expandedGame)
-                                confirmedExpandedGames.push(expandedGame)
+                                console.log(confirmedPlayers);
                             }
-                            // setConfirmedGames(confirmedExpandedGames)
+                            const expandedGame = {
+                                displayStatus: "confirmed",
+                                bgColor: "white",
+                                icon: "checkmark",
+                                displayUsers: confirmedPlayers,
+                                buttonTitle: null,
+                                buttons: [
+                                    {
+                                        label: "Cancel this game",
+                                        job: "cancel confirmed",
+                                    },
+                                ],
+                                route: `confirmed/${game.game_session_id}`,
+                                ...game,
+                            };
+                            console.log(expandedGame);
+                            confirmedExpandedGames.push(expandedGame);
+                        }
+                        console.log(confirmedExpandedGames);
+                        setConfirmedGames(confirmedExpandedGames)
                     }
 
                     // if (responseConfirmed.length > 0) {
@@ -166,8 +184,8 @@ export default function MyGames({ token, username, game, setGame }) {
                     //             bgColor: "white",
                     //             icon: null,
                     //             // display: host and any confirmed guests
-                    //             // if guest status === host or accepted, add to display users 
-                    //             // do this separately and then setConfirmed to that array 
+                    //             // if guest status === host or accepted, add to display users
+                    //             // do this separately and then setConfirmed to that array
                     //             displayUsers: [...obj.guest_info],
                     //             buttonTitle: null,
                     //             buttons: [
@@ -192,8 +210,8 @@ export default function MyGames({ token, username, game, setGame }) {
                                     <Icon
                                         color="gold"
                                         as={BsQuestionCircleFill}
-                                        fontSize='30px'
-                                        borderRadius='100px'
+                                        fontSize="30px"
+                                        borderRadius="100px"
                                     />
                                 ),
                                 displayUsers: [obj.guest_info[0]],
@@ -215,7 +233,7 @@ export default function MyGames({ token, username, game, setGame }) {
                         setNoGuestGames(
                             responseNoGuest.map((obj) => ({
                                 displayStatus: "no guests",
-                                bgColor: 'white',
+                                bgColor: "white",
                                 icon: null,
                                 displayUsers: [],
                                 buttonTitle: null,
@@ -309,13 +327,13 @@ export default function MyGames({ token, username, game, setGame }) {
 
     return (
         <>
-        <Header />
-        <Box className="app-body">
-            {/* if this heading changes we also need to change notifications message */}
-            <Heading>My Games</Heading>
+            <Header />
+            <Box className="app-body">
+                {/* if this heading changes we also need to change notifications message */}
+                <Heading>My Games</Heading>
 
-            {/* The following ternaries are so Rachel can see where things are loading/not loading */}
-            {/* {actionRequiredGames.length === 0 ? (
+                {/* The following ternaries are so Rachel can see where things are loading/not loading */}
+                {/* {actionRequiredGames.length === 0 ? (
                 <Text>
                     You don't have any games that require your attention
                 </Text>
@@ -327,9 +345,9 @@ export default function MyGames({ token, username, game, setGame }) {
                     game={game}
                     username={username}
                 />
-            {/* )} */}
+                {/* )} */}
 
-            {/* {confirmedGames.length === 0 ? (
+                {/* {confirmedGames.length === 0 ? (
                 <Text>You don't have any confirmed games.</Text>
             ) : ( */}
                 <GamesList
@@ -339,9 +357,9 @@ export default function MyGames({ token, username, game, setGame }) {
                     game={game}
                     username={username}
                 />
-            {/* )} */}
+                {/* )} */}
 
-            {/* {pendingPOVGuestGames.length === 0 ? (
+                {/* {pendingPOVGuestGames.length === 0 ? (
                 <Text>You don't have any pending requests to join games.</Text>
             ) : ( */}
                 <GamesList
@@ -351,9 +369,9 @@ export default function MyGames({ token, username, game, setGame }) {
                     game={game}
                     username={username}
                 />
-            {/* )} */}
+                {/* )} */}
 
-            {/* {noGuestGames.length === 0 ? (
+                {/* {noGuestGames.length === 0 ? (
                 <Text>
                     You don't have any games that don't already have a guest
                     attached.
@@ -366,9 +384,9 @@ export default function MyGames({ token, username, game, setGame }) {
                     game={game}
                     username={username}
                 />
-            {/* )} */}
+                {/* )} */}
 
-            {/* {hostOpenDoublesGames.length === 0 ? (
+                {/* {hostOpenDoublesGames.length === 0 ? (
                 <Text>
                     You aren't hosting any doubles games that are waiting for
                     more participants.
@@ -381,8 +399,8 @@ export default function MyGames({ token, username, game, setGame }) {
                     game={game}
                     username={username}
                 />
-            {/* )} */}
-            {/* {guestOpenDoublesGames.length === 0 ? (
+                {/* )} */}
+                {/* {guestOpenDoublesGames.length === 0 ? (
                 <Text>
                     You aren't a guest in any doubles games that are waiting for
                     more participants.
@@ -395,9 +413,9 @@ export default function MyGames({ token, username, game, setGame }) {
                     game={game}
                     username={username}
                 />
-            {/* )} */}
+                {/* )} */}
 
-            {/* {noActionGames.length == 0 ? (
+                {/* {noActionGames.length == 0 ? (
                 <Text>noActionGames array is empty</Text>
             ) : (
                 <GamesList
@@ -411,7 +429,8 @@ export default function MyGames({ token, username, game, setGame }) {
                     // guestOpenDoublesGames={guestOpenDoublesGames}
                 />
             )} */}
-           
-        </Box> <Footer /></>
+            </Box>{" "}
+            <Footer />
+        </>
     );
 }
