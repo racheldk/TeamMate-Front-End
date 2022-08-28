@@ -17,6 +17,7 @@ export default function GameDetail({
     console.log(game);
     console.log(token);
 
+
     const handleClick = (game, button) => {
         if (game.displayStatus === "join") {
             joinSession(game);
@@ -50,7 +51,7 @@ export default function GameDetail({
 
     if (editClicked) {
         console.log(game)
-        return <Navigate to={`edit/${game.id}`} />;
+        return <Navigate to={`edit/${game.game_session_id}`} />;
     }
 
     const joinSession = (game) => {
@@ -165,7 +166,6 @@ export default function GameDetail({
             <IconButton onClick={()=>handleCloseModal()} className="close-modal-button" variant='outline' colorScheme='teal'><CloseIcon color='white'/></IconButton>
             
                 <Box className="modal-base" display='flex' flexWrap='wrap' key={game.id} justifyContent='center'>
-                <Heading fontWeight='700' w='100%'>{game.location_info.park_name}</Heading>
                 <Box w='350px' display='flex' justifyContent='center'>
                     {game.displayUsers.length > 0 &&
                         game.displayUsers.map((user) => (
@@ -178,7 +178,7 @@ export default function GameDetail({
                                 alt={user}
                                 fallbackSrc={noImage}
                                 borderRadius="full"
-                                 m='auto'
+                                m='auto'
                                 />
                                 </Box>
                             <Text>
@@ -188,17 +188,13 @@ export default function GameDetail({
                             </Box>
                         ))}</Box>
 
+                        <Heading fontWeight='700' w='100%'>{game.location_info.park_name}</Heading>
+                        <Text>park address</Text>
                     
                     <Text w='100%' marginTop={3}>{game.match_type} | {game.session_type}</Text>
                     <Text fontWeight='700'>
-                        {DateTime.fromISO(game.date).toLocaleString({
-                            weekday: "short",
-                            month: "short",
-                            day: "numeric",
-                        })}{" "}
-                        at{" "}
-                        {DateTime.fromISO(game.time).toLocaleString(
-                            DateTime.TIME_SIMPLE
+                        {DateTime.fromISO(game.datetime).toLocaleString(
+                            DateTime.DATETIME_MED_WITH_WEEKDAY
                         )}
                     </Text>
 
@@ -206,7 +202,7 @@ export default function GameDetail({
                         {game.buttonTitle && (
                             <Text>
                                 {game.buttonTitle}
-                                {game.displayUsers[0].user}?
+                                {game.displayUsers[0].user_info.first_name}?
                             </Text>
                         )}
                         {game.buttons.map((button) => (
@@ -217,15 +213,6 @@ export default function GameDetail({
                                 <Text color="white">{button.label} </Text>
                             </Button>
                         ))}
-
-                    {/* <Box>
-                        {game.buttons.map((button) => (
-                            <Button onClick={() => handleJoin(game)
-                            }>
-                                <Text color="teal">test {button.label} </Text>
-                            </Button>
-                        ))}
-                    </Box> */}
                 </Box>
             </Box>
         </Box>

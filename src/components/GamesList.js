@@ -58,14 +58,14 @@ export default function GamesList({
     console.log(gamesList);
     // console.log(game)
 
-    if (gamesList.length === 0) {
-        return (
-            <Text>
-                You have no games to display - make a new game or join one.
-                Trust us, it'll be great (NewGamesList)
-            </Text>
-        );
-    }
+    // if (gamesList.length === 0) {
+    //     return (
+    //         <Text>
+    //             You have no games to display - make a new game or join one.
+    //             Trust us, it'll be great (NewGamesList)
+    //         </Text>
+    //     );
+    // }
 
     
 
@@ -73,7 +73,7 @@ export default function GamesList({
         <Box display='flex' flexWrap='wrap' maxW="350px" m='auto' justifyContent='center' textAlign='center'>
             {gamesList.length > 0 && (
             <>
-                    <Heading textTransform='capitalize' color='#285E61'>{gamesList[0].displayStatus}</Heading>
+                    {/* <Heading textTransform='capitalize' color='#285E61'>{gamesList[0].displayStatus}</Heading> */}
                     {gamesList.map((game) => (
                         <LinkBox key={game.game_session_id} cursor='pointer'>
                         <LinkOverlay  onClick={() => {
@@ -90,16 +90,8 @@ export default function GamesList({
                                 <Heading fontSize={30} color='teal'>{game.location_info.park_name}</Heading>
                                 <Text color='#285E61'>{game.match_type} | {game.session_type}</Text>
                                 <Text color='#285E61'>
-                                    {DateTime.fromISO(game.date).toLocaleString(
-                                        {
-                                            weekday: "short",
-                                            month: "short",
-                                            day: "numeric",
-                                        }
-                                    )}{" "}
-                                    at{" "}
-                                    {DateTime.fromISO(game.time).toLocaleString(
-                                        DateTime.TIME_SIMPLE
+                                    {DateTime.fromISO(game.datetime).toLocaleString(
+                                        DateTime.DATETIME_MED_WITH_WEEKDAY
                                     )}
                                 </Text></Box>
                             </Box>
