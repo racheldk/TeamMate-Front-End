@@ -173,12 +173,12 @@ export default function GameDetail({
                                 <Heading fontSize='xl'>{`${user.user_info.first_name} ${user.user_info.last_name}`}</Heading>
                                 <Text>{`@${user.user}`}</Text>
                                 <Box boxSize="100px"  m='auto'>
-                                <Image
+                                <Image className='profile_pic'
                                 src={`${user.user_info.profile.profile_image_file}`}
-                                alt={user}
+                                alt={user.user}
+                                boxSize='100px'
                                 fallbackSrc={noImage}
                                 borderRadius="full"
-                                m='auto'
                                 />
                                 </Box>
                             <Text>
