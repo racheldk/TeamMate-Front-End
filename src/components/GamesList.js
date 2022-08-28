@@ -49,7 +49,7 @@ export default function GamesList({
     const handleCloseModal = () => {
         console.log("click close");
         setReload(reload+1);
-        console.log('reload from handleCloseModal ' + reload)
+        console.log('reload from handleCloseModal GamesList ' + reload)
         setModalIsOpen(false);
     };
 
@@ -117,12 +117,12 @@ export default function GamesList({
                 <GameDetail
                     token={token}
                     game={game}
-                    handleCloseModal={handleCloseModal}
                     username={username}
                     setRefresh={setRefresh}
                     setAllGamesList={setAllGamesList}
                     setReload={setReload}
                     reload={reload}
+                    setModalIsOpen={setModalIsOpen}
 
 
                 />

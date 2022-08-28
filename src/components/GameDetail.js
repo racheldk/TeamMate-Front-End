@@ -16,10 +16,10 @@ import { useState } from "react";
 export default function GameDetail({
     token,
     game,
-    handleCloseModal,
     username,
     setAllGamesList,
     setReload,
+    setModalIsOpen,
     setRefresh,
     reload
 }) {
@@ -27,6 +27,13 @@ export default function GameDetail({
 
     console.log(game);
     console.log(token);
+
+    const handleCloseModal = () => {
+        console.log("click close");
+        setReload(reload+1);
+        console.log('reload from handleCloseModal GameDetail' + reload)
+        setModalIsOpen(false);
+    };
 
     const handleClick = (game, button) => {
         if (game.displayStatus === "join") {
@@ -81,8 +88,6 @@ export default function GameDetail({
                 console.log("guest posted");
                 alert("You sent a join request");
                 handleCloseModal();
-                setReload(true)
-                console.log('setReload(true)')
             })
             .catch((error) => {
                 alert(error.response.data.detail);
@@ -106,9 +111,6 @@ export default function GameDetail({
                 console.log("acceptRequest patch sent");
                 alert("You accepted a request to join your game");
                 handleCloseModal();
-                setReload(true)
-                console.log('setReload(true)')
-
             })
             .catch((error) => {
                 alert(error.response.data.detail);
@@ -132,9 +134,6 @@ export default function GameDetail({
                 console.log("rejectRequest patch sent");
                 alert("You did not accept a request to join your game");
                 handleCloseModal();
-                setReload(true)
-                console.log('setReload(true)')
-
             })
             .catch((error) => {
                 alert(error.response.data.detail);
@@ -158,9 +157,6 @@ export default function GameDetail({
                 console.log("delete game sent");
                 alert("You cancelled a game");
                 handleCloseModal();
-                setReload(true)
-                console.log('setReload(true)')
-
             })
             .catch((error) => {
                 alert(error.response.data.detail);
@@ -183,10 +179,7 @@ export default function GameDetail({
             .then(() => {
                 console.log("delete guest session sent");
                 alert("You cancelled a request to join a game");
-                // handleCloseModal();
-                setReload(true)
-                console.log('setReload(true)')
-
+                handleCloseModal();
             })
             .catch((error) => {
                 alert(error.response.data.detail);
