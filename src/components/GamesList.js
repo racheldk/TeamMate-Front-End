@@ -35,11 +35,10 @@ export default function GamesList({
         if (game && game.host_info.profile.ntrp_rating === 2.5) {
         setRank('brown')
      }
-        if (game && game.host_info.profile.ntrp_rating > 0) {
-        setRank('gold')
+        if (game && game.host_info.profile.ntrp_rating > 2.5) {
+        setRank('pink')
      }
     }, [game]);
-
     
     console.log(gamesList);
 
@@ -71,7 +70,7 @@ export default function GamesList({
     
 
     return (
-        <Box display='flex' flexWrap='wrap' maxW="300px" m='auto' justifyContent='center' textAlign='center'>
+        <Box display='flex' flexWrap='wrap' maxW="350px" m='auto' justifyContent='center' textAlign='center'>
             {gamesList.length > 0 && (
             <>
                     <Heading textTransform='capitalize' color='#285E61'>{gamesList[0].displayStatus}</Heading>
@@ -85,12 +84,9 @@ export default function GamesList({
                                 bg={`${game.bgColor}`}
                                 key={game.id}
                             >
-                            <Box borderRadius='100px' borderColor='white' bg='white' position='absolute' top={0} left={0}>
-                            <Icon as={IoMdTennisball} color={rank} fontSize='3em' display='flex' />
-                            </Box>
                                 <Box>{game.icon}</Box>
-                                <Box w='15%' display='inline-block'>&nbsp;</Box>
-                                <Box w='85%' display='inline-block'>
+                                
+                                <Box w='100%' display='inline-block' marginRight='0'>
                                 <Heading fontSize={30} color='teal'>{game.location_info.park_name}</Heading>
                                 <Text color='#285E61'>{game.match_type} | {game.session_type}</Text>
                                 <Text color='#285E61'>
@@ -106,6 +102,9 @@ export default function GamesList({
                                         DateTime.TIME_SIMPLE
                                     )}
                                 </Text></Box>
+                            </Box>
+                            <Box borderRadius='100px' borderColor='white' bg={game.bgColor} position='absolute' top={0} right={0}>
+                            <Icon as={IoMdTennisball} color={rank} fontSize='3em' display='flex' />
                             </Box>
                             </LinkOverlay>
                         </LinkBox>
