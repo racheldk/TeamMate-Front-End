@@ -8,6 +8,7 @@ import {
     BsQuestionCircleFill,
     BsFillExclamationCircleFill,
 } from "react-icons/bs";
+import { CheckCircleIcon } from '@chakra-ui/icons'
 
 export default function MyGames({ token, username, game, setGame }) {
     console.log(username);
@@ -157,7 +158,7 @@ export default function MyGames({ token, username, game, setGame }) {
                             const expandedGame = {
                                 displayStatus: "confirmed",
                                 bgColor: "white",
-                                icon: "checkmark",
+                                icon: (<CheckCircleIcon color="#32CD32"/>),
                                 displayUsers: confirmedPlayers,
                                 buttonTitle: null,
                                 buttons: [
@@ -175,30 +176,6 @@ export default function MyGames({ token, username, game, setGame }) {
                         console.log(confirmedExpandedGames);
                         setConfirmedGames(confirmedExpandedGames)
                     }
-
-                    // if (responseConfirmed.length > 0) {
-                    //     console.log("confirmed > 0");
-                    //     setConfirmedGames(
-                    //         responseConfirmed.map((obj) => ({
-                    //             displayStatus: "confirmed",
-                    //             bgColor: "white",
-                    //             icon: null,
-                    //             // display: host and any confirmed guests
-                    //             // if guest status === host or accepted, add to display users
-                    //             // do this separately and then setConfirmed to that array
-                    //             displayUsers: [...obj.guest_info],
-                    //             buttonTitle: null,
-                    //             buttons: [
-                    //                 {
-                    //                     label: "Cancel this game",
-                    //                     job: "cancel confirmed",
-                    //                 },
-                    //             ],
-                    //             route: `confirmed/${obj.id}`,
-                    //             ...obj,
-                    //         }))
-                    //     );
-                    // }
 
                     if (responsePending.length > 0) {
                         console.log("pending > 0");
