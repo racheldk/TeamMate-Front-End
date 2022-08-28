@@ -125,6 +125,7 @@ export default function MyGames({ token, username, game, setGame }) {
                                                 label: "Yes",
                                                 job: "handleAccept",
                                             },
+                                            
                                             {
                                                 label: "No, thank you",
                                                 job: "handleReject",
