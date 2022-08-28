@@ -46,8 +46,9 @@ function App() {
                     res.data.map((obj) => ({
                         displayStatus: "join",
                         bgColor: "#ffffff",
+                        // iconColor: "empty"
                         icon: null,
-                        displayUsers: obj.guest_info,
+                        displayUsers: [obj.guest_info[0]],
                         buttons: [
                             { label: "Join", job: "send a join request" },
                         ],
