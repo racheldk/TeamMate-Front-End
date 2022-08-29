@@ -186,11 +186,13 @@ export default function GameDetail({
                             <Box key={user.user_id} m='auto' p='.5em'>
                                 <Heading fontSize='xl'>{`${user.user_info.first_name} ${user.user_info.last_name}`}</Heading>
                                 <Text>{`@${user.user}`}</Text>
-                                <Box boxSize="100px"  m='auto'>
+                                <Box w='100px' h='100px'  m='auto'>
                                 <Image className='profile_pic'
                                 src={`${user.user_info.profile.profile_image_file}`}
                                 alt={user.user}
-                                boxSize='100px'
+                                w='100%'
+                                h='100%'
+                                objectFit='cover'
                                 fallbackSrc={noImage}
                                 borderRadius="full"
                                 />
@@ -203,7 +205,7 @@ export default function GameDetail({
                         ))}</Box>
 
                         <Heading fontWeight='700' w='100%'>{game.location_info.park_name}</Heading>
-                        <Text>{game.location_info.address.address1} </Text>
+                        <Text w='100%'>{game.location_info.address.address1} </Text>
                         <Text>{game.location_info.address.city}, {game.location_info.address.state} {game.location_info.address.zipcode}</Text>
                     
                     <Text w='100%' marginTop={3}>{game.match_type} | {game.session_type}</Text>

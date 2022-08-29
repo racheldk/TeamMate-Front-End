@@ -84,12 +84,12 @@ export default function GamesList({
                                 bg={`${game.bgColor}`}
                                 key={game.id}
                             >
-                                <Box>{game.icon}</Box>
+                                
                                 
                                 <Box w='100%' display='inline-block' marginRight='0'>
-                                <Heading fontSize={30} color='teal'>{game.location_info.park_name}</Heading>
+                                <Heading fontSize={24} color='teal'>{game.location_info.park_name}</Heading>
                                 <Text color='#285E61'>{game.match_type} | {game.session_type}</Text>
-                                <Text color='#285E61'>
+                                <Text fontSize='1.2em' fontWeight='700' color='teal'>
                                     {DateTime.fromISO(game.datetime).toLocaleString(
                                         DateTime.DATETIME_MED_WITH_WEEKDAY
                                     )}
@@ -97,6 +97,7 @@ export default function GamesList({
                             </Box>
                             <Box borderRadius='100px' borderColor='white' bg={game.bgColor} position='absolute' top={0} right={0}>
                             <Icon as={game.tennisBall} color={rank} fontSize='3em' display='flex' />
+                            <Box marginTop={3}>{game.icon}</Box>
                             </Box>
                             </LinkOverlay>
                         </LinkBox>
