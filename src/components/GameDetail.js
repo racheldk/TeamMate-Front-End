@@ -1,11 +1,27 @@
-import { Text, Heading, Image, Button, IconButton, Box } from "@chakra-ui/react";
+import {
+    Text,
+    Heading,
+    Image,
+    Button,
+    IconButton,
+    Box,
+} from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
 import { DateTime } from "luxon";
 import noImage from "../images/no-image.jpg";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
 import { useState } from "react";
-
+import {
+    AlertDialog,
+    AlertDialogBody,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogContent,
+    AlertDialogOverlay,
+    useDisclosure,
+    CloseButton,
+} from "@chakra-ui/react";
 
 export default function GameDetail({
     token,
@@ -13,15 +29,17 @@ export default function GameDetail({
     handleCloseModal,
     username,
     handleClosePastGameModal,
-    reload, 
-    setReload
+    reload,
+    setReload,
 }) {
     const [editClicked, setEditClicked] = useState(false);
-    const [surveyClicked, setSurveyClicked] = useState(false)
+    const [surveyClicked, setSurveyClicked] = useState(false);
+    const { isOpen, onClose, onOpen } = useDisclosure();
+    const [alertTitle, setAlertTitle] = useState(null);
+    const [alertMessage, setAlertMessage] = useState(null);
 
     console.log(game);
     console.log(token);
-
 
     const handleClick = (game, button) => {
         if (game.displayStatus === "join") {
@@ -53,20 +71,20 @@ export default function GameDetail({
             setEditClicked(true);
         }
         if (button.label === "Take Survey") {
-            console.log("take survey clicked")
-            handleClosePastGameModal()
-            setSurveyClicked(true)
+            console.log("take survey clicked");
+            handleClosePastGameModal();
+            setSurveyClicked(true);
         }
     };
 
     if (editClicked) {
-        console.log(game)
+        console.log(game);
         return <Navigate to={`edit/${game.game_session_id}`} />;
     }
 
     if (surveyClicked) {
-        console.log(game)
-        return <Navigate to={`edit/${game.game_session_id}`} />
+        console.log(game);
+        return <Navigate to={`edit/${game.game_session_id}`} />;
     }
 
     const joinSession = (game) => {
@@ -82,19 +100,26 @@ export default function GameDetail({
                     },
                 }
             )
-            
+
             .then((res) => {
-                console.log(res)
+                console.log(res.data);
                 console.log("guest posted");
                 // alert("You sent a join request");
-                if (res.includes(guest_id)) {
-                    setAlertText(`You requested to join ${game.host}'s ${game.game_session_id} `)} else { setAlertText("oh nooooo!!!!")}
-                // setReload(reload+1) This happen when the alert is closed 
+                if (res.data.guest_id) {
+                    console.log("if includes guest - yes");
+                    setAlertMessage(`Your request to join this game has been sent. Stay tuned for a confirmation from the host.`);
+                    setAlertTitle("Yay!");
+                    onOpen()
+                } else {
+                    setAlertTitle("oh nooooo!!!!");
+                    setAlertMessage("Something has gone terribly wrong");
+                }
+                // setReload(reload+1) This happen when the alert is closed
             })
             .catch((error) => {
                 alert(error.response.data.detail);
             });
-        handleCloseModal();
+        // handleCloseModal();
     };
 
     const acceptRequest = (game) => {
@@ -182,46 +207,74 @@ export default function GameDetail({
 
     return (
         <Box className="modal-overlay">
-            <Box textAlign='right' className="modal">
-            <IconButton onClick={()=>handleCloseModal()} className="close-modal-button" variant='outline' colorScheme='teal'><CloseIcon color='white'/></IconButton>
-            
-                <Box className="modal-base" display='flex' flexWrap='wrap' key={game.id} justifyContent='center'>
-                <Box w='350px' display='flex' justifyContent='center' flexWrap='wrap' >
-                    {game.displayUsers.length > 0 &&
-                        game.displayUsers.map((user) => (
-                            <Box key={user.user_id} m='auto' p='.5em'>
-                                <Heading fontSize='xl'>{`${user.user_info.first_name} ${user.user_info.last_name}`}</Heading>
-                                <Text>{`@${user.user}`}</Text>
-                                <Box w='100px' h='100px'  m='auto'>
-                                <Image className='profile_pic'
-                                src={`${user.user_info.profile.profile_image_file}`}
-                                alt={user.user}
-                                w='100%'
-                                h='100%'
-                                objectFit='cover'
-                                fallbackSrc={noImage}
-                                borderRadius="full"
-                                />
-                                </Box>
-                            <Text>
-                                NTRP:{" "}
-                                {user.user_info.profile.ntrp_rating}{" "}
-                            </Text>
-                            </Box>
-                        ))}</Box>
+            <Box textAlign="right" className="modal">
+                <IconButton
+                    onClick={() => handleCloseModal()}
+                    className="close-modal-button"
+                    variant="outline"
+                    colorScheme="teal"
+                >
+                    <CloseIcon color="white" />
+                </IconButton>
 
-                        <Heading fontWeight='700' w='100%'>{game.location_info.park_name}</Heading>
-                        <Text w='100%'>{game.location_info.address.address1} </Text>
-                        <Text>{game.location_info.address.city}, {game.location_info.address.state} {game.location_info.address.zipcode}</Text>
-                    
-                    <Text w='100%' marginTop={3}>{game.match_type} | {game.session_type}</Text>
-                    <Text fontWeight='700' fontSize='xl'>
+                <Box
+                    className="modal-base"
+                    display="flex"
+                    flexWrap="wrap"
+                    key={game.id}
+                    justifyContent="center"
+                >
+                    <Box
+                        w="350px"
+                        display="flex"
+                        justifyContent="center"
+                        flexWrap="wrap"
+                    >
+                        {game.displayUsers.length > 0 &&
+                            game.displayUsers.map((user) => (
+                                <Box key={user.user_id} m="auto" p=".5em">
+                                    <Heading fontSize="xl">{`${user.user_info.first_name} ${user.user_info.last_name}`}</Heading>
+                                    <Text>{`@${user.user}`}</Text>
+                                    <Box w="100px" h="100px" m="auto">
+                                        <Image
+                                            className="profile_pic"
+                                            src={`${user.user_info.profile.profile_image_file}`}
+                                            alt={user.user}
+                                            w="100%"
+                                            h="100%"
+                                            objectFit="cover"
+                                            fallbackSrc={noImage}
+                                            borderRadius="full"
+                                        />
+                                    </Box>
+                                    <Text>
+                                        NTRP:{" "}
+                                        {user.user_info.profile.ntrp_rating}{" "}
+                                    </Text>
+                                </Box>
+                            ))}
+                    </Box>
+
+                    <Heading fontWeight="700" w="100%">
+                        {game.location_info.park_name}
+                    </Heading>
+                    <Text w="100%">{game.location_info.address.address1} </Text>
+                    <Text>
+                        {game.location_info.address.city},{" "}
+                        {game.location_info.address.state}{" "}
+                        {game.location_info.address.zipcode}
+                    </Text>
+
+                    <Text w="100%" marginTop={3}>
+                        {game.match_type} | {game.session_type}
+                    </Text>
+                    <Text fontWeight="700" fontSize="xl">
                         {DateTime.fromISO(game.datetime).toLocaleString(
                             DateTime.DATETIME_MED_WITH_WEEKDAY
                         )}
                     </Text>
 
-                    <Box w='100%' m={3}>
+                    <Box w="100%" m={3}>
                         {game.buttonTitle && (
                             <Text>
                                 {game.buttonTitle}
@@ -229,16 +282,36 @@ export default function GameDetail({
                             </Text>
                         )}
                         {game.buttons.map((button) => (
-                            <Button colorScheme='teal'
+                            <Button
+                                colorScheme="teal"
                                 key={button.label}
                                 onClick={() => handleClick(game, button)}
                             >
                                 <Text color="white">{button.label} </Text>
                             </Button>
                         ))}
+                    </Box>
                 </Box>
+
+                <AlertDialog isOpen={isOpen} onClose={onClose}>
+                    <AlertDialogOverlay>
+                        <AlertDialogContent>
+                            <CloseButton
+                                alignSelf="flex-end"
+                                position="relative"
+                                // right={-1}
+                                // top={-1}
+                                onClick={()=>{
+                                    onClose()
+                                handleCloseModal()
+                            setReload(reload+1)}}
+                            />
+                            <AlertDialogHeader>{alertTitle}</AlertDialogHeader>
+                            <AlertDialogBody>{alertMessage}</AlertDialogBody>
+                        </AlertDialogContent>
+                    </AlertDialogOverlay>
+                </AlertDialog>
             </Box>
-        </Box>
         </Box>
     );
 }
