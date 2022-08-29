@@ -88,7 +88,7 @@ export default function NewOpenGame({ token }) {
         <>
             <Header />
             <Box className="app-body">
-                <FormControl className="form" mt={20}>
+                <FormControl className="form" mt={2}>
                     <Heading className="form-banner" color="#234E52">New Game</Heading>
 
                     <Box display="Flex" m={4} fontSize="18px" 
@@ -103,7 +103,7 @@ export default function NewOpenGame({ token }) {
                             timeIntervals={15}
                             minDate={subDays(new Date(), 0)}
                             selected={newGameDate}
-                            placeholderText="Date"
+                            placeholderText="When"
                             dateFormat="MMM d, yyyy    h:mm aa"
                         />
                     </Box>
@@ -117,7 +117,7 @@ export default function NewOpenGame({ token }) {
                         >
                             
                             <option value="" disabled hidden>
-                                Choose a location
+                                Where
                             </option>
                             <option value="1">Pullen Park</option>
                             <option value="2">Sanderford Park</option>
@@ -132,7 +132,7 @@ export default function NewOpenGame({ token }) {
                             name="session-type"
                         >
                             <option value="" disabled hidden>
-                                Choose a competitive level
+                                Style
                             </option>
                             <option value="Casual">Casual</option>
                             <option value="Competitive">Competitive</option>
@@ -147,7 +147,7 @@ export default function NewOpenGame({ token }) {
                             name="match-type"
                         >
                             <option value="" disabled hidden>
-                                Choose number of players
+                                Players
                             </option>
                             <option value="Singles">Singles</option>
                             <option value="Doubles">Doubles</option>
