@@ -249,6 +249,7 @@ export default function GameDetail({
                 } else {
                     setAlertTitle("oh nooooo!!!!");
                     setAlertMessage("Something has gone terribly wrong");
+                    onOpen()
                 }
             })
             .then(() =>{

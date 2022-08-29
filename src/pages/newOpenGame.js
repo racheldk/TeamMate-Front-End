@@ -10,6 +10,16 @@ import {
     FormLabel,
     Select,
 } from "@chakra-ui/react";
+import {
+    AlertDialog,
+    AlertDialogBody,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogContent,
+    AlertDialogOverlay,
+    useDisclosure,
+    CloseButton,
+} from "@chakra-ui/react";
 import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
 import axios from "axios";
@@ -21,10 +31,13 @@ export default function NewOpenGame({ token }) {
     const [newGameLoc, setNewGameLoc] = useState("");
     const [newGameSessionType, setNewGameSessionType] = useState("");
     const [newGameMatchType, setNewGameMatchType] = useState("");
-    const [error, setError] = useState("");
     const [submitted, setSubmitted] = useState(false);
     const [convertedDate, setConvertedDate] = useState("");
     const [convertedTime, setConvertedTime] = useState("");
+    const { isOpen, onClose, onOpen } = useDisclosure();
+    const [alertTitle, setAlertTitle] = useState(null);
+    const [alertMessage, setAlertMessage] = useState(null);
+
 
     const handleChangeGameLoc = (event) => {
         console.log(event.target.value);
@@ -52,7 +65,6 @@ export default function NewOpenGame({ token }) {
             newGameSessionType,
             newGameMatchType,
             newGameLoc,
-            convertedDate
         );
         axios
             .post(
@@ -69,20 +81,33 @@ export default function NewOpenGame({ token }) {
                     },
                 }
             )
-            .then(console.log("posted"))
+            .then((res)=>{
+                console.log(res.statusText)
+                if (res.statusText==='Created') {
+                    console.log('new game created')
+                    setAlertMessage(`${res.data.location_info.park_name} at  ${DateTime.fromISO(res.data.datetime).toLocaleString(
+                        DateTime.DATETIME_MED_WITH_WEEKDAY
+                    )}, ${res.data.match_type}, ${res.data.session_type}`)
+                    setAlertTitle('Your new game has been posted')
+                    onOpen()
+                }
+
+            })
             .catch((error) => {
-                setError(error.message);
+                console.log(error);
+                const errorDetails = Object.values(error.response.data) 
+                console.log(errorDetails)
+                const detailMessages = []
+                for (const error of errorDetails) {
+                    detailMessages.push(error[0])
+                }
+                console.log(detailMessages)
+                console.log("there was an error");
+                setAlertTitle("Uh oh, something went wrong. Please make sure you fill out all fields.");
+                setAlertMessage(detailMessages);
+                onOpen()
             });
-        setSubmitted(true);
     };
-
-    if (submitted) {
-        return <AfterSubmit />;
-    }
-
-    if (error) {
-        return { error };
-    }
 
     return (
         <>
@@ -157,6 +182,23 @@ export default function NewOpenGame({ token }) {
                         Submit
                     </Button>
                 </FormControl>
+                <AlertDialog isOpen={isOpen} onClose={onClose}>
+                    <AlertDialogOverlay>
+                        <AlertDialogContent>
+                            <CloseButton
+                                alignSelf="flex-end"
+                                position="relative"
+                                // right={-1}
+                                // top={-1}
+                                onClick={() => {
+                                    onClose();
+                                }}
+                            />
+                            <AlertDialogHeader>{alertTitle}</AlertDialogHeader>
+                            <AlertDialogBody>{alertMessage}</AlertDialogBody>
+                        </AlertDialogContent>
+                    </AlertDialogOverlay>
+                </AlertDialog>
             </Box>
             <Footer />
         </>
