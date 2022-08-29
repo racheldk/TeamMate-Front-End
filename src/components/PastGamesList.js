@@ -14,18 +14,18 @@ import GameDetail from "./GameDetail";
 import { IoMdTennisball } from "react-icons/io";
 
 export default function PastGamesList({ token, gamesList }) {
-    const [pastGameModalIsOpen, setPastGameModalIsOpen] = useState(false);
+    const [ModalIsOpen, setModalIsOpen] = useState(false);
     const [game, setGame] = useState(null);
 
     const handleOpenPastGameModal = (game) => {
         console.log("open past game modal");
         console.log(game);
-        setPastGameModalIsOpen(true);
+        setModalIsOpen(true);
         setGame(game);
     };
 
     const handleClosePastGameModal = () => {
-        setPastGameModalIsOpen(false);
+        setModalIsOpen(false);
     };
 
     return (
@@ -79,7 +79,7 @@ export default function PastGamesList({ token, gamesList }) {
             </Box>
             <Modal
                 className="modal"
-                isOpen={pastGameModalIsOpen}
+                isOpen={ModalIsOpen}
                 contentLabel="Past Game Detail Modal"
                 overlayClassName="modal-overlay"
                 game={game}
@@ -89,7 +89,7 @@ export default function PastGamesList({ token, gamesList }) {
                     game={game}
                     // handleClosePastGameModal={handleClosePastGameModal}
                     handleClosePastGameModal={handleClosePastGameModal}
-                    setPastGameModalIsOpen={setPastGameModalIsOpen}
+                    setModalIsOpen={setModalIsOpen}
                 />
             </Modal>
         </Box>

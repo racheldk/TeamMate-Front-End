@@ -52,8 +52,9 @@ const PatchProfile = (event) => {
 
     return (
         <Box className='modal-base'><FormControl id="edit-user-form" >
-        <FormLabel className="" enctype="multipart/form-data" >Profile Picture</FormLabel>
-        <input id="inputPicture" type='file' accept=".png,.jpg,.gif" className="form-control"  placeholder="Profile Picture"
+        
+        <FormLabel className="" encType="multipart/form-data" >Profile Picture</FormLabel>
+        <input id="inputPicture" type='file' accept=".png,.jpg" className="form-control"  placeholder="Profile Picture"
             onChange={(e) => setPicture(e.target.value)}/>
         <br/>
         <FormLabel className="" >NTRP Rating</FormLabel>

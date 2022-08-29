@@ -80,8 +80,9 @@ import NewGamesList from "../components/GamesList";
     return (
         <>
             <Header />
-            <Heading color="#234E52" textAlign="center">Open Games</Heading>
+           
             <Box className="app-body">
+            <Heading color="#234E52" textAlign="center" marginTop={2}>Open Games</Heading>
                 <Box textAlign="center" 
                 marginTop={5} marginBottom={2} maxW='350px' marginRight='auto' marginLeft='auto'
                 >
@@ -181,6 +182,7 @@ import NewGamesList from "../components/GamesList";
                     )
                 )}
             </Box>
+            <Box className="spacer">&nbsp;</Box>
             <Footer />
         </>
     );

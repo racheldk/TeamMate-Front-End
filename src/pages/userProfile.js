@@ -30,7 +30,7 @@ function UserProfile({ token, setToken }) {
     );
     const [historyGames, setHistoryGames] = useState(null);
     const [editModalIsOpen, setEditModalIsOpen] = useState(false);
-    const [pastGameModalIsOpen, setPastGameModalIsOpen] = useState(false);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
 
     useEffect(() => {
         axios
@@ -166,7 +166,7 @@ function UserProfile({ token, setToken }) {
                                         <PastGamesList
                                             gamesList={historyGames}
                                             token={token}
-                                            setPastGameModalIsOpen={setPastGameModalIsOpen}
+                                            setModalIsOpen={setModalIsOpen}
                                         />
                                     )}
                                 </Box>
