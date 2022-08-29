@@ -1,8 +1,9 @@
 import { IconButton, Box, Text} from '@chakra-ui/react'
 import { Link } from "react-router-dom";
-import { BsPerson, BsFillHouseFill, BsStickies, BsPlusSquare, BsFillPersonFill, BsPlusSquareFill } from "react-icons/bs";
+import { BsPerson, BsFillHouseFill, BsStickies, BsPlusSquare, BsFillPersonFill, BsPlusSquareFill, BsPersonFill } from "react-icons/bs";
 import { BsPlus } from "react-icons/bs";
-import { CgTennis } from "react-icons/cg"
+import { FaPlus } from "react-icons/fa";
+import { IoMdTennisball } from "react-icons/io";
 import { GiTennisCourt } from "react-icons/gi";
 
 import { IoIosTennisball } from "react-icons/io"
@@ -21,23 +22,22 @@ function Footer() {
 
             <Box className="footer">
                 <Link to='/open-games'><Box className='tooltip'><IconButton aria-label='Search Item' fontSize='1.9em' marginTop="-1px"
-                paddingBottom="2px" color="teal"
-                border= '1px' variant='' className='footer-button' backgroundColor="white" width="px" height="40px" icon={<GiTennisCourt/>} />
+                paddingBottom="2px" colorScheme="teal"
+                variant='solid' className='footer-button'  width="px" height="40px" icon={<GiTennisCourt/>} />
                 <Text className='tooltiptext'>Open Games</Text></Box></Link>
             
 
-                <Link to='/new'><Box className='tooltip'><IconButton aria-label='ProfileItem' fontSize='2.1em' colorScheme='teal' 
-                border= '1px' color="teal" variant='' className='footer-button' backgroundColor="white" icon={<BsPlus/>} />
+                <Link to='/new'><Box className='tooltip'><IconButton aria-label='ProfileItem' fontSize='1.9em' colorScheme='teal' 
+                 color="teal" variant='solid' className='footer-button' icon={<Icon as={FaPlus} color='white'/>} />
                 <Text className='tooltiptext'>New Game</Text></Box></Link>  
 
+                <Link to='/my-games'><Box className='tooltip'><IconButton aria-label='Search Item' fontSize='1.9em' colorScheme='teal' 
+                 variant='solid' className='footer-button' icon={<IoMdTennisball/>} />
+                <Text className='tooltiptext'>My Games</Text></Box></Link>
 
                 <Link to={`/${username}`}><Box className='tooltip'><IconButton aria-label='ProfileItem' fontSize='1.9em' colorScheme='teal' 
-                border= '1px' variant='outline' className='footer-button' icon={<Icon as={BsPerson} />} />
+                variant='solid' className='footer-button' icon={<Icon as={BsPersonFill} />} />
                 <Text className='tooltiptext' fontSize>My Profile</Text></Box></Link>
-
-                <Link to='/my-games'><Box className='tooltip'><IconButton aria-label='Search Item' fontSize='1.9em' colorScheme='teal' 
-                border= '1px' variant='outline' className='footer-button' icon={<CgTennis/>} />
-                <Text className='tooltiptext'>My Games</Text></Box></Link>
 
             </Box>
     
@@ -48,35 +48,3 @@ function Footer() {
 }
 
 export default Footer;
-
-
-//     return (
-
-//             <Box className="footer">
-//                 <Link to='/open-games'><Box className='tooltip'><IconButton aria-label='Search Item' fontSize='1.9em' marginTop="-1px"
-//                 paddingBottom="2px" color="white"
-//                 border= '1px' variant='' className='footer-button' backgroundColor="teal" width="px" height="40px" icon={<GiTennisCourt/>} />
-//                 <Text className='tooltiptext'>Open Games</Text></Box></Link>
-            
-
-//                 <Link to='/new'><Box className='tooltip'><IconButton aria-label='ProfileItem' fontSize='2.1em' colorScheme='teal' 
-//                 border= '1px' color="white" variant='' className='footer-button' backgroundColor="teal" icon={<BsPlus/>} />
-//                 <Text className='tooltiptext'>New Game</Text></Box></Link>  
-
-
-//                 <Link to={`/${username}`}><Box className='tooltip'><IconButton aria-label='ProfileItem' fontSize='1.9em' colorScheme='teal' 
-//                 border= '1px' color="white" variant='outline' className='footer-button' backgroundColor="teal" icon={<Icon as={BsFillPersonFill} />} />
-//                 <Text className='tooltiptext' fontSize>My Profile</Text></Box></Link>
-
-//                 <Link to='/my-games'><Box className='tooltip'><IconButton aria-label='Search Item' fontSize='1.9em' colorScheme='teal' 
-//                 border= '1px' color="white" variant='outline' className='footer-button' backgroundColor="teal" icon={<IoIosTennisball/>} />
-//                 <Text className='tooltiptext'>My Games</Text></Box></Link>
-
-//             </Box>
-
-//     )
-
-
-//     }
-
-// export default Footer;

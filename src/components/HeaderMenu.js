@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link, Navigate, LinkOverlay } from "react-router-dom";
-import { IconButton, Box, Text, Button } from "@chakra-ui/react";
+import { IconButton, Box, Text, Button, Image } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, BellIcon } from "@chakra-ui/icons";
 import Modal from "react-modal";
 import axios from "axios";
 import useLocalStorageState from "use-local-storage-state";
 import NotificationsList from './NotificationsList'
+import logo from "../images/teammate-logo.png";
 
 function Header() {
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -88,6 +89,12 @@ function Header() {
             >
                 <BellIcon color={alertIcon} />
             </IconButton>
+            <Box display='flex' justifyContent='center'> <Image
+                  src={logo}
+                  alt='TeamMate logo'
+                  w='150px'
+                />
+                </Box>
             <Box display="flex" justifyContent="end" m={2} color="teal">
                 <Button
                     colorScheme="teal"
