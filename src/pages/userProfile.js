@@ -117,17 +117,19 @@ function UserProfile({ token, setToken }) {
                     <>
                         <Box className="profile-body" marginTop={4}>
                             <Box className="user-name">
-                                <Heading size="2xl" color="white">
-                                    {user.username}
+                            <Heading size='2xl' color="white">{user.first_name} {user.last_name}</Heading>
+                                <Heading size="lg" color="white">
+                                    @{user.username}&nbsp;
                                     <IconButton
                                         aria-label="ProfileEdit"
                                         o
                                         onClick={() => {
                                             handleOpenEditModal();
                                         }}
-                                        fontSize=".5em"
+                                        fontSize=".7em"
                                         colorScheme="teal"
                                         border="none"
+                                        size='sm'
                                         variant="solid"
                                         icon={
                                             <Icon as={BsPencil} color="white" />
