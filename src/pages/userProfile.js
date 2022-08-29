@@ -115,7 +115,7 @@ function UserProfile({ token, setToken }) {
             <Box className="app-body">
                 {user && (
                     <>
-                        <Box className="profile-body">
+                        <Box className="profile-body" marginTop={4}>
                             <Box className="user-name">
                                 <Heading size="2xl" color="white">
                                     {user.username}
@@ -156,8 +156,8 @@ function UserProfile({ token, setToken }) {
                                 </Box>
                             </Box>
                             <Box className="ranks">
-                                <Heading color="white">
-                                    NTRP: {user.profile.ntrp_rating}
+                                <Heading color="white" display='flex' justifyContent='center'>
+                                    NTRP&nbsp;<Box bg='#ffffff' borderRadius='10px' maxW='10%' paddingLeft='.2em' paddingRight='.2em' color='teal' textAlign='center'>{user.profile.ntrp_rating}</Box>
                                 </Heading>
                             </Box>
                             <Box className="confirmed-games" w="100%" justifyContent='center'>

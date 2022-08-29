@@ -32,7 +32,7 @@ export default function PastGamesList({ token, gamesList }) {
         <Box>
             <Box className="games">
                 {" "}
-                <Heading color="#234E52" m={2}>
+                <Heading color="#234E52" m={2} textAlign='center'>
                     Game History
                 </Heading>
                 {gamesList.map((game) => (
