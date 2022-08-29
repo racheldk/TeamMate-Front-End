@@ -27,14 +27,10 @@ export default function GameDetail({
     token,
     game,
     username,
-<<<<<<< HEAD
-    handleClosePastGameModal,
     reload,
     setReload,
-=======
     setPastGameModalIsOpen,
     setModalIsOpen,
->>>>>>> main
 }) {
     const [editClicked, setEditClicked] = useState(false);
     const [surveyClicked, setSurveyClicked] = useState(false);
@@ -45,19 +41,16 @@ export default function GameDetail({
     console.log(game);
     console.log(token);
 
-<<<<<<< HEAD
-=======
     const handleCloseModal = () => {
         console.log("click close");
         setModalIsOpen(false);
     };
 
-    const handleClosePastGameModal = () => {
-        setPastGameModalIsOpen(false);
-    };
+    // const handleClosePastGameModal = () => {
+    //     setPastGameModalIsOpen(false);
+    // };
 
 
->>>>>>> main
     const handleClick = (game, button) => {
         if (game.displayStatus === "join") {
             joinSession(game);

@@ -14,6 +14,8 @@ const Survey = ({token}) => {
     const [params] = useState(useParams())
     const [isLoading, setIsLoading] = useState(true)
     const [surveyGame, setSurveyGame] = useState(null)
+
+
     
     
     const surveyResponses = []
@@ -166,7 +168,7 @@ useEffect(()=>{
         return <Box>...Loading</Box>
     }
 
-    
+
 
     return (
         <Box className="survey">
@@ -231,6 +233,7 @@ useEffect(()=>{
                     
                     ))}
                     <br />
+                    
                     <Text mt={3}  backgroundColor="teal"
                         paddingLeft="10px"
                         borderRadius="5px"
@@ -262,7 +265,7 @@ useEffect(()=>{
                             {user.username}
                         </Button>
                     ))}
-                        
+                    
                 
                     <br />
                     <Text mt={3}  backgroundColor="teal"
