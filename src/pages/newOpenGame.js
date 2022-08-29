@@ -103,7 +103,7 @@ export default function NewOpenGame({ token }) {
                             timeIntervals={15}
                             minDate={subDays(new Date(), 0)}
                             selected={newGameDate}
-                            placeholderText="Date"
+                            placeholderText="When"
                             dateFormat="MMM d, yyyy    h:mm aa"
                         />
                     </Box>
@@ -117,7 +117,7 @@ export default function NewOpenGame({ token }) {
                         >
                             
                             <option value="" disabled hidden>
-                                Choose a location
+                                Where
                             </option>
                             <option value="1">Pullen Park</option>
                             <option value="2">Sanderford Park</option>
@@ -132,7 +132,7 @@ export default function NewOpenGame({ token }) {
                             name="session-type"
                         >
                             <option value="" disabled hidden>
-                                Choose a competitive level
+                                Level
                             </option>
                             <option value="Casual">Casual</option>
                             <option value="Competitive">Competitive</option>
