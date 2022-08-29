@@ -73,6 +73,7 @@ export default function GamesList({
     
 
     return (
+        <>
         <Box display='flex' flexWrap='wrap' maxW="350px" m='auto' justifyContent='center' textAlign='center'>
             {gamesList.length > 0 && (
             <>
@@ -117,11 +118,13 @@ export default function GamesList({
                     token={token}
                     game={game}
                     handleCloseModal={handleCloseModal}
+                    setModalIsOpen={setModalIsOpen}
                     username={username}
                     reload={reload}
                     setReload={setReload}
                 />
             </Modal>
         </Box>
+        </>
     );
 }

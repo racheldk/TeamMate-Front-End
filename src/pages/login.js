@@ -1,11 +1,4 @@
-import {
-    Button,
-    Box,
-    Text,
-    Heading,
-    FormControl,
-    FormLabel,
-} from "@chakra-ui/react";
+import { Button, Box, Text, Heading, FormControl, FormLabel, Image } from '@chakra-ui/react'
 import axios from "axios";
 import { useState } from "react";
 import { Navigate, Link } from "react-router-dom";
@@ -20,6 +13,7 @@ import {
     useDisclosure,
     CloseButton,
 } from "@chakra-ui/react";
+import logo from "../images/teammate-logo.png";
 
 function Login({ setAuth }) {
     const [username, setUsername] = useState("");

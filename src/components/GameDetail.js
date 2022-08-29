@@ -26,11 +26,15 @@ import {
 export default function GameDetail({
     token,
     game,
-    handleCloseModal,
     username,
+<<<<<<< HEAD
     handleClosePastGameModal,
     reload,
     setReload,
+=======
+    setPastGameModalIsOpen,
+    setModalIsOpen,
+>>>>>>> main
 }) {
     const [editClicked, setEditClicked] = useState(false);
     const [surveyClicked, setSurveyClicked] = useState(false);
@@ -41,6 +45,19 @@ export default function GameDetail({
     console.log(game);
     console.log(token);
 
+<<<<<<< HEAD
+=======
+    const handleCloseModal = () => {
+        console.log("click close");
+        setModalIsOpen(false);
+    };
+
+    const handleClosePastGameModal = () => {
+        setPastGameModalIsOpen(false);
+    };
+
+
+>>>>>>> main
     const handleClick = (game, button) => {
         if (game.displayStatus === "join") {
             joinSession(game);
@@ -71,9 +88,9 @@ export default function GameDetail({
             setEditClicked(true);
         }
         if (button.label === "Take Survey") {
-            console.log("take survey clicked");
-            handleClosePastGameModal();
-            setSurveyClicked(true);
+            console.log("take survey clicked")
+            handleCloseModal()
+            setSurveyClicked(true)
         }
     };
 
@@ -83,8 +100,8 @@ export default function GameDetail({
     }
 
     if (surveyClicked) {
-        console.log(game);
-        return <Navigate to={`edit/${game.game_session_id}`} />;
+        console.log(game)
+        return <Navigate to={`survey/${game.game_session_id}`} />
     }
 
     const joinSession = (game) => {

@@ -6,6 +6,7 @@ import {
     FormLabel,
     Text,
     Link,
+    Image
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
@@ -21,6 +22,7 @@ import {
     useDisclosure,
     CloseButton,
 } from "@chakra-ui/react";
+import logo from "../images/teammate-logo.png";
 
 export const Register = ({ setAuth }) => {
     const [firstname, setFirstname] = useState("");

@@ -334,7 +334,7 @@ export default function MyGames({ token, username, game, setGame, reload, setRel
         <Header />
         <Box className="app-body">
             {/* if this heading changes we also need to change notifications message */}
-            <Heading color="#234E52" textAlign="center">My Games</Heading>
+            <Heading color="#234E52" textAlign="center" mt={4}>My Games</Heading>
 
 
 

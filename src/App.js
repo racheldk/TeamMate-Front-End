@@ -101,15 +101,7 @@ function App() {
                         element={<NewOpenGame token={token} />}
                     />
                     <Route
-                        path="my-games/survey/:id"
-                        element={
-                            <Survey
-                                setAuth={setAuth}
-                                token={token}
-                                surveyGame={surveyGame}
-                            />
-                        }
-                    />
+                        path=":username/survey/:id" element={<Survey setAuth={setAuth} token={token} surveyGame={surveyGame}/>} />
                     <Route
                         path="register"
                         element={<Register setAuth={setAuth} />}

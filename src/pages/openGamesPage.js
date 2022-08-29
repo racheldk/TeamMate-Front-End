@@ -33,7 +33,7 @@ export default function OpenGamesPage({
     alertTitle,
     alertMessage,
     setAlertTitle,
-    setAlertMessage
+    setAlertMessage,
 }) {
     const [displayDate, setDisplayDate] = useState("");
     const [filteredDate, setFilteredDate] = useState(null);
@@ -101,17 +101,18 @@ export default function OpenGamesPage({
                 console.log("there was an error");
                 setAlertTitle("Uh oh, something went wrong. ");
                 setAlertMessage(error.message);
-                onOpen()
+                onOpen();
             });
     };
 
     return (
         <>
             <Header />
-            <Heading color="#234E52" textAlign="center">
-                Open Games
-            </Heading>
+
             <Box className="app-body">
+                <Heading color="#234E52" textAlign="center" marginTop={2}>
+                    Open Games
+                </Heading>
                 <Box
                     textAlign="center"
                     marginTop={5}
