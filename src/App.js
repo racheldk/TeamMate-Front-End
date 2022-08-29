@@ -82,13 +82,13 @@ function App() {
                     setAllGamesList(openExpandedGames);
                 }
             })
-            .catch((error) => {
-                console.log(error);
-                console.log("there was an error");
-                setAlertTitle("Uh oh, something went wrong. ");
-                setAlertMessage(error.message);
-                onOpen()
-            });
+            // .catch((error) => {
+            //     console.log(error);
+            //     console.log("there was an error");
+            //     setAlertTitle("Uh oh, something went wrong. ");
+            //     setAlertMessage(error.message);
+            //     onOpen()
+            // });
     }, [token, setAllGamesList, reload]);
 
     return (
