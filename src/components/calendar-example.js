@@ -58,17 +58,20 @@ const events = [
     },
 ];
 
-export default function CalendarExample(props) {
+export default function CalendarExample({confirmedGames}) {
     // const [eventList, setEventList] = useState([])
     // console.log(events);
     // setEventList(events)
+console.log('confirmed Games' + confirmedGames)
+console.log(events[0].start)
+console.log(confirmedGames[0].start)
 
     return (
-        <Box height={600} backgroundColor="white">
+        <Box height={400} backgroundColor="white">
             {/* Container element around Calender needs to have height specified for it to show up on the page */}
             <Calendar
                 localizer={localizer}
-                events={events}
+                events={confirmedGames}
                 startAccessor="start"
                 endAccessor="end"
                 popup

@@ -12,14 +12,11 @@ import useLocalStorageState from "use-local-storage-state";
 import UserProfile from "./pages/userProfile";
 import axios from "axios";
 import EditGame from "./pages/editGame";
-<<<<<<< HEAD
 import CalendarExample from "./components/calendar-example";
-=======
 import MyGames from "./pages/myGamesPage";
 import OpenGamesPage from "./pages/openGamesPage";
 import Survey from "./pages/survey";
 import NotificationsList from "./components/NotificationsList";
->>>>>>> main
 
 function App() {
     const [token, setToken] = useLocalStorageState("teammateToken", null);
@@ -135,7 +132,7 @@ function App() {
                             />
                         }
                     />
-                    <Route path="calendar" element={<CalendarExample/>} />
+                    <Route path="my-games/calendar" element={<CalendarExample/>} />
                     {/* Notifications path is just for during development - when header is ready this will be rendered in a modal */}
                     <Route path="notifications" element={<NotificationsList token={token}/>}/>
                 </Routes>

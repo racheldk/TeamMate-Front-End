@@ -1,4 +1,4 @@
-import { Text, Heading, Icon, Box } from "@chakra-ui/react";
+import { Text, Heading, Icon, Box, Button } from "@chakra-ui/react";
 import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
 import { useState, useEffect } from "react";
@@ -10,6 +10,8 @@ import {
     BsPersonFill,
 } from "react-icons/bs";
 import { CheckCircleIcon } from '@chakra-ui/icons'
+import CalendarExample from "../components/calendar-example";
+import { DateTime } from "luxon";
 
 
 export default function MyGames({ token, username, game, setGame }) {
@@ -23,6 +25,7 @@ export default function MyGames({ token, username, game, setGame }) {
     const [hostOpenDoublesGames, setHostOpenDoublesGames] = useState([]);
     const [guestOpenDoublesGames, setGuestOpenDoublesGames] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [showCalendar, setShowCalendar] = useState(false)
 
     useEffect(() => {
         const reqAction = axios.get(
@@ -167,6 +170,10 @@ export default function MyGames({ token, username, game, setGame }) {
                                 icon: (<CheckCircleIcon color="#48BB78"
                                 fontSize="30px"
                                 borderRadius="100px" />),
+                                title: <CheckCircleIcon/>,
+                                allDay:false,
+                                start: DateTime.fromISO(game.datetime).toJSDate(),
+                                end: DateTime.fromISO(game.endtime).toJSDate(),
                                 displayUsers: confirmedPlayers,
                                 buttonTitle: null,
                                 buttons: [
@@ -352,20 +359,6 @@ export default function MyGames({ token, username, game, setGame }) {
         setIsLoading(false);
     }, [token]);
 
-    // const combineLists = () => {
-    //     const combinedLists = confirmedGames.concat(
-    //         pendingPOVGuestGames,
-    //         noGuestGames,
-    //         hostOpenDoublesGames,
-    //         guestOpenDoublesGames
-    //     );
-    //     console.log(combinedLists);
-    //     const sortedCombined = combinedLists.sort(
-    //         (objA, objB) => Number(objA.date) - Number(objB.date)
-    //     );
-    //     console.log(sortedCombined);
-    //     setNoActionGames(sortedCombined);
-    // };
 
     if (isLoading) {
         return <Box>Loading...</Box>;
@@ -378,105 +371,64 @@ export default function MyGames({ token, username, game, setGame }) {
             {/* if this heading changes we also need to change notifications message */}
             <Heading color="#234E52" textAlign="center" mt={4}>My Games</Heading>
 
+            {showCalendar ? (
+                <>
+                <Button onClick={() =>setShowCalendar(false)}>List</Button>
+                <CalendarExample confirmedGames={confirmedGames}/>
+                </>
+                ):(
+                    <>
+                <Button onClick={()=>setShowCalendar(true)}>Calendar</Button>
 
+                <GamesList
+                token={token}
+                gamesList={actionRequiredGames}
+                setGame={setGame}
+                game={game}
+                username={username}
+                />
+                <GamesList
+                token={token}
+                gamesList={confirmedGames}
+                setGame={setGame}
+                game={game}
+                username={username}
+                />
 
-                {/* The following ternaries are so Rachel can see where things are loading/not loading */}
-                {/* {actionRequiredGames.length === 0 ? (
-                <Text>
-                    You don't have any games that require your attention
-                </Text>
-            ) : ( */}
                 <GamesList
-                    token={token}
-                    gamesList={actionRequiredGames}
-                    setGame={setGame}
-                    game={game}
-                    username={username}
+                token={token}
+                gamesList={pendingPOVGuestGames}
+                setGame={setGame}
+                game={game}
+                username={username}
                 />
-                {/* )} */}
 
-                {/* {confirmedGames.length === 0 ? (
-                <Text>You don't have any confirmed games.</Text>
-            ) : ( */}
                 <GamesList
-                    token={token}
-                    gamesList={confirmedGames}
-                    setGame={setGame}
-                    game={game}
-                    username={username}
+                token={token}
+                gamesList={noGuestGames}
+                setGame={setGame}
+                game={game}
+                username={username}
                 />
-                {/* )} */}
 
-                {/* {pendingPOVGuestGames.length === 0 ? (
-                <Text>You don't have any pending requests to join games.</Text>
-            ) : ( */}
                 <GamesList
-                    token={token}
-                    gamesList={pendingPOVGuestGames}
-                    setGame={setGame}
-                    game={game}
-                    username={username}
+                token={token}
+                gamesList={hostOpenDoublesGames}
+                setGame={setGame}
+                game={game}
+                username={username}
                 />
-                {/* )} */}
+            
+                <GamesList
+                token={token}
+                gamesList={guestOpenDoublesGames}
+                setGame={setGame}
+                game={game}
+                username={username}
+                />
+                </>
+                )}
 
-                {/* {noGuestGames.length === 0 ? (
-                <Text>
-                    You don't have any games that don't already have a guest
-                    attached.
-                </Text>
-            ) : ( */}
-                <GamesList
-                    token={token}
-                    gamesList={noGuestGames}
-                    setGame={setGame}
-                    game={game}
-                    username={username}
-                />
-                {/* )} */}
-
-                {/* {hostOpenDoublesGames.length === 0 ? (
-                <Text>
-                    You aren't hosting any doubles games that are waiting for
-                    more participants.
-                </Text>
-            ) : ( */}
-                <GamesList
-                    token={token}
-                    gamesList={hostOpenDoublesGames}
-                    setGame={setGame}
-                    game={game}
-                    username={username}
-                />
-                {/* )} */}
-                {/* {guestOpenDoublesGames.length === 0 ? (
-                <Text>
-                    You aren't a guest in any doubles games that are waiting for
-                    more participants.
-                </Text>
-            ) : ( */}
-                <GamesList
-                    token={token}
-                    gamesList={guestOpenDoublesGames}
-                    setGame={setGame}
-                    game={game}
-                    username={username}
-                />
-                {/* )} */}
-
-                {/* {noActionGames.length == 0 ? (
-                <Text>noActionGames array is empty</Text>
-            ) : (
-                <GamesList
-                    token={token}
-                    gamesList={noActionGames}
-                    // setNoActionGames={setNoActionGames}
-                    // confirmedGames={confirmedGames}
-                    // pendingPOVGuestGames={pendingPOVGuestGames}
-                    // noGuestGames={noGuestGames}
-                    // hostOpenDoublesGames={hostOpenDoublesGames}
-                    // guestOpenDoublesGames={guestOpenDoublesGames}
-                />
-            )} */}
             </Box>{" "}
             <Footer />
         </>
