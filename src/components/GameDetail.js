@@ -104,7 +104,6 @@ export default function GameDetail({
             .then((res) => {
                 console.log(res.data);
                 console.log("guest posted");
-                // alert("You sent a join request");
                 if (res.data.guest_id) {
                     console.log("if includes guest - yes");
                     setAlertMessage(`Your request to join this game has been sent. Stay tuned for a confirmation from the host.`);
@@ -135,9 +134,19 @@ export default function GameDetail({
                     },
                 }
             )
-            .then(() => {
+            .then((res) => {
+                console.log(res)
                 console.log("acceptRequest patch sent");
-                alert("You accepted a request to join your game");
+                if (res.data.status==='Accepted') {
+                    console.log("response includes accepted guest status");
+                    setAlertMessage(`You accepted a ${res.data.user_info.first_name}'s request to join your game.`);
+                    setAlertTitle("This is going to be a great game!");
+                    onOpen()
+                } else {
+                    setAlertTitle("oh nooooo!!!!");
+                    setAlertMessage("Something has gone terribly wrong");
+                }
+                
             })
             .catch((error) => {
                 alert(error.response.data.detail);
@@ -157,9 +166,18 @@ export default function GameDetail({
                     },
                 }
             )
-            .then(() => {
+            .then((res) => {
+                console.log(res)
                 console.log("rejectRequest patch sent");
-                alert("You did not accept a request to join your game");
+                if (res.data.status==='Rejected') {
+                    console.log("response includes rejected guest status");
+                    setAlertMessage(`You chose not to accept ${res.data.user_info.first_name}'s request to join your game.`);
+                    setAlertTitle("Request not accepted.");
+                    onOpen()
+                } else {
+                    setAlertTitle("oh nooooo!!!!");
+                    setAlertMessage("Something has gone terribly wrong");
+                }
             })
             .catch((error) => {
                 alert(error.response.data.detail);
@@ -170,14 +188,23 @@ export default function GameDetail({
         console.log("join click");
         console.log(game);
         axios
-            .delete(`https://teammate-app.herokuapp.com/session/${game.id}`, {
+            .delete(`https://teammate-app.herokuapp.com/session/${game.game_session_id}`, {
                 headers: {
                     Authorization: `Token ${token}`,
                 },
             })
-            .then(() => {
+            .then((res) => {
+                console.log(res)
                 console.log("delete game sent");
-                alert("You cancelled a game");
+                if (res.status===204) {
+                    console.log("response indicates game deleted");
+                    setAlertMessage(`We get it, you didn't want to play that game.`);
+                    setAlertTitle("Game deleted");
+                    onOpen()
+                } else {
+                    setAlertTitle("oh nooooo!!!!");
+                    setAlertMessage("Something has gone terribly wrong");
+                }
             })
             .catch((error) => {
                 alert(error.response.data.detail);
@@ -189,16 +216,25 @@ export default function GameDetail({
         console.log(game);
         axios
             .delete(
-                `https://teammate-app.herokuapp.com/session/${game.game_session_id}/guest/${game.guest[1]}`,
+                `https://teammate-app.herokuapp.com/session/${game.game_session_id}/guest/`,
                 {
                     headers: {
                         Authorization: `Token ${token}`,
                     },
                 }
             )
-            .then(() => {
+            .then((res) => {
+                console.log(res)
                 console.log("delete guest session sent");
-                alert("You cancelled a request to join a game");
+                if (res.status===204) {
+                    console.log("response indicates game deleted");
+                    setAlertMessage(`We get it, you didn't want to play that game.`);
+                    setAlertTitle("Guest request deleted");
+                    onOpen()
+                } else {
+                    setAlertTitle("oh nooooo!!!!");
+                    setAlertMessage("Something has gone terribly wrong");
+                }
             })
             .catch((error) => {
                 alert(error.response.data.detail);
