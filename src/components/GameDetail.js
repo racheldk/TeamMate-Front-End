@@ -236,6 +236,10 @@ export default function GameDetail({
                     setAlertMessage("Something has gone terribly wrong");
                 }
             })
+            .then(() =>{
+                console.log('2nd then')
+                setReload(reload+1)
+            })
             .catch((error) => {
                 alert(error.response.data.detail);
             });
@@ -339,8 +343,7 @@ export default function GameDetail({
                                 // top={-1}
                                 onClick={()=>{
                                     onClose()
-                                handleCloseModal()
-                            setReload(reload+1)}}
+                                handleCloseModal()}}
                             />
                             <AlertDialogHeader>{alertTitle}</AlertDialogHeader>
                             <AlertDialogBody>{alertMessage}</AlertDialogBody>

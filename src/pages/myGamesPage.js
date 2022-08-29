@@ -12,7 +12,7 @@ import {
 import { CheckCircleIcon } from '@chakra-ui/icons'
 
 
-export default function MyGames({ token, username, game, setGame }) {
+export default function MyGames({ token, username, game, setGame, reload, setReload }) {
     console.log(username);
 
     const [actionRequiredGames, setActionRequiredGames] = useState([]);
@@ -25,6 +25,7 @@ export default function MyGames({ token, username, game, setGame }) {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+        console.log('giant useEffect in My Games just ran' + reload)
         const reqAction = axios.get(
             `https://teammate-app.herokuapp.com/${username}/games/?my-games=HostUnconfirmed`,
             {
@@ -349,7 +350,7 @@ export default function MyGames({ token, username, game, setGame }) {
                 alert(error.message);
             });
         setIsLoading(false);
-    }, [token]);
+    }, [token, reload]);
 
     // const combineLists = () => {
     //     const combinedLists = confirmedGames.concat(
@@ -391,6 +392,8 @@ export default function MyGames({ token, username, game, setGame }) {
                     setGame={setGame}
                     game={game}
                     username={username}
+                    reload={reload}
+                    setReload={setReload}
                 />
                 {/* )} */}
 
@@ -403,6 +406,8 @@ export default function MyGames({ token, username, game, setGame }) {
                     setGame={setGame}
                     game={game}
                     username={username}
+                    reload={reload}
+                    setReload={setReload}
                 />
                 {/* )} */}
 
@@ -415,6 +420,8 @@ export default function MyGames({ token, username, game, setGame }) {
                     setGame={setGame}
                     game={game}
                     username={username}
+                    reload={reload}
+                    setReload={setReload}
                 />
                 {/* )} */}
 
@@ -430,6 +437,8 @@ export default function MyGames({ token, username, game, setGame }) {
                     setGame={setGame}
                     game={game}
                     username={username}
+                    reload={reload}
+                    setReload={setReload}
                 />
                 {/* )} */}
 
@@ -445,6 +454,8 @@ export default function MyGames({ token, username, game, setGame }) {
                     setGame={setGame}
                     game={game}
                     username={username}
+                    reload={reload}
+                    setReload={setReload}
                 />
                 {/* )} */}
                 {/* {guestOpenDoublesGames.length === 0 ? (
@@ -459,6 +470,8 @@ export default function MyGames({ token, username, game, setGame }) {
                     setGame={setGame}
                     game={game}
                     username={username}
+                    reload={reload}
+                    setReload={setReload}
                 />
                 {/* )} */}
 

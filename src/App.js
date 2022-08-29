@@ -25,10 +25,10 @@ function App() {
     );
     const [allGamesList, setAllGamesList] = useState([]);
     const [currentGame, setCurrentGame] = useState({});
-    const [surveyGame, setSurveyGame] = useState(null)
-    const [game, setGame] = useState()
-    const [isLoading, setIsLoading] = useState(true)
-    const [reload, setReload] = useState(1)
+    const [surveyGame, setSurveyGame] = useState(null);
+    const [game, setGame] = useState();
+    const [isLoading, setIsLoading] = useState(true);
+    const [reload, setReload] = useState(1);
 
     const setAuth = (username, token) => {
         setToken(token);
@@ -36,8 +36,8 @@ function App() {
     };
 
     useEffect(() => {
-        console.log('App.js useEffect for open games')
-        console.log(reload)
+        console.log("App.js useEffect for open games");
+        console.log(reload);
         axios
             .get("https://teammate-app.herokuapp.com/session/", {
                 headers: {
@@ -46,7 +46,7 @@ function App() {
             })
             .then((res) => {
                 // console.log(res.data);
-                const responseOpen = res.data
+                const responseOpen = res.data;
                 const openExpandedGames = [];
                 for (let game of responseOpen) {
                     const confirmedPlayers = [];
@@ -76,12 +76,10 @@ function App() {
                     // console.log(expandedGame);
                     openExpandedGames.push(expandedGame);
 
-                setAllGamesList(openExpandedGames);
+                    setAllGamesList(openExpandedGames);
                 }
             });
     }, [token, setAllGamesList, reload]);
-
-
 
     return (
         <ChakraProvider Theme={Theme} Text={Text}>
@@ -93,7 +91,15 @@ function App() {
                         element={<NewOpenGame token={token} />}
                     />
                     <Route
-                        path="my-games/survey/:id" element={<Survey setAuth={setAuth} token={token} surveyGame={surveyGame}/>} />
+                        path="my-games/survey/:id"
+                        element={
+                            <Survey
+                                setAuth={setAuth}
+                                token={token}
+                                surveyGame={surveyGame}
+                            />
+                        }
+                    />
                     <Route
                         path="register"
                         element={<Register setAuth={setAuth} />}
@@ -114,16 +120,24 @@ function App() {
                     />
                     <Route
                         path="my-games/"
-                        element={<MyGames token={token} username={username} game={game} setGame={setGame}/>}>
-
-                        </Route>
+                        element={
+                            <MyGames
+                                token={token}
+                                username={username}
+                                game={game}
+                                setGame={setGame}
+                                reload={reload}
+                                setReload={setReload}
+                            />
+                        }
+                    ></Route>
                     <Route path="my-games/edit/">
                         <Route
                             path=":id"
                             element={<EditGame token={token} />}
                         />
                     </Route>
-                    
+
                     <Route
                         path=":username"
                         element={
@@ -131,12 +145,14 @@ function App() {
                                 token={token}
                                 allGamesList={allGamesList}
                                 game={game}
-                                
                             />
                         }
                     />
                     {/* Notifications path is just for during development - when header is ready this will be rendered in a modal */}
-                    <Route path="notifications" element={<NotificationsList token={token}/>}/>
+                    <Route
+                        path="notifications"
+                        element={<NotificationsList token={token} />}
+                    />
                 </Routes>
             </BrowserRouter>
         </ChakraProvider>

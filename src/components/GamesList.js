@@ -42,7 +42,7 @@ export default function GamesList({
      }
     }, [game]);
     
-    console.log(gamesList);
+    // console.log(gamesList);
 
 
     const handleOpenModal = (game) => {
@@ -55,9 +55,10 @@ export default function GamesList({
     const handleCloseModal = () => {
         console.log("click close");
         setModalIsOpen(false);
+        setReload(reload+1)
     };
 
-    console.log(gamesList);
+    // console.log(gamesList);
     // console.log(game)
 
     // if (gamesList.length === 0) {
