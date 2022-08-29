@@ -116,9 +116,12 @@ export default function GameDetail({
                 // setReload(reload+1) This happen when the alert is closed
             })
             .catch((error) => {
-                alert(error.response.data.detail);
-            });
-        // handleCloseModal();
+                console.log(error)
+                console.log('there was an error')
+                setAlertTitle('Uh oh, something went wrong. ')
+                setAlertMessage(error.message)
+                onOpen()
+            })
     };
 
     const acceptRequest = (game) => {
@@ -149,8 +152,12 @@ export default function GameDetail({
                 
             })
             .catch((error) => {
-                alert(error.response.data.detail);
-            });
+                console.log(error)
+                console.log('there was an error')
+                setAlertTitle('Uh oh, something went wrong. ')
+                setAlertMessage(error.message)
+                onOpen()
+            })
     };
 
     const rejectRequest = (game) => {
@@ -180,8 +187,12 @@ export default function GameDetail({
                 }
             })
             .catch((error) => {
-                alert(error.response.data.detail);
-            });
+                console.log(error)
+                console.log('there was an error')
+                setAlertTitle('Uh oh, something went wrong. ')
+                setAlertMessage(error.message)
+                onOpen()
+            })
     };
 
     const cancelGame = (game) => {
@@ -207,8 +218,12 @@ export default function GameDetail({
                 }
             })
             .catch((error) => {
-                alert(error.response.data.detail);
-            });
+                console.log(error)
+                console.log('there was an error')
+                setAlertTitle('Uh oh, something went wrong. ')
+                setAlertMessage(error.message)
+                onOpen()
+            })
     };
 
     const cancelGuest = (game) => {
@@ -241,8 +256,12 @@ export default function GameDetail({
                 setReload(reload+1)
             })
             .catch((error) => {
-                alert(error.response.data.detail);
-            });
+                console.log(error)
+                console.log('there was an error')
+                setAlertTitle('Uh oh, something went wrong. ')
+                setAlertMessage(error.message)
+                onOpen()
+            })
     };
 
     return (

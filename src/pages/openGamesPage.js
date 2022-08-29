@@ -8,9 +8,34 @@ import subDays from "date-fns/subDays";
 import "react-datepicker/dist/react-datepicker.css";
 import { DateTime } from "luxon";
 import NewGamesList from "../components/GamesList";
+import {
+    AlertDialog,
+    AlertDialogBody,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogContent,
+    AlertDialogOverlay,
+    useDisclosure,
+    CloseButton,
+} from "@chakra-ui/react";
 
-    export default function OpenGamesPage({ token, allGamesList, username, game, setGame, reload, setReload }) {
-        const [displayDate, setDisplayDate] = useState("")
+export default function OpenGamesPage({
+    token,
+    allGamesList,
+    username,
+    game,
+    setGame,
+    reload,
+    setReload,
+    onClose,
+    onOpen,
+    isOpen,
+    alertTitle,
+    alertMessage,
+    setAlertTitle,
+    setAlertMessage
+}) {
+    const [displayDate, setDisplayDate] = useState("");
     const [filteredDate, setFilteredDate] = useState(null);
     const [searchDate, setSearchDate] = useState("");
     const [filteredLoc, setFilteredLoc] = useState(null);
@@ -73,119 +98,151 @@ import NewGamesList from "../components/GamesList";
             })
             .catch((error) => {
                 console.log(error);
-                alert(error.response.data.detail);
+                console.log("there was an error");
+                setAlertTitle("Uh oh, something went wrong. ");
+                setAlertMessage(error.message);
+                onOpen()
             });
     };
 
     return (
         <>
             <Header />
-            <Heading color="#234E52" textAlign="center">Open Games</Heading>
+            <Heading color="#234E52" textAlign="center">
+                Open Games
+            </Heading>
             <Box className="app-body">
-                <Box textAlign="center" 
-                marginTop={5} marginBottom={2} maxW='350px' marginRight='auto' marginLeft='auto'
+                <Box
+                    textAlign="center"
+                    marginTop={5}
+                    marginBottom={2}
+                    maxW="350px"
+                    marginRight="auto"
+                    marginLeft="auto"
                 >
                     <ReactDatePicker
                         onChange={(date) => {
                             console.log(date);
-                            setDisplayDate(date)
+                            setDisplayDate(date);
                             setFilteredDate(date);
                             handleFilterDate(date);
                         }}
                         minDate={subDays(new Date(), 0)}
                         selected={displayDate}
                         placeholderText="When"
-                    >
-             
-                    </ReactDatePicker>
-                    <Box className="filters" w='60%' m='auto'>
-                    <Select
-                        textAlign="right"
-                        w="100px"
-                        size="s"
-                        m={2}
-                        variant="filled"
-                        borderRadius={10}
-                        display="inline-block"
-                        onChange={handleFilterGameLoc}
-                        value={filteredLoc}
-                        id="filter-location"
-                        name="filter-location"
-                    >
-                        <option value="">Where</option>
-                        <option value="">All</option>
-                        <option value="Pullen Park">Pullen Park</option>
-                        <option value="Sanderford Park">Sanderford Park</option>
-                    </Select>
-                    <Select
-                        textAlign="right"
-                        w="100px"
-                        size="s"
-                        m={2}
-                        variant="filled"
-                        borderRadius={10}
-                        display="inline-block"
-                        onChange={handleFilterSession}
-                        value={filteredSession}
-                        id="filter-type"
-                        name="filter-type"
-                    >
-                        <option value="">Style</option>
-                        <option value="">All</option>
-                        <option value="Casual">Casual</option>
-                        <option value="Competitive">Competitive</option>
-                    </Select>
-                    <Select
-                        textAlign="right"
-                        w="100px"
-                        size="s"
-                        m={2}
-                        variant="filled"
-                        borderRadius={10}
-                        display="inline-block"
-                        onChange={handleFilterMatch}
-                        value={filteredMatch}
-                        id="filter-type"
-                        name="filter-type"
-                    >
-                        <option value="">Players</option>
-                        <option value="">All</option>
-                        <option value="Singles">Singles</option>
-                        <option value="Doubles">Doubles</option>
-                    </Select>
-                    <Button
-                        w="100px"
-                        m={2}
-                        p={0}
-                        h='25px'
-                        colorScheme="teal"
-                        onClick={() => handleSubmitFilter()}
-                    >
-                        Filter
-                    </Button></Box>
+                    ></ReactDatePicker>
+                    <Box className="filters" w="60%" m="auto">
+                        <Select
+                            textAlign="right"
+                            w="100px"
+                            size="s"
+                            m={2}
+                            variant="filled"
+                            borderRadius={10}
+                            display="inline-block"
+                            onChange={handleFilterGameLoc}
+                            value={filteredLoc}
+                            id="filter-location"
+                            name="filter-location"
+                        >
+                            <option value="">Where</option>
+                            <option value="">All</option>
+                            <option value="Pullen Park">Pullen Park</option>
+                            <option value="Sanderford Park">
+                                Sanderford Park
+                            </option>
+                        </Select>
+                        <Select
+                            textAlign="right"
+                            w="100px"
+                            size="s"
+                            m={2}
+                            variant="filled"
+                            borderRadius={10}
+                            display="inline-block"
+                            onChange={handleFilterSession}
+                            value={filteredSession}
+                            id="filter-type"
+                            name="filter-type"
+                        >
+                            <option value="">Style</option>
+                            <option value="">All</option>
+                            <option value="Casual">Casual</option>
+                            <option value="Competitive">Competitive</option>
+                        </Select>
+                        <Select
+                            textAlign="right"
+                            w="100px"
+                            size="s"
+                            m={2}
+                            variant="filled"
+                            borderRadius={10}
+                            display="inline-block"
+                            onChange={handleFilterMatch}
+                            value={filteredMatch}
+                            id="filter-type"
+                            name="filter-type"
+                        >
+                            <option value="">Players</option>
+                            <option value="">All</option>
+                            <option value="Singles">Singles</option>
+                            <option value="Doubles">Doubles</option>
+                        </Select>
+                        <Button
+                            w="100px"
+                            m={2}
+                            p={0}
+                            h="25px"
+                            colorScheme="teal"
+                            onClick={() => handleSubmitFilter()}
+                        >
+                            Filter
+                        </Button>
+                    </Box>
                 </Box>
-                {(!filtered)?  (<NewGamesList
-                    token={token}
-                    gamesList={allGamesList}
-                    setGame={setGame}
-                    game={game}
-                    reload={reload}
-                    setReload={setReload}
-                /> ):(
-                    filteredGames.length>0 ? (
-                        <NewGamesList 
+                {!filtered ? (
+                    <NewGamesList
                         token={token}
-                        gamesList={filteredGames} 
+                        gamesList={allGamesList}
                         setGame={setGame}
                         game={game}
                         reload={reload}
                         setReload={setReload}
-                        />
-                    ) : (
-                        <Box textAlign='center'>No games were found matching your filters</Box>
-                    )
+                    />
+                ) : filteredGames.length > 0 ? (
+                    <NewGamesList
+                        token={token}
+                        gamesList={filteredGames}
+                        setGame={setGame}
+                        game={game}
+                        reload={reload}
+                        setReload={setReload}
+                    />
+                ) : (
+                    <Box textAlign="center">
+                        No games were found matching your filters
+                    </Box>
                 )}
+
+                <AlertDialog isOpen={isOpen} onClose={onClose}>
+                    <AlertDialogOverlay>
+                        <AlertDialogContent>
+                            <CloseButton
+                                alignSelf="flex-end"
+                                position="relative"
+                                // right={-1}
+                                // top={-1}
+                                onClick={() => {
+                                    onClose();
+                                }}
+                            />
+                            <AlertDialogHeader>{alertTitle}</AlertDialogHeader>
+                            <AlertDialogBody>{alertMessage}</AlertDialogBody>
+                        </AlertDialogContent>
+                    </AlertDialogOverlay>
+                </AlertDialog>
             </Box>
+
             <Footer />
         </>
     );

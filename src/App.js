@@ -7,7 +7,7 @@ import { TbBallTennis } from "react-icons/tb";
 import Login from "./pages/login.js";
 import Register from "./pages/register";
 import Theme from "./components/theme";
-import { Text } from "@chakra-ui/react";
+import { Text, useDisclosure } from "@chakra-ui/react";
 import useLocalStorageState from "use-local-storage-state";
 import UserProfile from "./pages/userProfile";
 import axios from "axios";
@@ -29,6 +29,9 @@ function App() {
     const [game, setGame] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const [reload, setReload] = useState(1);
+    const { isOpen, onClose, onOpen } = useDisclosure();
+    const [alertTitle, setAlertTitle] = useState(null);
+    const [alertMessage, setAlertMessage] = useState(null);
 
     const setAuth = (username, token) => {
         setToken(token);
@@ -78,6 +81,13 @@ function App() {
 
                     setAllGamesList(openExpandedGames);
                 }
+            })
+            .catch((error) => {
+                console.log(error);
+                console.log("there was an error");
+                setAlertTitle("Uh oh, something went wrong. ");
+                setAlertMessage(error.message);
+                onOpen()
             });
     }, [token, setAllGamesList, reload]);
 
@@ -115,6 +125,13 @@ function App() {
                                 game={game}
                                 reload={reload}
                                 setReload={setReload}
+                                onClose={onClose}
+                                onOpen={onOpen}
+                                isOpen={isOpen}
+                                alertTitle={alertTitle}
+                                alertMessage={alertMessage}
+                                setAlertTitle={setAlertTitle}
+                                setAlertMessage={setAlertMessage}
                             />
                         }
                     />
