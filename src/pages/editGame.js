@@ -128,9 +128,9 @@ export default function EditGame({ token }) {
         <>
             <Header />
             <Box className="app-body">
-                <Heading>Edit your Game</Heading>
-                <FormControl>
-                    <FormLabel htmlFor="date-time">Game Day</FormLabel>
+                <FormControl className="form" marginTop={5}>
+                <Heading className="form-banner" color='#234E52'>Edit your Game</Heading>
+                    <FormLabel htmlFor="date-time" m={2} color='#285E61'>Game Day</FormLabel>
                     <ReactDatePicker
                         onChange={(date) => {
                             console.log(date);
@@ -143,12 +143,10 @@ export default function EditGame({ token }) {
                         selected={newGameDate}
                         dateFormat="MMM d, yyyy    h:mm aa"
                     />
-                    <Box>
-                        <FormLabel htmlFor="location">Court</FormLabel>
+                    <Box m={2}>
+                        <FormLabel htmlFor="location" color='#285E61'>Court</FormLabel>
                         <Select
-                            w="50%"
-                            size="s"
-                            variant="filled"
+                            w="100%"
                             onChange={handleChangeGameLoc}
                             value={newGameLoc}
                             id="location"
@@ -159,14 +157,12 @@ export default function EditGame({ token }) {
                             <option value="1">Sanderford Park</option>
                         </Select>
                     </Box>
-                    <Box>
-                        <FormLabel htmlFor="session-type">
-                            Casual or Competitive?
+                    <Box m={2}>
+                        <FormLabel htmlFor="session-type" color='#285E61'>
+                            Style
                         </FormLabel>
                         <Select
-                            w="50%"
-                            size="s"
-                            variant="filled"
+                            w="100%"
                             onChange={handleChangeSessionType}
                             value={newGameSessionType}
                             id="session-type"
@@ -179,12 +175,10 @@ export default function EditGame({ token }) {
                             <option value="Competitive">Competitive</option>
                         </Select>
                     </Box>
-                    <Box>
-                        <FormLabel htmlFor="match-type">Game Type</FormLabel>
+                    <Box m={2}>
+                        <FormLabel htmlFor="match-type" color='#285E61'>Players</FormLabel>
                         <Select
-                            w="50%"
-                            size="s"
-                            variant="filled"
+                            w="100%"
                             onChange={handleChangeMatchType}
                             value={newGameMatchType}
                             id="match-type"

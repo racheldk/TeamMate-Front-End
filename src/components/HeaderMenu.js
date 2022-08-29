@@ -14,7 +14,7 @@ function Header() {
     const [token, setToken] = useLocalStorageState("teammateToken", null);
     const [error, setError] = useState([]);
     const [notifications, setNotifications] = useState(null);
-    const [alertIcon, setAlertIcon] = useState('')
+    const [alertIcon, setAlertIcon] = useState('teal')
     const [alert, setAlert] = useState('')
 
     useEffect(() => {

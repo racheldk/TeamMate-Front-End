@@ -124,6 +124,7 @@ body {
     position: sticky;
     top: 0;
     width: 100%;
+    box-shadow: 0px 10px 10px #4FD1C5;
 }
 
 /* Footer Menu Stylings */
@@ -224,6 +225,32 @@ Input {
 
 .react-datepicker__input-container {
     width: 250px!important;
+}
+
+.react-datepicker__month-container {
+    float: none!important;
+}
+
+.react-datepicker__navigation--next {
+    right: 2px!important;
+}
+.react-datepicker__time-container {
+    width: 100%!important;
+    border-left: 0!important;
+}
+.react-datepicker__header--time {
+    position: sticky!important;
+    top: 0;
+    z-index: 10;
+}
+
+.react-datepicker__time-box {
+    width: 100%!important;
+}
+
+.react-datepicker__time-list {
+    overflow: scroll!important;
+    width: 100%!important;
 }
 
 Input:hover {
