@@ -89,6 +89,7 @@ export default function PastGamesList({ token, gamesList }) {
                     game={game}
                     // handleClosePastGameModal={handleClosePastGameModal}
                     handleClosePastGameModal={handleClosePastGameModal}
+                    setPastGameModalIsOpen={setPastGameModalIsOpen}
                 />
             </Modal>
         </Box>

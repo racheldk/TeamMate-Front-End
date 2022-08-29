@@ -30,7 +30,7 @@ function UserProfile({ token, setToken }) {
     );
     const [historyGames, setHistoryGames] = useState(null);
     const [editModalIsOpen, setEditModalIsOpen] = useState(false);
-    const [gameModal, setGameModal] = useState(false);
+    const [pastGameModalIsOpen, setPastGameModalIsOpen] = useState(false);
 
     useEffect(() => {
         axios
@@ -101,16 +101,6 @@ function UserProfile({ token, setToken }) {
         console.log(editModalIsOpen);
     };
 
-    const handleGameOpenModal = (game, setGameId) => {
-        console.log("click modal open");
-        setGameModal(true);
-        setGameId(game);
-    };
-
-    const handleGameCloseModal = (game) => {
-        console.log("click modal open");
-        setGameModal(false);
-    };
 
     const handleCloseEditModal = (game) => {
         console.log("click close");
@@ -176,6 +166,7 @@ function UserProfile({ token, setToken }) {
                                         <PastGamesList
                                             gamesList={historyGames}
                                             token={token}
+                                            setPastGameModalIsOpen={setPastGameModalIsOpen}
                                         />
                                     )}
                                 </Box>

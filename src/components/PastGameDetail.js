@@ -13,13 +13,16 @@ import {
 import { CloseIcon } from "@chakra-ui/icons";
 import { DateTime } from "luxon";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import noImage from "../images/no-image.jpg";
 
 export default function PastGameDetail({
-    setPastGameModalIsOpen,
     token,
     game,
 }) {
+
+    const [pastGameModalIsOpen, setPastGameModalIsOpen] = useState(false);
+
     const handleCloseModal = () => {
         console.log("click close");
         setPastGameModalIsOpen(false);
