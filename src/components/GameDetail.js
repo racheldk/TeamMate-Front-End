@@ -11,6 +11,7 @@ export default function GameDetail({
     token,
     game,
     username,
+    
     setPastGameModalIsOpen,
     setModalIsOpen,
 }) {

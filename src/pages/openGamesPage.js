@@ -80,7 +80,6 @@ import NewGamesList from "../components/GamesList";
     return (
         <>
             <Header />
-           
             <Box className="app-body">
             <Heading color="#234E52" textAlign="center" marginTop={2}>Open Games</Heading>
                 <Box textAlign="center" 
@@ -97,7 +96,7 @@ import NewGamesList from "../components/GamesList";
                         selected={displayDate}
                         placeholderText="When"
                     >
-             
+
                     </ReactDatePicker>
                     <Box className="filters" w='60%' m='auto'>
                     <Select
