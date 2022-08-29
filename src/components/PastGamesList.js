@@ -6,38 +6,72 @@ import {
     Modal,
     LinkOverlay,
     LinkBox,
+    Icon
 } from "@chakra-ui/react";
 import { DateTime } from "luxon";
 import { useState } from "react";
 import GameDetail from "./GameDetail";
-
+import { IoMdTennisball } from "react-icons/io";
 
 export default function PastGamesList({ token, gamesList }) {
     const [pastGameModalIsOpen, setPastGameModalIsOpen] = useState(false);
-    const [game, setGame] = useState(null)
+    const [game, setGame] = useState(null);
 
     const handleOpenPastGameModal = (game) => {
-        console.log('open past game modal')
-        console.log(game)
-        setPastGameModalIsOpen(true)
-        setGame(game)
+        console.log("open past game modal");
+        console.log(game);
+        setPastGameModalIsOpen(true);
+        setGame(game);
     };
 
-    const handleClosePastGameModal = () =>{
-        setPastGameModalIsOpen(false)
-    }
+    const handleClosePastGameModal = () => {
+        setPastGameModalIsOpen(false);
+    };
 
     return (
         <Box>
-            <h1>past games list </h1>
             <Box className="games">
                 {" "}
+                <Heading color="#234E52" m={2}>
+                    Game History
+                </Heading>
                 {gamesList.map((game) => (
-                    <LinkBox key={game.game_session_id}>
-                        <LinkOverlay onClick={() => handleOpenPastGameModal(game)}>
-                            <Box className="game-item">
-                                <Text>{game.date}&nbsp;</Text>
-                                <Text>{game.location_info.park_name}</Text>
+                    <LinkBox key={game.game_session_id} cursor="pointer">
+                        <LinkOverlay
+                            onClick={() => handleOpenPastGameModal(game)}
+                        >
+                            <Box
+                                className="profile-item"
+                                display="flex"
+                                flexWrap="wrap"
+                                p={0.5}
+                                marginTop={2}
+                            >
+                                <Icon
+                                    as={IoMdTennisball}
+                                    color="teal"
+                                    fontSize="3em"
+                                    display="flex"
+                                />
+                                <Box
+                                    w="80%"
+                                    m="auto"
+                                    marginBottom="0"
+                                    marginTop="0"
+                                >
+                                    <Heading fontSize="xl" color="teal">
+                                        <Text>
+                                            {game.location_info.park_name}
+                                        </Text>
+                                    </Heading>
+                                    <Text color="teal">
+                                        {DateTime.fromISO(
+                                            game.datetime
+                                        ).toLocaleString(
+                                            DateTime.DATETIME_MED_WITH_WEEKDAY
+                                        )}
+                                    </Text>{" "}
+                                </Box>
                             </Box>
                         </LinkOverlay>
                     </LinkBox>

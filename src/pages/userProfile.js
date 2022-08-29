@@ -170,93 +170,10 @@ function UserProfile({ token, setToken }) {
                                     NTRP: {user.profile.ntrp_rating}
                                 </Heading>
                             </Box>
-                            {/* <Box className="confirmed-games" w="100%">
-                                {" "}
-                                {game && (
-                                    <Box className="games">
-                                        <Heading color="#234E52" m={2}>
-                                            Upcoming Games
-                                        </Heading>
-                                        {game.map((game) => (
-                                            <LinkBox
-                                                key={game.game_session_id}
-                                                cursor="pointer"
-                                            >
-                                                <LinkOverlay
-                                                    onClick={() => {
-                                                        handleGameOpenModal(
-                                                            game,
-                                                            setGameId
-                                                        );
-                                                    }}
-                                                >
-                                                    <Box
-                                                        className="profile-item"
-                                                        display="flex"
-                                                        flexWrap="wrap"
-                                                        p={0.5}
-                                                        marginTop={2}
-                                                    >
-                                                        <Icon
-                                                            as={
-                                                                IoMdTennisball
-                                                            }
-                                                            color="teal"
-                                                            fontSize="3em"
-                                                            display="flex"
-                                                        />
-                                                        <Box
-                                                            w="80%"
-                                                            m="auto"
-                                                            marginBottom="0"
-                                                            marginTop="0"
-                                                        >
-                                                            <Heading
-                                                                fontSize="xl"
-                                                                color="teal"
-                                                            >
-                                                                {
-                                                                    game
-                                                                        .location_info
-                                                                        .park_name
-                                                                }{" "}
-                                                                {game.index}
-                                                            </Heading>
-                                                            <Text color="teal">
-                                                                {DateTime.fromISO(
-                                                                    game.datetime
-                                                                ).toLocaleString(
-                                                                    DateTime.DATETIME_MED_WITH_WEEKDAY
-                                                                )}
-                                                            </Text>
-                                                        </Box>
-                                                    </Box>
-                                                </LinkOverlay>
-                                            </LinkBox>
-                                        ))}
-                                    </Box>
-                                )}
-                            </Box> */}
-
+                            
                             <Box>
                             {historyGames && (
-
                               <PastGamesList gamesList={historyGames} token={token}/>
-                              // Styling Sam Did 
-                                // <Box className="games">
-                                //     {" "}
-                                //     {historyGames.map((history) => (
-                                //         <Box className="profile-item">
-                                //             <Text>{history.date}&nbsp;</Text>
-                                //             <Text>
-                                //                 {
-                                //                     history.location_info
-                                //                         .park_name
-                                //                 }
-                                //             </Text>
-                                //         </Box>
-                                //     ))}
-                                // </Box>
                             )}
                             </Box>
                         </Box>
@@ -284,7 +201,6 @@ function UserProfile({ token, setToken }) {
                     </>
                 )}
             </Box>
-
             <Footer />
         </>
     );
