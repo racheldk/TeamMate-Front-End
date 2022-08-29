@@ -5,14 +5,14 @@ import { useEffect, useState } from "react";
 
 
 
-export default function EditProfile({token, setModalIsOpen}) {
+export default function EditProfile({token, setEditModalIsOpen}) {
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
     const [rank, setRank] = useState('');
     const [picture,  setPicture] = useState('')
     const handleCloseModal = (game) => {
         console.log("click close");
-        setModalIsOpen(false);
+        setEditModalIsOpen(false);
     };
 
 if (picture) {

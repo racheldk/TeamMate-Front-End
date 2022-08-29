@@ -27,6 +27,7 @@ function App() {
     const [currentGame, setCurrentGame] = useState({});
     const [surveyGame, setSurveyGame] = useState(null)
     const [game, setGame] = useState()
+    const [isLoading, setIsLoading] = useState(true)
 
 
     const setAuth = (username, token) => {
@@ -42,21 +43,21 @@ function App() {
                 },
             })
             .then((res) => {
-                console.log(res.data);
+                // console.log(res.data);
                 const responseOpen = res.data
                 const openExpandedGames = [];
                 for (let game of responseOpen) {
                     const confirmedPlayers = [];
                     for (let guest of game.guest_info) {
-                        console.log(guest);
+                        // console.log(guest);
                         if (
                             guest.status === "Host" ||
                             guest.status === "Accepted"
                         ) {
-                            console.log("Confirmed Player");
+                            // console.log("Confirmed Player");
                             confirmedPlayers.push(guest);
                         }
-                        console.log(confirmedPlayers);
+                        // console.log(confirmedPlayers);
                     }
                     const expandedGame = {
                         displayStatus: "join",
@@ -70,13 +71,15 @@ function App() {
                         ],
                         ...game,
                     };
-                    console.log(expandedGame);
+                    // console.log(expandedGame);
                     openExpandedGames.push(expandedGame);
 
                 setAllGamesList(openExpandedGames);
                 }
             });
     }, [token, setAllGamesList]);
+
+
 
     return (
         <ChakraProvider Theme={Theme} Text={Text}>
@@ -88,7 +91,7 @@ function App() {
                         element={<NewOpenGame token={token} />}
                     />
                     <Route
-                        path="survey" element={<Survey setAuth={setAuth} token={token} surveyGame={surveyGame}/>} />
+                        path=":username/survey/:id" element={<Survey setAuth={setAuth} token={token} surveyGame={surveyGame}/>} />
                     <Route
                         path="register"
                         element={<Register setAuth={setAuth} />}
