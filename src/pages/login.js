@@ -1,8 +1,9 @@
-import { Button, Box, Text, Heading, FormControl, FormLabel } from '@chakra-ui/react'
+import { Button, Box, Text, Heading, FormControl, FormLabel, Image } from '@chakra-ui/react'
 import axios from "axios";
 import { useState } from "react";
 import { Navigate, Link } from "react-router-dom";
 import useLocalStorageState from "use-local-storage-state";
+import logo from "../images/teammate-logo.png";
 
 
 function Login({setAuth}) {
@@ -41,8 +42,16 @@ function Login({setAuth}) {
 
     return(
     <>
-    <Box className="spacer">&nbsp;</Box>
+    <Box w='100%' m='auto' display='flex' justifyContent='center'>  <Image
+                  src={logo}
+                  alt='TeamMate logo'
+                  w='150px'
+                /></Box>
+      
+    <Box h='72px'>&nbsp;</Box>
+
     <Box className="app-body">
+
     <Box className="login-box">
         <FormControl className='form' w='300px' textAlign='center'>
         <Heading className="form-banner" color='#285E61'>Login</Heading>

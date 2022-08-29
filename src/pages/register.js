@@ -1,9 +1,10 @@
 
-import { Button, Box, Heading, FormControl, FormLabel, Text, Link } from '@chakra-ui/react'
+import { Button, Box, Heading, FormControl, FormLabel, Text, Link, Image } from '@chakra-ui/react'
 import axios from 'axios'
 import { useState } from 'react'
 import { Navigate, Link as ReactLink } from 'react-router-dom'
 import useLocalStorageState from "use-local-storage-state";
+import logo from "../images/teammate-logo.png";
 
 export const Register = ({ setAuth }) => {
     const [firstname, setFirstname] = useState("");
@@ -45,7 +46,12 @@ export const Register = ({ setAuth }) => {
 
     return (
         <>
-        <Box className="spacer">&nbsp;</Box>
+            <Box w='100%' m='auto' display='flex' justifyContent='center'>  <Image
+                  src={logo}
+                  alt='TeamMate logo'
+                  w='150px'
+                /></Box>
+        <Box h='72px'>&nbsp;</Box>
         <Box className="app-body">
 
         <Box className="form">
