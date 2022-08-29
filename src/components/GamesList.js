@@ -20,6 +20,8 @@ export default function GamesList({
     setGame,
     game,
     username,
+    reload, 
+    setReload,
     setNoActionGames,
     confirmedGames,
     pendingPOVGuestGames,
@@ -40,7 +42,7 @@ export default function GamesList({
      }
     }, [game]);
     
-    console.log(gamesList);
+    // console.log(gamesList);
 
 
     const handleOpenModal = (game) => {
@@ -53,9 +55,10 @@ export default function GamesList({
     const handleCloseModal = () => {
         console.log("click close");
         setModalIsOpen(false);
+        setReload(reload+1)
     };
 
-    console.log(gamesList);
+    // console.log(gamesList);
     // console.log(game)
 
     // if (gamesList.length === 0) {
@@ -117,6 +120,8 @@ export default function GamesList({
                     handleCloseModal={handleCloseModal}
                     setModalIsOpen={setModalIsOpen}
                     username={username}
+                    reload={reload}
+                    setReload={setReload}
                 />
             </Modal>
         </Box>

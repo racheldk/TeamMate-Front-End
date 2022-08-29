@@ -88,7 +88,7 @@ const PatchProfile = (event) => {
         <input id="inputRank" className="form-control"  placeholder="NTRP Rating"
             onChange={(e) => setRank(e.target.value)}/>
         <br/>
-        <Button colorScheme="teal" type="submit" onClick={(e) => PatchProfile(e)} >Submit</Button>
+        <Button colorScheme="teal" type="submit" onClick={(e) => PatchProfile(e)} mt={4}>Submit</Button>
         </FormControl></Box>
     )
 }
