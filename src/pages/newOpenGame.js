@@ -9,7 +9,20 @@ import {
     FormControl,
     FormLabel,
     Select,
+    useDisclosure,
+    Text,
+    IconButton,
+    Modal,
 } from "@chakra-ui/react";
+import {
+    AlertDialog,
+    AlertDialogBody,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogContent,
+    AlertDialogOverlay,
+  } from '@chakra-ui/react'
+import { CloseIcon } from "@chakra-ui/icons";
 import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
 import axios from "axios";
@@ -24,7 +37,7 @@ export default function NewOpenGame({ token }) {
     const [error, setError] = useState("");
     const [submitted, setSubmitted] = useState(false);
     const [convertedDate, setConvertedDate] = useState("");
-    const [convertedTime, setConvertedTime] = useState("");
+    const {isOpen, onClose, onOpen} = useDisclosure()
 
     const handleChangeGameLoc = (event) => {
         console.log(event.target.value);
@@ -73,14 +86,13 @@ export default function NewOpenGame({ token }) {
             .catch((error) => {
                 setError(error.message);
             });
-        setSubmitted(true);
+        onOpen()    
     };
 
-    if (submitted) {
-        return <AfterSubmit />;
-    }
+   
 
     if (error) {
+        onOpen()
         return { error };
     }
 
@@ -88,13 +100,20 @@ export default function NewOpenGame({ token }) {
         <>
             <Header />
             <Box className="app-body">
+                {/* <Button onClick={onOpen}>Text Modal</Button> */}
                 <FormControl className="form" mt={20}>
-                    <Heading className="form-banner" color="#234E52">New Game</Heading>
+                    <Heading className="form-banner" color="#234E52">
+                        New Game
+                    </Heading>
 
-                    <Box display="Flex" m={4} fontSize="18px" 
-                    color='teal' fontWeight="extrabold">
-
-                        <ReactDatePicker 
+                    <Box
+                        display="Flex"
+                        m={4}
+                        fontSize="18px"
+                        color="teal"
+                        fontWeight="extrabold"
+                    >
+                        <ReactDatePicker
                             onChange={(date) => {
                                 console.log(date);
                                 setNewGameDate(date);
@@ -115,7 +134,6 @@ export default function NewOpenGame({ token }) {
                             id="location"
                             name="location"
                         >
-                            
                             <option value="" disabled hidden>
                                 Choose a location
                             </option>
@@ -153,10 +171,61 @@ export default function NewOpenGame({ token }) {
                             <option value="Doubles">Doubles</option>
                         </Select>
                     </Box>
-                    <Button m={4} colorScheme="teal" onClick={handleSubmit}>
+                    <Button m={4} colorScheme="teal" onClick={()=>{
+                        onOpen(); handleSubmit()}}>
                         Submit
-                    </Button>
+                    </Button> 
                 </FormControl>
+
+                <AlertDialog
+                    isOpen={isOpen}
+                    // leastDestructiveRed={cancelRef}
+                    onClose={onClose}
+                >
+                    <AlertDialogOverlay textAlign='right'>
+                        <AlertDialogContent>
+                        {/* <IconButton onClick={onClose} className="close-modal-button" variant='outline' colorScheme='teal'><CloseIcon color='teal'/></IconButton> */}
+                            <AlertDialogHeader>
+                                You created a new game!
+                            </AlertDialogHeader>
+                            {/* <AlertDialogBody>
+                                <Text>{newGameLoc}</Text>
+                                <Text>
+                                    {newGameMatchType} | {newGameSessionType}
+                                </Text>
+                                <Text>{newGameDate}</Text>
+                            </AlertDialogBody> */}
+                            <AlertDialogFooter>
+                                <Link to={"/my-games"}>
+                                    <Button
+                                        fontSize="12px"
+                                        marginBottom={2}
+                                        variant=""
+                                        colorScheme=""
+                                        color="white"
+                                        height="30px"
+                                        width="150px"
+                                        backgroundColor="teal"
+                                    >
+                                        Go to My Games
+                                    </Button>
+                                </Link>
+                                <Link to={"/open-games"}>
+                                    <Button
+                                        fontSize="12px"
+                                        variant="outline"
+                                        colorScheme="teal"
+                                        color="teal"
+                                        height="30px"
+                                        width="150px"
+                                    >
+                                        Return to Open Games
+                                    </Button>
+                                </Link>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialogOverlay>
+                </AlertDialog>
             </Box>
             <Footer />
         </>
@@ -165,13 +234,38 @@ export default function NewOpenGame({ token }) {
 
 function AfterSubmit() {
     return (
-        <Box className="app-body" display='grid' gridTemplateColumns='auto'>
-            <Box p={10} className="form" color="teal"><Heading fontSize='1em' marginBottom={2}>Your Game's Live!</Heading>
-            <Link to={"/my-games"} ><Button fontSize="12px"   marginBottom={2} variant="" colorScheme="" color="white" 
-            height="30px" width="150px" backgroundColor="teal">Go to My Games</Button></Link>
-            <Link to={"/open-games"} ><Button  fontSize="12px" variant="outline" colorScheme="teal" color="teal" 
-            height="30px" width="150px">Return to Open Games</Button></Link>
-        </Box>
+        <Box className="app-body" display="grid" gridTemplateColumns="auto">
+            <Box p={10} className="form" color="teal">
+                <Heading fontSize="1em" marginBottom={2}>
+                    Your Game's Live!
+                </Heading>
+                <Link to={"/my-games"}>
+                    <Button
+                        fontSize="12px"
+                        marginBottom={2}
+                        variant=""
+                        colorScheme=""
+                        color="white"
+                        height="30px"
+                        width="150px"
+                        backgroundColor="teal"
+                    >
+                        Go to My Games
+                    </Button>
+                </Link>
+                <Link to={"/open-games"}>
+                    <Button
+                        fontSize="12px"
+                        variant="outline"
+                        colorScheme="teal"
+                        color="teal"
+                        height="30px"
+                        width="150px"
+                    >
+                        Return to Open Games
+                    </Button>
+                </Link>
+            </Box>
         </Box>
     );
 }

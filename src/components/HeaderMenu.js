@@ -5,7 +5,7 @@ import { HamburgerIcon, CloseIcon, BellIcon } from "@chakra-ui/icons";
 import Modal from "react-modal";
 import axios from "axios";
 import useLocalStorageState from "use-local-storage-state";
-import NotificationsList from './NotificationsList'
+import NotificationsList from "./NotificationsList";
 import logo from "../images/teammate-logo.png";
 
 function Header() {
@@ -14,8 +14,8 @@ function Header() {
     const [token, setToken] = useLocalStorageState("teammateToken", null);
     const [error, setError] = useState([]);
     const [notifications, setNotifications] = useState(null);
-    const [alertIcon, setAlertIcon] = useState('')
-    const [alert, setAlert] = useState('')
+    const [alertIcon, setAlertIcon] = useState("");
+    const [alert, setAlert] = useState("");
 
     useEffect(() => {
         axios
@@ -43,16 +43,14 @@ function Header() {
 
     useEffect(() => {
         if (notifications) {
-        setAlert('red')
-        setAlertIcon('white')
+            setAlert("red");
+            setAlertIcon("white");
         }
         if (notifications && notifications.length === 0) {
-        setAlert('')
-        setAlertIcon('teal')
+            setAlert("");
+            setAlertIcon("teal");
         }
     }, [notifications]);
-
-
 
     const handleLogOut = () => {
         axios
@@ -89,12 +87,10 @@ function Header() {
             >
                 <BellIcon color={alertIcon} />
             </IconButton>
-            <Box display='flex' justifyContent='center'> <Image
-                  src={logo}
-                  alt='TeamMate logo'
-                  w='150px'
-                />
-                </Box>
+            <Box display="flex" justifyContent="center">
+                {" "}
+                <Image src={logo} alt="TeamMate logo" w="150px" />
+            </Box>
             <Box display="flex" justifyContent="end" m={2} color="teal">
                 <Button
                     colorScheme="teal"
@@ -113,10 +109,25 @@ function Header() {
                     </Link>
                 </Button>
             </Box>
-            <Modal isOpen={modalIsOpen} contentLabel="Notifications Modal" overlayClassName="modal-overlay" className="modal" handleCloseModal={handleCloseModal}>
-            <IconButton onClick={()=>handleCloseModal()} className="close-modal-button" variant='outline' colorScheme='teal'><CloseIcon color='white'/></IconButton>
-            <NotificationsList token={token} notifications={notifications}/>
-
+            <Modal
+                isOpen={modalIsOpen}
+                contentLabel="Notifications Modal"
+                overlayClassName="modal-overlay"
+                className="modal"
+                handleCloseModal={handleCloseModal}
+            >
+                <IconButton
+                    onClick={() => handleCloseModal()}
+                    className="close-modal-button"
+                    variant="outline"
+                    colorScheme="teal"
+                >
+                    <CloseIcon color="white" />
+                </IconButton>
+                <NotificationsList
+                    token={token}
+                    notifications={notifications}
+                />
             </Modal>
         </Box>
     );
