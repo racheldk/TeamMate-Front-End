@@ -85,7 +85,7 @@ export default function NewOpenGame({ token }) {
                 console.log(res.statusText)
                 if (res.statusText==='Created') {
                     console.log('new game created')
-                    setAlertMessage(`${res.data.location_info.park_name} at  ${DateTime.fromISO(res.data.datetime).toLocaleString(
+                    setAlertMessage(`${res.data.location_info.park_name}  ${DateTime.fromISO(res.data.datetime).toLocaleString(
                         DateTime.DATETIME_MED_WITH_WEEKDAY
                     )}, ${res.data.match_type}, ${res.data.session_type}`)
                     setAlertTitle('Your new game has been posted')
