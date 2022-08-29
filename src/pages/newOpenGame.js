@@ -88,7 +88,7 @@ export default function NewOpenGame({ token }) {
         <>
             <Header />
             <Box className="app-body">
-                <FormControl className="form" mt={2}>
+                <FormControl className="form" mt={4}>
                     <Heading className="form-banner" color="#234E52">New Game</Heading>
 
                     <Box display="Flex" m={4} fontSize="18px" 

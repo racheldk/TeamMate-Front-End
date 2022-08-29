@@ -13,6 +13,7 @@ export default function GameDetail({
     username,
     
     setPastGameModalIsOpen,
+    setModalIsOpen,
 }) {
     const [editClicked, setEditClicked] = useState(false);
     const [surveyClicked, setSurveyClicked] = useState(false)
@@ -22,7 +23,7 @@ export default function GameDetail({
 
     const handleCloseModal = () => {
         console.log("click close");
-        setPastGameModalIsOpen(false);
+        setModalIsOpen(false);
     };
 
     const handleClosePastGameModal = () => {
@@ -61,7 +62,7 @@ export default function GameDetail({
         }
         if (button.label === "Take Survey") {
             console.log("take survey clicked")
-            handleClosePastGameModal()
+            handleCloseModal()
             setSurveyClicked(true)
         }
     };
