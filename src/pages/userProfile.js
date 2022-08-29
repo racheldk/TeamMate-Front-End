@@ -146,7 +146,8 @@ function UserProfile({ token, setToken }) {
                                     />
                                 </Heading>
                             </Box>
-
+                            </Box>
+<>
                             <Box
                                 w="100%"
                                 display="flex"
