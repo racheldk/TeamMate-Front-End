@@ -1,28 +1,36 @@
 import ReactDatePicker from "react-datepicker";
+import Header from "../components/HeaderMenu";
+import Footer from "../components/FooterMenu";
 import subDays from "date-fns/subDays";
 import "react-datepicker/dist/react-datepicker.css";
 import { useEffect, useState } from "react";
+import {
+    Box,
+    Button,
+    Select,
+    Heading,
+    FormControl,
+    FormLabel,
+} from "@chakra-ui/react";
 import axios from "axios";
 import { DateTime } from "luxon";
-import { useParams } from 'react-router-dom';
-
+import { useParams } from "react-router-dom";
 
 export default function EditGame({ token }) {
-    const [params] = useState(useParams())
-    const [game, setGame] = useState({})
+    const [params] = useState(useParams());
+    const [game, setGame] = useState({});
     const [newGameDate, setNewGameDate] = useState("");
-    const [newGameTime, setNewGameTime] = useState("");
+    const [displayDate, setDisplayDate] = useState(null);
     const [newGameLoc, setNewGameLoc] = useState("");
-    const [locPK, setlocPK] = useState(game.location)
+    const [locPK, setlocPK] = useState(game.location);
     const [newGameSessionType, setNewGameSessionType] = useState("");
     const [newGameMatchType, setNewGameMatchType] = useState("");
     const [error, setError] = useState("");
-    // const [submitted, setSubmitted] = useState(false);
-    const [editSubmitted, setEditSubmitted] = useState(false)
-    const [convertedDate, setConvertedDate] = useState("");
-    const [convertedTime, setConvertedTime] = useState("");
+    const [editSubmitted, setEditSubmitted] = useState(false);
 
-    console.log(params)
+    console.log(params);
+    console.log(newGameDate)
+    console.log(displayDate)
 
     const handleChangeGameLoc = (event) => {
         console.log(event.target.value);
@@ -40,64 +48,57 @@ export default function EditGame({ token }) {
     };
 
     const prepareFields = (gameData) => {
-        setNewGameSessionType(gameData.session_type)
-        setNewGameLoc(gameData.location_info.park_name)
-        setNewGameMatchType(gameData.match_type)
-        setConvertedDate(gameData.date)
-        setConvertedTime(gameData.time)
-        // setNewGameDate(gameData.date)
-        setlocPK(gameData.location)
-        console.log(gameData.time)
-        console.log(gameData.date)
-    }
+        console.log(gameData.datetime)
+        setNewGameSessionType(gameData.session_type);
+        setNewGameLoc(gameData.location_info.park_name);
+        setNewGameMatchType(gameData.match_type);
+        setlocPK(gameData.location);
+        setNewGameDate(DateTime.fromISO(gameData.datetime).toJSDate())
+        console.log(gameData.datetime);
+    };
 
-useEffect(() => {
-    console.log(params.id)
-    console.log(typeof(params.id))
-    console.log(parseInt(params.id))
-    console.log(typeof(parseInt(params.id)))
-    console.log(token)
-    console.log('load game to be edited')
-    async function getGame() {
-        let response = await axios.get(`https://teammate-app.herokuapp.com/session/${parseInt(params.id)}`, {headers: {
-            Authorization: `Token ${token}`,
-        },
-        })
-        // .then((res) =>{
-        //     console.log(res.data)
-        //     setGame(res.data)
-        //     setNewGameSessionType(res.data.session_type)
-        //     setNewGameLoc(res.data.location_info.park_name)
-        //     setNewGameMatchType(res.data.match_type)
-        //     setConvertedDate(res.data.date)
-        //     setConvertedTime(res.data.time)
-        // })
-        let resJson = await response.data;
-        console.log(response.data)
-        console.log(resJson)
-        setGame(resJson)
-        prepareFields(resJson);
-        // setlocPK(resJson.location)
-    }
-    getGame()
-    console.log(game)
-}, [params.id, token])
+    useEffect(() => {
+        console.log(params.id);
+        console.log(typeof params.id);
+        console.log(parseInt(params.id));
+        console.log(typeof parseInt(params.id));
+        console.log(token);
+        console.log("load game to be edited");
+        async function getGame() {
+            let response = await axios.get(
+                `https://teammate-app.herokuapp.com/session/${parseInt(
+                    params.id
+                )}`,
+                {
+                    headers: {
+                        Authorization: `Token ${token}`,
+                    },
+                }
+            );
+            let resJson = await response.data;
+            console.log(response.data);
+            console.log(resJson);
+            setGame(resJson);
+            prepareFields(resJson);
+        }
+        getGame();
+        console.log(game);
+    }, [params.id, token]);
 
     const handleSubmitEdit = () => {
         console.log(
             newGameDate,
-            newGameTime,
             newGameSessionType,
             newGameMatchType,
             newGameLoc,
-            convertedDate
         );
         axios
             .patch(
-                `https://teammate-app.herokuapp.com/session/${parseInt(params.id)}`,
+                `https://teammate-app.herokuapp.com/session/${parseInt(
+                    params.id
+                )}`,
                 {
-                    date: convertedDate,
-                    time: convertedTime,
+                    datetime: newGameDate,
                     session_type: newGameSessionType,
                     match_type: newGameMatchType,
                     location: locPK,
@@ -110,15 +111,13 @@ useEffect(() => {
             )
             .then(console.log("edit posted"))
             .catch((error) => {
-                alert(error.response.data.detail)
+                alert(error.response.data.detail);
             });
         setEditSubmitted(true);
     };
 
     if (editSubmitted) {
-        return (
-            <div>you submitted an edit! </div>
-        );
+        return <Box>you submitted an edit! </Box>;
     }
 
     if (error) {
@@ -126,96 +125,82 @@ useEffect(() => {
     }
 
     return (
-        <div>
-            <h1>Edit your Game</h1>
-            <form>
-                <label htmlFor="date-time">When would you like to play?</label>
-                <ReactDatePicker 
-                onChange={(date) => {
-                    console.log(date)
-                    setNewGameDate(date)
-                    setConvertedDate(DateTime.fromJSDate(date).toISODate(DateTime.DATE_MED))
-                }}
-                minDate={subDays(new Date(), 0)}
-                selected={newGameDate}
-                placeholderText={DateTime.fromISO(game.time).toLocaleString(DateTime.DATE_SHORT)}
-                />
-                <ReactDatePicker
-                    selected={newGameTime}
-                    onChange={(date) => {
-                        setNewGameTime(date);
-                        setConvertedTime(
-                            DateTime.fromJSDate(date).toLocaleString(
-                                DateTime.TIME_24_WITH_SECONDS
-                            )
-                        );
-                        console.log(newGameTime);
-                        console.log(convertedTime);
-                    }}
-                    showTimeSelect
-                    showTimeSelectOnly
-                    timeIntervals={15}
-                    timeCaption="Time"
-                    dateFormat="h:mm aa"
-                    // placeholderText={newGameTime}
-
-                    placeholderText={DateTime.fromISO(game.time).toLocaleString(DateTime.TIME_SIMPLE)}
-                />
-                <div>
-                    <label htmlFor="location">
-                        Where would you like to play?
-                    </label>
-                    <select
-                        onChange={handleChangeGameLoc}
-                        value={newGameLoc}
-                        id="location"
-                        name="location"
+        <>
+            <Header />
+            <Box className="app-body">
+                <FormControl className="form" marginTop={5}>
+                <Heading className="form-banner" color='#234E52'>Edit your Game</Heading>
+                    <FormLabel htmlFor="date-time" m={2} color='#285E61'>Game Day</FormLabel>
+                    <ReactDatePicker
+                        onChange={(date) => {
+                            console.log(date);
+                            setNewGameDate(date);
+                            setDisplayDate(DateTime.fromJSDate(date).toISO())
+                        }}
+                        showTimeSelect
+                        timeIntervals={15}
+                        minDate={subDays(new Date(), 0)}
+                        selected={newGameDate}
+                        dateFormat="MMM d, yyyy    h:mm aa"
+                    />
+                    <Box m={2}>
+                        <FormLabel htmlFor="location" color='#285E61'>Court</FormLabel>
+                        <Select
+                            w="100%"
+                            onChange={handleChangeGameLoc}
+                            value={newGameLoc}
+                            id="location"
+                            name="location"
+                        >
+                            <option value={locPK}>{newGameLoc}</option>
+                            <option value="2">Pullen Park</option>
+                            <option value="1">Sanderford Park</option>
+                        </Select>
+                    </Box>
+                    <Box m={2}>
+                        <FormLabel htmlFor="session-type" color='#285E61'>
+                            Style
+                        </FormLabel>
+                        <Select
+                            w="100%"
+                            onChange={handleChangeSessionType}
+                            value={newGameSessionType}
+                            id="session-type"
+                            name="session-type"
+                        >
+                            <option value={newGameSessionType} disabled hidden>
+                                {newGameSessionType}
+                            </option>
+                            <option value="Casual">Casual</option>
+                            <option value="Competitive">Competitive</option>
+                        </Select>
+                    </Box>
+                    <Box m={2}>
+                        <FormLabel htmlFor="match-type" color='#285E61'>Players</FormLabel>
+                        <Select
+                            w="100%"
+                            onChange={handleChangeMatchType}
+                            value={newGameMatchType}
+                            id="match-type"
+                            name="match-type"
+                        >
+                            <option value={newGameMatchType} disabled hidden>
+                                {newGameMatchType}
+                            </option>
+                            <option value="Singles">Singles</option>
+                            <option value="Doubles">Doubles</option>
+                        </Select>
+                    </Box>
+                    <Button
+                        colorScheme="teal"
+                        w="50%"
+                        onClick={() => handleSubmitEdit()}
                     >
-                        <option value={locPK}>
-                            {newGameLoc}
-                        </option>
-                        <option value="2">Pullen Park</option>
-                        <option value="1">Sanderford Park</option>
-                    </select>
-                </div>
-                <div>
-                    <label htmlFor="session-type">
-                        How competitive would you like your game to be?
-                    </label>
-                    <select
-                        onChange={handleChangeSessionType}
-                        value={newGameSessionType}
-                        id="session-type"
-                        name="session-type"
-                    >
-                        <option value={newGameSessionType} disabled hidden>
-                            {newGameSessionType}
-                        </option>
-                        <option value="Casual">Casual</option>
-                        <option value="Competitive">Competitive</option>
-                    </select>
-                </div>
-                <div>
-                    <label htmlFor="match-type">
-                        Would you like to play singles or doubles?
-                    </label>
-                    <select
-                        onChange={handleChangeMatchType}
-                        value={newGameMatchType}
-                        id="match-type"
-                        name="match-type"
-                    >
-                        <option value={newGameMatchType} disabled hidden>
-                            {newGameMatchType}
-                        </option>
-                        <option value="Singles">Singles</option>
-                        <option value="Doubles">Doubles</option>
-                    </select>
-                </div>
-                <button onClick={()=>handleSubmitEdit()}>Submit</button>
-            </form>  
-        </div>
+                        Submit
+                    </Button>
+                </FormControl>
+            </Box>
+            <Footer />
+        </>
     );
 }
-
-

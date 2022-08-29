@@ -2,18 +2,24 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NewOpenGame from "./pages/newOpenGame";
 import { useEffect, useState } from "react";
-import OpenGamesList from "./pages/openGamesPage";
 import { ChakraProvider } from "@chakra-ui/react";
+import { TbBallTennis } from "react-icons/tb";
 import Login from "./pages/login.js";
 import Register from "./pages/register";
 import Theme from "./components/theme";
 import { Text } from "@chakra-ui/react";
 import useLocalStorageState from "use-local-storage-state";
-import MyGames from "./pages/myGamesPage";
 import UserProfile from "./pages/userProfile";
 import axios from "axios";
 import EditGame from "./pages/editGame";
+<<<<<<< HEAD
 import CalendarExample from "./components/calendar-example";
+=======
+import MyGames from "./pages/myGamesPage";
+import OpenGamesPage from "./pages/openGamesPage";
+import Survey from "./pages/survey";
+import NotificationsList from "./components/NotificationsList";
+>>>>>>> main
 
 function App() {
     const [token, setToken] = useLocalStorageState("teammateToken", null);
@@ -21,9 +27,12 @@ function App() {
         "teammateUsername",
         null
     );
-    const [listType, setListType] = useState(null);
-    //   above is the listType to be used with GamesList component (which is rendered from OpenGamesList and MyGames components)
     const [allGamesList, setAllGamesList] = useState([]);
+    const [currentGame, setCurrentGame] = useState({});
+    const [surveyGame, setSurveyGame] = useState(null)
+    const [game, setGame] = useState()
+    const [isLoading, setIsLoading] = useState(true)
+
 
     const setAuth = (username, token) => {
         setToken(token);
@@ -31,7 +40,6 @@ function App() {
     };
 
     useEffect(() => {
-        // setListType("allOpen")
         axios
             .get("https://teammate-app.herokuapp.com/session/", {
                 headers: {
@@ -39,71 +47,97 @@ function App() {
                 },
             })
             .then((res) => {
-                console.log(res.data);
-                setAllGamesList(res.data);
+                // console.log(res.data);
+                const responseOpen = res.data
+                const openExpandedGames = [];
+                for (let game of responseOpen) {
+                    const confirmedPlayers = [];
+                    for (let guest of game.guest_info) {
+                        // console.log(guest);
+                        if (
+                            guest.status === "Host" ||
+                            guest.status === "Accepted"
+                        ) {
+                            // console.log("Confirmed Player");
+                            confirmedPlayers.push(guest);
+                        }
+                        // console.log(confirmedPlayers);
+                    }
+                    const expandedGame = {
+                        displayStatus: "join",
+                        bgColor: "#ffffff",
+                        icon: null,
+                        tennisBall: TbBallTennis,
+                        displayUsers: confirmedPlayers,
+                        buttonTitle: null,
+                        buttons: [
+                            { label: "Join", job: "send a join request" },
+                        ],
+                        ...game,
+                    };
+                    // console.log(expandedGame);
+                    openExpandedGames.push(expandedGame);
+
+                setAllGamesList(openExpandedGames);
+                }
             });
-    }, [token, setAllGamesList, setListType]);
+    }, [token, setAllGamesList]);
+
+
 
     return (
         <ChakraProvider Theme={Theme} Text={Text}>
             <BrowserRouter>
                 <Routes>
-                    <Route
-                        path="/"
-                        element={
-                            <Login setToken={setToken} setAuth={setAuth} />
-                        }
-                    />
-                    {/* All Open Games (Game List component? separate component?) */}
+                    <Route path="/" element={<Login setAuth={setAuth} />} />
                     <Route
                         path="/new"
                         element={<NewOpenGame token={token} />}
                     />
-                    {/* make a new open game post  */}
-                    <Route path="register" element={<Register />} />
-                    {/* register new user */}
                     <Route
-                        path="open-games"
+                        path=":username/survey/:id" element={<Survey setAuth={setAuth} token={token} surveyGame={surveyGame}/>} />
+                    <Route
+                        path="register"
+                        element={<Register setAuth={setAuth} />}
+                    />
+                    <Route
+                        path="open-games/"
                         element={
-                            <OpenGamesList
+                            <OpenGamesPage
                                 token={token}
-                                listType={listType}
-                                setListType={setListType}
                                 allGamesList={allGamesList}
+                                username={username}
+                                setGame={setGame}
+                                game={game}
                             />
                         }
                     />
-                    {/* login */}
                     <Route
-                        path="my-games"
-                        element={
-                            <MyGames
-                                token={token}
-                                listType={listType}
-                                setListType={setListType}
-                                allGamesList={allGamesList}
-                            />
-                        }
-                    />
-                    {/* my games - confirmed, pending requests as guest, pending requests as host, open */}
-                    <Route path="/edit/">
+                        path="my-games/"
+                        element={<MyGames token={token} username={username} game={game} setGame={setGame}/>}>
+
+                        </Route>
+                    <Route path="my-games/edit/">
                         <Route
                             path=":id"
                             element={<EditGame token={token} />}
                         />
                     </Route>
+                    
                     <Route
                         path=":username"
                         element={
                             <UserProfile
                                 token={token}
-                                listType={listType}
-                                setListType={setListType}
                                 allGamesList={allGamesList}
+                                game={game}
+                                
                             />
                         }
                     />
-                   <Route path="calendar" element={<CalendarExample/>} />
+                    <Route path="calendar" element={<CalendarExample/>} />
+                    {/* Notifications path is just for during development - when header is ready this will be rendered in a modal */}
+                    <Route path="notifications" element={<NotificationsList token={token}/>}/>
                 </Routes>
             </BrowserRouter>
         </ChakraProvider>

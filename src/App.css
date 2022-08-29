@@ -1,190 +1,44 @@
 /* OPEN GAMES LIST CARD */
 
 .game-card {
-    border: 2px rgb(58, 151, 116) solid;
-    /* margin: 5px; */
-    width: 400px;
-    height: 110px;
-    background-color:#2C7A7B;
+    width: 100%;
+    min-width: 350px;
     box-shadow: 0 8px 16px -8px rgba(0,0,0,0.4);
-    border-radius: 6px;
-    /* overflow: hidden; */
-    position: relative;
-    margin: 1rem;
-    /* display: grid; */
-    color: #fff;
-    padding-left: 10px;
-    padding-top: 5px;
+    border-radius: 20px;
+    text-align: left;
+    margin: .5em 0;
+    padding: 1em;
 }
-
-button-showmore{
-    width: 80px;
-    height: 20px;
-    margin: 20px;
-    /* background: #c8bb04; */
-    background: #4FD1C5;
-    color: white;
-    font-size: 10px;
-    font-weight: bold;
-    text-align: center;
-    border-radius: 0.625em;
-    position: absolute;
-    left: 73%;
-    bottom: 59%;
-}
-
-button-join {
-    width: 350px;
-    height: 20px;
-    margin: 20px;
-    background: #fefff3;
-    /* color: #993300; */
-    color: #2C7A7B;
-    border: 2px solid #2C7A7B;
-    border-radius: 0.625em;
-    font-size: 10px;
-    font-weight: bold;
-    cursor: pointer;
-    position: relative;
-    text-align: center;
-    position: absolute;
-    left: 1%;
-    top: 55%;
-}	
-/* Pending requests I've made  CANCEL BUTTON */
-button-cancel {
-    width: 80px;
-    height: 20px;
-    margin: 20px;
-    background: #fefff3;
-    color: #993300;
-    border: 2px solid #2C7A7B;
-    border-radius: 0.625em;
-    font-size: 10px;
-    font-weight: bold;
-    cursor: pointer;
-    position: relative;
-    text-align: center;
-    position: absolute;
-    left: 0%;
-    top: 55%;
-}
-/* Confirmed Games CANCEL BUTTON */
-button-to-cancel {
-    width: 150px;
-    height: 20px;
-    margin: 20px;
-    background: #fefff3;
-    color: #993300;
-    border: 2px solid #2C7A7B;
-    border-radius: 0.625em;
-    font-size: 10px;
-    font-weight: bold;
-    cursor: pointer;
-    position: relative;
-    text-align: center;
-    position: absolute;
-    left: 0%;
-    top: 55%;
-}
-
-button-accept, button-edit{
-    width: 150px;
-    height: 20px;
-    margin: 20px;
-    background: #fefff3;
-    color: #2C7A7B;
-    border: 2px solid #2C7A7B;
-    border-radius: 0.625em;
-    font-size: 10px;
-    font-weight: bold;
-    cursor: pointer;
-    position: relative;
-    text-align: center;
-    position: absolute;
-    left: 0%;
-    top: 55%;
-}
-button-reject, button-delete{
-    width: 150px;
-    height: 20px;
-    margin: 20px;
-    background: #fefff3;
-    color: #993300;
-    border: 2px solid #2C7A7B;
-    border-radius: 0.625em;
-    font-size: 10px;
-    font-weight: bold;
-    cursor: pointer;
-    position: relative;
-    text-align: center;
-    position: absolute;
-    left: 50%;
-    top: 55%;
-}
-
-
-
-
-
-
-
 
 
 /* Global Styling */
 
 body {
-    background-color: #2C7A7B!important;
+    background-color: #4FD1C5!important;
+    overflow: hidden;
 }
 .app-body {
     background-color: #4FD1C5;
-    max-width: 450px;
-    height: 668px;
+    padding-bottom: 200px;
+    width: 100vw;
+    height: 100vh;
     margin: auto;
     overflow: scroll;
+    border-radius: 20px;
 }
 .spacer {
-    height: 72px;
+    height: 200px;
     background-color: #4FD1C5;
-    max-width: 450px;
     margin: auto;
 }
 
-/* Header Menu Stylings */
-.header {
-    max-width: 450px;
-    margin: auto;
-    text-align: right;
-    background-color: white;
-    padding: 1em;
-    position: sticky;
-    top: 0;
-    width: 100%;
-}
+/* Filters Stylings */
 
-.header-menu {
+.filters {
     display: grid;
-    background-color: white;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    font-size: 2em;
-    width: 350px;
-    height: 300px;
-    margin: auto;
-    animation: expand-down 1s;
-    overflow-y: hidden;
-    border-radius: 20px;
-    animation-fill-mode: forwards;
+    grid-template-columns: 50% 50%;
 }
 
-.hamburger-link:hover {
-    background-color:#B2F5EA;
-    color: white;
-    border-radius: 20px;
-    padding: 0 1em;
-    width: 100%;
-}
 
 /* User Profile Stylings */
 
@@ -196,11 +50,18 @@ body {
     flex-wrap: wrap;
 }
 .profile-pic {
-    width: 100%;
     margin: auto;
     display: flex;
     justify-content: center;
+    object-fit: cover;
 
+}
+
+.profile-item {
+    width: 300px;
+    margin: auto;
+    background-color: #ffffff;
+    border-radius: 20px;
 }
 .user-name {
     width: 100%;
@@ -217,6 +78,7 @@ body {
 .modal-overlay {
     position: absolute;
     animation: colorfadein .5s;
+    z-index: 20;
     animation-fill-mode: forwards;
     top: 0;
     width: 100%;
@@ -229,21 +91,49 @@ body {
     overflow-y: hidden;
     border: 0;
     border-radius: 20px;
-    width: 400px;
-    height: 800px;
-    margin: 0 auto;
+    z-index: 20;
+    max-width: 350px;
+    height: 100vh;
+    margin: 2em auto 0 auto;
     text-align: right;    
+}
+
+.modal-base {
+    background-color: #ffffff;
+    border-radius: 20px;
+    color: #234E52;
+    padding: 1em;
+    margin: auto;
+    text-align: center;
 }
 
 .close-modal-button {
     border-radius: 100px!important;
+    margin: .5em;
+}
+
+
+/* Header Menu Stylings */
+
+.header {
+    display: grid;
+    grid-template-columns: 25% 50% 25%;
+    background-image: linear-gradient(#ffffff 40%, #4FD1C5 40%);
+    margin: auto;
+    z-index: 10;
+    padding: .2em;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    box-shadow: 0px 10px 10px #4FD1C5;
 }
 
 /* Footer Menu Stylings */
 .footer {
-    max-width: 450px;
     display: grid;
-    grid-template-columns: 33.3% 33.3% 33.3%;
+    /* grid-template-columns: 33.3% 33.3% 33.3%; */
+    grid-template-columns: 25% 25% 25% 25%;
     margin: auto;
     text-align: center;
     background-color: white;
@@ -257,34 +147,34 @@ body {
     border-radius: 20px;
     width: 100%;
 }
+.tooltip {
+    position: relative;
+    display:inline-table;
+}
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 100px;
+    background-color:#2C7A7B;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 2px;
+    font-size: 14px;
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    top: -35px;
+    left: -70%;
+}
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
 
 
 /* global form stylings */
 
-/* Styles form box */
-.register-box {
-    max-width: 60%;
-    width: 100%;
-    height: 50%;
-    background-color: #ffffff;
-    border-color: #ffffff!important;
-    border: solid;
-    border-radius: 20px;
-    animation: fadein 1s, mymove 1s ;
-    animation-fill-mode: forwards;
-    margin: auto;
-    max-width: 400px;
-    padding: .1em;
-    text-align: center;
-    text-transform: uppercase;
-    display: grid;
-    grid-template-columns: auto;
-}
-.form-register{
-    margin: 12px;
-}
-
-.formlogin {
+.form {
     max-width: 60%;
     background-color: #ffffff;
     border-color: #ffffff!important;
@@ -293,22 +183,136 @@ body {
     animation: fadein 1s, mymove 1s ;
     animation-fill-mode: forwards;
     margin: auto;
-    max-width: 400px;
+    max-width: 300px;
     padding: .1em;
     text-align: center;
     text-transform: uppercase;
 }
 
-.login-box {
+
+
+/* Styles form headers */
+.form-banner {
+    background-color: #4FD1C5;
+    border-radius: 15px 15px 0px 0px;
+    font-size:2em;
+    font-weight: bold;
+    margin: 0;
+    
+}
+
+/* styles form input fields */
+.form-control {
+    width: 150px;
+    margin: 0 .5em;
+    padding-left: .5em;
+    text-align: left;
+    border: solid 1px;
+    color: #285E61;
+    border-radius: 10px;
+
+}
+
+.form-control:hover {
+    background-color:#E6FFFA;
+}
+
+/* Global Input Fields Styling */
+
+Input {
+    border-radius: 20px;
+    padding: 0 1em!important;
     width: 100%;
-    height: 100%;
-    margin: auto;
-    text-align: center;
+}
+
+.react-datepicker__input-container {
+    width: 250px!important;
+}
+
+.react-datepicker__month-container {
+    float: none!important;
+}
+
+.react-datepicker__navigation--next {
+    right: 2px!important;
+}
+.react-datepicker__time-container {
+    width: 100%!important;
+    border-left: 0!important;
+}
+.react-datepicker__header--time {
+    position: sticky!important;
+    top: 0;
+    z-index: 10;
+}
+
+.react-datepicker__time-box {
+    width: 100%!important;
+}
+
+.react-datepicker__time-list {
+    overflow: scroll!important;
+    width: 100%!important;
+}
+
+Input:hover {
+    background-color: #B2F5EA;
+    cursor: pointer;
+}
+
+
+/* Navbar my games page */
+.nav_links {
+    display: inline-block;
+    color: #fff;
+    padding: 5px 7px;
+    background-color: #285E61;
+    border: none;
+    font-size: 12px;
     display: flex;
-    align-items: center;
+    line-height: 20px;
+    
+}
+
+.buttonmygames{margin-right: 10px; padding-left: 52px;}
+
+
+
+
+
+h1{ color:#285E61; text-align: center; font-family: Verdana; 
+    padding-bottom: 10px; padding-top: 5px;} 
+
+h3{color: #fff;}
+
+
+.survey {
+    border: 0;
+    border-radius: 20px;
+    width: 400px;
+    /* height: 500px; */
+    text-align: left;  
+    background-color: #fff;  
+    padding: 20px;
+    margin: 0 auto;
+}
+.icon-survey {
+    max-width: 450px;
+    display: grid;
+    grid-template-columns: 33.3% 33.3% 33.3%;
+    margin: auto;
+    text-align: center;
+    background-color: white;
+    padding: 1.5em;
+    position: sticky;
+    bottom: 0;
+    width: 90%;
+    margin-right: 60px;
 }
 
 
+
+/* Our Animations */
 @keyframes mymove {
     0% {box-shadow: 0px #285E61;}
     100% {box-shadow: 20px 20px #285E61;}
@@ -328,59 +332,9 @@ body {
 @keyframes expand-down {
     0% {height: 10px}
     100% {height:300px;}
-}
-
-/* Styles form headers */
-.form-banner {
-    background-color: #4FD1C5;
-    color: #285E61;
-    border-radius: 15px 15px 0px 0px;
-    font-size:2em;
-    font-weight: bold;
-    margin: 0;
-    
-}
-
-/* styles form input fields */
-.form-control {
-    width: 150px;
-    margin: .5em;
-    padding-left: .5em;
-    text-align: left;
-    border: solid 1px;
-    color: #285E61;
-    border-radius: 10px;
 
 }
 
-.form-control:hover {
-    background-color:#E6FFFA;
-}
-
-/* styles labels */
-label {
-    width: 40%;
-    display: inline-block;
-    color: #285E61;
-}
-
-
-  /* Log in component */
-
-
-/* Navbar my games page */
-.nav_links {
-    display: inline-block;
-    color: #fff;
-    padding: 5px 7px;
-    background-color: #285E61;
-    border: none;
-    font-size: 12px;
+/* .won{
     display: flex;
-    line-height: 20px;
-    
-}
-.buttonmygames{
-    padding: 5px 10px;
-    
-}
+} */

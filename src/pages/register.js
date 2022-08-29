@@ -1,69 +1,90 @@
-import { Button } from '@chakra-ui/react'
+
+import { Button, Box, Heading, FormControl, FormLabel, Text, Link, Image } from '@chakra-ui/react'
 import axios from 'axios'
 import { useState } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate, Link as ReactLink } from 'react-router-dom'
+import useLocalStorageState from "use-local-storage-state";
+import logo from "../images/teammate-logo.png";
 
+export const Register = ({ setAuth }) => {
+    const [firstname, setFirstname] = useState("");
+    const [lastname, setLastname] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState(null);
+    const [token, setToken] = useLocalStorageState("teammateToken", null);
 
-export const Register = () => {
-    const [firstname, setFirstname] = useState('');
-    const [lastname, setLastname] = useState('');
-    const [username, setUsername] = useState('')
-    const [password,  setPassword] = useState('')
-    const [error, setError] = useState(null)
-    const [navigate, setNavigate] = useState(false);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
+        await axios
 
-    const handleSubmit = async e => {
-        e.preventDefault()
-        
-        await axios.post(`https://teammate-app.herokuapp.com/auth/users/`, {
+        .post(`https://teammate-app.herokuapp.com/auth/users/`, {
             first_name: firstname,
             last_name: lastname, 
             username: username,
             password: password,
         })
+        .then(() => {
+            axios
+        .post('https://teammate-app.herokuapp.com/auth/token/login/', {
+            username: username,
+            password: password,
+        }, console.log("logged in"))
+        .then((res) => {
+        const token = res.data.auth_token;
+        setAuth(username, token)
+        setToken(token)
+    })
 
-        setNavigate(true);
+        })
+
     }
-    if (navigate) {
-    return <Navigate to="/open-games" />;
+    if (token) {
+        return <Navigate to="/open-games" />;
     }
 
-    
     return (
-        <div className="app-body">
-        <div className="register-box" style={{ textAlign: "center"}}>
-        <h1 className="form-banner">Please register</h1>
+        <>
+            <Box w='100%' m='auto' display='flex' justifyContent='center'>  <Image
+                  src={logo}
+                  alt='TeamMate logo'
+                  w='150px'
+                /></Box>
+        <Box h='72px'>&nbsp;</Box>
+        <Box className="app-body">
 
-        <div className='form-register'>
-        {error && <div className="error">{error}</div>}
-        <form id="new-user-form" onSubmit={handleSubmit}>
-
-        <label className="" >First Name</label>
+        <Box className="form">
+        <Heading color='teal' className="form-banner">Registration</Heading>
+        {error && <Box className="error">{error}</Box>}
+        <FormControl id="new-user-form">
+        <Box m={2}>
+        <FormLabel display='inline-block' color='#2C7A7B'>First Name</FormLabel>
         <input id="inputFirstname" className="form-control"  placeholder="First name"
             onChange={(e) => setFirstname(e.target.value)}/>
-        <br/> 
-        <label className="" >Last Name</label>
+        </Box>
+        <Box m={2}>
+        <FormLabel display='inline-block' color='#2C7A7B'>Last Name</FormLabel>
         <input id="inputLastname" className="form-control"  placeholder="Last name"
             onChange={(e) => setLastname(e.target.value)}/>
-        <br/> 
-        <label className="" >Username</label>
-        <input id="inputUsername" className="form-control"  placeholder="User name"
+        </Box>
+        <FormLabel display='inline-block' color='#2C7A7B'>Username</FormLabel>
+        <input id="inputUsername" className="form-control"  placeholder="Username"
             onChange={(e) => setUsername(e.target.value)} type="username"/>
-        <br/> 
-        <label class="sr-only">Password</label>
+        <Box m={2}>
+        <FormLabel display='inline-block' color='#2C7A7B'>Password</FormLabel>
         <input id="inputPassword" className="form-control" placeholder="Password"
             onChange={(e) => setPassword(e.target.value)} type="password"/>
-        <br/>
-        <br/>
-        <Button colorScheme="teal" type="submit" >Submit</Button>
-        </form>
-        </div>
-        </div>
-        </div>
+        </Box>    
+        <Box w='100' display='flex' justifyContent='center' m={2}> <Button colorScheme="teal" type="submit" onClick={(e) => handleSubmit(e)}>Submit</Button></Box>
+       
+        </FormControl>
+        <ReactLink to="/"><Text color='#285E61' fontSize='12px'>Back to Login</Text></ReactLink>
+        </Box>
+        </Box>
+        <Box className="spacer">&nbsp;</Box>
+        </>
     )
     }
 
-    export default Register
-
-    
+export default Register;

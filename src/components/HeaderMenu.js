@@ -1,18 +1,43 @@
-import { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
-import { IconButton } from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import { Button } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
+import { Link, Navigate, LinkOverlay } from "react-router-dom";
+import { IconButton, Box, Text, Button, Image } from "@chakra-ui/react";
+import { HamburgerIcon, CloseIcon, BellIcon } from "@chakra-ui/icons";
 import Modal from "react-modal";
 import axios from "axios";
+import useLocalStorageState from "use-local-storage-state";
+import NotificationsList from './NotificationsList'
+import logo from "../images/teammate-logo.png";
+import {
+    Alert,
+    AlertIcon,
+    AlertTitle,
+    AlertDescription,
+    Stack
+    } from '@chakra-ui/react'
 
 
-function Header(token, setToken) {
+function Header() {
     const [modalIsOpen, setModalIsOpen] = useState(false);
-
+    // const [navigate, setNavigate] = useState(false);
+    const [token, setToken] = useLocalStorageState("teammateToken", null);
     const [error, setError] = useState([]);
+    const [notifications, setNotifications] = useState(null);
+    const [alertIcon, setAlertIcon] = useState('teal')
+    const [alert, setAlert] = useState('')
 
-
+    useEffect(() => {
+        axios
+            .get(`https://teammate-app.herokuapp.com/notification/all/`, {
+                headers: {
+                    Authorization: `Token ${token}`,
+                },
+            })
+            .then((res) => {
+                console.log(res.data);
+                setNotifications(res.data);
+                console.log(notifications);
+            });
+    }, [token]);
 
     const handleOpenModal = () => {
         console.log("click open");
@@ -24,85 +49,91 @@ function Header(token, setToken) {
         setModalIsOpen(false);
     };
 
+    useEffect(() => {
+        if (notifications) {
+        setAlert('red')
+        setAlertIcon('white')
+        }
+        if (notifications && notifications.length === 0) {
+        setAlert('')
+        setAlertIcon('teal')
+        }
+    }, [notifications]);
+
+
+
     const handleLogOut = () => {
         axios
             .post(
                 `https://teammate-app.herokuapp.com/auth/token/logout/`,
                 {},
-                {headers: { Authorization:`Token$ {token}`}}
+                { headers: { Authorization: `Token ${token}` } }
             )
             .then(() => {
                 setToken(null);
                 console.log("logout");
-
             })
             .catch((res) => {
                 let error = res.message;
                 console.log(error);
                 setError(error);
             });
-
-        }
-
+    };
+    if (!token) {
+        return <Navigate to="/" />;
+    }
 
     return (
-        <div className="header">
-
+        <Box className="header">
             <IconButton
-                onClick={() => {
-                    handleOpenModal();
-                }}
-                aria-label="Hamburger Menu"
-                on
-                fontSize="2em"
-                colorScheme="teal"
-                border="none"
-                variant="outline"
-                icon={<HamburgerIcon />}
-            />
-
-            <Modal
-                className="modal"
-                isOpen={modalIsOpen}
-                contentLabel="Header Menu Modal"
-                overlayClassName="modal-overlay"
+                variant="ghost"
+                bg={alert}
+                borderRadius="20px"
+                fontSize="1.5em"
+                p={2}
+                m={0}
+                w="24px"
+                onClick={() => handleOpenModal()}
             >
+                <BellIcon color={alertIcon} />
+            </IconButton>
+            <Box display='flex' justifyContent='center'> <Image
+                    src={logo}
+                    alt='TeamMate logo'
+                    w='150px'
+                />
+                </Box>
+            <Box display="flex" justifyContent="end" m={2} color="teal">
                 <Button
-                    onClick={() => {
-                        handleCloseModal();
-                    }}
-                    className="close-modal-button"
-                    variant="ghost"
                     colorScheme="teal"
+                    variant="outline"
+                    m={0}
+                    h="24px"
+                    p={2}
                 >
-                    <CloseIcon color="white" />
+                    <Link
+                        to="/"
+                        onClick={(e) => {
+                            handleLogOut(e);
+                        }}
+                    >
+                        Signout
+                    </Link>
                 </Button>
+            </Box>
 
-                <div className="header-menu">
-                    <Link to="/my-games" className="hamburger-link">
-                        My Games
-                    </Link>
-                    <Link to="" className="hamburger-link">
-                        Settings
-                    </Link>
-                    <Link to="" className="hamburger-link">
-                        Support
-                    </Link>
-                    <>
-                        <Link
-                            to="/"
-                            className="hamburger-link"
-                            onClick={(e) => {
-                                handleLogOut(e);
-                            }}
-                        >
-                            Sign Out
-                        </Link>
-                    </>
-                </div>
+
+            <Modal isOpen={modalIsOpen} contentLabel="Notifications Modal" overlayClassName="modal-overlay" className="modal" handleCloseModal={handleCloseModal}>
+            <IconButton onClick={()=>handleCloseModal()} className="close-modal-button" variant='outline' colorScheme='teal'><CloseIcon color='white'/></IconButton>
+            
+            <NotificationsList token={token} notifications={notifications}/>
+
             </Modal>
 
-        </div>
+            
+        
+
+        </Box>
     );
 }
 
