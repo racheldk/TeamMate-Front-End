@@ -182,7 +182,6 @@ import NewGamesList from "../components/GamesList";
                     )
                 )}
             </Box>
-            <Box className="spacer">&nbsp;</Box>
             <Footer />
         </>
     );
