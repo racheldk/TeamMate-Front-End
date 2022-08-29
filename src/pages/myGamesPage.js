@@ -1,4 +1,4 @@
-import { Text, Heading, Icon, Box } from "@chakra-ui/react";
+import { Text, Heading, Icon, Box, Spinner, Center } from "@chakra-ui/react";
 import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
 import { useState, useEffect } from "react";
@@ -318,23 +318,15 @@ export default function MyGames({ token, username, game, setGame, reload, setRel
         setIsLoading(false);
     }, [token, reload]);
 
-    // const combineLists = () => {
-    //     const combinedLists = confirmedGames.concat(
-    //         pendingPOVGuestGames,
-    //         noGuestGames,
-    //         hostOpenDoublesGames,
-    //         guestOpenDoublesGames
-    //     );
-    //     console.log(combinedLists);
-    //     const sortedCombined = combinedLists.sort(
-    //         (objA, objB) => Number(objA.date) - Number(objB.date)
-    //     );
-    //     console.log(sortedCombined);
-    //     setNoActionGames(sortedCombined);
-    // };
-
     if (isLoading) {
-        return <Box>Loading...</Box>;
+        return <Box>
+            <Center h='400px'><Spinner
+        thickness='4px'
+        speed='0.65s'
+        emptyColor='gray.200'
+        color='#234E52;'
+        size='xl'
+        /></Center></Box>;
     }
 
     return (
