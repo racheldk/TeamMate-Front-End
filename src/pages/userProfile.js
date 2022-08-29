@@ -30,7 +30,7 @@ function UserProfile({ token, setToken }) {
     );
     const [historyGames, setHistoryGames] = useState(null);
     const [editModalIsOpen, setEditModalIsOpen] = useState(false);
-    const [gameModal, setGameModal] = useState(false);
+    const [pastGameModalIsOpen, setPastGameModalIsOpen] = useState(false);
 
     useEffect(() => {
         axios
@@ -101,16 +101,6 @@ function UserProfile({ token, setToken }) {
         console.log(editModalIsOpen);
     };
 
-    const handleGameOpenModal = (game, setGameId) => {
-        console.log("click modal open");
-        setGameModal(true);
-        setGameId(game);
-    };
-
-    const handleGameCloseModal = (game) => {
-        console.log("click modal open");
-        setGameModal(false);
-    };
 
     const handleCloseEditModal = (game) => {
         console.log("click close");
@@ -125,7 +115,7 @@ function UserProfile({ token, setToken }) {
             <Box className="app-body">
                 {user && (
                     <>
-                        <Box className="profile-body">
+                        <Box className="profile-body" marginTop={4}>
                             <Box className="user-name">
                                 <Heading size="2xl" color="white">
                                     {user.username}
@@ -166,8 +156,8 @@ function UserProfile({ token, setToken }) {
                                 </Box>
                             </Box>
                             <Box className="ranks">
-                                <Heading color="white">
-                                    NTRP: {user.profile.ntrp_rating}
+                                <Heading color="white" display='flex' justifyContent='center'>
+                                    NTRP&nbsp;<Box bg='#ffffff' borderRadius='10px' maxW='10%' paddingLeft='.2em' paddingRight='.2em' color='teal' textAlign='center'>{user.profile.ntrp_rating}</Box>
                                 </Heading>
                             </Box>
                             <Box className="confirmed-games" w="100%" justifyContent='center'>
@@ -176,6 +166,7 @@ function UserProfile({ token, setToken }) {
                                         <PastGamesList
                                             gamesList={historyGames}
                                             token={token}
+                                            setPastGameModalIsOpen={setPastGameModalIsOpen}
                                         />
                                     )}
                                 </Box>

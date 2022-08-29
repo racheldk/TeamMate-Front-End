@@ -10,15 +10,23 @@ import { useState } from "react";
 export default function GameDetail({
     token,
     game,
-    handleCloseModal,
     username,
-    handleClosePastGameModal,
+    setPastGameModalIsOpen,
 }) {
     const [editClicked, setEditClicked] = useState(false);
     const [surveyClicked, setSurveyClicked] = useState(false)
 
     console.log(game);
     console.log(token);
+
+    const handleCloseModal = () => {
+        console.log("click close");
+        setPastGameModalIsOpen(false);
+    };
+
+    const handleClosePastGameModal = () => {
+        setPastGameModalIsOpen(false);
+    };
 
 
     const handleClick = (game, button) => {
