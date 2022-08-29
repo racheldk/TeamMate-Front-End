@@ -7,7 +7,7 @@ import GamesList from "../components/GamesList";
 import { IoMdTennisball } from "react-icons/io";
 import {
     BsQuestionCircleFill,
-    BsFillExclamationCircleFill,
+    BsPersonFill,
 } from "react-icons/bs";
 import { CheckCircleIcon } from '@chakra-ui/icons'
 
@@ -114,8 +114,9 @@ export default function MyGames({ token, username, game, setGame }) {
                                         // iconColor: 'example',
                                         icon: (
                                             <Icon
-                                                color="red"
-                                                as={BsFillExclamationCircleFill}
+                                                color="white"
+                                                backgroundColor="#e32636"
+                                                as={BsPersonFill}
                                                 fontSize="30px"
                                         borderRadius="100px"
                                             />

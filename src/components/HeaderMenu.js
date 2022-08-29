@@ -122,38 +122,11 @@ function Header() {
                 </Button>
             </Box>
 
-      
+
             <Modal isOpen={modalIsOpen} contentLabel="Notifications Modal" overlayClassName="modal-overlay" className="modal" handleCloseModal={handleCloseModal}>
             <IconButton onClick={()=>handleCloseModal()} className="close-modal-button" variant='outline' colorScheme='teal'><CloseIcon color='white'/></IconButton>
             
-
-            <Box className="modal-base" display='flex' flexWrap='wrap'  justifyContent='center'>
-                <Box w='350px' height='' display='flex' justifyContent='center' flexWrap='wrap' >
             <NotificationsList token={token} notifications={notifications}/>
-            <Stack spacing={2} width="100%">
-            <Alert status='error'>
-                <AlertIcon />
-                Notification Alert!
-            </Alert>
-
-            <Alert status='success'>
-                <AlertIcon />
-                Notification Alert!
-            </Alert>
-
-            <Alert status='warning'>
-                <AlertIcon />
-                Notification Alert!
-            </Alert>
-
-            <Alert status='info'>
-                <AlertIcon />
-                Notification Alert!
-            </Alert>
-            </Stack>
-
-                </Box>
-            </Box>
 
             </Modal>
 
