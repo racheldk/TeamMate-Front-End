@@ -11,6 +11,7 @@ import {
 } from "react-icons/bs";
 import { CheckCircleIcon } from '@chakra-ui/icons'
 
+
 export default function MyGames({ token, username, game, setGame }) {
     console.log(username);
 
@@ -115,6 +116,8 @@ export default function MyGames({ token, username, game, setGame }) {
                                             <Icon
                                                 color="red"
                                                 as={BsFillExclamationCircleFill}
+                                                fontSize="30px"
+                                        borderRadius="100px"
                                             />
                                         ),
                                         displayUsers: [guest],
@@ -160,7 +163,9 @@ export default function MyGames({ token, username, game, setGame }) {
                                 displayStatus: "confirmed",
                                 bgColor: "#ffffff",
                                 tennisBall: IoMdTennisball,
-                                icon: (<CheckCircleIcon color="#32CD32"/>),
+                                icon: (<CheckCircleIcon color="#48BB78"
+                                fontSize="30px"
+                                borderRadius="100px" />),
                                 displayUsers: confirmedPlayers,
                                 buttonTitle: null,
                                 buttons: [

@@ -22,6 +22,7 @@ body {
     height: 100vh;
     margin: auto;
     overflow: scroll;
+    border-radius: 20px;
 }
 .spacer {
     height: 72px;
@@ -29,31 +30,12 @@ body {
     margin: auto;
 }
 
-/* Header Menu Stylings */
-.header-menu {
+/* Filters Stylings */
+
+.filters {
     display: grid;
-    background-color: white;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    font-size: 2em;
-    width: 350px;
-    height: 300px;
-    margin: auto;
-    animation: expand-down 1s;
-    overflow-y: hidden;
-    border-radius: 20px;
-    animation-fill-mode: forwards;
+    grid-template-columns: 50% 50%;
 }
-
-.hamburger-link:hover {
-    background-color:#B2F5EA;
-    color: white;
-    border-radius: 20px;
-    padding: 0 1em;
-    width: 100%;
-}
-
 
 
 /* User Profile Stylings */
@@ -133,12 +115,12 @@ body {
 
 .header {
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 25% 50% 25%;
+    background-image: linear-gradient(#ffffff 40%, #4FD1C5 40%);
     margin: auto;
     z-index: 10;
     padding: .2em;
     text-align: center;
-    background-color: white;
     position: sticky;
     top: 0;
     width: 100%;
@@ -240,6 +222,10 @@ Input {
     width: 100%;
 }
 
+.react-datepicker__input-container {
+    width: 250px!important;
+}
+
 Input:hover {
     background-color: #B2F5EA;
     cursor: pointer;
@@ -268,15 +254,6 @@ Input:hover {
 h1{ color:#285E61; text-align: center; font-family: Verdana; 
     padding-bottom: 10px; padding-top: 5px;} 
 
-
-.filter-options{display: flex; font-size: 9px;
-    padding-left: 1px;}
-
-.filters{width: 100px; height: 20px; text-align: center; margin-right: -45px; 
-    border-radius: 6px; color: #285E61; margin-left: 55px;}
-
-.filter-date{width: 80px; height: 20px; text-align: center; margin-right: px; 
-        border-radius: 6px; color: #285E61; margin-left: 10px;}
 h3{color: #fff;}
 
 

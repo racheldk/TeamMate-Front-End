@@ -80,6 +80,7 @@ import NewGamesList from "../components/GamesList";
     return (
         <>
             <Header />
+            <Heading color="#234E52" textAlign="center">Open Games</Heading>
             <Box className="app-body">
                 <Box textAlign="center" 
                 marginTop={5} marginBottom={2} maxW='350px' marginRight='auto' marginLeft='auto'
@@ -93,20 +94,16 @@ import NewGamesList from "../components/GamesList";
                         }}
                         minDate={subDays(new Date(), 0)}
                         selected={displayDate}
-                        placeholderText="Click to Select a date"
-                        // isClearable
+                        placeholderText="When"
                     >
-                        {/* <Text fontSize="md" color="blue" onClick={()=>{
-                            console.log('any date button on calendar filter');
-                            setDisplayDate(null)
-                            setFilteredDate(null)
-                            handleFilterDate(null)
-                        }}>Any date</Text> */}
+             
                     </ReactDatePicker>
+                    <Box className="filters" w='60%' m='auto'>
                     <Select
                         textAlign="right"
-                        w="29%"
+                        w="100px"
                         size="s"
+                        m={2}
                         variant="filled"
                         borderRadius={10}
                         display="inline-block"
@@ -122,7 +119,7 @@ import NewGamesList from "../components/GamesList";
                     </Select>
                     <Select
                         textAlign="right"
-                        w="29%"
+                        w="100px"
                         size="s"
                         m={2}
                         variant="filled"
@@ -133,14 +130,14 @@ import NewGamesList from "../components/GamesList";
                         id="filter-type"
                         name="filter-type"
                     >
-                        <option value="">Level</option>
+                        <option value="">Style</option>
                         <option value="">All</option>
                         <option value="Casual">Casual</option>
                         <option value="Competitive">Competitive</option>
                     </Select>
                     <Select
                         textAlign="right"
-                        w="29%"
+                        w="100px"
                         size="s"
                         m={2}
                         variant="filled"
@@ -157,12 +154,15 @@ import NewGamesList from "../components/GamesList";
                         <option value="Doubles">Doubles</option>
                     </Select>
                     <Button
-                        w="25%"
+                        w="100px"
+                        m={2}
+                        p={0}
+                        h='25px'
                         colorScheme="teal"
                         onClick={() => handleSubmitFilter()}
                     >
                         Filter
-                    </Button>
+                    </Button></Box>
                 </Box>
                 {(!filtered)?  (<NewGamesList
                     token={token}

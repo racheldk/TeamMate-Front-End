@@ -114,9 +114,12 @@ const handleCloseModal = (game) => {
               </Box>
               <>
               <Box w='100%' display='flex' justifyContent='center'>
-              <Box className="profile-pic" m={2} boxSize="150px">
+              <Box className="profile-pic" m={2} w="150px" h='150px'>
                 <Image
                   src={user.profile.profile_image_file}
+                  w='100%'
+                  h='100%'
+                  objectFit='cover'
                   alt={user.username}
                   fallbackSrc={noImage}
                   borderRadius="full"
