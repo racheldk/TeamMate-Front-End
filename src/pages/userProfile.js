@@ -22,7 +22,6 @@ import PastGamesList from "../components/PastGamesList";
 import { IoMdTennisball } from "react-icons/io";
 import GameDetail from "../components/GameDetail";
 
-
 function UserProfile({ token, setToken }) {
     const [user, setUser] = useState(null);
     const [username, setUsername] = useLocalStorageState(
@@ -57,42 +56,42 @@ function UserProfile({ token, setToken }) {
                 }
             )
             .then((res) => {
-              console.log(res.data)
-                const responseGames= res.data
-                const expandedPastGames = []
+                console.log(res.data);
+                const responseGames = res.data;
+                const expandedPastGames = [];
                 for (let game of responseGames) {
-                  const confirmedPlayers = [];
-                  for (let guest of game.guest_info) {
-                      console.log(guest);
-                      if (
-                          guest.status === "Host" ||
-                          guest.status === "Accepted"
-                      ) {
-                          // console.log("Confirmed Player");
-                          confirmedPlayers.push(guest);
-                      }
-                      console.log(confirmedPlayers);
-                  }
-                  const expandedGame = {
-                      displayStatus: "past",
-                      bgColor: "#ffffff",
-                      tennisBall: IoMdTennisball,
-                      icon: null,
-                      displayUsers: confirmedPlayers,
-                      buttonTitle: null, 
-                      buttons:[
-                        {
-                          label: "Take Survey",
-                          job: "open survey"
+                    const confirmedPlayers = [];
+                    for (let guest of game.guest_info) {
+                        console.log(guest);
+                        if (
+                            guest.status === "Host" ||
+                            guest.status === "Accepted"
+                        ) {
+                            // console.log("Confirmed Player");
+                            confirmedPlayers.push(guest);
                         }
-                      ],
-                      ...game,
-                  };
-                  console.log(expandedGame);
-                  expandedPastGames.push(expandedGame);
-              }
-              console.log(expandedPastGames);
-              setHistoryGames(expandedPastGames);
+                        console.log(confirmedPlayers);
+                    }
+                    const expandedGame = {
+                        displayStatus: "past",
+                        bgColor: "#ffffff",
+                        tennisBall: IoMdTennisball,
+                        icon: null,
+                        displayUsers: confirmedPlayers,
+                        buttonTitle: null,
+                        buttons: [
+                            {
+                                label: "Take Survey",
+                                job: "open survey",
+                            },
+                        ],
+                        ...game,
+                    };
+                    console.log(expandedGame);
+                    expandedPastGames.push(expandedGame);
+                }
+                console.log(expandedPastGames);
+                setHistoryGames(expandedPastGames);
             });
     }, [token, username]);
 
@@ -146,8 +145,8 @@ function UserProfile({ token, setToken }) {
                                     />
                                 </Heading>
                             </Box>
-                            </Box>
-<>
+                        </Box>
+                        <>
                             <Box
                                 w="100%"
                                 display="flex"
@@ -171,13 +170,17 @@ function UserProfile({ token, setToken }) {
                                     NTRP: {user.profile.ntrp_rating}
                                 </Heading>
                             </Box>
-                            
-                            <Box>
-                            {historyGames && (
-                              <PastGamesList gamesList={historyGames} token={token}/>
-                            )}
+                            <Box className="confirmed-games" w="100%" justifyContent='center'>
+                                <Box className="games">
+                                    {historyGames && (
+                                        <PastGamesList
+                                            gamesList={historyGames}
+                                            token={token}
+                                        />
+                                    )}
+                                </Box>
                             </Box>
-                        </Box>
+                        </>
                         <Modal
                             isOpen={editModalIsOpen}
                             contentLabel="Edit Profile Modal"
