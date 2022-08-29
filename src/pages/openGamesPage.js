@@ -8,9 +8,34 @@ import subDays from "date-fns/subDays";
 import "react-datepicker/dist/react-datepicker.css";
 import { DateTime } from "luxon";
 import NewGamesList from "../components/GamesList";
+import {
+    AlertDialog,
+    AlertDialogBody,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogContent,
+    AlertDialogOverlay,
+    useDisclosure,
+    CloseButton,
+} from "@chakra-ui/react";
 
-    export default function OpenGamesPage({ token, allGamesList, username, game, setGame }) {
-        const [displayDate, setDisplayDate] = useState("")
+export default function OpenGamesPage({
+    token,
+    allGamesList,
+    username,
+    game,
+    setGame,
+    reload,
+    setReload,
+    onClose,
+    onOpen,
+    isOpen,
+    alertTitle,
+    alertMessage,
+    setAlertTitle,
+    setAlertMessage,
+}) {
+    const [displayDate, setDisplayDate] = useState("");
     const [filteredDate, setFilteredDate] = useState(null);
     const [searchDate, setSearchDate] = useState("");
     const [filteredLoc, setFilteredLoc] = useState(null);
@@ -73,7 +98,10 @@ import NewGamesList from "../components/GamesList";
             })
             .catch((error) => {
                 console.log(error);
-                alert(error.response.data.detail);
+                console.log("there was an error");
+                setAlertTitle("Uh oh, something went wrong. ");
+                setAlertMessage(error.message);
+                onOpen();
             });
     };
 
@@ -81,14 +109,21 @@ import NewGamesList from "../components/GamesList";
         <>
             <Header />
             <Box className="app-body">
-            <Heading color="#234E52" textAlign="center" marginTop={2}>Open Games</Heading>
-                <Box textAlign="center" 
-                marginTop={5} marginBottom={2} maxW='350px' marginRight='auto' marginLeft='auto'
+                <Heading color="#234E52" textAlign="center" marginTop={2}>
+                    Open Games
+                </Heading>
+                <Box
+                    textAlign="center"
+                    marginTop={5}
+                    marginBottom={2}
+                    maxW="350px"
+                    marginRight="auto"
+                    marginLeft="auto"
                 >
                     <ReactDatePicker
                         onChange={(date) => {
                             console.log(date);
-                            setDisplayDate(date)
+                            setDisplayDate(date);
                             setFilteredDate(date);
                             handleFilterDate(date);
                         }}
@@ -164,23 +199,49 @@ import NewGamesList from "../components/GamesList";
                         Filter
                     </Button></Box>
                 </Box>
-                {(!filtered)?  (<NewGamesList
-                    token={token}
-                    gamesList={allGamesList}
-                    setGame={setGame}
-                    game={game}
-                /> ):(
-                    filteredGames.length>0 ? (
-                        <NewGamesList 
+                {!filtered ? (
+                    <NewGamesList
                         token={token}
-                        gamesList={filteredGames} 
+                        gamesList={allGamesList}
                         setGame={setGame}
-                        game={game}/>
-                    ) : (
-                        <Box textAlign='center'>No games were found matching your filters</Box>
-                    )
+                        game={game}
+                        reload={reload}
+                        setReload={setReload}
+                    />
+                ) : filteredGames.length > 0 ? (
+                    <NewGamesList
+                        token={token}
+                        gamesList={filteredGames}
+                        setGame={setGame}
+                        game={game}
+                        reload={reload}
+                        setReload={setReload}
+                    />
+                ) : (
+                    <Box textAlign="center">
+                        No games were found matching your filters
+                    </Box>
                 )}
+
+                <AlertDialog isOpen={isOpen} onClose={onClose}>
+                    <AlertDialogOverlay>
+                        <AlertDialogContent>
+                            <CloseButton
+                                alignSelf="flex-end"
+                                position="relative"
+                                // right={-1}
+                                // top={-1}
+                                onClick={() => {
+                                    onClose();
+                                }}
+                            />
+                            <AlertDialogHeader>{alertTitle}</AlertDialogHeader>
+                            <AlertDialogBody>{alertMessage}</AlertDialogBody>
+                        </AlertDialogContent>
+                    </AlertDialogOverlay>
+                </AlertDialog>
             </Box>
+
             <Footer />
         </>
     );

@@ -7,7 +7,7 @@ import { TbBallTennis } from "react-icons/tb";
 import Login from "./pages/login.js";
 import Register from "./pages/register";
 import Theme from "./components/theme";
-import { Text } from "@chakra-ui/react";
+import { Text, useDisclosure } from "@chakra-ui/react";
 import useLocalStorageState from "use-local-storage-state";
 import UserProfile from "./pages/userProfile";
 import axios from "axios";
@@ -25,10 +25,13 @@ function App() {
     );
     const [allGamesList, setAllGamesList] = useState([]);
     const [currentGame, setCurrentGame] = useState({});
-    const [surveyGame, setSurveyGame] = useState(null)
-    const [game, setGame] = useState()
-    const [isLoading, setIsLoading] = useState(true)
-
+    const [surveyGame, setSurveyGame] = useState(null);
+    const [game, setGame] = useState();
+    const [isLoading, setIsLoading] = useState(true);
+    const [reload, setReload] = useState(1);
+    const { isOpen, onClose, onOpen } = useDisclosure();
+    const [alertTitle, setAlertTitle] = useState(null);
+    const [alertMessage, setAlertMessage] = useState(null);
 
     const setAuth = (username, token) => {
         setToken(token);
@@ -36,6 +39,8 @@ function App() {
     };
 
     useEffect(() => {
+        console.log("App.js useEffect for open games");
+        console.log(reload);
         axios
             .get("https://teammate-app.herokuapp.com/session/", {
                 headers: {
@@ -44,7 +49,7 @@ function App() {
             })
             .then((res) => {
                 // console.log(res.data);
-                const responseOpen = res.data
+                const responseOpen = res.data;
                 const openExpandedGames = [];
                 for (let game of responseOpen) {
                     const confirmedPlayers = [];
@@ -74,12 +79,17 @@ function App() {
                     // console.log(expandedGame);
                     openExpandedGames.push(expandedGame);
 
-                setAllGamesList(openExpandedGames);
+                    setAllGamesList(openExpandedGames);
                 }
-            });
-    }, [token, setAllGamesList]);
-
-
+            })
+            // .catch((error) => {
+            //     console.log(error);
+            //     console.log("there was an error");
+            //     setAlertTitle("Uh oh, something went wrong. ");
+            //     setAlertMessage(error.message);
+            //     onOpen()
+            // });
+    }, [token, setAllGamesList, reload]);
 
     return (
         <ChakraProvider Theme={Theme} Text={Text}>
@@ -105,21 +115,38 @@ function App() {
                                 username={username}
                                 setGame={setGame}
                                 game={game}
+                                reload={reload}
+                                setReload={setReload}
+                                onClose={onClose}
+                                onOpen={onOpen}
+                                isOpen={isOpen}
+                                alertTitle={alertTitle}
+                                alertMessage={alertMessage}
+                                setAlertTitle={setAlertTitle}
+                                setAlertMessage={setAlertMessage}
                             />
                         }
                     />
                     <Route
                         path="my-games/"
-                        element={<MyGames token={token} username={username} game={game} setGame={setGame}/>}>
-
-                        </Route>
+                        element={
+                            <MyGames
+                                token={token}
+                                username={username}
+                                game={game}
+                                setGame={setGame}
+                                reload={reload}
+                                setReload={setReload}
+                            />
+                        }
+                    ></Route>
                     <Route path="my-games/edit/">
                         <Route
                             path=":id"
                             element={<EditGame token={token} />}
                         />
                     </Route>
-                    
+
                     <Route
                         path=":username"
                         element={
@@ -127,12 +154,14 @@ function App() {
                                 token={token}
                                 allGamesList={allGamesList}
                                 game={game}
-                                
                             />
                         }
                     />
                     {/* Notifications path is just for during development - when header is ready this will be rendered in a modal */}
-                    <Route path="notifications" element={<NotificationsList token={token}/>}/>
+                    <Route
+                        path="notifications"
+                        element={<NotificationsList token={token} />}
+                    />
                 </Routes>
             </BrowserRouter>
         </ChakraProvider>
