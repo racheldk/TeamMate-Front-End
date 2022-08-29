@@ -28,7 +28,7 @@ function App() {
     const [surveyGame, setSurveyGame] = useState(null)
     const [game, setGame] = useState()
     const [isLoading, setIsLoading] = useState(true)
-
+    const [reload, setReload] = useState(1)
 
     const setAuth = (username, token) => {
         setToken(token);
@@ -36,6 +36,8 @@ function App() {
     };
 
     useEffect(() => {
+        console.log('App.js useEffect for open games')
+        console.log(reload)
         axios
             .get("https://teammate-app.herokuapp.com/session/", {
                 headers: {
@@ -77,7 +79,7 @@ function App() {
                 setAllGamesList(openExpandedGames);
                 }
             });
-    }, [token, setAllGamesList]);
+    }, [token, setAllGamesList, reload]);
 
 
 
@@ -105,6 +107,8 @@ function App() {
                                 username={username}
                                 setGame={setGame}
                                 game={game}
+                                reload={reload}
+                                setReload={setReload}
                             />
                         }
                     />

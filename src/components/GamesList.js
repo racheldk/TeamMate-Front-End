@@ -20,6 +20,8 @@ export default function GamesList({
     setGame,
     game,
     username,
+    reload, 
+    setReload,
     setNoActionGames,
     confirmedGames,
     pendingPOVGuestGames,
@@ -115,6 +117,8 @@ export default function GamesList({
                     game={game}
                     handleCloseModal={handleCloseModal}
                     username={username}
+                    reload={reload}
+                    setReload={setReload}
                 />
             </Modal>
         </Box>

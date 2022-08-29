@@ -13,6 +13,8 @@ export default function GameDetail({
     handleCloseModal,
     username,
     handleClosePastGameModal,
+    reload, 
+    setReload
 }) {
     const [editClicked, setEditClicked] = useState(false);
     const [surveyClicked, setSurveyClicked] = useState(false)
@@ -81,9 +83,13 @@ export default function GameDetail({
                 }
             )
             
-            .then(() => {
+            .then((res) => {
+                console.log(res)
                 console.log("guest posted");
-                alert("You sent a join request");
+                // alert("You sent a join request");
+                if (res.includes(guest_id)) {
+                    setAlertText(`You requested to join ${game.host}'s ${game.game_session_id} `)} else { setAlertText("oh nooooo!!!!")}
+                // setReload(reload+1) This happen when the alert is closed 
             })
             .catch((error) => {
                 alert(error.response.data.detail);
