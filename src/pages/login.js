@@ -15,6 +15,14 @@ import {
     AlertDialogContent,
     AlertDialogOverlay,
 } from "@chakra-ui/react";
+import {
+    Alert,
+    AlertIcon,
+    AlertTitle,
+    AlertDescription,
+} from "@chakra-ui/react";
+import { CloseButton } from "@chakra-ui/react";
+import { isVisible } from "@testing-library/user-event/dist/utils";
 import axios from "axios";
 import { useState } from "react";
 import { Navigate, Link } from "react-router-dom";
@@ -115,17 +123,19 @@ function Login({ setAuth }) {
                             </Text>
                         </Link>
                     </FormControl>
-
+                    
                     <AlertDialog isOpen={isOpen} onClose={onClose}>
                         <AlertDialogOverlay>
                             <AlertDialogContent>
+                            <CloseButton
+                            alignSelf="flex-end"
+                            position="relative"
+                            // right={-1}
+                            // top={-1}
+                            onClick={onClose}
+                        />
                                 <AlertDialogHeader>Uh oh!</AlertDialogHeader>
                                 <AlertDialogBody>{error}</AlertDialogBody>
-                                <AlertDialogFooter>
-                                    <Button onClick={() => onClose()}>
-                                        Close
-                                    </Button>
-                                </AlertDialogFooter>
                             </AlertDialogContent>
                         </AlertDialogOverlay>
                     </AlertDialog>
