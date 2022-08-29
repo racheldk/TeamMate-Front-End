@@ -64,7 +64,7 @@ export default function GameDetail({
 
     if (surveyClicked) {
         console.log(game)
-        return <Navigate to={`edit/${game.game_session_id}`} />
+        return <Navigate to={`survey/${game.game_session_id}`} />
     }
 
     const joinSession = (game) => {
