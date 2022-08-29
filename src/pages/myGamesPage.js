@@ -4,10 +4,12 @@ import Footer from "../components/FooterMenu";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import GamesList from "../components/GamesList";
+import { IoMdTennisball } from "react-icons/io";
 import {
     BsQuestionCircleFill,
     BsFillExclamationCircleFill,
 } from "react-icons/bs";
+import { CheckCircleIcon } from '@chakra-ui/icons'
 
 export default function MyGames({ token, username, game, setGame }) {
     console.log(username);
@@ -103,37 +105,63 @@ export default function MyGames({ token, username, game, setGame }) {
                                 console.log(guest);
                                 if (guest.status === "Pending") {
                                     console.log("this guest is pending");
-                                    pendingGuests.push({pendingGuest: guest, displayStatus: "action required",
-                                    bgColor: null, 
-                                    icon: (<Icon color="red" as={BsFillExclamationCircleFill} />),
-                                    displayUsers: [guest],
-                                    buttonTitle: "Do you want to play with ",
-                                    buttons: [
-                                    {label: "Yes", 
-                                    job: "handleAccept"},
-                                    {label: "No, thank you", 
-                                    job: "handleReject"}
-                                    ],
-                                    ...game});
+                                    pendingGuests.push({
+                                        pendingGuest: guest,
+                                        tennisBall: IoMdTennisball,
+                                        displayStatus: "action required",
+                                        bgColor: "#ffffff",
+                                        // iconColor: 'example',
+                                        icon: (
+                                            <Icon
+                                                color="red"
+                                                as={BsFillExclamationCircleFill}
+                                            />
+                                        ),
+                                        displayUsers: [guest],
+                                        buttonTitle:
+                                            "Do you want to play with ",
+                                        buttons: [
+                                            {
+                                                label: "Yes",
+                                                job: "handleAccept",
+                                            },
+                                            
+                                            {
+                                                label: "No, thank you",
+                                                job: "handleReject",
+                                            },
+                                        ],
+                                        ...game,
+                                    });
                                 }
                             }
                         }
-                        console.log(pendingGuests)
-                        setActionRequiredGames(pendingGuests)
+                        console.log(pendingGuests);
+                        setActionRequiredGames(pendingGuests);
                     }
-
-
-
 
                     if (responseConfirmed.length > 0) {
                         console.log("confirmed > 0");
-                        setConfirmedGames(
-                            responseConfirmed.map((obj) => ({
+                        const confirmedExpandedGames = [];
+                        for (let game of responseConfirmed) {
+                            const confirmedPlayers = [];
+                            for (let guest of game.guest_info) {
+                                console.log(guest);
+                                if (
+                                    guest.status === "Host" ||
+                                    guest.status === "Accepted"
+                                ) {
+                                    console.log("Confirmed Player");
+                                    confirmedPlayers.push(guest);
+                                }
+                                console.log(confirmedPlayers);
+                            }
+                            const expandedGame = {
                                 displayStatus: "confirmed",
-                                bgColor: "yellow",
-                                icon: null,
-                                // display: host and any confirmed guests
-                                displayUsers: [...obj.guest_info],
+                                bgColor: "#ffffff",
+                                tennisBall: IoMdTennisball,
+                                icon: (<CheckCircleIcon color="#32CD32"/>),
+                                displayUsers: confirmedPlayers,
                                 buttonTitle: null,
                                 buttons: [
                                     {
@@ -141,25 +169,44 @@ export default function MyGames({ token, username, game, setGame }) {
                                         job: "cancel confirmed",
                                     },
                                 ],
-                                route: `confirmed/${obj.id}`,
-                                ...obj,
-                            }))
-                        );
+                                ...game,
+                            };
+                            console.log(expandedGame);
+                            confirmedExpandedGames.push(expandedGame);
+                        }
+                        console.log(confirmedExpandedGames);
+                        setConfirmedGames(confirmedExpandedGames)
                     }
 
                     if (responsePending.length > 0) {
                         console.log("pending > 0");
-                        setPendingPOVGuestGames(
-                            responsePending.map((obj) => ({
+                        const pendingExpandedGames = [];
+                        for (let game of responsePending) {
+                            const confirmedPlayers = [];
+                            for (let guest of game.guest_info) {
+                                console.log(guest);
+                                if (
+                                    guest.status === "Host" ||
+                                    guest.status === "Accepted"
+                                ) {
+                                    console.log("Confirmed Player");
+                                    confirmedPlayers.push(guest);
+                                }
+                                console.log(confirmedPlayers);
+                            }
+                            const expandedGame = {
                                 displayStatus: "pendingPOVGuest",
-                                bgColor: "grey",
+                                tennisBall: IoMdTennisball,
+                                bgColor: "#ffffff",
                                 icon: (
                                     <Icon
-                                        color="yellow"
+                                        color="gold"
                                         as={BsQuestionCircleFill}
+                                        fontSize="30px"
+                                        borderRadius="100px"
                                     />
                                 ),
-                                displayUsers: [obj.guest_info[0]],
+                                displayUsers: confirmedPlayers,
                                 buttonTitle: null,
                                 buttons: [
                                     {
@@ -167,20 +214,37 @@ export default function MyGames({ token, username, game, setGame }) {
                                         job: "cancel pending request",
                                     },
                                 ],
-                                route: `pending/${obj.id}`,
-                                ...obj,
-                            }))
-                        );
+                                ...game,
+                            };
+                            console.log(expandedGame);
+                            pendingExpandedGames.push(expandedGame);
+                        }
+                        console.log(pendingExpandedGames);
+                        setPendingPOVGuestGames(pendingExpandedGames)
                     }
 
                     if (responseNoGuest.length > 0) {
                         console.log("noGuest > 0");
-                        setNoGuestGames(
-                            responseNoGuest.map((obj) => ({
+                        const noGuestExpandedGames = [];
+                        for (let game of responseNoGuest) {
+                            const confirmedPlayers = [];
+                            for (let guest of game.guest_info) {
+                                console.log(guest);
+                                if (
+                                    guest.status === "Host" ||
+                                    guest.status === "Accepted"
+                                ) {
+                                    console.log("Confirmed Player");
+                                    confirmedPlayers.push(guest);
+                                }
+                                console.log(confirmedPlayers);
+                            }
+                            const expandedGame = {
                                 displayStatus: "no guests",
-                                bgColor: null,
+                                bgColor: "#ffffff",
+                                tennisBall: IoMdTennisball,
                                 icon: null,
-                                displayUsers: [],
+                                displayUsers: confirmedPlayers,
                                 buttonTitle: null,
                                 buttons: [
                                     {
@@ -192,20 +256,35 @@ export default function MyGames({ token, username, game, setGame }) {
                                         job: "Edit game with no guests",
                                     },
                                 ],
-                                route: `unconfirmed/${obj.id}`,
-                                ...obj,
-                            }))
-                        );
+                                ...game,
+                            };
+                            console.log(expandedGame);
+                            noGuestExpandedGames.push(expandedGame);
+                        } setNoGuestGames(noGuestExpandedGames)
                     }
 
                     if (responseHostOpenDoubles.length > 0) {
                         console.log("hostOpenDoubles > 0");
-                        setHostOpenDoublesGames(
-                            responseHostOpenDoubles.map((obj) => ({
+                        const hostOpenDoublesExpandedGames = [];
+                        for (let game of responseHostOpenDoubles) {
+                            const confirmedPlayers = [];
+                            for (let guest of game.guest_info) {
+                                console.log(guest);
+                                if (
+                                    guest.status === "Host" ||
+                                    guest.status === "Accepted"
+                                ) {
+                                    console.log("Confirmed Player");
+                                    confirmedPlayers.push(guest);
+                                }
+                                console.log(confirmedPlayers);
+                            }
+                            const expandedGame = {
                                 displayStatus: "host open doubles",
-                                bgColor: null,
+                                bgColor: "#ffffff",
+                                tennisBall: IoMdTennisball,
                                 icon: null,
-                                displayUsers: [obj.guest_info],
+                                displayUsers: confirmedPlayers,
                                 buttonTitle: null,
                                 buttons: [
                                     {
@@ -213,23 +292,37 @@ export default function MyGames({ token, username, game, setGame }) {
                                         job: "cancel game",
                                     },
                                 ],
-                                route: `unconfirmed/${obj.id}`,
-                                ...obj,
-                            }))
-                        );
+                                ...game,
+                            };
+                            console.log(expandedGame);
+                            hostOpenDoublesExpandedGames.push(expandedGame);
+                        }
+                        setHostOpenDoublesGames(hostOpenDoublesExpandedGames)
                     }
+
 
                     if (responseGuestOpenDoubles.length > 0) {
                         console.log("guestOpenDoubles > 0");
-                        setGuestOpenDoublesGames(
-                            responseGuestOpenDoubles.map((obj) => ({
+                        const guestOpenDoublesExpandedGames = [];
+                        for (let game of responseGuestOpenDoubles) {
+                            const confirmedPlayers = [];
+                            for (let guest of game.guest_info) {
+                                console.log(guest);
+                                if (
+                                    guest.status === "Host" ||
+                                    guest.status === "Accepted"
+                                ) {
+                                    console.log("Confirmed Player");
+                                    confirmedPlayers.push(guest);
+                                }
+                                console.log(confirmedPlayers);
+                            }
+                            const expandedGame = {
                                 displayStatus: "guest open doubles",
-                                bgColor: null,
+                                bgColor: "#ffffff",
+                                tennisBall: IoMdTennisball,
                                 icon: null,
-                                displayUsers: [
-                                    obj.host_info,
-                                    ...obj.guest_info,
-                                ],
+                                displayUsers: confirmedPlayers,
                                 buttonTitle: null,
                                 buttons: [
                                     {
@@ -237,10 +330,12 @@ export default function MyGames({ token, username, game, setGame }) {
                                         job: "cancel accepted request",
                                     },
                                 ],
-                                route: `unconfirmed/${obj.id}`,
-                                ...obj,
-                            }))
-                        );
+                                ...game,
+                            };
+                            console.log(expandedGame);
+                            guestOpenDoublesExpandedGames.push(expandedGame);
+                        }
+                        setGuestOpenDoublesGames(guestOpenDoublesExpandedGames)
                     }
                 })
             )
@@ -271,16 +366,20 @@ export default function MyGames({ token, username, game, setGame }) {
     }
 
     return (
+        <>
+        <Header />
         <Box className="app-body">
-            <Header />
-            <Heading fontSize="1xl">MyGames Component</Heading>
+            {/* if this heading changes we also need to change notifications message */}
+            <Heading color="#234E52" textAlign="center">My Games</Heading>
 
-            {/* The following ternaries are so Rachel can see where things are loading/not loading */}
-            {actionRequiredGames.length == 0 ? (
+
+
+                {/* The following ternaries are so Rachel can see where things are loading/not loading */}
+                {/* {actionRequiredGames.length === 0 ? (
                 <Text>
                     You don't have any games that require your attention
                 </Text>
-            ) : (
+            ) : ( */}
                 <GamesList
                     token={token}
                     gamesList={actionRequiredGames}
@@ -288,11 +387,11 @@ export default function MyGames({ token, username, game, setGame }) {
                     game={game}
                     username={username}
                 />
-            )}
+                {/* )} */}
 
-            {confirmedGames.length == 0 ? (
+                {/* {confirmedGames.length === 0 ? (
                 <Text>You don't have any confirmed games.</Text>
-            ) : (
+            ) : ( */}
                 <GamesList
                     token={token}
                     gamesList={confirmedGames}
@@ -300,11 +399,11 @@ export default function MyGames({ token, username, game, setGame }) {
                     game={game}
                     username={username}
                 />
-            )}
+                {/* )} */}
 
-            {pendingPOVGuestGames.length == 0 ? (
+                {/* {pendingPOVGuestGames.length === 0 ? (
                 <Text>You don't have any pending requests to join games.</Text>
-            ) : (
+            ) : ( */}
                 <GamesList
                     token={token}
                     gamesList={pendingPOVGuestGames}
@@ -312,14 +411,14 @@ export default function MyGames({ token, username, game, setGame }) {
                     game={game}
                     username={username}
                 />
-            )}
+                {/* )} */}
 
-            {noGuestGames.length == 0 ? (
+                {/* {noGuestGames.length === 0 ? (
                 <Text>
                     You don't have any games that don't already have a guest
                     attached.
                 </Text>
-            ) : (
+            ) : ( */}
                 <GamesList
                     token={token}
                     gamesList={noGuestGames}
@@ -327,14 +426,14 @@ export default function MyGames({ token, username, game, setGame }) {
                     game={game}
                     username={username}
                 />
-            )}
+                {/* )} */}
 
-            {hostOpenDoublesGames.length == 0 ? (
+                {/* {hostOpenDoublesGames.length === 0 ? (
                 <Text>
                     You aren't hosting any doubles games that are waiting for
                     more participants.
                 </Text>
-            ) : (
+            ) : ( */}
                 <GamesList
                     token={token}
                     gamesList={hostOpenDoublesGames}
@@ -342,13 +441,13 @@ export default function MyGames({ token, username, game, setGame }) {
                     game={game}
                     username={username}
                 />
-            )}
-            {guestOpenDoublesGames.length == 0 ? (
+                {/* )} */}
+                {/* {guestOpenDoublesGames.length === 0 ? (
                 <Text>
                     You aren't a guest in any doubles games that are waiting for
                     more participants.
                 </Text>
-            ) : (
+            ) : ( */}
                 <GamesList
                     token={token}
                     gamesList={guestOpenDoublesGames}
@@ -356,9 +455,9 @@ export default function MyGames({ token, username, game, setGame }) {
                     game={game}
                     username={username}
                 />
-            )}
+                {/* )} */}
 
-            {/* {noActionGames.length == 0 ? (
+                {/* {noActionGames.length == 0 ? (
                 <Text>noActionGames array is empty</Text>
             ) : (
                 <GamesList
@@ -372,7 +471,8 @@ export default function MyGames({ token, username, game, setGame }) {
                     // guestOpenDoublesGames={guestOpenDoublesGames}
                 />
             )} */}
+            </Box>{" "}
             <Footer />
-        </Box>
+        </>
     );
 }

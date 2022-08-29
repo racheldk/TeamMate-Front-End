@@ -3,12 +3,15 @@ import {
     Heading,
     Button,
     Box,
+    Icon,
     Modal,
     LinkOverlay,
-    LinkBox
+    LinkBox,
+    Image
 } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
 import { DateTime } from "luxon";
-import { useState } from "react";
+import { IoMdTennisball } from "react-icons/io";
 import GameDetail from "./GameDetail";
 
 export default function GamesList({
@@ -26,42 +29,19 @@ export default function GamesList({
     test,
 }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [rank, setRank] = useState('teal');
 
-    // useEffect(()=>{
-    //     const combinedLists = confirmedGames.concat(
-    //         pendingPOVGuestGames,
-    //         noGuestGames,
-    //         hostOpenDoublesGames,
-    //         guestOpenDoublesGames
-    //     );
-    //     console.log(combinedLists);
-    //     const sortedCombined = combinedLists.sort(
-    //         (objA, objB) => Number(objA.date) - Number(objB.date)
-    //     );
-    //     console.log(sortedCombined);
-    //     setNoActionGames(sortedCombined);
-    // },[pendingPOVGuestGames, confirmedGames, noGuestGames, hostOpenDoublesGames, guestOpenDoublesGames, setNoActionGames])
-
+    useEffect((game) => {
+        if (game && game.host_info.profile.ntrp_rating === 2.5) {
+        setRank('brown')
+     }
+        if (game && game.host_info.profile.ntrp_rating > 2.5) {
+        setRank('pink')
+     }
+    }, [game]);
+    
     console.log(gamesList);
 
-    // useEffect(()=> {
-    //     const combinedLists = [].concat(...pendingPOVGuestGames, ...noGuestGames)
-    //     // if (confirmedGames){
-    //     //     combinedLists.push(...confirmedGames)
-    //     // }
-    //         // combinedLists.push(pendingPOVGuestGames)
-
-    //         // combinedLists.push(noGuestGames)
-
-    //     // if (hostOpenDoublesGames){
-    //     //     combinedLists.push(...hostOpenDoublesGames)
-    //     // }
-    //     // if (guestOpenDoublesGames){
-    //     //     combinedLists.push(...guestOpenDoublesGames)
-    //     // }
-    //     console.log(combinedLists)
-    //     // setNoActionGames(combinedLists)
-    // }, [pendingPOVGuestGames, confirmedGames, noGuestGames, hostOpenDoublesGames, guestOpenDoublesGames, setNoActionGames, test])
 
     const handleOpenModal = (game) => {
         console.log("click open");
@@ -78,23 +58,24 @@ export default function GamesList({
     console.log(gamesList);
     // console.log(game)
 
-    if (gamesList.length == 0) {
-        return (
-            <Text>
-                You have no games to display - make a new game or join one.
-                Trust us, it'll be great (NewGamesList)
-            </Text>
-        );
-    }
+    // if (gamesList.length === 0) {
+    //     return (
+    //         <Text>
+    //             You have no games to display - make a new game or join one.
+    //             Trust us, it'll be great (NewGamesList)
+    //         </Text>
+    //     );
+    // }
+
+    
 
     return (
-        <Box>
-            <Heading fontSize='1xl'>NewGamesList Component</Heading>
+        <Box display='flex' flexWrap='wrap' maxW="350px" m='auto' justifyContent='center' textAlign='center'>
             {gamesList.length > 0 && (
-                <Box>
-                    <Text>Category: {gamesList[0].displayStatus}</Text>
+            <>
+                    {/* <Heading textTransform='capitalize' color='#285E61'>{gamesList[0].displayStatus}</Heading> */}
                     {gamesList.map((game) => (
-                        <LinkBox key={game.game_session_id}>
+                        <LinkBox key={game.game_session_id} cursor='pointer'>
                         <LinkOverlay  onClick={() => {
                                         handleOpenModal(game);
                                     }}>
@@ -103,37 +84,29 @@ export default function GamesList({
                                 bg={`${game.bgColor}`}
                                 key={game.id}
                             >
-
-                                <Text>{game.game_session_id} </Text>
                                 <Box>{game.icon}</Box>
-                                <Text>{game.location_info.park_name}</Text>
-                                <Text>{game.match_type}</Text>
-                                <Text>{game.session_type}</Text>
-                                <Text>
-                                    {DateTime.fromISO(game.date).toLocaleString(
-                                        {
-                                            weekday: "short",
-                                            month: "short",
-                                            day: "numeric",
-                                        }
-                                    )}{" "}
-                                    at{" "}
-                                    {DateTime.fromISO(game.time).toLocaleString(
-                                        DateTime.TIME_SIMPLE
+                                
+                                <Box w='100%' display='inline-block' marginRight='0'>
+                                <Heading fontSize={30} color='teal'>{game.location_info.park_name}</Heading>
+                                <Text color='#285E61'>{game.match_type} | {game.session_type}</Text>
+                                <Text color='#285E61'>
+                                    {DateTime.fromISO(game.datetime).toLocaleString(
+                                        DateTime.DATETIME_MED_WITH_WEEKDAY
                                     )}
-                                </Text>
+                                </Text></Box>
+                            </Box>
+                            <Box borderRadius='100px' borderColor='white' bg={game.bgColor} position='absolute' top={0} right={0}>
+                            <Icon as={game.tennisBall} color={rank} fontSize='3em' display='flex' />
                             </Box>
                             </LinkOverlay>
                         </LinkBox>
                     ))}
-                </Box>
+                </>
             )}
 
             <Modal
-                className="modal"
                 isOpen={modalIsOpen}
                 contentLabel="Game Detail Modal"
-                overlayClassName="modal-overlay"
                 game={game}
             >
                 <GameDetail

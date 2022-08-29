@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import useLocalStorageState from "use-local-storage-state";
 import Modal from "react-modal";
 import axios from "axios";
+import { DateTime } from "luxon";
 import { CloseIcon } from "@chakra-ui/icons";
 import { BsPencil } from "react-icons/bs";
 import {
@@ -18,6 +19,9 @@ import {
 } from "@chakra-ui/react";
 import noImage from "../images/no-image.jpg";
 import PastGamesList from "../components/PastGamesList";
+import { IoMdTennisball } from "react-icons/io";
+import GameDetail from "../components/GameDetail";
+
 
 function UserProfile({ token, setToken }) {
     const [user, setUser] = useState(null);
@@ -27,6 +31,7 @@ function UserProfile({ token, setToken }) {
     );
     const [historyGames, setHistoryGames] = useState(null);
     const [editModalIsOpen, setEditModalIsOpen] = useState(false);
+    const [gameModal, setGameModal] = useState(false);
 
     useEffect(() => {
         axios
@@ -37,7 +42,7 @@ function UserProfile({ token, setToken }) {
             })
             .then((res) => {
                 setUser(res.data);
-                console.log(res.data);
+                // console.log(res.data);
             });
     }, [token, username, editModalIsOpen]);
 
@@ -52,8 +57,42 @@ function UserProfile({ token, setToken }) {
                 }
             )
             .then((res) => {
-                setHistoryGames(res.data);
-                console.log(res.data);
+              console.log(res.data)
+                const responseGames= res.data
+                const expandedPastGames = []
+                for (let game of responseGames) {
+                  const confirmedPlayers = [];
+                  for (let guest of game.guest_info) {
+                      console.log(guest);
+                      if (
+                          guest.status === "Host" ||
+                          guest.status === "Accepted"
+                      ) {
+                          // console.log("Confirmed Player");
+                          confirmedPlayers.push(guest);
+                      }
+                      console.log(confirmedPlayers);
+                  }
+                  const expandedGame = {
+                      displayStatus: "past",
+                      bgColor: "#ffffff",
+                      tennisBall: IoMdTennisball,
+                      icon: null,
+                      displayUsers: confirmedPlayers,
+                      buttonTitle: null, 
+                      buttons:[
+                        {
+                          label: "Take Survey",
+                          job: "open survey"
+                        }
+                      ],
+                      ...game,
+                  };
+                  console.log(expandedGame);
+                  expandedPastGames.push(expandedGame);
+              }
+              console.log(expandedPastGames);
+              setHistoryGames(expandedPastGames);
             });
     }, [token, username]);
 
@@ -61,6 +100,17 @@ function UserProfile({ token, setToken }) {
         console.log("click modal open");
         setEditModalIsOpen(true);
         console.log(editModalIsOpen);
+    };
+
+    const handleGameOpenModal = (game, setGameId) => {
+        console.log("click modal open");
+        setGameModal(true);
+        setGameId(game);
+    };
+
+    const handleGameCloseModal = (game) => {
+        console.log("click modal open");
+        setGameModal(false);
     };
 
     const handleCloseEditModal = (game) => {
@@ -76,7 +126,6 @@ function UserProfile({ token, setToken }) {
             <Box className="app-body">
                 {user && (
                     <>
-                        <Box className="spacer">&nbsp;</Box>
                         <Box className="profile-body">
                             <Box className="user-name">
                                 <Heading size="2xl" color="white">
@@ -88,38 +137,129 @@ function UserProfile({ token, setToken }) {
                                             handleOpenEditModal();
                                         }}
                                         fontSize=".5em"
-                                        colorScheme="white"
+                                        colorScheme="teal"
                                         border="none"
-                                        variant="ghost"
-                                        className="edit-profile"
-                                        icon={<Icon as={BsPencil} />}
+                                        variant="solid"
+                                        icon={
+                                            <Icon as={BsPencil} color="white" />
+                                        }
                                     />
                                 </Heading>
                             </Box>
-                            <>
-                                <Box className="profile-pic" m={2}>
+
+                            <Box
+                                w="100%"
+                                display="flex"
+                                justifyContent="center"
+                            >
+                                <Box
+                                    className="profile-pic"
+                                    m={2}
+                                    boxSize="150px"
+                                >
                                     <Image
                                         src={user.profile.profile_image_file}
                                         alt={user.username}
                                         fallbackSrc={noImage}
                                         borderRadius="full"
-                                        boxSize="150px"
                                     />
                                 </Box>
-                                <Box className="ranks">
-                                    <Heading color="white">
-                                        NTRP: {user.profile.ntrp_rating}
-                                    </Heading>
-                                </Box>
+                            </Box>
+                            <Box className="ranks">
+                                <Heading color="white">
+                                    NTRP: {user.profile.ntrp_rating}
+                                </Heading>
+                            </Box>
+                            {/* <Box className="confirmed-games" w="100%">
+                                {" "}
+                                {game && (
+                                    <Box className="games">
+                                        <Heading color="#234E52" m={2}>
+                                            Upcoming Games
+                                        </Heading>
+                                        {game.map((game) => (
+                                            <LinkBox
+                                                key={game.game_session_id}
+                                                cursor="pointer"
+                                            >
+                                                <LinkOverlay
+                                                    onClick={() => {
+                                                        handleGameOpenModal(
+                                                            game,
+                                                            setGameId
+                                                        );
+                                                    }}
+                                                >
+                                                    <Box
+                                                        className="profile-item"
+                                                        display="flex"
+                                                        flexWrap="wrap"
+                                                        p={0.5}
+                                                        marginTop={2}
+                                                    >
+                                                        <Icon
+                                                            as={
+                                                                IoMdTennisball
+                                                            }
+                                                            color="teal"
+                                                            fontSize="3em"
+                                                            display="flex"
+                                                        />
+                                                        <Box
+                                                            w="80%"
+                                                            m="auto"
+                                                            marginBottom="0"
+                                                            marginTop="0"
+                                                        >
+                                                            <Heading
+                                                                fontSize="xl"
+                                                                color="teal"
+                                                            >
+                                                                {
+                                                                    game
+                                                                        .location_info
+                                                                        .park_name
+                                                                }{" "}
+                                                                {game.index}
+                                                            </Heading>
+                                                            <Text color="teal">
+                                                                {DateTime.fromISO(
+                                                                    game.datetime
+                                                                ).toLocaleString(
+                                                                    DateTime.DATETIME_MED_WITH_WEEKDAY
+                                                                )}
+                                                            </Text>
+                                                        </Box>
+                                                    </Box>
+                                                </LinkOverlay>
+                                            </LinkBox>
+                                        ))}
+                                    </Box>
+                                )}
+                            </Box> */}
 
+                            <Box>
+                            {historyGames && (
 
-                            </>
+                              <PastGamesList gamesList={historyGames} token={token}/>
+                              // Styling Sam Did 
+                                // <Box className="games">
+                                //     {" "}
+                                //     {historyGames.map((history) => (
+                                //         <Box className="profile-item">
+                                //             <Text>{history.date}&nbsp;</Text>
+                                //             <Text>
+                                //                 {
+                                //                     history.location_info
+                                //                         .park_name
+                                //                 }
+                                //             </Text>
+                                //         </Box>
+                                //     ))}
+                                // </Box>
+                            )}
+                            </Box>
                         </Box>
-                                {historyGames.length>0 &&
-                                <PastGamesList 
-                                token={token}
-                                gamesList={historyGames}
-                                /> }
                         <Modal
                             isOpen={editModalIsOpen}
                             contentLabel="Edit Profile Modal"

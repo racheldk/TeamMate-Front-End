@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NewOpenGame from "./pages/newOpenGame";
 import { useEffect, useState } from "react";
 import { ChakraProvider } from "@chakra-ui/react";
+import { TbBallTennis } from "react-icons/tb";
 import Login from "./pages/login.js";
 import Register from "./pages/register";
 import Theme from "./components/theme";
@@ -42,20 +43,39 @@ function App() {
                 },
             })
             .then((res) => {
-                console.log(res.data);
-                setAllGamesList(
-                    res.data.map((obj) => ({
+                // console.log(res.data);
+                const responseOpen = res.data
+                const openExpandedGames = [];
+                for (let game of responseOpen) {
+                    const confirmedPlayers = [];
+                    for (let guest of game.guest_info) {
+                        // console.log(guest);
+                        if (
+                            guest.status === "Host" ||
+                            guest.status === "Accepted"
+                        ) {
+                            // console.log("Confirmed Player");
+                            confirmedPlayers.push(guest);
+                        }
+                        // console.log(confirmedPlayers);
+                    }
+                    const expandedGame = {
                         displayStatus: "join",
-                        bgColor: "pink",
+                        bgColor: "#ffffff",
                         icon: null,
-                        displayUsers: obj.guest_info,
+                        tennisBall: TbBallTennis,
+                        displayUsers: confirmedPlayers,
+                        buttonTitle: null,
                         buttons: [
                             { label: "Join", job: "send a join request" },
                         ],
-                        route: `host/${obj.id}`,
-                        ...obj,
-                    }))
-                );
+                        ...game,
+                    };
+                    // console.log(expandedGame);
+                    openExpandedGames.push(expandedGame);
+
+                setAllGamesList(openExpandedGames);
+                }
             });
     }, [token, setAllGamesList]);
 
@@ -71,7 +91,7 @@ function App() {
                         element={<NewOpenGame token={token} />}
                     />
                     <Route
-                        path="survey/:id" element={<Survey setAuth={setAuth} token={token} surveyGame={surveyGame}/>} />
+                        path="my-games/survey/:id" element={<Survey setAuth={setAuth} token={token} surveyGame={surveyGame}/>} />
                     <Route
                         path="register"
                         element={<Register setAuth={setAuth} />}
@@ -106,6 +126,8 @@ function App() {
                             <UserProfile
                                 token={token}
                                 allGamesList={allGamesList}
+                                game={game}
+                                
                             />
                         }
                     />

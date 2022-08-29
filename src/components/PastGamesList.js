@@ -9,13 +9,16 @@ import {
 } from "@chakra-ui/react";
 import { DateTime } from "luxon";
 import { useState } from "react";
-import PastGamesDetail from "./PastGameDetail";
+import GameDetail from "./GameDetail";
+
 
 export default function PastGamesList({ token, gamesList }) {
     const [pastGameModalIsOpen, setPastGameModalIsOpen] = useState(false);
     const [game, setGame] = useState(null)
 
     const handleOpenPastGameModal = (game) => {
+        console.log('open past game modal')
+        console.log(game)
         setPastGameModalIsOpen(true)
         setGame(game)
     };
@@ -47,9 +50,10 @@ export default function PastGamesList({ token, gamesList }) {
                 overlayClassName="modal-overlay"
                 game={game}
             >
-                <PastGamesDetail
+                <GameDetail
                     token={token}
                     game={game}
+                    // handleClosePastGameModal={handleClosePastGameModal}
                     handleClosePastGameModal={handleClosePastGameModal}
                 />
             </Modal>

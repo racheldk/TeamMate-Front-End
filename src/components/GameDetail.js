@@ -1,4 +1,4 @@
-import { Text, Heading, Image, Button, Box } from "@chakra-ui/react";
+import { Text, Heading, Image, Button, IconButton, Box } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
 import { DateTime } from "luxon";
 import noImage from "../images/no-image.jpg";
@@ -6,16 +6,20 @@ import axios from "axios";
 import { Navigate } from "react-router-dom";
 import { useState } from "react";
 
+
 export default function GameDetail({
     token,
     game,
     handleCloseModal,
     username,
+    handleClosePastGameModal,
 }) {
     const [editClicked, setEditClicked] = useState(false);
+    const [surveyClicked, setSurveyClicked] = useState(false)
 
     console.log(game);
     console.log(token);
+
 
     const handleClick = (game, button) => {
         if (game.displayStatus === "join") {
@@ -46,11 +50,21 @@ export default function GameDetail({
             handleCloseModal();
             setEditClicked(true);
         }
+        if (button.label === "Take Survey") {
+            console.log("take survey clicked")
+            handleClosePastGameModal()
+            setSurveyClicked(true)
+        }
     };
 
     if (editClicked) {
         console.log(game)
         return <Navigate to={`edit/${game.game_session_id}`} />;
+    }
+
+    if (surveyClicked) {
+        console.log(game)
+        return <Navigate to={`edit/${game.game_session_id}`} />
     }
 
     const joinSession = (game) => {
@@ -66,6 +80,7 @@ export default function GameDetail({
                     },
                 }
             )
+            
             .then(() => {
                 console.log("guest posted");
                 alert("You sent a join request");
@@ -161,81 +176,61 @@ export default function GameDetail({
 
     return (
         <Box className="modal-overlay">
-            <Box className="modal-base">
-                <Heading>UpdatedGameDetail Component</Heading>
-                <Button
-                    onClick={() => {
-                        handleCloseModal();
-                    }}
-                    className="close-modal-button"
-                    variant="ghost"
-                    colorScheme="teal"
-                >
-                    <CloseIcon color="red" />
-                </Button>
-                <Box className="game-card" key={game.id}>
-                    <Text>{game.game_session_id}</Text>
+            <Box textAlign='right' className="modal">
+            <IconButton onClick={()=>handleCloseModal()} className="close-modal-button" variant='outline' colorScheme='teal'><CloseIcon color='white'/></IconButton>
+            
+                <Box className="modal-base" display='flex' flexWrap='wrap' key={game.id} justifyContent='center'>
+                <Box w='350px' display='flex' justifyContent='center' flexWrap='wrap' >
                     {game.displayUsers.length > 0 &&
                         game.displayUsers.map((user) => (
-                            <Box key={user.user_id}>
-                                <Text>{`${user.user_info.first_name} ${user.user_info.last_name}`}</Text>
-                                <Text>{`${user.user}`}</Text>
-                                <Image
-                                src={`${user.user_info.profile.profile_pic}`}
-                                alt={user}
+                            <Box key={user.user_id} m='auto' p='.5em'>
+                                <Heading fontSize='xl'>{`${user.user_info.first_name} ${user.user_info.last_name}`}</Heading>
+                                <Text>{`@${user.user}`}</Text>
+                                <Box boxSize="100px"  m='auto'>
+                                <Image className='profile_pic'
+                                src={`${user.user_info.profile.profile_image_file}`}
+                                alt={user.user}
+                                boxSize='100px'
                                 fallbackSrc={noImage}
                                 borderRadius="full"
-                                boxSize="150px"
                                 />
+                                </Box>
                             <Text>
                                 NTRP:{" "}
                                 {user.user_info.profile.ntrp_rating}{" "}
                             </Text>
                             </Box>
-                        ))}
+                        ))}</Box>
 
-                    <Text>{game.location_info.park_name}</Text>
-                    <Text>{game.match_type}</Text>
-                    <Text>{game.session_type}</Text>
-                    <Text>
-                        {DateTime.fromISO(game.date).toLocaleString({
-                            weekday: "short",
-                            month: "short",
-                            day: "numeric",
-                        })}{" "}
-                        at{" "}
-                        {DateTime.fromISO(game.time).toLocaleString(
-                            DateTime.TIME_SIMPLE
+                        <Heading fontWeight='700' w='100%'>{game.location_info.park_name}</Heading>
+                        <Text>{game.location_info.address.address1} </Text>
+                        <Text>{game.location_info.address.city}, {game.location_info.address.state} {game.location_info.address.zipcode}</Text>
+                    
+                    <Text w='100%' marginTop={3}>{game.match_type} | {game.session_type}</Text>
+                    <Text fontWeight='700' fontSize='xl'>
+                        {DateTime.fromISO(game.datetime).toLocaleString(
+                            DateTime.DATETIME_MED_WITH_WEEKDAY
                         )}
                     </Text>
 
-                    <Box>
+                    <Box w='100%' m={3}>
                         {game.buttonTitle && (
                             <Text>
                                 {game.buttonTitle}
-                                {game.displayUsers[0].user}?
+                                {game.displayUsers[0].user_info.first_name}?
                             </Text>
                         )}
                         {game.buttons.map((button) => (
-                            <Button
+                            <Button colorScheme='teal'
                                 key={button.label}
                                 onClick={() => handleClick(game, button)}
                             >
-                                <Text color="red">{button.label} </Text>
+                                <Text color="white">{button.label} </Text>
                             </Button>
                         ))}
-                    </Box>
-
-                    {/* <Box>
-                        {game.buttons.map((button) => (
-                            <Button onClick={() => handleJoin(game)
-                            }>
-                                <Text color="teal">test {button.label} </Text>
-                            </Button>
-                        ))}
-                    </Box> */}
                 </Box>
             </Box>
+        </Box>
         </Box>
     );
 }
