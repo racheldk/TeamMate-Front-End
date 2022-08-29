@@ -41,18 +41,18 @@ const cancelGuest = (gameId) => {
     return (
         
         <Box className="modal-base">
-          
+    
                 <Box m='auto'>
             <Heading>{gameId.host_info.first_name} {gameId.host_info.last_name}</Heading>
             <Text>@{gameId.host}</Text>
                 </Box>
                 <Box  className="profile-pic" m={2} boxSize="150px" w='100%'>
                 <Image
-                  src={gameId.host_info.profile.profile_image_file}
-                  alt={gameId.host}
-                  fallbackSrc={noImage}
-                  borderRadius="full"
-                  
+                    src={gameId.host_info.profile.profile_image_file}
+                    alt={gameId.host}
+                    fallbackSrc={noImage}
+                    borderRadius="full"
+                    
                 />
                 </Box>
                 <Box>

@@ -90,9 +90,9 @@ function Header() {
                 <BellIcon color={alertIcon} />
             </IconButton>
             <Box display='flex' justifyContent='center'> <Image
-                  src={logo}
-                  alt='TeamMate logo'
-                  w='150px'
+                    src={logo}
+                    alt='TeamMate logo'
+                    w='150px'
                 />
                 </Box>
             <Box display="flex" justifyContent="end" m={2} color="teal">
@@ -113,8 +113,10 @@ function Header() {
                     </Link>
                 </Button>
             </Box>
+            
             <Modal isOpen={modalIsOpen} contentLabel="Notifications Modal" overlayClassName="modal-overlay" className="modal" handleCloseModal={handleCloseModal}>
             <IconButton onClick={()=>handleCloseModal()} className="close-modal-button" variant='outline' colorScheme='teal'><CloseIcon color='white'/></IconButton>
+            
             <NotificationsList token={token} notifications={notifications}/>
 
             </Modal>
