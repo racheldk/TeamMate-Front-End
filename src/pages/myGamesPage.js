@@ -12,6 +12,17 @@ import {
 import { CheckCircleIcon } from '@chakra-ui/icons'
 import CalendarExample from "../components/calendar-example";
 import { DateTime } from "luxon";
+import {
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+    PopoverHeader,
+    PopoverBody,
+    PopoverFooter,
+    PopoverArrow,
+    PopoverCloseButton,
+    PopoverAnchor,
+  } from '@chakra-ui/react'
 
 
 export default function MyGames({ token, username, game, setGame }) {
@@ -170,7 +181,7 @@ export default function MyGames({ token, username, game, setGame }) {
                                 icon: (<CheckCircleIcon color="#48BB78"
                                 fontSize="30px"
                                 borderRadius="100px" />),
-                                title: <CheckCircleIcon/>,
+                                title: <CheckCircleIcon color="#48BB78"/>,
                                 allDay:false,
                                 start: DateTime.fromISO(game.datetime).toJSDate(),
                                 end: DateTime.fromISO(game.endtime).toJSDate(),
@@ -373,8 +384,9 @@ export default function MyGames({ token, username, game, setGame }) {
 
             {showCalendar ? (
                 <>
-                <Button onClick={() =>setShowCalendar(false)}>List</Button>
-                <CalendarExample confirmedGames={confirmedGames}/>
+                <Button size="sm"onClick={() =>setShowCalendar(false)}>List</Button>
+                
+                <CalendarExample confirmedGames={confirmedGames} token={token} username={username}/>
                 </>
                 ):(
                     <>
@@ -428,6 +440,18 @@ export default function MyGames({ token, username, game, setGame }) {
                 />
                 </>
                 )}
+
+<Popover>
+            <PopoverTrigger>
+                <Button>Trigger</Button>
+            </PopoverTrigger>
+            <PopoverContent>
+                <PopoverArrow/>
+                <PopoverCloseButton/>
+                <PopoverHeader>Game Details!</PopoverHeader>
+                <PopoverBody>game details body</PopoverBody>
+            </PopoverContent>
+        </Popover>
 
             </Box>{" "}
             <Footer />
