@@ -85,6 +85,11 @@ function UserProfile({ token, setToken }) {
                     for (const player of confirmedPlayers) {
                         confirmedPlayersUsernames.push(player.user)
                     }
+                    const tookSurvey = []
+                    for (const survey of game.survey_info) {
+                        tookSurvey.push(survey.respondent)
+                    }
+                    console.log(tookSurvey)
                     console.log(confirmedPlayersUsernames)
                     const expandedGame = {
                         displayStatus: "past",
@@ -94,6 +99,7 @@ function UserProfile({ token, setToken }) {
                         displayUsers: confirmedPlayers,
                         displayUsersUsernames: confirmedPlayersUsernames,
                         historyStatus: "past",
+                        tookSurvey: tookSurvey,
                         buttonTitle: null,
                         buttons: [
                             {

@@ -362,7 +362,7 @@ export default function GameDetail({
                         )}
                     </Text>
 
-                    { (((game.displayStatus!=="past") || (game.displayStatus==='past' && game.displayUsersUsernames.includes(username)))) 
+                    { ((game.displayStatus!=="past") || (game.displayStatus==='past' && game.displayUsersUsernames.includes(username) && !game.tookSurvey.includes(username))) 
                     && (
                         <Box w="100%" m={3}>
                             {game.buttonTitle && (
