@@ -9,10 +9,11 @@ import {
     LinkBox,
     Image
 } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { DateTime } from "luxon";
 import { IoMdTennisball } from "react-icons/io";
 import GameDetail from "./GameDetail";
+
 
 
 export default function GamesList({
@@ -69,6 +70,7 @@ export default function GamesList({
     return (
         <>
         <Box display='flex' flexWrap='wrap' maxW="350px" m='auto' justifyContent='center' textAlign='center'>
+            
             {gamesList.length > 0 && (
             <>
                     {/* <Heading textTransform='capitalize' color='#285E61'>{gamesList[0].displayStatus}</Heading> */}
@@ -93,10 +95,17 @@ export default function GamesList({
                                     )}
                                 </Text></Box>
                             </Box>
+
+    
                             <Box borderRadius='100px' borderColor='white' bg={game.bgColor} position='absolute' top={0} right={0}>
-                            <Icon as={game.tennisBall} color={rank} fontSize='3em' display='flex' />
-                            <Box marginTop={3}>{game.icon}</Box>
-                            </Box>
+                            <Icon as={game.tennisBall} color={rank} fontSize='3em' display='flex'
+                            /> 
+                            <Box marginTop={3}> {game.icon}  </Box></Box>
+
+                            <Box borderColor='white' color="teal" position='absolute' top={4} marginLeft="250px" fontSize="10px">RANK&nbsp;</Box>
+                            <Box color='teal'  position='absolute' top={3} right={12} fontSize='14px'>{game.host_info.profile.teammate_ntrp}</Box>
+                            {/* <Box color='teal' fontSize='14px'> NTRP&nbsp;{game.host_info.profile.ntrp_rating}</Box> */}
+                            
                             </LinkOverlay>
                         </LinkBox>
                     ))}
