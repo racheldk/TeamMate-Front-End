@@ -18,6 +18,8 @@ import {
     useDisclosure,
     CloseButton,
 } from "@chakra-ui/react";
+import { DateTime } from "luxon";
+
 
 const Survey = ({ token }) => {
     const [surveyPK, setSurveyPK] = useState(null);
@@ -138,7 +140,9 @@ const Survey = ({ token }) => {
                     size="md"
                     // marginLeft="90px"
                     >
-                    {game.match_type} game on {game.date}
+                    {game.session_type}{" "}{game.match_type} on {DateTime.fromISO(game.datetime).toLocaleString(
+                            DateTime.DATETIME_MED
+                        )}
                 </Heading>
 
                 <Box marginLeft="10px" marginRight="12px">
