@@ -5,16 +5,15 @@ import { HamburgerIcon, CloseIcon, BellIcon } from "@chakra-ui/icons";
 import Modal from "react-modal";
 import axios from "axios";
 import useLocalStorageState from "use-local-storage-state";
-import NotificationsList from './NotificationsList'
+import NotificationsList from "./NotificationsList";
 import logo from "../images/teammate-logo.png";
 import {
     Alert,
     AlertIcon,
     AlertTitle,
     AlertDescription,
-    Stack
-    } from '@chakra-ui/react'
-
+    Stack,
+} from "@chakra-ui/react";
 
 function Header() {
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -22,9 +21,11 @@ function Header() {
     const [token, setToken] = useLocalStorageState("teammateToken", null);
     const [error, setError] = useState([]);
     const [count, setCount] = useState(null);
-    const [alertIcon, setAlertIcon] = useState('teal')
-    const [alert, setAlert] = useState('')
-
+    const [alertIcon, setAlertIcon] = useState("teal");
+    const [alert, setAlert] = useState("");
+    const [getCount, setGetCount] = useState(1)
+    const [getCheck, setGetCheck] = useState(1)
+    const [notifications, setNotifications] = useState(null);
 
     useEffect(() => {
         axios
@@ -35,34 +36,43 @@ function Header() {
             })
             .then((res) => {
                 setCount(res.data);
-                console.log('doing a check');
+                console.log("doing a check");
             });
-    }, [token, modalIsOpen]);
+    }, [token, getCount]);
 
     const handleOpenModal = () => {
-        console.log("click open");
-        setModalIsOpen(true);
+        console.log("click notifications open");
+        axios
+        .get(`https://teammate-app.herokuapp.com/notification/check/`, {
+            headers: {
+                Authorization: `Token ${token}`,
+            },
+        })
+        .then((res) => {
+            setNotifications(res.data);
+            console.log(notifications)
+            setModalIsOpen(true);
+            });
     };
 
     const handleCloseModal = () => {
         console.log("click close");
         setModalIsOpen(false);
+        setGetCount(count+1)
     };
 
     useEffect(() => {
         if (count && count.length > 0) {
-        setAlert('red')
-        setAlertIcon('white')
-        console.log('lemme check')
+            setAlert("red");
+            setAlertIcon("white");
+            console.log("lemme check");
         }
         if (count && count.length === 0) {
-        setAlert('')
-        setAlertIcon('teal')
-        console.log('lemme check')
+            setAlert("");
+            setAlertIcon("teal");
+            console.log("lemme check");
         }
     }, [modalIsOpen, count]);
-
-
 
     const handleLogOut = () => {
         axios
@@ -99,12 +109,10 @@ function Header() {
             >
                 <BellIcon color={alertIcon} />
             </IconButton>
-            <Box display='flex' justifyContent='center'> <Image
-                    src={logo}
-                    alt='TeamMate logo'
-                    w='150px'
-                />
-                </Box>
+            <Box display="flex" justifyContent="center">
+                {" "}
+                <Image src={logo} alt="TeamMate logo" w="150px" />
+            </Box>
             <Box display="flex" justifyContent="end" m={2} color="teal">
                 <Button
                     colorScheme="teal"
@@ -124,17 +132,25 @@ function Header() {
                 </Button>
             </Box>
 
-
-            <Modal isOpen={modalIsOpen} contentLabel="Notifications Modal" overlayClassName="modal-overlay" className="modal" handleCloseModal={handleCloseModal}>
-            <IconButton onClick={()=>handleCloseModal()} className="close-modal-button" variant='outline' colorScheme='teal'><CloseIcon color='white'/></IconButton>
-            {/* <Box className="modal-base" display='flex' height="400px" flexWrap='wrap'>
+            <Modal
+                isOpen={modalIsOpen}
+                contentLabel="Notifications Modal"
+                overlayClassName="modal-overlay"
+                className="modal"
+                handleCloseModal={handleCloseModal}
+            >
+                <IconButton
+                    onClick={() => handleCloseModal()}
+                    className="close-modal-button"
+                    variant="outline"
+                    colorScheme="teal"
+                >
+                    <CloseIcon color="white" />
+                </IconButton>
+                {/* <Box className="modal-base" display='flex' height="400px" flexWrap='wrap'>
                 <Box w='350px' display='flex' justifyContent='center' flexWrap='wrap' > */}
-            <NotificationsList token={token} count={count} />
-
-
-            
-       
-        </Modal>
+                <NotificationsList token={token} count={count} notifications={notifications}/>
+            </Modal>
         </Box>
     );
 }
