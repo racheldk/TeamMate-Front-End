@@ -30,7 +30,8 @@ export default function NotificationsList({ token, notifications }) {
     return (
         <Box className="modal-base">
             {notifications.map((obj) => (
-                <Box >
+                <Box  m={1} textAlign="left" border="1px" fontSize="13px" borderRadius="3px"
+                marginBottom="15px" padding="6px">
                     <Text>{obj.message}</Text>
                 </Box>
             ))}

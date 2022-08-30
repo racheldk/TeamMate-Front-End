@@ -125,14 +125,14 @@ function Header() {
 
             <Modal isOpen={modalIsOpen} contentLabel="Notifications Modal" overlayClassName="modal-overlay" className="modal" handleCloseModal={handleCloseModal}>
             <IconButton onClick={()=>handleCloseModal()} className="close-modal-button" variant='outline' colorScheme='teal'><CloseIcon color='white'/></IconButton>
-            
+            {/* <Box className="modal-base" display='flex' height="400px" flexWrap='wrap'>
+                <Box w='350px' display='flex' justifyContent='center' flexWrap='wrap' > */}
             <NotificationsList token={token} notifications={notifications}/>
 
-            </Modal>
 
             
-        
-
+       
+        </Modal>
         </Box>
     );
 }

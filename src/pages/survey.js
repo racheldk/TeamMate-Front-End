@@ -8,19 +8,20 @@ import {
 } from "react-icons/bs";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { Checkbox, CheckboxGroup, Stack } from '@chakra-ui/react'
 
 const Survey = ({token}) => {
     const [surveyPK, setSurveyPK] = useState(null)
     const [params] = useState(useParams())
     const [isLoading, setIsLoading] = useState(true)
     const [surveyGame, setSurveyGame] = useState(null)
-
-
-    
     
     const surveyResponses = []
 
 // use params to get game information 
+
+
+
 
 useEffect(()=>{
     console.log(params.id)
@@ -170,6 +171,7 @@ useEffect(()=>{
 
 
 
+
     return (
         <Box className="survey">
             <Box>
@@ -210,63 +212,72 @@ useEffect(()=>{
                     >
                         No, everyone came
                     </Button>
+
+            <CheckboxGroup colorScheme=''>
+                    <Stack display="grid" gridTemplateColumns="auto auto" marginLeft="20px" marginBottom="-15px">
                     {game.displayUsers.map((user) => (
-                    <Button className="won"
-                        _focus={ {backgroundColor:"#4FD1C5"}}
-                        _active={{transform: 'translateY(5px)', color:"white"}}
+                    < Checkbox className="won" 
                         variant="outline"
-                        backgroundColor="white"
-                        colorScheme=""
+                        backgroundColor=""
+                        colorScheme="teal"
                         color="teal"
                         height="30px"
-                        width="150px"
-                        letterSpacing="2px"
-                        fontSize="13px"
+                        width="160px"
+                        letterSpacing="px"
+                        fontSize="10px"
+                        borderColor="teal"
                         key={user.id}
-                        m={2}
-                        onClick={()=>
+                        mt={2}
+                        onChange={()=>
                             {console.log({about_user: user.id, response: "No Show"})
                             surveyResponses.push({about_user: user.id, response: "No Show"})}}
-                    >
+                            >
                         {user.username}
-                    </Button>
-                    
+                    </Checkbox>
                     ))}
-                    <br />
-                    
-                    <Text mt={3}  backgroundColor="teal"
-                        paddingLeft="10px"
-                        borderRadius="5px"
-                        height="40px"
-                        color="white"
-                        fontSize="14px"
-                        width="335px"
-                        display="table-cell"
-                        verticalAlign="middle"
-                        >Who won?</Text>
-                    {game.displayUsers.map((user) => (
-                    <Button
-                        _focus={ {backgroundColor:"#4FD1C5"}}
-                        _active={{transform: 'translateY(5px)', color:"white"}}
-                            variant="outline"
-                            backgroundColor="white"
-                            colorScheme=""
-                            color="teal"
-                            height="30px"
-                            width="150px"
-                            letterSpacing="2px"
-                            fontSize="13px"
-                            key={user.id}
-                            m={2}
-                            onClick={()=>
-                                {console.log({about_user: user.id, response: "Winner"})
-                                surveyResponses.push({about_user: user.id, response: "Winner"})}}
-                        >
-                            {user.username}
-                        </Button>
-                    ))}
-                    
-                
+                </Stack>
+            </CheckboxGroup>
+
+
+                <br />
+                {(game.session_type === "Competitive") && 
+                <>
+                <Text mt={3}  backgroundColor="teal"
+                    paddingLeft="10px"
+                    borderRadius="5px"
+                    height="40px"
+                    color="white"
+                    fontSize="14px"
+                    width="335px"
+                    display="table-cell"
+                    verticalAlign="middle"
+                    >Who won?</Text> 
+        <CheckboxGroup>
+                <Stack display="grid" gridTemplateColumns="auto auto" marginLeft="20px" marginBottom="-15px">
+                {game.displayUsers.map((user) => (
+                < Checkbox className="won" 
+                    variant="outline"
+                    backgroundColor=""
+                    colorScheme="teal"
+                    color="teal"
+                    height="30px"
+                    width="160px"
+                    letterSpacing="px"
+                    fontSize="10px"
+                    borderColor="teal"
+                    key={user.id}
+                    mt={2}
+                        onChange={()=>
+                        {console.log({about_user: user.id, response: "Winner"})
+                        surveyResponses.push({about_user: user.id, response: "Winner"})}}
+                    >
+                    {user.username}
+                    </Checkbox>
+                    ))
+                }
+                </Stack>
+        </CheckboxGroup></>}
+
                     <br />
                     <Text mt={3}  backgroundColor="teal"
                         paddingLeft="10px"
@@ -295,88 +306,94 @@ useEffect(()=>{
                     >
                         No, I would play with them again
                     </Button>
+            <CheckboxGroup >
+                    <Stack display="grid" gridTemplateColumns="auto auto" marginLeft="20px" marginBottom="-15px">
                     {game.displayUsers.map((user) => (
-                        <Button
-                        _focus={ {backgroundColor:"#4FD1C5"}}
-                        _active={{transform: 'translateY(5px)', color:"white"}}
-                        variant="outline"
-                        backgroundColor="white"
-                        colorScheme=""
-                        color="teal"
-                        height="30px"
-                        width="150px"
-                        letterSpacing="2px"
-                        fontSize="13px"
-                        key={user.id}
-                        m={2}
-                            onClick={()=>
-                                {console.log({about_user: user.id, response: "Block User"})
-                                surveyResponses.push({about_user: user.id, response: "Block User"})}}
+                    < Checkbox className="won" 
+                    variant="outline"
+                    backgroundColor=""
+                    colorScheme="teal"
+                    color="teal"
+                    height="30px"
+                    width="160px"
+                    letterSpacing="px"
+                    fontSize="10px"
+                    borderColor="teal"
+                    key={user.id}
+                    mt={2}
+                    
+                    onChange={()=>
+                        {console.log({about_user: user.id, response: "Block User"})
+                        surveyResponses.push({about_user: user.id, response: "Block User"})}}
                         >
                             {user.username}
-                        </Button>
+                        </Checkbox>
                     ))}
-                    <br />
-                    <Text mt={3}  backgroundColor="teal"
-                        paddingLeft="10px"
-                        borderRadius="5px"
-                        color="white"
-                        height="40px"
-                        fontSize="14px"
-                        width="335px"
-                        display="table-cell"
-                        verticalAlign="middle"
-                        >How do you rate the court quality at{" "}
-                        {game.location_info.park_name}?
-                    </Text>
-                    <div className="icon-survey">
-                        <IconButton
-                            aria-label="ProfileItem"
-                            fontSize="2.5em"
-                            colorScheme="green"
-                            color="#8fbc8f"
-                            _focus={ {color:"#32CD32"}}
-                            _hover={{ transform: "scale(1.5)" }}
-                            border="none"
-                            variant="outline"
-                            className=""
-                            icon={<BsFillEmojiSmileFill />}
-                            onClick={()=>
-                                {console.log({about_court: game.location, response: "High Quality"})
-                                surveyResponses.push({about_court: game.location, response: "High Quality"})}}
-                        />
-                        <IconButton
-                            aria-label="ProfileItem"
-                            fontSize="2.5em"
-                            colorScheme="yellow"
-                            color="#f0e68c"
-                            _focus={ {color:"#ffd700"}}
-                            _hover={{ transform: "scale(1.5)" }}
-                            border="none"
-                            variant="outline"
-                            className=""
-                            icon={<BsFillEmojiNeutralFill />}
-                            onClick={()=>
-                                {console.log({about_court: game.location, response: "Average Quality"})
-                                surveyResponses.push({about_court: game.location, response: "Average Quality"})}}
-                        />
-                        <IconButton
-                            aria-label="Search Item"
-                            fontSize="2.5em"
-                            colorScheme="red"
-                            color="#ab4b52"
-                            _focus={{color:"#ed1c24"}}
-                            _hover={{ transform: "scale(1.5)" }}
-                            border=""
-                            variant="outline"
-                            className=""
-                            icon={<BsEmojiFrownFill />}
-                            onClick={()=>
-                                {console.log({about_court: game.location, response: "Poor Quality"})
-                                surveyResponses.push({about_court: game.location, response: "Poor Quality"})}}
-                        />
-                    </div>
-                    
+                    </Stack>
+            </CheckboxGroup>
+
+
+                <br />
+                <Text mt={3}  backgroundColor="teal"
+                    paddingLeft="10px"
+                    borderRadius="5px"
+                    color="white"
+                    height="40px"
+                    fontSize="14px"
+                    width="335px"
+                    display="table-cell"
+                    verticalAlign="middle"
+                    >How do you rate the court quality at{" "}
+                    {game.location_info.park_name}?
+                </Text>
+                <div className="icon-survey">
+                    <IconButton
+                        aria-label="ProfileItem"
+                        fontSize="2.5em"
+                        colorScheme="green"
+                        color="#8fbc8f"
+                        _focus={ {color:"#32CD32"}}
+                        _hover={{ transform: "scale(1.5)" }}
+                        border="none"
+                        variant="outline"
+                        className=""
+                        icon={<BsFillEmojiSmileFill />}
+                        onClick={()=>
+                            {console.log({about_court: game.location, response: "High Quality"})
+                            surveyResponses.push({about_court: game.location, response: "High Quality"})}}
+                            />
+                    <IconButton
+                        aria-label="ProfileItem"
+                        fontSize="2.5em"
+                        colorScheme="yellow"
+                        color="#f0e68c"
+                        _focus={ {color:"#ffd700"}}
+                        _hover={{ transform: "scale(1.5)" }}
+                        border="none"
+                        variant="outline"
+                        className=""
+                        icon={<BsFillEmojiNeutralFill />}
+                        onClick={()=>
+                            {console.log({about_court: game.location, response: "Average Quality"})
+                            surveyResponses.push({about_court: game.location, response: "Average Quality"})}}
+                            />
+                    <IconButton
+                        aria-label="Search Item"
+                        fontSize="2.5em"
+                        colorScheme="red"
+                        color="#ab4b52"
+                        _focus={{color:"#ed1c24"}}
+                        _hover={{ transform: "scale(1.5)" }}
+                        border=""
+                        variant="outline"
+                        className=""
+                        icon={<BsEmojiFrownFill />}
+                        onClick={()=>
+                            {console.log({about_court: game.location, response: "Poor Quality"})
+                            surveyResponses.push({about_court: game.location, response: "Poor Quality"})}}
+                            />
+                </div>
+                
 
                     <Button
                         marginLeft="85px"
@@ -386,15 +403,14 @@ useEffect(()=>{
                         colorScheme="teal"
                         backgroundColor="teal"
                         color="white"
-                        onClick={()=>handleSubmit()}
-                    >
+                        onClick={handleSubmit}>
                         Submit
                     </Button>
                 </Box>
             </Box>
         </Box>
-    );
-};
+    )
+}
 
 export default Survey;
 
@@ -410,20 +426,109 @@ export default Survey;
     marginLeft="30px"
     marginTop="10px"
     marginBottom="20px"
->
+    >
     Me
-</Button>
+    </Button>
 <Button
-    variant="outline"
-    backgroundColor=""
-    colorScheme="teal"
-    color="teal"
-    height="30px"
-    width="103px"
-    marginRight="30px"
-    marginTop="10px"
-    marginBottom="20px"
+variant="outline"
+backgroundColor=""
+colorScheme="teal"
+color="teal"
+height="30px"
+width="103px"
+marginRight="30px"
+marginTop="10px"
+marginBottom="20px"
 >
-    Username
+Username
 </Button> */
 }
+
+                {/* {(game.session_type === "Competitive") && 
+                    // {(game.match_type === "Doubles") &&
+                    <>
+                    <Text mt={3}  backgroundColor="teal"
+                        paddingLeft="10px"
+                        borderRadius="5px"
+                        height="40px"
+                        color="white"
+                        fontSize="14px"
+                        width="335px"
+                        display="table-cell"
+                        verticalAlign="middle"
+                        >Who won?</Text> 
+                    {game.displayUsers.map((user) => (
+                    <Button
+                        _focus={ {backgroundColor:"#4FD1C5"}}
+                        _active={{transform: 'translateY(5px)', color:"white"}}
+                            variant="outline"
+                            backgroundColor="white"
+                            colorScheme=""
+                            color="teal"
+                            height="30px"
+                            width="150px"
+                            letterSpacing="2px"
+                            fontSize="13px"
+                            key={user.id}
+                            m={2}
+                            onClick={()=>
+                                {console.log({about_user: user.id, response: "Winner"})
+                                surveyResponses.push({about_user: user.id, response: "Winner"})}}
+                        >
+                            {user.username}
+                        </Button>
+                    ))
+                    }
+                </>
+                } */}
+
+
+
+{/* <Text mt={3}  backgroundColor="teal"
+    paddingLeft="10px"
+    borderRadius="5px"
+    color="white"
+    height="40px"
+    fontSize="14px"
+    width="335px"
+    display="table-cell"
+    verticalAlign="middle"
+    >Would you like to block anyone from your future games?
+</Text>
+<Button
+_focus={ {backgroundColor:"#4FD1C5"}}
+_active={{
+    transform: 'translateY(5px)', color:"white"}}
+    variant="outline"
+    backgroundColor="white"
+    colorScheme=""
+    color="teal"
+    height="30px"
+    width="318px"
+    letterSpacing="1px"
+    fontSize="13px"
+    m={2}
+>
+    No, I would play with them again
+</Button>
+{game.displayUsers.map((user) => (
+    <Button
+    _focus={ {backgroundColor:"#4FD1C5"}}
+    _active={{transform: 'translateY(5px)', color:"white"}}
+    variant="outline"
+    backgroundColor="white"
+    colorScheme=""
+    color="teal"
+    height="30px"
+    width="150px"
+    letterSpacing="2px"
+    fontSize="13px"
+    key={user.id}
+    m={2}
+        onClick={()=>
+            {console.log({about_user: user.id, response: "Block User"})
+            surveyResponses.push({about_user: user.id, response: "Block User"})}}
+    >
+        {user.username}
+    </Button>
+))} */}
