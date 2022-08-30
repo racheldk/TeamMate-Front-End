@@ -41,7 +41,7 @@ function UserProfile({ token, setToken }) {
             })
             .then((res) => {
                 setUser(res.data);
-                // console.log(res.data);
+                console.log(res.data);
             });
     }, [token, username, editModalIsOpen]);
 
@@ -163,6 +163,13 @@ function UserProfile({ token, setToken }) {
                                     paddingRight='.2em' color='teal' textAlign='center'>{user.profile.ntrp_rating}</Box>
                                 </Heading>
                             </Box>
+
+                            {user.wins_losses && (
+                            <Box>
+                                <Text>Win Rate: {user.wins_losses}</Text>
+                            </Box>
+
+                            )}
                             <Box className="confirmed-games" w="100%" justifyContent='center'>
                                 <Box className="games">
                                     {historyGames && (
