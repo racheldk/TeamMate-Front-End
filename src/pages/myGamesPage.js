@@ -112,7 +112,7 @@ export default function MyGames({
                                     pendingGuests.push({
                                         pendingGuest: guest,
                                         tennisBall: IoMdTennisball,
-                                        tennisBallColor: "#319795",
+                                        tennisBallColor: "teal",
                                         cardTitle: `${guest.user_info.first_name} would like to join your game`,
                                         displayStatus: "action required",
                                         bgColor: "#ffffff",
@@ -184,7 +184,7 @@ export default function MyGames({
                                 displayStatus: "confirmed",
                                 bgColor: "#ffffff",
                                 tennisBall: IoMdTennisball,
-                                tennisBallColor: "#319795",
+                                tennisBallColor: "teal",
                                 icon: (
                                     <CheckCircleIcon
                                         color="#48BB78"
@@ -231,7 +231,7 @@ export default function MyGames({
                             const expandedGame = {
                                 cardTitle: `Your request to join this game is pending.`,
                                 displayStatus: "pendingPOVGuest",
-                                tennisBallColor: "#319795",
+                                tennisBallColor: "teal",
                                 tennisBall: IoMdTennisball,
                                 bgColor: "#ffffff",
                                 icon: (
@@ -291,7 +291,7 @@ export default function MyGames({
                                 displayStatus: "no guests",
                                 bgColor: "#ffffff",
                                 tennisBall: IoMdTennisball,
-                                tennisBallColor: "#319795",
+                                tennisBallColor: "teal",
                                 icon: null,
                                 displayUsers: confirmedPlayers,
                                 displayUsersUsernames: null,
@@ -343,7 +343,7 @@ export default function MyGames({
                                 displayStatus: "host open doubles",
                                 bgColor: "#ffffff",
                                 tennisBall: IoMdTennisball,
-                                tennisBallColor: "#319795",
+                                tennisBallColor: "teal",
                                 icon: null,
                                 displayUsers: confirmedPlayers,
                                 displayUsersUsernames: null,
@@ -393,7 +393,7 @@ export default function MyGames({
                                 displayStatus: "guest open doubles",
                                 bgColor: "#ffffff",
                                 tennisBall: IoMdTennisball,
-                                tennisBallColor: "#319795",
+                                tennisBallColor: "teal",
                                 icon: null,
                                 cardTitle: "This game is not full yet.",
                                 displayUsers: confirmedPlayers,
