@@ -49,27 +49,21 @@ const Survey = ({ token }) => {
                 }
             )
             .then((res) => {
-                // adapt data to have only host and accepted players in displayUsers
                 console.log(res.data);
                 const confirmedPlayers = [];
                 for (let guest of res.data.guest_info) {
-                    console.log(guest);
                     if (
                         guest.status === "Host" ||
                         guest.status === "Accepted"
                     ) {
-                        console.log("Confirmed Player");
                         confirmedPlayers.push(guest);
                     }
-                    console.log(confirmedPlayers);
                 }
                 const game = {
                     displayUsers: confirmedPlayers,
                     ...res.data,
                 };
-                console.log(game)
                 setGame(game)
-                // setGameSurvey(res.data);
             })
             .catch((error) => {
                 console.log(error);
@@ -83,25 +77,46 @@ const Survey = ({ token }) => {
     }, [params]);
 
     useEffect(() => {
-        // get surveyPK
-        setSurveyPK(1);
+        console.log('send post request to create survey object')
+        axios.post(`https://teammate-app.herokuapp.com/session/${parseInt(
+            params.id
+        )}/survey`, {
+
+        },{
+            headers: {
+                Authorization: `Token ${token}`,
+            },
+        }
+        )
+        .then((res) =>{
+            console.log(res)
+            setSurveyPK(8)
+            // setSurveyPK(res.data)
+        })
+        .catch((error) => {
+            console.log(error);
+            console.log("there was an error");
+            setAlertTitle("Uh oh, something went wrong. ");
+            setAlertMessage(error.message);
+            onOpen();
+        });
     }, []);
 
-    const sampleResponses = [
-        {
-            about_user: 1,
-            response: "Winner",
-        },
-        {
-            about_user: 2,
-            response: "No Show",
-        },
-    ];
+    // const sampleResponses = [
+    //     {
+    //         about_user: 1,
+    //         response: "Winner",
+    //     },
+    //     {
+    //         about_user: 2,
+    //         response: "No Show",
+    //     },
+    // ];
 
     const handleSubmit = () => {
         console.log(surveyResponses);
         console.log(surveyPK);
-        const axiosPosts = sampleResponses.map((obj) =>
+        const axiosPosts = surveyResponses.map((obj) =>
             axios
                 .post(
                     `https://teammate-app.herokuapp.com/session/${game.id}/survey/${surveyPK}/response`,
@@ -119,7 +134,10 @@ const Survey = ({ token }) => {
                 })
                 .catch((error) => {
                     console.log(error);
-                    alert(error);
+                    console.log("there was an error");
+                    setAlertTitle("Uh oh, something went wrong. ");
+                    setAlertMessage(error.message);
+                    onOpen();
                 })
         );
         console.log(axiosPosts);
@@ -195,17 +213,18 @@ const Survey = ({ token }) => {
                         width="150px"
                         letterSpacing="2px"
                         fontSize="13px"
-                        key={user.id}
+                        key={user.user_info.user_id}
                         m={2}
                         onClick={() => {
                             console.log({
-                                about_user: user.id,
+                                about_user: user.user_info.user_id,
                                 response: "No Show",
                             });
                             surveyResponses.push({
-                                about_user: user.id,
+                                about_user: user.user_info.user_id,
                                 response: "No Show",
                             });
+                            console.log(surveyResponses)
                         }}
                         >
                             {user.user_info.first_name}
@@ -242,17 +261,18 @@ const Survey = ({ token }) => {
                         width="150px"
                         letterSpacing="2px"
                         fontSize="13px"
-                        key={user.id}
+                        key={user.user_info.user_id}
                         m={2}
                         onClick={() => {
                             console.log({
-                                about_user: user.id,
+                                about_user: user.user_info.user_id,
                                 response: "Winner",
                             });
                             surveyResponses.push({
-                                about_user: user.id,
+                                about_user: user.user_info.user_id,
                                 response: "Winner",
                             });
+                            console.log(surveyResponses)
                         }}
                         >
                             {user.user_info.first_name}
@@ -307,17 +327,18 @@ const Survey = ({ token }) => {
                         width="150px"
                         letterSpacing="2px"
                         fontSize="13px"
-                        key={user.id}
+                        key={user.user_info.user_id}
                         m={2}
                         onClick={() => {
                             console.log({
-                                about_user: user.id,
+                                about_user: user.user_info.user_id,
                                 response: "Block User",
                             });
                             surveyResponses.push({
-                                about_user: user.id,
+                                about_user: user.user_info.user_id,
                                 response: "Block User",
                             });
+                            console.log(surveyResponses)
                         }}
                         >
                             {user.user_info.first_name}
@@ -360,6 +381,7 @@ const Survey = ({ token }) => {
                                     about_court: game.location,
                                     response: "High Quality",
                                 });
+                                console.log(surveyResponses)
                             }}
                             />
                         <IconButton
@@ -382,6 +404,7 @@ const Survey = ({ token }) => {
                                     about_court: game.location,
                                     response: "Average Quality",
                                 });
+                                console.log(surveyResponses)
                             }}
                             />
                         <IconButton
@@ -404,6 +427,7 @@ const Survey = ({ token }) => {
                                     about_court: game.location,
                                     response: "Poor Quality",
                                 });
+                                console.log(surveyResponses)
                             }}
                             />
                     </div>
