@@ -8,6 +8,7 @@ import axios from "axios";
 import { DateTime } from "luxon";
 import { CloseIcon } from "@chakra-ui/icons";
 import { BsPencil } from "react-icons/bs";
+import { TbBallTennis } from "react-icons/tb";
 import {
     Text,
     Heading,
@@ -162,6 +163,10 @@ function UserProfile({ token, setToken }) {
                                     NTRP&nbsp;<Box bg='#ffffff' borderRadius='10px' maxW='10%' paddingLeft='.2em' 
                                     paddingRight='.2em' color='teal' textAlign='center'>{user.profile.ntrp_rating}</Box>
                                 </Heading>
+                            </Box>
+                            <Box>
+                                <Text>Teammate NTRP {user.profile.teammate_ntrp}</Text>
+                                <Icon as={TbBallTennis} color={user.profile.teammate_rank}/>
                             </Box>
 
                             {user.profile.wins_losses!==null && (
