@@ -24,11 +24,12 @@ import {
     LinkOverlay,
     LinkBox,
 } from "@chakra-ui/react";
+import useLocalStorageState from "use-local-storage-state";
 
 export default function GameDetail({
     token,
     game,
-    username,
+    // username,
     reload,
     setReload,
     setPastGameModalIsOpen,
@@ -41,9 +42,15 @@ export default function GameDetail({
     const [alertMessage, setAlertMessage] = useState(null);
     const [profileClick, setProfileClick] = useState(false);
     const [profileUsername, setProfileUsername] = useState(null);
+    const [username, setUsername] = useLocalStorageState(
+        "teammateUsername",
+        null
+    );
 
     console.log(game);
     console.log(token);
+    console.log(game.displayUsersUsernames)
+    console.log(username)
 
     const handleCloseModal = () => {
         console.log("click close");
@@ -384,26 +391,33 @@ export default function GameDetail({
                         )}
                     </Text>
 
-                    <Box w="100%" m={3}>
-                        {game.buttonTitle && (
-                            <Text w="100%">
-                                {game.buttonTitle}
-                                {game.displayUsers[0].user_info.first_name}?
-                            </Text>
-                        )}
-                        <Box display="flex" justifyContent="center">
-                            {game.buttons.map((button) => (
-                                <Button
-                                    m={2}
-                                    colorScheme="teal"
-                                    key={button.label}
-                                    onClick={() => handleClick(game, button)}
-                                >
-                                    <Text color="white">{button.label} </Text>
-                                </Button>
-                            ))}
+                    { ((game.displayStatus!=="past") || (game.displayStatus==='past' && game.displayUsersUsernames.includes(username) && !game.tookSurvey.includes(username))) 
+                    && (
+                        <Box w="100%" m={3}>
+                            {game.buttonTitle && (
+                                <Text w="100%">
+                                    {game.buttonTitle}
+                                    {game.displayUsers[0].user_info.first_name}?
+                                </Text>
+                            )}
+                            <Box display="flex" justifyContent="center">
+                                {game.buttons.map((button) => (
+                                    <Button
+                                        m={2}
+                                        colorScheme="teal"
+                                        key={button.label}
+                                        onClick={() =>
+                                            handleClick(game, button)
+                                        }
+                                    >
+                                        <Text color="white">
+                                            {button.label}{" "}
+                                        </Text>
+                                    </Button>
+                                ))}
+                            </Box>
                         </Box>
-                    </Box>
+                    )} 
                 </Box>
 
                 <AlertDialog isOpen={isOpen} onClose={onClose}>
