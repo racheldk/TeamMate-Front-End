@@ -125,6 +125,8 @@ export default function MyGames({
                                             />
                                         ),
                                         displayUsers: [guest],
+                                        displayUsersUsernames: null,
+                        historyStatus: null,
                                         buttonTitle:
                                             "Do you want to play with ",
                                         buttons: [
@@ -187,6 +189,8 @@ export default function MyGames({
                                     />
                                 ),
                                 displayUsers: confirmedPlayers,
+                                displayUsersUsernames: null,
+                        historyStatus: null,
                                 buttonTitle: null,
                                 buttons: [
                                     {
@@ -222,6 +226,7 @@ export default function MyGames({
                             }
                             const expandedGame = {
                                 displayStatus: "pendingPOVGuest",
+                                
                                 tennisBall: IoMdTennisball,
                                 bgColor: "#ffffff",
                                 icon: (
@@ -233,6 +238,8 @@ export default function MyGames({
                                     />
                                 ),
                                 displayUsers: confirmedPlayers,
+                                displayUsersUsernames: null,
+                        historyStatus: null,
                                 buttonTitle: null,
                                 buttons: [
                                     {
@@ -280,6 +287,8 @@ export default function MyGames({
                                 tennisBall: IoMdTennisball,
                                 icon: null,
                                 displayUsers: confirmedPlayers,
+                                displayUsersUsernames: null,
+                        historyStatus: null,
                                 buttonTitle: null,
                                 buttons: [
                                     {
@@ -328,6 +337,8 @@ export default function MyGames({
                                 tennisBall: IoMdTennisball,
                                 icon: null,
                                 displayUsers: confirmedPlayers,
+                                displayUsersUsernames: null,
+                        historyStatus: null,
                                 buttonTitle: null,
                                 buttons: [
                                     {
@@ -375,6 +386,8 @@ export default function MyGames({
                                 tennisBall: IoMdTennisball,
                                 icon: null,
                                 displayUsers: confirmedPlayers,
+                                displayUsersUsernames: null,
+                        historyStatus: null,
                                 buttonTitle: null,
                                 buttons: [
                                     {
