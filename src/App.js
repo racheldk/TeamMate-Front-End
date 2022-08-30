@@ -12,6 +12,7 @@ import useLocalStorageState from "use-local-storage-state";
 import UserProfile from "./pages/userProfile";
 import axios from "axios";
 import EditGame from "./pages/editGame";
+import CalendarExample from "./components/calendar-example";
 import MyGames from "./pages/myGamesPage";
 import OpenGamesPage from "./pages/openGamesPage";
 import Survey from "./pages/survey";
@@ -157,6 +158,7 @@ function App() {
                             />
                         }
                     />
+                    <Route path="my-games/calendar" element={<CalendarExample/>} />
                     {/* Notifications path is just for during development - when header is ready this will be rendered in a modal */}
                     <Route
                         path="notifications"

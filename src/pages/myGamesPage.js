@@ -1,29 +1,43 @@
-import { Text, Heading, Icon, Box, Spinner, Center } from "@chakra-ui/react";
+import {
+    Text,
+    Heading,
+    Icon,
+    Box,
+    Button,
+    IconButton,
+    Center,
+    Spinner,
+} from "@chakra-ui/react";
 import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import GamesList from "../components/GamesList";
 import { IoMdTennisball } from "react-icons/io";
-import {
-    BsQuestionCircleFill,
-    BsPersonFill,
-} from "react-icons/bs";
-import { CheckCircleIcon } from '@chakra-ui/icons'
+import { BsQuestionCircleFill, BsPersonFill, BsList } from "react-icons/bs";
+import { CalendarIcon, CheckCircleIcon } from "@chakra-ui/icons";
+import CalendarExample from "../components/calendar-example";
+import { DateTime } from "luxon";
 
-
-export default function MyGames({ token, username, game, setGame, reload, setReload }) {
+export default function MyGames({
+    token,
+    username,
+    game,
+    setGame,
+    reload,
+    setReload,
+}) {
     const [actionRequiredGames, setActionRequiredGames] = useState([]);
     const [confirmedGames, setConfirmedGames] = useState([]);
     const [pendingPOVGuestGames, setPendingPOVGuestGames] = useState([]);
     const [noGuestGames, setNoGuestGames] = useState([]);
-    const [noActionGames, setNoActionGames] = useState([]);
     const [hostOpenDoublesGames, setHostOpenDoublesGames] = useState([]);
     const [guestOpenDoublesGames, setGuestOpenDoublesGames] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [showCalendar, setShowCalendar] = useState(false);
 
     useEffect(() => {
-        console.log('giant useEffect in My Games just ran' + reload)
+        console.log("giant useEffect in My Games just ran" + reload);
         const reqAction = axios.get(
             `https://teammate-app.herokuapp.com/${username}/games/?my-games=HostUnconfirmed`,
             {
@@ -93,7 +107,7 @@ export default function MyGames({ token, username, game, setGame, reload, setRel
                     if (responseAction.length > 0) {
                         const pendingGuests = [];
                         for (let game of responseAction) {
-                            for (let guest of game.guest_info) {                                
+                            for (let guest of game.guest_info) {
                                 if (guest.status === "Pending") {
                                     pendingGuests.push({
                                         pendingGuest: guest,
@@ -106,7 +120,7 @@ export default function MyGames({ token, username, game, setGame, reload, setRel
                                                 backgroundColor="#e32636"
                                                 as={BsPersonFill}
                                                 fontSize="30px"
-                                        borderRadius="100px"
+                                                borderRadius="100px"
                                             />
                                         ),
                                         displayUsers: [guest],
@@ -117,12 +131,28 @@ export default function MyGames({ token, username, game, setGame, reload, setRel
                                                 label: "Yes",
                                                 job: "handleAccept",
                                             },
-                                            
+
                                             {
                                                 label: "No, thank you",
                                                 job: "handleReject",
                                             },
                                         ],
+                                        title: (
+                                            <Icon
+                                                color="white"
+                                                backgroundColor="#e32636"
+                                                as={BsPersonFill}
+                                                // fontSize="30px"
+                                                borderRadius="100px"
+                                            />
+                                        ),
+                                        allDay: false,
+                                        start: DateTime.fromISO(
+                                            game.datetime
+                                        ).toJSDate(),
+                                        end: DateTime.fromISO(
+                                            game.endtime
+                                        ).toJSDate(),
                                         ...game,
                                     });
                                 }
@@ -148,9 +178,13 @@ export default function MyGames({ token, username, game, setGame, reload, setRel
                                 displayStatus: "confirmed",
                                 bgColor: "#ffffff",
                                 tennisBall: IoMdTennisball,
-                                icon: (<CheckCircleIcon color="#48BB78"
-                                fontSize="30px"
-                                borderRadius="100px" />),
+                                icon: (
+                                    <CheckCircleIcon
+                                        color="#48BB78"
+                                        fontSize="30px"
+                                        borderRadius="100px"
+                                    />
+                                ),
                                 displayUsers: confirmedPlayers,
                                 buttonTitle: null,
                                 buttons: [
@@ -159,12 +193,18 @@ export default function MyGames({ token, username, game, setGame, reload, setRel
                                         job: "cancel confirmed",
                                     },
                                 ],
+                                title: <CheckCircleIcon color="#48BB78" />,
+                                allDay: false,
+                                start: DateTime.fromISO(
+                                    game.datetime
+                                ).toJSDate(),
+                                end: DateTime.fromISO(game.endtime).toJSDate(),
                                 ...game,
                             };
                             confirmedExpandedGames.push(expandedGame);
                         }
                         console.log(confirmedExpandedGames);
-                        setConfirmedGames(confirmedExpandedGames)
+                        setConfirmedGames(confirmedExpandedGames);
                     }
 
                     if (responsePending.length > 0) {
@@ -199,12 +239,25 @@ export default function MyGames({ token, username, game, setGame, reload, setRel
                                         job: "cancel pending request",
                                     },
                                 ],
+                                title: (
+                                    <Icon
+                                        color="gold"
+                                        as={BsQuestionCircleFill}
+                                        // fontSize="30px"
+                                        borderRadius="100px"
+                                    />
+                                ),
+                                allDay: false,
+                                start: DateTime.fromISO(
+                                    game.datetime
+                                ).toJSDate(),
+                                end: DateTime.fromISO(game.endtime).toJSDate(),
                                 ...game,
                             };
                             pendingExpandedGames.push(expandedGame);
                         }
                         console.log(pendingExpandedGames);
-                        setPendingPOVGuestGames(pendingExpandedGames)
+                        setPendingPOVGuestGames(pendingExpandedGames);
                     }
 
                     if (responseNoGuest.length > 0) {
@@ -237,10 +290,23 @@ export default function MyGames({ token, username, game, setGame, reload, setRel
                                         job: "Edit game with no guests",
                                     },
                                 ],
+                                title: (
+                                    <Icon
+                                        color="teal"
+                                        as={IoMdTennisball}
+                                        borderRadius="100px"
+                                    />
+                                ),
+                                allDay: false,
+                                start: DateTime.fromISO(
+                                    game.datetime
+                                ).toJSDate(),
+                                end: DateTime.fromISO(game.endtime).toJSDate(),
                                 ...game,
                             };
                             noGuestExpandedGames.push(expandedGame);
-                        } setNoGuestGames(noGuestExpandedGames)
+                        }
+                        setNoGuestGames(noGuestExpandedGames);
                     }
 
                     if (responseHostOpenDoubles.length > 0) {
@@ -268,13 +334,24 @@ export default function MyGames({ token, username, game, setGame, reload, setRel
                                         job: "cancel game",
                                     },
                                 ],
+                                title: (
+                                    <Icon
+                                        color="teal"
+                                        as={IoMdTennisball}
+                                        borderRadius="100px"
+                                    />
+                                ),
+                                allDay: false,
+                                start: DateTime.fromISO(
+                                    game.datetime
+                                ).toJSDate(),
+                                end: DateTime.fromISO(game.endtime).toJSDate(),
                                 ...game,
                             };
                             hostOpenDoublesExpandedGames.push(expandedGame);
                         }
-                        setHostOpenDoublesGames(hostOpenDoublesExpandedGames)
+                        setHostOpenDoublesGames(hostOpenDoublesExpandedGames);
                     }
-
 
                     if (responseGuestOpenDoubles.length > 0) {
                         const guestOpenDoublesExpandedGames = [];
@@ -304,11 +381,23 @@ export default function MyGames({ token, username, game, setGame, reload, setRel
                                         job: "cancel accepted request",
                                     },
                                 ],
+                                title: (
+                                    <Icon
+                                        color="teal"
+                                        as={IoMdTennisball}
+                                        borderRadius="100px"
+                                    />
+                                ),
+                                allDay: false,
+                                start: DateTime.fromISO(
+                                    game.datetime
+                                ).toJSDate(),
+                                end: DateTime.fromISO(game.endtime).toJSDate(),
                                 ...game,
                             };
                             guestOpenDoublesExpandedGames.push(expandedGame);
                         }
-                        setGuestOpenDoublesGames(guestOpenDoublesExpandedGames)
+                        setGuestOpenDoublesGames(guestOpenDoublesExpandedGames);
                     }
                 })
             )
@@ -320,134 +409,138 @@ export default function MyGames({ token, username, game, setGame, reload, setRel
     }, [token, reload]);
 
     if (isLoading) {
-        return <Box>
-            <Center h='400px'><Spinner
-        thickness='4px'
-        speed='0.65s'
-        emptyColor='gray.200'
-        color='#234E52;'
-        size='xl'
-        /></Center></Box>;
+        return (
+            <Box>
+                <Center h="400px">
+                    <Spinner
+                        thickness="4px"
+                        speed="0.65s"
+                        emptyColor="gray.200"
+                        color="#234E52;"
+                        size="xl"
+                    />
+                </Center>
+            </Box>
+        );
     }
 
     return (
         <>
-        <Header />
-        <Box className="app-body">
-            {/* if this heading changes we also need to change notifications message */}
-            <Heading color="#234E52" textAlign="center" mt={4}>My Games</Heading>
+            <Header />
+            <Box className="app-body">
+                {/* if this heading changes we also need to change notifications message */}
+                <Heading color="#234E52" textAlign="center" mt={4}>
+                    My Games
+                </Heading>
 
+                {showCalendar ? (
+                    <>
+                        <IconButton
+                            colorScheme="#4fd1c5"
+                            size="lg"
+                            icon={<BsList color="#234E52" fontSize="1.5em" />}
+                            onClick={() => setShowCalendar(false)}
+                        />
+                        <CalendarExample
+                            token={token}
+                            username={username}
+                            confirmedGames={confirmedGames}
+                            actionRequiredGames={actionRequiredGames}
+                            pendingPOVGuestGames={pendingPOVGuestGames}
+                            noGuestGames={noGuestGames}
+                            hostOpenDoublesGames={hostOpenDoublesGames}
+                            guestOpenDoublesGames={guestOpenDoublesGames}
+                        />
+                    </>
+                ) : (
+                    <>
+                        <IconButton
+                            colorScheme="#4fd1c5"
+                            size="lg"
+                            icon={
+                                <CalendarIcon
+                                    color="#234E52"
+                                    fontSize="1.5em"
+                                />
+                            }
+                            onClick={() => setShowCalendar(true)}
+                        />
 
+                        <GamesList
+                            token={token}
+                            gamesList={actionRequiredGames}
+                            setGame={setGame}
+                            game={game}
+                            username={username}
+                        />
+                        <GamesList
+                            token={token}
+                            gamesList={confirmedGames}
+                            setGame={setGame}
+                            game={game}
+                            username={username}
+                        />
+                        <GamesList
+                            token={token}
+                            gamesList={actionRequiredGames}
+                            setGame={setGame}
+                            game={game}
+                            username={username}
+                            reload={reload}
+                            setReload={setReload}
+                        />
 
-                {/* The following ternaries are so Rachel can see where things are loading/not loading */}
-                {/* {actionRequiredGames.length === 0 ? (
-                <Text>
-                    You don't have any games that require your attention
-                </Text>
-            ) : ( */}
-                <GamesList
-                    token={token}
-                    gamesList={actionRequiredGames}
-                    setGame={setGame}
-                    game={game}
-                    username={username}
-                    reload={reload}
-                    setReload={setReload}
-                />
-                {/* )} */}
+                        <GamesList
+                            token={token}
+                            gamesList={confirmedGames}
+                            setGame={setGame}
+                            game={game}
+                            username={username}
+                            reload={reload}
+                            setReload={setReload}
+                        />
 
-                {/* {confirmedGames.length === 0 ? (
-                <Text>You don't have any confirmed games.</Text>
-            ) : ( */}
-                <GamesList
-                    token={token}
-                    gamesList={confirmedGames}
-                    setGame={setGame}
-                    game={game}
-                    username={username}
-                    reload={reload}
-                    setReload={setReload}
-                />
-                {/* )} */}
+                        <GamesList
+                            token={token}
+                            gamesList={pendingPOVGuestGames}
+                            setGame={setGame}
+                            game={game}
+                            username={username}
+                            reload={reload}
+                            setReload={setReload}
+                        />
 
-                {/* {pendingPOVGuestGames.length === 0 ? (
-                <Text>You don't have any pending requests to join games.</Text>
-            ) : ( */}
-                <GamesList
-                    token={token}
-                    gamesList={pendingPOVGuestGames}
-                    setGame={setGame}
-                    game={game}
-                    username={username}
-                    reload={reload}
-                    setReload={setReload}
-                />
-                {/* )} */}
+                        <GamesList
+                            token={token}
+                            gamesList={noGuestGames}
+                            setGame={setGame}
+                            game={game}
+                            username={username}
+                            reload={reload}
+                            setReload={setReload}
+                        />
 
-                {/* {noGuestGames.length === 0 ? (
-                <Text>
-                    You don't have any games that don't already have a guest
-                    attached.
-                </Text>
-            ) : ( */}
-                <GamesList
-                    token={token}
-                    gamesList={noGuestGames}
-                    setGame={setGame}
-                    game={game}
-                    username={username}
-                    reload={reload}
-                    setReload={setReload}
-                />
-                {/* )} */}
+                        <GamesList
+                            token={token}
+                            gamesList={hostOpenDoublesGames}
+                            setGame={setGame}
+                            game={game}
+                            username={username}
+                            reload={reload}
+                            setReload={setReload}
+                        />
 
-                {/* {hostOpenDoublesGames.length === 0 ? (
-                <Text>
-                    You aren't hosting any doubles games that are waiting for
-                    more participants.
-                </Text>
-            ) : ( */}
-                <GamesList
-                    token={token}
-                    gamesList={hostOpenDoublesGames}
-                    setGame={setGame}
-                    game={game}
-                    username={username}
-                    reload={reload}
-                    setReload={setReload}
-                />
-                {/* )} */}
-                {/* {guestOpenDoublesGames.length === 0 ? (
-                <Text>
-                    You aren't a guest in any doubles games that are waiting for
-                    more participants.
-                </Text>
-            ) : ( */}
-                <GamesList
-                    token={token}
-                    gamesList={guestOpenDoublesGames}
-                    setGame={setGame}
-                    game={game}
-                    username={username}
-                    reload={reload}
-                    setReload={setReload}
-                />
-                {/* )} */}
-
-                {/* {noActionGames.length == 0 ? (
-                <Text>noActionGames array is empty</Text>
-            ) : (
-                <GamesList
-                    token={token}
-                    gamesList={noActionGames}
-                    // setNoActionGames={setNoActionGames}
-                    // confirmedGames={confirmedGames}
-                    // pendingPOVGuestGames={pendingPOVGuestGames}
-                    // noGuestGames={noGuestGames}
-                    // hostOpenDoublesGames={hostOpenDoublesGames}
-                    // guestOpenDoublesGames={guestOpenDoublesGames}
-                />
-            )} */}
+                        <GamesList
+                            token={token}
+                            gamesList={guestOpenDoublesGames}
+                            setGame={setGame}
+                            game={game}
+                            username={username}
+                            reload={reload}
+                            setReload={setReload}
+                        />
+                    </>
+                )}
             </Box>{" "}
             <Footer />
         </>
