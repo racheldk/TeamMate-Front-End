@@ -36,6 +36,7 @@ const Survey = ({ token, username }) => {
     const surveyResponses = [];
 
     console.log(game)
+    console.log(username)
 
     useEffect(() => {
         console.log(params.id);
@@ -308,7 +309,11 @@ const Survey = ({ token, username }) => {
                     </Button>
             <CheckboxGroup >
                     <Stack display="grid" gridTemplateColumns="auto auto" marginLeft="20px" marginBottom="-15px">
-                    {game.displayUsers.map((user) => (
+                    {game.displayUsers.map((user) => {
+                        if (user.user!==username) {
+                            return (
+                        
+                    
                     < Checkbox className="won" 
                     variant="outline"
                     backgroundColor=""
@@ -337,7 +342,8 @@ const Survey = ({ token, username }) => {
                         >
                             {user.user_info.first_name}
                         </Checkbox>
-                    ))}
+                    )}
+                    return null})}
                     </Stack>
             </CheckboxGroup>
 
