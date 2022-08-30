@@ -449,12 +449,22 @@ export default function MyGames({
 
                 {showCalendar ? (
                     <>
-                        <IconButton
-                            colorScheme="#4fd1c5"
-                            size="lg"
-                            icon={<BsList color="#234E52" fontSize="1.5em" />}
-                            onClick={() => setShowCalendar(false)}
-                        />
+                    <Box w='100%' mr='auto' ml='auto' mb={4} display='flex' justifyContent='center' className="view-changer">
+               
+               <Button
+                   colorScheme="teal"
+                   variant='solid'
+                   mt={2}
+                   mb={2}
+                   size="lg"
+                   onClick={() => setShowCalendar(false)}
+               ><BsList
+                           color="#fff"
+                           fontSize="1.5em"
+                       />&nbsp;<Text color='#fff' fontWeight='700' display='inline-block'>List View</Text>
+                       
+                       </Button>
+                       </Box>
                         <CalendarExample
                             token={token}
                             username={username}
@@ -468,17 +478,22 @@ export default function MyGames({
                     </>
                 ) : (
                     <>
-                        <IconButton
-                            colorScheme="#4fd1c5"
+                    <Box w='100%' mr='auto' ml='auto' mb={4} display='flex' justifyContent='center' className="view-changer">
+               
+                        <Button
+                            colorScheme="teal"
+                            variant='solid'
+                            mt={2}
+                            mb={2}
                             size="lg"
-                            icon={
-                                <CalendarIcon
-                                    color="#234E52"
-                                    fontSize="1.5em"
-                                />
-                            }
                             onClick={() => setShowCalendar(true)}
-                        />
+                        ><CalendarIcon
+                                    color="#fff"
+                                    fontSize="1.5em"
+                                />&nbsp;<Text color='#fff' fontWeight='700' display='inline-block'>Calendar View</Text>
+                                
+                                </Button>
+                                </Box>
 
                         <GamesList
                             token={token}

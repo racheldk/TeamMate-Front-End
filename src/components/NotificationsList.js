@@ -8,9 +8,24 @@ import {
     LinkBox,
     Stack
 } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
+export default function NotificationsList({ token, count }) {
+    const [notifications, setNotifications] = useState(null);
 
-export default function NotificationsList({ token, notifications }) {
+    useEffect(() => {
+        axios
+            .get(`https://teammate-app.herokuapp.com/notification/check/`, {
+                headers: {
+                    Authorization: `Token ${token}`,
+                },
+            })
+            .then((res) => {
+                setNotifications(res.data);
+                console.log(notifications)
+            });
+    }, [token, count]);
 
 if (notifications && notifications.length > 0) {
     return (

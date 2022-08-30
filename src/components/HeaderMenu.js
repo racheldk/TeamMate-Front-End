@@ -21,22 +21,10 @@ function Header() {
     // const [navigate, setNavigate] = useState(false);
     const [token, setToken] = useLocalStorageState("teammateToken", null);
     const [error, setError] = useState([]);
-    const [notifications, setNotifications] = useState(null);
     const [count, setCount] = useState(null);
     const [alertIcon, setAlertIcon] = useState('teal')
     const [alert, setAlert] = useState('')
 
-    useEffect(() => {
-        axios
-            .get(`https://teammate-app.herokuapp.com/notification/check/`, {
-                headers: {
-                    Authorization: `Token ${token}`,
-                },
-            })
-            .then((res) => {
-                setNotifications(res.data);
-            });
-    }, [token, count]);
 
     useEffect(() => {
         axios
@@ -49,7 +37,7 @@ function Header() {
                 setCount(res.data);
                 console.log('doing a check');
             });
-    }, [token]);
+    }, [token, modalIsOpen]);
 
     const handleOpenModal = () => {
         console.log("click open");
@@ -62,15 +50,17 @@ function Header() {
     };
 
     useEffect(() => {
-        if (notifications && notifications.length > 0) {
+        if (count && count.length > 0) {
         setAlert('red')
         setAlertIcon('white')
+        console.log('lemme check')
         }
-        if (notifications && notifications.length === 0) {
+        if (count && count.length === 0) {
         setAlert('')
         setAlertIcon('teal')
+        console.log('lemme check')
         }
-    }, [notifications]);
+    }, [modalIsOpen, count]);
 
 
 
@@ -139,7 +129,7 @@ function Header() {
             <IconButton onClick={()=>handleCloseModal()} className="close-modal-button" variant='outline' colorScheme='teal'><CloseIcon color='white'/></IconButton>
             {/* <Box className="modal-base" display='flex' height="400px" flexWrap='wrap'>
                 <Box w='350px' display='flex' justifyContent='center' flexWrap='wrap' > */}
-            <NotificationsList token={token} notifications={notifications}/>
+            <NotificationsList token={token} count={count} />
 
 
             

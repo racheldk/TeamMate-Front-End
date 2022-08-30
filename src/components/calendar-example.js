@@ -21,7 +21,6 @@ import {
     Text,
 } from "@chakra-ui/react";
 import GameDetail from "./GameDetail";
-import { IoMdTennisball } from "react-icons/io";
 
 
 const localizer = luxonLocalizer(DateTime, { firstDayOfWeek: 7 });
@@ -30,6 +29,7 @@ export default function CalendarExample({  token, username, confirmedGames, acti
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [game, setGame] = useState(null);
     const [calendarGames, setCalendarGames] = useState([]);
+    let icon = 'teal'
 
     console.log("confirmed Games" + confirmedGames);
     console.log(confirmedGames[0].start);
@@ -89,10 +89,11 @@ export default function CalendarExample({  token, username, confirmedGames, acti
     // }
 
     return (
-        <Box height={500} backgroundColor="white">
+        <Box h='460px' maxW='400px'  m='auto'>
             {/* Container element around Calender needs to have height specified for it to show up on the page */}
             <Calendar
                 localizer={localizer}
+                views={['month', 'agenda']}
                 events={calendarGames}
                 startAccessor="start"
                 endAccessor="end"
@@ -104,7 +105,7 @@ export default function CalendarExample({  token, username, confirmedGames, acti
                     event,
                     start,
                     end,
-                    style: { backgroundColor: "white", height: 25 },
+                    style: { backgroundColor: 'rgba(255, 255, 255, 1)', height: 25, borderColor: 'teal', padding: '1em' },
                 })}
             />
             <Modal
