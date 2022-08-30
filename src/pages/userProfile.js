@@ -164,9 +164,9 @@ function UserProfile({ token, setToken }) {
                                 </Heading>
                             </Box>
 
-                            {user.wins_losses && (
+                            {user.profile.wins_losses!==null && (
                             <Box>
-                                <Text>Win Rate: {user.wins_losses}</Text>
+                                <Text>Record: {user.profile.wins_losses}</Text>
                             </Box>
 
                             )}
