@@ -118,7 +118,7 @@ body {
 .header {
     display: grid;
     grid-template-columns: 25% 50% 25%;
-    background-image: linear-gradient(#ffffff 40%, #4FD1C5 40%);
+    background-image: linear-gradient(#ffffff 50%, #4FD1C5 50%);
     margin: auto;
     z-index: 10;
     padding: .2em;

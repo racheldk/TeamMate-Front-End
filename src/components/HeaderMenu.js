@@ -14,12 +14,13 @@ function Header() {
     const [token, setToken] = useLocalStorageState("teammateToken", null);
     const [error, setError] = useState([]);
     const [notifications, setNotifications] = useState(null);
+    const [count, setCount] = useState(null);
     const [alertIcon, setAlertIcon] = useState('teal')
     const [alert, setAlert] = useState('')
 
     useEffect(() => {
         axios
-            .get(`https://teammate-app.herokuapp.com/notification/all/`, {
+            .get(`https://teammate-app.herokuapp.com/notification/check/`, {
                 headers: {
                     Authorization: `Token ${token}`,
                 },
@@ -28,6 +29,19 @@ function Header() {
                 console.log(res.data);
                 setNotifications(res.data);
                 console.log(notifications);
+            });
+    }, [token]);
+
+    useEffect(() => {
+        axios
+            .get(`https://teammate-app.herokuapp.com/notification/count/`, {
+                headers: {
+                    Authorization: `Token ${token}`,
+                },
+            })
+            .then((res) => {
+                setCount(res.data);
+                console.log(res.data);
             });
     }, [token]);
 
@@ -42,7 +56,7 @@ function Header() {
     };
 
     useEffect(() => {
-        if (notifications) {
+        if (notifications && notifications.length > 0) {
         setAlert('red')
         setAlertIcon('white')
         }

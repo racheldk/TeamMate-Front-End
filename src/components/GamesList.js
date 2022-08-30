@@ -31,14 +31,6 @@ export default function GamesList({
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [rank, setRank] = useState('teal');
 
-    useEffect((game) => {
-        if (game && game.host_info.profile.ntrp_rating === 2.5) {
-        setRank('brown')
-     }
-        if (game && game.host_info.profile.ntrp_rating > 2.5) {
-        setRank('pink')
-     }
-    }, [game]);
     
     console.log(gamesList);
 
@@ -67,6 +59,7 @@ export default function GamesList({
     //     );
     // }
 
+    
     
 
     return (

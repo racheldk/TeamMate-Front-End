@@ -12,28 +12,28 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function NotificationsList({ token, notifications }) {
-    // const [notifications, setNotifications] = useState([]);
 
-    // useEffect(() => {
-    //     axios
-    //         .get("https://teammate-app.herokuapp.com/notification/all", {
-    //             headers: {
-    //                 Authorization: `Token ${token}`,
-    //             },
-    //         })
-    //         .then((res) => {
-    //             console.log(res.data);
-    //             setNotifications(res.data);
-    //         });
-    // }, []);
-
+if (notifications && notifications.length > 0) {
     return (
-        <Box className="modal-base">
+        <Box className="modal-base" p={0} paddingBottom={2}>
+        <Heading className="form-banner" >Notifications</Heading>
             {notifications.map((obj) => (
-                <Box >
-                    <Text>{obj.message}</Text>
+                <Box m={2} bg='#E6FFFA' borderRadius='20px' p={4}>
+                    <Text color='#285E61'>{obj.message}</Text>
                 </Box>
             ))}
         </Box>
+    );}
+else {
+    return (
+        <Box className="modal-base" p={0} paddingBottom={2}>
+        <Heading className="form-banner" >Notifications</Heading>
+            
+                <Box m={2} bg='#E6FFFA' borderRadius='20px' p={4}>
+                    <Text color='#285E61'>Inbox Empty!</Text>
+                </Box>
+         
+        </Box>
     );
+}
 }

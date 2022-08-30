@@ -3,6 +3,7 @@ import Footer from "../components/FooterMenu";
 import axios from "axios";
 import { useState } from "react";
 import { Button, Box, Select, Heading, Text } from "@chakra-ui/react";
+import { TbBallTennis } from "react-icons/tb";
 import ReactDatePicker from "react-datepicker";
 import subDays from "date-fns/subDays";
 import "react-datepicker/dist/react-datepicker.css";
@@ -67,16 +68,40 @@ import NewGamesList from "../components/GamesList";
                 },
             })
             .then((res) => {
-                console.log(res.data);
-                setFilteredGames(res.data);
-                setFiltered(true);
-            })
-            .catch((error) => {
-                console.log(error);
-                alert(error.response.data.detail);
+                console.log(res.data)
+                const responseOpen = res.data
+                const openExpandedGames = [];
+                for (let game of responseOpen) {
+                    const confirmedPlayers = [];
+                    for (let guest of game.guest_info) {
+                        // console.log(guest);
+                        if (
+                            guest.status === "Host" ||
+                            guest.status === "Accepted"
+                        ) {
+                            // console.log("Confirmed Player");
+                            confirmedPlayers.push(guest);
+                        }
+                        // console.log(confirmedPlayers);
+                    }
+                    const expandedGame = {
+                        displayStatus: "join",
+                        bgColor: "#ffffff",
+                        icon: null,
+                        tennisBall: TbBallTennis,
+                        displayUsers: confirmedPlayers,
+                        buttonTitle: null,
+                        buttons: [
+                            { label: "Join", job: "send a join request" },
+                        ],
+                        ...game,
+                    };
+                    openExpandedGames.push(expandedGame);
+                    setFilteredGames(openExpandedGames);
+                }
             });
+            
     };
-
     return (
         <>
             <Header />
@@ -115,7 +140,7 @@ import NewGamesList from "../components/GamesList";
                     >
                         <option value="">Where</option>
                         <option value="">All</option>
-                        <option value="Pullen Park">Pullen Park</option>
+                        <option value="PullenPark">Pullen Park</option>
                         <option value="Sanderford Park">Sanderford Park</option>
                     </Select>
                     <Select
