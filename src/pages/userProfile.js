@@ -218,7 +218,7 @@ function UserProfile({ token, setToken }) {
                             )}
                             <Box className="confirmed-games" w="100%" justifyContent='center'>
                                 <Box className="games">
-                                    {historyGames && (
+                                    {historyGames.length>0 && (
                                         <PastGamesList
                                             gamesList={historyGames}
                                             token={token}
