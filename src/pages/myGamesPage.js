@@ -5,11 +5,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import GamesList from "../components/GamesList";
 import { IoMdTennisball } from "react-icons/io";
-import {
-    BsQuestionCircleFill,
-    BsPersonFill,
-} from "react-icons/bs";
-import { CheckCircleIcon } from '@chakra-ui/icons'
+import { BsQuestionCircleFill, BsPersonFill } from "react-icons/bs";
+import { CheckCircleIcon } from "@chakra-ui/icons";
 import CalendarExample from "../components/calendar-example";
 import { DateTime } from "luxon";
 import {
@@ -22,8 +19,7 @@ import {
     PopoverArrow,
     PopoverCloseButton,
     PopoverAnchor,
-  } from '@chakra-ui/react'
-
+} from "@chakra-ui/react";
 
 export default function MyGames({ token, username, game, setGame }) {
     console.log(username);
@@ -36,7 +32,7 @@ export default function MyGames({ token, username, game, setGame }) {
     const [hostOpenDoublesGames, setHostOpenDoublesGames] = useState([]);
     const [guestOpenDoublesGames, setGuestOpenDoublesGames] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [showCalendar, setShowCalendar] = useState(false)
+    const [showCalendar, setShowCalendar] = useState(false);
 
     useEffect(() => {
         const reqAction = axios.get(
@@ -132,7 +128,7 @@ export default function MyGames({ token, username, game, setGame }) {
                                                 backgroundColor="#e32636"
                                                 as={BsPersonFill}
                                                 fontSize="30px"
-                                        borderRadius="100px"
+                                                borderRadius="100px"
                                             />
                                         ),
                                         displayUsers: [guest],
@@ -143,12 +139,28 @@ export default function MyGames({ token, username, game, setGame }) {
                                                 label: "Yes",
                                                 job: "handleAccept",
                                             },
-                                            
+
                                             {
                                                 label: "No, thank you",
                                                 job: "handleReject",
                                             },
                                         ],
+                                        title: (
+                                            <Icon
+                                                color="white"
+                                                backgroundColor="#e32636"
+                                                as={BsPersonFill}
+                                                // fontSize="30px"
+                                                borderRadius="100px"
+                                            />
+                                        ),
+                                        allDay: false,
+                                        start: DateTime.fromISO(
+                                            game.datetime
+                                        ).toJSDate(),
+                                        end: DateTime.fromISO(
+                                            game.endtime
+                                        ).toJSDate(),
                                         ...game,
                                     });
                                 }
@@ -178,13 +190,13 @@ export default function MyGames({ token, username, game, setGame }) {
                                 displayStatus: "confirmed",
                                 bgColor: "#ffffff",
                                 tennisBall: IoMdTennisball,
-                                icon: (<CheckCircleIcon color="#48BB78"
-                                fontSize="30px"
-                                borderRadius="100px" />),
-                                title: <CheckCircleIcon color="#48BB78"/>,
-                                allDay:false,
-                                start: DateTime.fromISO(game.datetime).toJSDate(),
-                                end: DateTime.fromISO(game.endtime).toJSDate(),
+                                icon: (
+                                    <CheckCircleIcon
+                                        color="#48BB78"
+                                        fontSize="30px"
+                                        borderRadius="100px"
+                                    />
+                                ),
                                 displayUsers: confirmedPlayers,
                                 buttonTitle: null,
                                 buttons: [
@@ -193,13 +205,19 @@ export default function MyGames({ token, username, game, setGame }) {
                                         job: "cancel confirmed",
                                     },
                                 ],
+                                title: <CheckCircleIcon color="#48BB78" />,
+                                allDay: false,
+                                start: DateTime.fromISO(
+                                    game.datetime
+                                ).toJSDate(),
+                                end: DateTime.fromISO(game.endtime).toJSDate(),
                                 ...game,
                             };
                             console.log(expandedGame);
                             confirmedExpandedGames.push(expandedGame);
                         }
                         console.log(confirmedExpandedGames);
-                        setConfirmedGames(confirmedExpandedGames)
+                        setConfirmedGames(confirmedExpandedGames);
                     }
 
                     if (responsePending.length > 0) {
@@ -238,13 +256,26 @@ export default function MyGames({ token, username, game, setGame }) {
                                         job: "cancel pending request",
                                     },
                                 ],
+                                title: (
+                                    <Icon
+                                        color="gold"
+                                        as={BsQuestionCircleFill}
+                                        // fontSize="30px"
+                                        borderRadius="100px"
+                                    />
+                                ),
+                                allDay: false,
+                                start: DateTime.fromISO(
+                                    game.datetime
+                                ).toJSDate(),
+                                end: DateTime.fromISO(game.endtime).toJSDate(),
                                 ...game,
                             };
                             console.log(expandedGame);
                             pendingExpandedGames.push(expandedGame);
                         }
                         console.log(pendingExpandedGames);
-                        setPendingPOVGuestGames(pendingExpandedGames)
+                        setPendingPOVGuestGames(pendingExpandedGames);
                     }
 
                     if (responseNoGuest.length > 0) {
@@ -266,7 +297,7 @@ export default function MyGames({ token, username, game, setGame }) {
                             const expandedGame = {
                                 displayStatus: "no guests",
                                 bgColor: "#ffffff",
-                                tennisBall: IoMdTennisball,
+                                tennisBall: IoMdTennisball ,
                                 icon: null,
                                 displayUsers: confirmedPlayers,
                                 buttonTitle: null,
@@ -280,11 +311,24 @@ export default function MyGames({ token, username, game, setGame }) {
                                         job: "Edit game with no guests",
                                     },
                                 ],
+                                title: (
+                                    <Icon
+                                        color="teal"
+                                        as={IoMdTennisball}
+                                        borderRadius="100px"
+                                    />
+                                ),
+                                allDay: false,
+                                start: DateTime.fromISO(
+                                    game.datetime
+                                ).toJSDate(),
+                                end: DateTime.fromISO(game.endtime).toJSDate(),
                                 ...game,
                             };
                             console.log(expandedGame);
                             noGuestExpandedGames.push(expandedGame);
-                        } setNoGuestGames(noGuestExpandedGames)
+                        }
+                        setNoGuestGames(noGuestExpandedGames);
                     }
 
                     if (responseHostOpenDoubles.length > 0) {
@@ -316,14 +360,25 @@ export default function MyGames({ token, username, game, setGame }) {
                                         job: "cancel game",
                                     },
                                 ],
+                                title: (
+                                    <Icon
+                                        color="teal"
+                                        as={IoMdTennisball}
+                                        borderRadius="100px"
+                                    />
+                                ),
+                                allDay: false,
+                                start: DateTime.fromISO(
+                                    game.datetime
+                                ).toJSDate(),
+                                end: DateTime.fromISO(game.endtime).toJSDate(),
                                 ...game,
                             };
                             console.log(expandedGame);
                             hostOpenDoublesExpandedGames.push(expandedGame);
                         }
-                        setHostOpenDoublesGames(hostOpenDoublesExpandedGames)
+                        setHostOpenDoublesGames(hostOpenDoublesExpandedGames);
                     }
-
 
                     if (responseGuestOpenDoubles.length > 0) {
                         console.log("guestOpenDoubles > 0");
@@ -354,12 +409,24 @@ export default function MyGames({ token, username, game, setGame }) {
                                         job: "cancel accepted request",
                                     },
                                 ],
+                                title: (
+                                    <Icon
+                                        color="teal"
+                                        as={IoMdTennisball}
+                                        borderRadius="100px"
+                                    />
+                                ),
+                                allDay: false,
+                                start: DateTime.fromISO(
+                                    game.datetime
+                                ).toJSDate(),
+                                end: DateTime.fromISO(game.endtime).toJSDate(),
                                 ...game,
                             };
                             console.log(expandedGame);
                             guestOpenDoublesExpandedGames.push(expandedGame);
                         }
-                        setGuestOpenDoublesGames(guestOpenDoublesExpandedGames)
+                        setGuestOpenDoublesGames(guestOpenDoublesExpandedGames);
                     }
                 })
             )
@@ -370,89 +437,105 @@ export default function MyGames({ token, username, game, setGame }) {
         setIsLoading(false);
     }, [token]);
 
-
     if (isLoading) {
         return <Box>Loading...</Box>;
     }
 
     return (
         <>
-        <Header />
-        <Box className="app-body">
-            {/* if this heading changes we also need to change notifications message */}
-            <Heading color="#234E52" textAlign="center" mt={4}>My Games</Heading>
+            <Header />
+            <Box className="app-body">
+                {/* if this heading changes we also need to change notifications message */}
+                <Heading color="#234E52" textAlign="center" mt={4}>
+                    My Games
+                </Heading>
 
-            {showCalendar ? (
-                <>
-                <Button size="sm"onClick={() =>setShowCalendar(false)}>List</Button>
-                
-                <CalendarExample confirmedGames={confirmedGames} token={token} username={username}/>
-                </>
-                ):(
+                {showCalendar ? (
                     <>
-                <Button onClick={()=>setShowCalendar(true)}>Calendar</Button>
+                        <Button
+                            size="sm"
+                            onClick={() => setShowCalendar(false)}
+                        >
+                            List
+                        </Button>
 
-                <GamesList
-                token={token}
-                gamesList={actionRequiredGames}
-                setGame={setGame}
-                game={game}
-                username={username}
-                />
-                <GamesList
-                token={token}
-                gamesList={confirmedGames}
-                setGame={setGame}
-                game={game}
-                username={username}
-                />
+                        <CalendarExample
+                            token={token}
+                            username={username}
+                            confirmedGames={confirmedGames}
+                            actionRequiredGames={actionRequiredGames}
+                            pendingPOVGuestGames={pendingPOVGuestGames}
+                            noGuestGames={noGuestGames}
+                            hostOpenDoublesGames={hostOpenDoublesGames}
+                            guestOpenDoublesGames={guestOpenDoublesGames}
+                        />
+                    </>
+                ) : (
+                    <>
+                        <Button onClick={() => setShowCalendar(true)}>
+                            Calendar
+                        </Button>
 
-                <GamesList
-                token={token}
-                gamesList={pendingPOVGuestGames}
-                setGame={setGame}
-                game={game}
-                username={username}
-                />
+                        <GamesList
+                            token={token}
+                            gamesList={actionRequiredGames}
+                            setGame={setGame}
+                            game={game}
+                            username={username}
+                        />
+                        <GamesList
+                            token={token}
+                            gamesList={confirmedGames}
+                            setGame={setGame}
+                            game={game}
+                            username={username}
+                        />
 
-                <GamesList
-                token={token}
-                gamesList={noGuestGames}
-                setGame={setGame}
-                game={game}
-                username={username}
-                />
+                        <GamesList
+                            token={token}
+                            gamesList={pendingPOVGuestGames}
+                            setGame={setGame}
+                            game={game}
+                            username={username}
+                        />
 
-                <GamesList
-                token={token}
-                gamesList={hostOpenDoublesGames}
-                setGame={setGame}
-                game={game}
-                username={username}
-                />
-            
-                <GamesList
-                token={token}
-                gamesList={guestOpenDoublesGames}
-                setGame={setGame}
-                game={game}
-                username={username}
-                />
-                </>
+                        <GamesList
+                            token={token}
+                            gamesList={noGuestGames}
+                            setGame={setGame}
+                            game={game}
+                            username={username}
+                        />
+
+                        <GamesList
+                            token={token}
+                            gamesList={hostOpenDoublesGames}
+                            setGame={setGame}
+                            game={game}
+                            username={username}
+                        />
+
+                        <GamesList
+                            token={token}
+                            gamesList={guestOpenDoublesGames}
+                            setGame={setGame}
+                            game={game}
+                            username={username}
+                        />
+                    </>
                 )}
 
-<Popover>
-            <PopoverTrigger>
-                <Button>Trigger</Button>
-            </PopoverTrigger>
-            <PopoverContent>
-                <PopoverArrow/>
-                <PopoverCloseButton/>
-                <PopoverHeader>Game Details!</PopoverHeader>
-                <PopoverBody>game details body</PopoverBody>
-            </PopoverContent>
-        </Popover>
-
+                <Popover>
+                    <PopoverTrigger>
+                        <Button>Trigger</Button>
+                    </PopoverTrigger>
+                    <PopoverContent>
+                        <PopoverArrow />
+                        <PopoverCloseButton />
+                        <PopoverHeader>Game Details!</PopoverHeader>
+                        <PopoverBody>game details body</PopoverBody>
+                    </PopoverContent>
+                </Popover>
             </Box>{" "}
             <Footer />
         </>

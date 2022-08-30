@@ -3,9 +3,9 @@ import { luxonLocalizer } from "react-big-calendar";
 import { DateTime } from "luxon";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { Box } from "@chakra-ui/react";
-import { useCallback, useState } from "react";
-import {CheckCircleIcon, Icon} from '@chakra-ui/icons'
-import {FaQuestionCircle} from 'react-icons/fa'
+import { useCallback, useEffect, useState } from "react";
+import { CheckCircleIcon, Icon } from "@chakra-ui/icons";
+import { FaQuestionCircle } from "react-icons/fa";
 import {
     Popover,
     PopoverTrigger,
@@ -16,23 +16,52 @@ import {
     PopoverArrow,
     PopoverCloseButton,
     PopoverAnchor,
-    Button, 
+    Button,
     Modal,
-    Text
-  } from '@chakra-ui/react'
+    Text,
+} from "@chakra-ui/react";
 import GameDetail from "./GameDetail";
+import { IoMdTennisball } from "react-icons/io";
+
 
 const localizer = luxonLocalizer(DateTime, { firstDayOfWeek: 7 });
 
-
-export default function CalendarExample({confirmedGames, token, username }) {
+export default function CalendarExample({  token, username, confirmedGames, actionRequiredGames, pendingPOVGuestGames, noGuestGames, hostOpenDoublesGames, guestOpenDoublesGames }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
-const [game, setGame] = useState(null)
-    // const [eventList, setEventList] = useState([])
-    // console.log(events);
-    // setEventList(events)
-    console.log('confirmed Games' + confirmedGames)
-    console.log(confirmedGames[0].start)
+    const [game, setGame] = useState(null);
+    const [calendarGames, setCalendarGames] = useState([]);
+
+    console.log("confirmed Games" + confirmedGames);
+    console.log(confirmedGames[0].start);
+
+    useEffect(() => {
+        const combinedGames = [];
+        if (actionRequiredGames.length > 0) {
+            combinedGames.push(...actionRequiredGames)
+        }
+        console.log(combinedGames)
+        if (confirmedGames.length > 0) {
+            combinedGames.push(...confirmedGames)
+        }
+        console.log(combinedGames)
+        if (pendingPOVGuestGames.length>0) {
+            combinedGames.push(...pendingPOVGuestGames)
+        }
+        console.log(combinedGames)
+        if (noGuestGames.length>0) {
+            combinedGames.push(...noGuestGames)
+        }
+        console.log(combinedGames)
+        if (hostOpenDoublesGames.length>0) {
+            combinedGames.push(...hostOpenDoublesGames)
+        }
+        console.log(combinedGames)
+        if (guestOpenDoublesGames.length>0) {
+            combinedGames.push(...guestOpenDoublesGames)
+        }
+        console.log(combinedGames)
+        setCalendarGames(combinedGames)
+    }, [ actionRequiredGames, confirmedGames, pendingPOVGuestGames, noGuestGames, hostOpenDoublesGames, guestOpenDoublesGames]);
 
     const handleOpenModal = (game) => {
         console.log("click open");
@@ -46,11 +75,11 @@ const [game, setGame] = useState(null)
         setModalIsOpen(false);
     };
 
-    const onSelectEvent = (calEvent) =>{
-        console.log('calendar event clicked')
-        console.log(calEvent)
-        handleOpenModal(calEvent)
-    }
+    const onSelectEvent = (calEvent) => {
+        console.log("calendar event clicked");
+        console.log(calEvent);
+        handleOpenModal(calEvent);
+    };
 
     // const eventStyleGetter = (event, start, end, isSelected) =>{
     //     console.log(event)
@@ -58,13 +87,13 @@ const [game, setGame] = useState(null)
     //         backgroundColor: "#ffffff"
     //     }
     // }
-    
+
     return (
-        <Box height={400} backgroundColor="white">
+        <Box height={500} backgroundColor="white">
             {/* Container element around Calender needs to have height specified for it to show up on the page */}
             <Calendar
                 localizer={localizer}
-                events={confirmedGames}
+                events={calendarGames}
                 startAccessor="start"
                 endAccessor="end"
                 popup
@@ -72,12 +101,12 @@ const [game, setGame] = useState(null)
                 tooltipAccessor={null}
                 onSelectEvent={onSelectEvent}
                 eventPropGetter={(event, start, end, isSelected) => ({
-                    event, 
+                    event,
                     start,
                     end,
-                    style:{backgroundColor: "white"}
+                    style: { backgroundColor: "white", height: 25 },
                 })}
-                />
+            />
             <Modal
                 isOpen={modalIsOpen}
                 contentLabel="Game Detail Modal"
@@ -88,14 +117,12 @@ const [game, setGame] = useState(null)
                     game={game}
                     handleCloseModal={handleCloseModal}
                     setModalIsOpen={setModalIsOpen}
-                    username={username}                  
+                    username={username}
                 />
             </Modal>
-            
         </Box>
     );
-};
-
+}
 
 // function Event(event, confirmedGames) {
 //    const game=confirmedGames[0]
@@ -120,7 +147,7 @@ const [game, setGame] = useState(null)
 //     {
 //         title: <CheckCircleIcon/>,
 //         allDay: false,
-//         start: new Date(2022, 7, 26, 9, 0), 
+//         start: new Date(2022, 7, 26, 9, 0),
 //         // Aug 26, 2022 9am
 //         end: new Date(2022, 7, 26, 10, 0),
 //         // Aug 26, 2022 10am
@@ -130,7 +157,7 @@ const [game, setGame] = useState(null)
 //     {
 //         title: <Icon as={FaQuestionCircle}/>,
 //         allDay: false,
-//         start: new Date(2022, 7, 25, 12, 0), 
+//         start: new Date(2022, 7, 25, 12, 0),
 //         // Aug 26, 2022 9am
 //         end: new Date(2022, 7, 25, 13, 0),
 //         // Aug 26, 2022 10am
@@ -139,7 +166,7 @@ const [game, setGame] = useState(null)
 //     {
 //         title: <Icon as={FaQuestionCircle}/> ,
 //         allDay: false,
-//         start: new Date(2022, 7, 25, 9, 0), 
+//         start: new Date(2022, 7, 25, 9, 0),
 //         // Aug 26, 2022 9am
 //         end: new Date(2022, 7, 25, 10, 0),
 //         // Aug 26, 2022 10am
@@ -148,7 +175,7 @@ const [game, setGame] = useState(null)
 //     {
 //         title: <Icon as={FaQuestionCircle}/>,
 //         allDay: false,
-//         start: new Date(2022, 7, 25, 14, 0), 
+//         start: new Date(2022, 7, 25, 14, 0),
 //         // Aug 26, 2022 9am
 //         end: new Date(2022, 7, 25, 15, 0),
 //         // Aug 26, 2022 10am
@@ -157,7 +184,7 @@ const [game, setGame] = useState(null)
 //     {
 //         title: <Icon as={FaQuestionCircle}/>,
 //         allDay: false,
-//         start: new Date(2022, 7, 25, 7, 0), 
+//         start: new Date(2022, 7, 25, 7, 0),
 //         // Aug 26, 2022 9am
 //         end: new Date(2022, 7, 25, 8, 0),
 //         // Aug 26, 2022 10am
