@@ -22,11 +22,12 @@ import {
     useDisclosure,
     CloseButton,
 } from "@chakra-ui/react";
+import useLocalStorageState from "use-local-storage-state";
 
 export default function GameDetail({
     token,
     game,
-    username,
+    // username,
     reload,
     setReload,
     setPastGameModalIsOpen,
@@ -37,9 +38,15 @@ export default function GameDetail({
     const { isOpen, onClose, onOpen } = useDisclosure();
     const [alertTitle, setAlertTitle] = useState(null);
     const [alertMessage, setAlertMessage] = useState(null);
+      const [username, setUsername] = useLocalStorageState(
+        "teammateUsername",
+        null
+    );
 
     console.log(game);
     console.log(token);
+    console.log(game.displayUsersUsernames)
+    console.log(username)
 
     const handleCloseModal = () => {
         console.log("click close");
@@ -49,7 +56,6 @@ export default function GameDetail({
     // const handleClosePastGameModal = () => {
     //     setPastGameModalIsOpen(false);
     // };
-
 
     const handleClick = (game, button) => {
         if (game.displayStatus === "join") {
@@ -81,9 +87,9 @@ export default function GameDetail({
             setEditClicked(true);
         }
         if (button.label === "Take Survey") {
-            console.log("take survey clicked")
-            handleCloseModal()
-            setSurveyClicked(true)
+            console.log("take survey clicked");
+            handleCloseModal();
+            setSurveyClicked(true);
         }
     };
 
@@ -93,8 +99,8 @@ export default function GameDetail({
     }
 
     if (surveyClicked) {
-        console.log(game)
-        return <Navigate to={`survey/${game.game_session_id}`} />
+        console.log(game);
+        return <Navigate to={`survey/${game.game_session_id}`} />;
     }
 
     const joinSession = (game) => {
@@ -116,9 +122,11 @@ export default function GameDetail({
                 console.log("guest posted");
                 if (res.data.guest_id) {
                     console.log("if includes guest - yes");
-                    setAlertMessage(`Your request to join this game has been sent. Stay tuned for a confirmation from the host.`);
+                    setAlertMessage(
+                        `Your request to join this game has been sent. Stay tuned for a confirmation from the host.`
+                    );
                     setAlertTitle("Yay!");
-                    onOpen()
+                    onOpen();
                 } else {
                     setAlertTitle("oh nooooo!!!!");
                     setAlertMessage("Something has gone terribly wrong");
@@ -126,12 +134,12 @@ export default function GameDetail({
                 // setReload(reload+1) This happen when the alert is closed
             })
             .catch((error) => {
-                console.log(error)
-                console.log('there was an error')
-                setAlertTitle('Uh oh, something went wrong. ')
-                setAlertMessage(error.message)
-                onOpen()
-            })
+                console.log(error);
+                console.log("there was an error");
+                setAlertTitle("Uh oh, something went wrong. ");
+                setAlertMessage(error.message);
+                onOpen();
+            });
     };
 
     const acceptRequest = (game) => {
@@ -148,26 +156,27 @@ export default function GameDetail({
                 }
             )
             .then((res) => {
-                console.log(res)
+                console.log(res);
                 console.log("acceptRequest patch sent");
-                if (res.data.status==='Accepted') {
+                if (res.data.status === "Accepted") {
                     console.log("response includes accepted guest status");
-                    setAlertMessage(`You accepted a ${res.data.user_info.first_name}'s request to join your game.`);
+                    setAlertMessage(
+                        `You accepted a ${res.data.user_info.first_name}'s request to join your game.`
+                    );
                     setAlertTitle("This is going to be a great game!");
-                    onOpen()
+                    onOpen();
                 } else {
                     setAlertTitle("oh nooooo!!!!");
                     setAlertMessage("Something has gone terribly wrong");
                 }
-                
             })
             .catch((error) => {
-                console.log(error)
-                console.log('there was an error')
-                setAlertTitle('Uh oh, something went wrong. ')
-                setAlertMessage(error.message)
-                onOpen()
-            })
+                console.log(error);
+                console.log("there was an error");
+                setAlertTitle("Uh oh, something went wrong. ");
+                setAlertMessage(error.message);
+                onOpen();
+            });
     };
 
     const rejectRequest = (game) => {
@@ -184,56 +193,63 @@ export default function GameDetail({
                 }
             )
             .then((res) => {
-                console.log(res)
+                console.log(res);
                 console.log("rejectRequest patch sent");
-                if (res.data.status==='Rejected') {
+                if (res.data.status === "Rejected") {
                     console.log("response includes rejected guest status");
-                    setAlertMessage(`You chose not to accept ${res.data.user_info.first_name}'s request to join your game.`);
+                    setAlertMessage(
+                        `You chose not to accept ${res.data.user_info.first_name}'s request to join your game.`
+                    );
                     setAlertTitle("Request not accepted.");
-                    onOpen()
+                    onOpen();
                 } else {
                     setAlertTitle("oh nooooo!!!!");
                     setAlertMessage("Something has gone terribly wrong");
                 }
             })
             .catch((error) => {
-                console.log(error)
-                console.log('there was an error')
-                setAlertTitle('Uh oh, something went wrong. ')
-                setAlertMessage(error.message)
-                onOpen()
-            })
+                console.log(error);
+                console.log("there was an error");
+                setAlertTitle("Uh oh, something went wrong. ");
+                setAlertMessage(error.message);
+                onOpen();
+            });
     };
 
     const cancelGame = (game) => {
         console.log("join click");
         console.log(game);
         axios
-            .delete(`https://teammate-app.herokuapp.com/session/${game.game_session_id}`, {
-                headers: {
-                    Authorization: `Token ${token}`,
-                },
-            })
+            .delete(
+                `https://teammate-app.herokuapp.com/session/${game.game_session_id}`,
+                {
+                    headers: {
+                        Authorization: `Token ${token}`,
+                    },
+                }
+            )
             .then((res) => {
-                console.log(res)
+                console.log(res);
                 console.log("delete game sent");
-                if (res.status===204) {
+                if (res.status === 204) {
                     console.log("response indicates game deleted");
-                    setAlertMessage(`We get it, you didn't want to play that game.`);
+                    setAlertMessage(
+                        `We get it, you didn't want to play that game.`
+                    );
                     setAlertTitle("Game deleted");
-                    onOpen()
+                    onOpen();
                 } else {
                     setAlertTitle("oh nooooo!!!!");
                     setAlertMessage("Something has gone terribly wrong");
                 }
             })
             .catch((error) => {
-                console.log(error)
-                console.log('there was an error')
-                setAlertTitle('Uh oh, something went wrong. ')
-                setAlertMessage(error.message)
-                onOpen()
-            })
+                console.log(error);
+                console.log("there was an error");
+                setAlertTitle("Uh oh, something went wrong. ");
+                setAlertMessage(error.message);
+                onOpen();
+            });
     };
 
     const cancelGuest = (game) => {
@@ -249,30 +265,32 @@ export default function GameDetail({
                 }
             )
             .then((res) => {
-                console.log(res)
+                console.log(res);
                 console.log("delete guest session sent");
-                if (res.status===204) {
+                if (res.status === 204) {
                     console.log("response indicates game deleted");
-                    setAlertMessage(`We get it, you didn't want to play that game.`);
+                    setAlertMessage(
+                        `We get it, you didn't want to play that game.`
+                    );
                     setAlertTitle("Guest request deleted");
-                    onOpen()
+                    onOpen();
                 } else {
                     setAlertTitle("oh nooooo!!!!");
                     setAlertMessage("Something has gone terribly wrong");
-                    onOpen()
+                    onOpen();
                 }
             })
-            .then(() =>{
-                console.log('2nd then')
-                setReload(reload+1)
+            .then(() => {
+                console.log("2nd then");
+                setReload(reload + 1);
             })
             .catch((error) => {
-                console.log(error)
-                console.log('there was an error')
-                setAlertTitle('Uh oh, something went wrong. ')
-                setAlertMessage(error.message)
-                onOpen()
-            })
+                console.log(error);
+                console.log("there was an error");
+                setAlertTitle("Uh oh, something went wrong. ");
+                setAlertMessage(error.message);
+                onOpen();
+            });
     };
 
     return (
@@ -344,24 +362,33 @@ export default function GameDetail({
                         )}
                     </Text>
 
-                    <Box w="100%" m={3} >
-                        {game.buttonTitle && (
-                            <Text w='100%'>
-                                {game.buttonTitle}
-                                {game.displayUsers[0].user_info.first_name}?
-                            </Text>
-                        )}
-                    <Box display='flex' justifyContent='center' >
-                        {game.buttons.map((button) => (
-                            <Button m={2}
-                                colorScheme="teal"
-                                key={button.label}
-                                onClick={() => handleClick(game, button)}
-                            >
-                                <Text color="white">{button.label} </Text>
-                            </Button>
-                        ))}</Box>
-                    </Box>
+                    { ((game.displayStatus!=="past") || (game.displayStatus==='past' && game.displayUsersUsernames.includes(username) && !game.tookSurvey.includes(username))) 
+                    && (
+                        <Box w="100%" m={3}>
+                            {game.buttonTitle && (
+                                <Text w="100%">
+                                    {game.buttonTitle}
+                                    {game.displayUsers[0].user_info.first_name}?
+                                </Text>
+                            )}
+                            <Box display="flex" justifyContent="center">
+                                {game.buttons.map((button) => (
+                                    <Button
+                                        m={2}
+                                        colorScheme="teal"
+                                        key={button.label}
+                                        onClick={() =>
+                                            handleClick(game, button)
+                                        }
+                                    >
+                                        <Text color="white">
+                                            {button.label}{" "}
+                                        </Text>
+                                    </Button>
+                                ))}
+                            </Box>
+                        </Box>
+                    )} 
                 </Box>
 
                 <AlertDialog isOpen={isOpen} onClose={onClose}>
@@ -372,9 +399,10 @@ export default function GameDetail({
                                 position="relative"
                                 // right={-1}
                                 // top={-1}
-                                onClick={()=>{
-                                    onClose()
-                                handleCloseModal()}}
+                                onClick={() => {
+                                    onClose();
+                                    handleCloseModal();
+                                }}
                             />
                             <AlertDialogHeader>{alertTitle}</AlertDialogHeader>
                             <AlertDialogBody>{alertMessage}</AlertDialogBody>

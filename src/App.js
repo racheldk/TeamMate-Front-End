@@ -70,6 +70,8 @@ function App() {
                         icon: null,
                         tennisBall: TbBallTennis,
                         displayUsers: confirmedPlayers,
+                        displayUsersUsernames: null,
+                        historyStatus: null,
                         buttonTitle: null,
                         buttons: [
                             { label: "Join", job: "send a join request" },
@@ -101,7 +103,7 @@ function App() {
                         element={<NewOpenGame token={token} />}
                     />
                     <Route
-                        path=":username/survey/:id" element={<Survey setAuth={setAuth} token={token}/>} />
+                        path=":username/survey/:id" element={<Survey setAuth={setAuth} token={token} username={username} />} />
                     <Route
                         path="register"
                         element={<Register setAuth={setAuth} />}
@@ -112,6 +114,7 @@ function App() {
                             <OpenGamesPage
                                 token={token}
                                 allGamesList={allGamesList}
+                                setAllGamesList
                                 username={username}
                                 setGame={setGame}
                                 game={game}
@@ -154,6 +157,7 @@ function App() {
                                 token={token}
                                 allGamesList={allGamesList}
                                 game={game}
+                                username={username}
                             />
                         }
                     />
