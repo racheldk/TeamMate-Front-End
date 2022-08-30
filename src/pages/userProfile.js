@@ -162,6 +162,7 @@ function UserProfile({ token, setToken }) {
                                     NTRP&nbsp;<Box bg='#ffffff' borderRadius='10px' maxW='10%' paddingLeft='.2em' 
                                     paddingRight='.2em' color='teal' textAlign='center'>{user.profile.ntrp_rating}</Box>
                                 </Heading>
+                    
                             </Box>
 
                             {user.wins_losses && (
