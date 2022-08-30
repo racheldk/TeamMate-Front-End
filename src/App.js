@@ -114,6 +114,7 @@ function App() {
                             <OpenGamesPage
                                 token={token}
                                 allGamesList={allGamesList}
+                                setAllGamesList
                                 username={username}
                                 setGame={setGame}
                                 game={game}
