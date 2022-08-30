@@ -39,6 +39,109 @@ body {
     grid-template-columns: 50% 50%;
 }
 
+/* Calendar Stylings */
+
+.rbc-event {
+    height: auto!important;
+    padding: 0!important;
+    color: #000!important;
+    display: grid!important;
+    grid-template-columns: 80% 20%;
+    min-width: 40px;
+}
+
+.rbc-event-content {
+    display: flex!important;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border-radius: 100px;
+    padding: .1em;
+    text-align: center!important;
+    margin: auto!important;
+}
+
+.rbc-day-bg, .rbc-month-row, .rbc-header, .rbc-agenda-event-cell, .rbc-agenda-table {
+    border-color: teal!important;
+}
+.rbc-header {
+    background-color: teal;
+    color: #fff;
+    border-color: white!important;
+    border-bottom: 1px!important;
+}
+
+.rbc-agenda-time-cell {
+    border-top: 1px;
+}
+.rbc-agenda-date-cell {
+    border: 1px solid #fff;
+    color: #fff;
+    background-color: teal;
+    border-bottom: 0;
+}
+
+.rbc-time-view {
+   border-radius: 20px;
+   width: 375px!important;
+   margin: auto;
+   overflow: scroll;
+}
+
+.rbc-agenda-table {
+    border: 0!important;
+}
+
+.rbc-agenda-view {
+    padding: .5em!important;
+}
+
+.rbc-event-label {
+    padding: .5em;
+    font-size: 1em!important;
+}
+
+.rbc-toolbar,  .rbc-day-slot  {
+    justify-content: center!important;
+}
+
+.rbc-calendar {
+    border-radius: 20px!important;
+    background-color: #fff;
+}
+
+.view-changer {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: #4FD1C5;
+    box-shadow: 0px 10px 10px #4FD1C5;
+
+}
+
+.rbc-off-range-bg {
+    background-color: rgba(0, 0, 0, 0)!important;
+}
+
+.rbc-month-view {
+    border: 0!important;
+    border-top: 1px solid teal!important;
+}
+
+.rbc-toolbar-label {
+    width: 100%!important;
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #234E52;
+}
+.rbc-toolbar button {
+    background-color: teal!important;
+    color: #fff!important;
+    margin: .2em!important;
+    border: 0!important;
+    border-radius: 20px!important;
+}
 
 /* User Profile Stylings */
 
@@ -94,7 +197,7 @@ body {
     z-index: 20;
     max-width: 350px;
     height: 100vh;
-    margin: 2em auto 0 auto;
+    margin: 0 auto 0 auto;
     text-align: right;    
 }
 
@@ -102,7 +205,7 @@ body {
     background-color: #ffffff;
     border-radius: 20px;
     color: #234E52;
-    padding: 1em;
+    padding: .1em;
     margin: auto;
     text-align: center;
 }
@@ -118,7 +221,7 @@ body {
 .header {
     display: grid;
     grid-template-columns: 25% 50% 25%;
-    background-image: linear-gradient(#ffffff 40%, #4FD1C5 40%);
+    background-image: linear-gradient(#ffffff 50%, #4FD1C5 50%);
     margin: auto;
     z-index: 10;
     padding: .2em;
@@ -141,6 +244,7 @@ body {
     position: sticky;
     bottom: 0;
     width: 100%;
+    z-index: 11;
 }
 
 .footer-button {

@@ -36,8 +36,6 @@ export default function GamesList({
     const [rank, setRank] = useState('teal');
 
     
-
-    
     // console.log(gamesList);
 
 
