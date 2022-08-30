@@ -62,13 +62,10 @@ const Survey = ({ token, username }) => {
                         confirmedPlayers.push(guest);
                     }
                 }
-                const game = {
+                setGame({
                     displayUsers: confirmedPlayers,
                     ...res.data,
-                };
-                setAlertTitle("Thank you!")
-                setAlertMessage("Your responses have been recorded.")
-                onOpen()
+                });
             })
             .catch((error) => {
                 console.log(error);
@@ -84,8 +81,7 @@ const Survey = ({ token, username }) => {
     useEffect(() => {
         console.log('send post request to create survey object')
         axios.post(`https://teammate-app.herokuapp.com/session/${parseInt(
-            params.id
-        )}/survey`, {
+            params.id)}/survey/`, {
 
         },{
             headers: {
@@ -95,7 +91,7 @@ const Survey = ({ token, username }) => {
         )
         .then((res) =>{
             console.log(res)
-            setSurveyPK(8)
+            // setSurveyPK(8)
             // setSurveyPK(res.data)
         })
         .catch((error) => {
@@ -114,7 +110,7 @@ const Survey = ({ token, username }) => {
         const axiosPosts = surveyResponses.map((obj) =>
             axios
                 .post(
-                    `https://teammate-app.herokuapp.com/session/${game.id}/survey/${surveyPK}/response`,
+                    `https://teammate-app.herokuapp.com/session/${game.game_session_id}/survey/response/`,
                     {
                         obj,
                     },
@@ -126,7 +122,10 @@ const Survey = ({ token, username }) => {
                 )
                 .then((res) => {
                     console.log(res);
-                    setSurveySubmitted(true)
+                    // setSurveySubmitted(true)
+                    setAlertTitle("Thank you!")
+                    setAlertMessage("Your responses have been recorded.")
+                    onOpen()
                 })
                 .catch((error) => {
                     console.log(error);
@@ -146,7 +145,7 @@ const Survey = ({ token, username }) => {
     }
 
     if(surveySubmitted) {
-        return <Navigate to={`${username}`} />
+        return <Navigate to={`../${username}`} />
     }
 
     return (
