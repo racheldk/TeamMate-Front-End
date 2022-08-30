@@ -144,8 +144,8 @@ export default function NewOpenGame({ token }) {
                             <option value="" disabled hidden>
                                 Where
                             </option>
-                            <option value="1">Pullen Park</option>
-                            <option value="2">Sanderford Park</option>
+                            <option value="2">Pullen Park</option>
+                            <option value="1">Sanderford Park</option>
                         </Select>
                     </Box>
                     <Box p={3}>
