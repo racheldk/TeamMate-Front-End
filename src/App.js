@@ -154,6 +154,7 @@ function App() {
                                 token={token}
                                 allGamesList={allGamesList}
                                 game={game}
+                                username={username}
                             />
                         }
                     />

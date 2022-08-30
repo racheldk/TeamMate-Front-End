@@ -26,12 +26,12 @@ import GameDetail from "../components/GameDetail";
 import { Navigate, useParams } from "react-router-dom";
 
 
-function UserProfile({ token, setToken }) {
+function UserProfile({ token, setToken, username }) {
     const [profileUser, setProfileUser] = useState(null);
-    const [username, setUsername] = useLocalStorageState(
-        "teammateUsername",
-        null
-    );
+    // const [username, setUsername] = useLocalStorageState(
+    //     "teammateUsername",
+    //     null
+    // );
     const [historyGames, setHistoryGames] = useState(null);
     const [editModalIsOpen, setEditModalIsOpen] = useState(false);
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -145,6 +145,8 @@ function UserProfile({ token, setToken }) {
                             <Heading size='2xl' color="white">{profileUser.first_name} {profileUser.last_name}</Heading>
                                 <Heading size="lg" color="white">
                                     @{profileUser.username}&nbsp;
+
+                                    {username===profileUser.username && 
                                     <IconButton
                                         aria-label="ProfileEdit"
                                         o
@@ -159,7 +161,7 @@ function UserProfile({ token, setToken }) {
                                         icon={
                                             <Icon as={BsPencil} color="white" />
                                         }
-                                    />
+                                    />}
                                 </Heading>
                             </Box>
                         </Box>
