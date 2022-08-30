@@ -159,7 +159,8 @@ function UserProfile({ token, setToken }) {
                             </Box>
                             <Box className="ranks">
                                 <Heading color="white" display='flex' justifyContent='center'>
-                                    NTRP&nbsp;<Box bg='#ffffff' borderRadius='10px' maxW='10%' paddingLeft='.2em' paddingRight='.2em' color='teal' textAlign='center'>{user.profile.ntrp_rating}</Box>
+                                    NTRP&nbsp;<Box bg='#ffffff' borderRadius='10px' maxW='10%' paddingLeft='.2em' 
+                                    paddingRight='.2em' color='teal' textAlign='center'>{user.profile.ntrp_rating}</Box>
                                 </Heading>
                             </Box>
                             <Box className="confirmed-games" w="100%" justifyContent='center'>
