@@ -14,6 +14,7 @@ import { DateTime } from "luxon";
 import { IoMdTennisball } from "react-icons/io";
 import GameDetail from "./GameDetail";
 
+
 export default function GamesList({
     token,
     gamesList,

@@ -13,9 +13,15 @@ import { useState } from "react";
 import GameDetail from "./GameDetail";
 import { IoMdTennisball } from "react-icons/io";
 
+
 export default function PastGamesList({ token, gamesList }) {
     const [ModalIsOpen, setModalIsOpen] = useState(false);
     const [game, setGame] = useState(null);
+    const [user, setUser] = useState(null);
+
+
+
+
 
     const handleOpenPastGameModal = (game) => {
         console.log("open past game modal");
@@ -31,10 +37,13 @@ export default function PastGamesList({ token, gamesList }) {
     return (
         <Box>
             <Box className="games">
+            {/* {user && ( */}
+                    <>
                 {" "}
                 <Heading color="#234E52" m={2} textAlign='center'>
                     Game History
                 </Heading>
+                {/* {user.wins_losses} */}
                 {gamesList.map((game) => (
                     <LinkBox key={game.game_session_id} cursor="pointer">
                         <LinkOverlay
@@ -76,6 +85,8 @@ export default function PastGamesList({ token, gamesList }) {
                         </LinkOverlay>
                     </LinkBox>
                 ))}
+            </>
+            {/* )} */}
             </Box>
             <Modal
                 className="modal"
