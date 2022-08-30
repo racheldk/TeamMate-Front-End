@@ -7,6 +7,14 @@ import axios from "axios";
 import useLocalStorageState from "use-local-storage-state";
 import NotificationsList from './NotificationsList'
 import logo from "../images/teammate-logo.png";
+import {
+    Alert,
+    AlertIcon,
+    AlertTitle,
+    AlertDescription,
+    Stack
+    } from '@chakra-ui/react'
+
 
 function Header() {
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -104,9 +112,9 @@ function Header() {
                 <BellIcon color={alertIcon} />
             </IconButton>
             <Box display='flex' justifyContent='center'> <Image
-                  src={logo}
-                  alt='TeamMate logo'
-                  w='150px'
+                    src={logo}
+                    alt='TeamMate logo'
+                    w='150px'
                 />
                 </Box>
             <Box display="flex" justifyContent="end" m={2} color="teal">
@@ -127,11 +135,18 @@ function Header() {
                     </Link>
                 </Button>
             </Box>
+
+
             <Modal isOpen={modalIsOpen} contentLabel="Notifications Modal" overlayClassName="modal-overlay" className="modal" handleCloseModal={handleCloseModal}>
             <IconButton onClick={()=>handleCloseModal()} className="close-modal-button" variant='outline' colorScheme='teal'><CloseIcon color='white'/></IconButton>
+            {/* <Box className="modal-base" display='flex' height="400px" flexWrap='wrap'>
+                <Box w='350px' display='flex' justifyContent='center' flexWrap='wrap' > */}
             <NotificationsList token={token} notifications={notifications}/>
 
-            </Modal>
+
+            
+       
+        </Modal>
         </Box>
     );
 }

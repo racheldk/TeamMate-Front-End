@@ -14,12 +14,15 @@ import { DateTime } from "luxon";
 import { IoMdTennisball } from "react-icons/io";
 import GameDetail from "./GameDetail";
 
+
 export default function GamesList({
     token,
     gamesList,
     setGame,
     game,
     username,
+    reload, 
+    setReload,
     setNoActionGames,
     confirmedGames,
     pendingPOVGuestGames,
@@ -32,7 +35,7 @@ export default function GamesList({
     const [rank, setRank] = useState('teal');
 
     
-    console.log(gamesList);
+    // console.log(gamesList);
 
 
     const handleOpenModal = (game) => {
@@ -45,9 +48,10 @@ export default function GamesList({
     const handleCloseModal = () => {
         console.log("click close");
         setModalIsOpen(false);
+        setReload(reload+1)
     };
 
-    console.log(gamesList);
+    // console.log(gamesList);
     // console.log(game)
 
     // if (gamesList.length === 0) {
@@ -110,6 +114,8 @@ export default function GamesList({
                     handleCloseModal={handleCloseModal}
                     setModalIsOpen={setModalIsOpen}
                     username={username}
+                    reload={reload}
+                    setReload={setReload}
                 />
             </Modal>
         </Box>

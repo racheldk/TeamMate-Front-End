@@ -1,12 +1,11 @@
 import { IconButton, Box, Text} from '@chakra-ui/react'
 import { Link } from "react-router-dom";
-import { BsPerson, BsFillHouseFill, BsStickies, BsPlusSquare, BsFillPersonFill, BsPlusSquareFill, BsPersonFill } from "react-icons/bs";
-import { BsPlus } from "react-icons/bs";
+import {BsPersonFill } from "react-icons/bs";
+
 import { FaPlus } from "react-icons/fa";
 import { IoMdTennisball } from "react-icons/io";
 import { GiTennisCourt } from "react-icons/gi";
 
-import { IoIosTennisball } from "react-icons/io"
 import { SearchIcon, Icon } from "@chakra-ui/icons";
 import useLocalStorageState from "use-local-storage-state";
 
