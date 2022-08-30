@@ -8,8 +8,7 @@ import {
     LinkBox,
     Stack
 } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
-import axios from "axios";
+
 
 export default function NotificationsList({ token, notifications }) {
 
@@ -24,7 +23,7 @@ if (notifications && notifications.length > 0) {
             ))}
         </Box>
     );}
-else {
+if (notifications && notifications.length === 0) {
     return (
         <Box className="modal-base" p={0} paddingBottom={2}>
         <Heading className="form-banner" >Notifications</Heading>

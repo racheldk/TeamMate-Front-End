@@ -34,11 +34,9 @@ function Header() {
                 },
             })
             .then((res) => {
-                console.log(res.data);
                 setNotifications(res.data);
-                console.log(notifications);
             });
-    }, [token]);
+    }, [token, count]);
 
     useEffect(() => {
         axios
@@ -49,7 +47,7 @@ function Header() {
             })
             .then((res) => {
                 setCount(res.data);
-                console.log(res.data);
+                console.log('doing a check');
             });
     }, [token]);
 
