@@ -7,7 +7,7 @@ import {
     BsFillEmojiSmileFill,
 } from "react-icons/bs";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import {
     AlertDialog,
     AlertDialogBody,
@@ -23,7 +23,7 @@ import { Checkbox, CheckboxGroup } from '@chakra-ui/react'
 import { DateTime } from "luxon";
 
 
-const Survey = ({ token }) => {
+const Survey = ({ token, username }) => {
     const [surveyPK, setSurveyPK] = useState(null);
     const [params] = useState(useParams());
     const [isLoading, setIsLoading] = useState(true);
@@ -31,10 +31,12 @@ const Survey = ({ token }) => {
     const [alertTitle, setAlertTitle] = useState(null);
     const [alertMessage, setAlertMessage] = useState(null);
     const [game, setGame] = useState(null)
+    const [surveySubmitted, setSurveySubmitted] = useState(false)
 
     const surveyResponses = [];
 
     console.log(game)
+    console.log(username)
 
     useEffect(() => {
         console.log(params.id);
@@ -61,11 +63,10 @@ const Survey = ({ token }) => {
                         confirmedPlayers.push(guest);
                     }
                 }
-                const game = {
+                setGame({
                     displayUsers: confirmedPlayers,
                     ...res.data,
-                };
-                setGame(game)
+                });
             })
             .catch((error) => {
                 console.log(error);
@@ -81,8 +82,7 @@ const Survey = ({ token }) => {
     useEffect(() => {
         console.log('send post request to create survey object')
         axios.post(`https://teammate-app.herokuapp.com/session/${parseInt(
-            params.id
-        )}/survey`, {
+            params.id)}/survey/`, {
 
         },{
             headers: {
@@ -92,7 +92,7 @@ const Survey = ({ token }) => {
         )
         .then((res) =>{
             console.log(res)
-            setSurveyPK(8)
+            // setSurveyPK(8)
             // setSurveyPK(res.data)
         })
         .catch((error) => {
@@ -111,10 +111,10 @@ const Survey = ({ token }) => {
         const axiosPosts = surveyResponses.map((obj) =>
             axios
                 .post(
-                    `https://teammate-app.herokuapp.com/session/${game.id}/survey/${surveyPK}/response`,
-                    {
-                        obj,
-                    },
+                    `https://teammate-app.herokuapp.com/session/${game.game_session_id}/survey/response/`,
+                    
+                        obj
+                    ,
                     {
                         headers: {
                             Authorization: `Token ${token}`,
@@ -123,6 +123,10 @@ const Survey = ({ token }) => {
                 )
                 .then((res) => {
                     console.log(res);
+                    // setSurveySubmitted(true)
+                    setAlertTitle("Thank you!")
+                    setAlertMessage("Your responses have been recorded.")
+                    onOpen()
                 })
                 .catch((error) => {
                     console.log(error);
@@ -133,11 +137,15 @@ const Survey = ({ token }) => {
                 })
         );
         console.log(axiosPosts);
+        
     };
-    // ??!!! Where does the user go after their survey is submitted?
 
     if(isLoading) {
         return <Box>...Loading</Box>
+    }
+
+    if(surveySubmitted) {
+        return <Navigate to={`../${username}`} />
     }
 
     return (
@@ -301,7 +309,11 @@ const Survey = ({ token }) => {
                     </Button>
             <CheckboxGroup >
                     <Stack display="grid" gridTemplateColumns="auto auto" marginLeft="20px" marginBottom="-15px">
-                    {game.displayUsers.map((user) => (
+                    {game.displayUsers.map((user) => {
+                        if (user.user!==username) {
+                            return (
+                        
+                    
                     < Checkbox className="won" 
                     variant="outline"
                     backgroundColor=""
@@ -330,7 +342,8 @@ const Survey = ({ token }) => {
                         >
                             {user.user_info.first_name}
                         </Checkbox>
-                    ))}
+                    )}
+                    return null})}
                     </Stack>
             </CheckboxGroup>
 
@@ -412,6 +425,23 @@ const Survey = ({ token }) => {
                 </Box>
             </Box>
         )}
+            <AlertDialog isOpen={isOpen} onClose={onClose}>
+                    <AlertDialogOverlay>
+                        <AlertDialogContent>
+                            <CloseButton
+                                alignSelf="flex-end"
+                                position="relative"
+                                // right={-1}
+                                // top={-1}
+                                onClick={()=>{
+                                    onClose()
+                                setSurveySubmitted(true)}}
+                            />
+                            <AlertDialogHeader>{alertTitle}</AlertDialogHeader>
+                            <AlertDialogBody>{alertMessage}</AlertDialogBody>
+                        </AlertDialogContent>
+                    </AlertDialogOverlay>
+                </AlertDialog>
         </Box>
     )
 }
