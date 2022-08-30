@@ -335,7 +335,7 @@ export default function GameDetail({
                         {game.location_info.address.zipcode}
                     </Text>
 
-                    <Text w="100%" marginTop={3}>
+                    <Text w="100%" marginTop={0}>
                         {game.match_type} | {game.session_type}
                     </Text>
                     <Text fontWeight="700" fontSize="xl">
@@ -344,22 +344,23 @@ export default function GameDetail({
                         )}
                     </Text>
 
-                    <Box w="100%" m={3}>
+                    <Box w="100%" m={3} >
                         {game.buttonTitle && (
-                            <Text>
+                            <Text w='100%'>
                                 {game.buttonTitle}
                                 {game.displayUsers[0].user_info.first_name}?
                             </Text>
                         )}
+                    <Box display='flex' justifyContent='center' >
                         {game.buttons.map((button) => (
-                            <Button
+                            <Button m={2}
                                 colorScheme="teal"
                                 key={button.label}
                                 onClick={() => handleClick(game, button)}
                             >
                                 <Text color="white">{button.label} </Text>
                             </Button>
-                        ))}
+                        ))}</Box>
                     </Box>
                 </Box>
 
