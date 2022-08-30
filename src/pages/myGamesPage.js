@@ -1,12 +1,12 @@
-import { Text, Heading, Icon, Box, Button } from "@chakra-ui/react";
+import { Text, Heading, Icon, Box, Button, IconButton } from "@chakra-ui/react";
 import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import GamesList from "../components/GamesList";
 import { IoMdTennisball } from "react-icons/io";
-import { BsQuestionCircleFill, BsPersonFill } from "react-icons/bs";
-import { CheckCircleIcon } from "@chakra-ui/icons";
+import { BsQuestionCircleFill, BsPersonFill, BsList } from "react-icons/bs";
+import { CalendarIcon, CheckCircleIcon } from "@chakra-ui/icons";
 import CalendarExample from "../components/calendar-example";
 import { DateTime } from "luxon";
 import {
@@ -297,7 +297,7 @@ export default function MyGames({ token, username, game, setGame }) {
                             const expandedGame = {
                                 displayStatus: "no guests",
                                 bgColor: "#ffffff",
-                                tennisBall: IoMdTennisball ,
+                                tennisBall: IoMdTennisball,
                                 icon: null,
                                 displayUsers: confirmedPlayers,
                                 buttonTitle: null,
@@ -452,13 +452,17 @@ export default function MyGames({ token, username, game, setGame }) {
 
                 {showCalendar ? (
                     <>
-                        <Button
-                            size="sm"
+                        <IconButton
+                            colorScheme="#4fd1c5"
+                            size="lg"
+                            icon={
+                                <BsList
+                                    color="#234E52"
+                                    fontSize="1.5em"
+                                />
+                            }
                             onClick={() => setShowCalendar(false)}
-                        >
-                            List
-                        </Button>
-
+                        />
                         <CalendarExample
                             token={token}
                             username={username}
@@ -472,9 +476,20 @@ export default function MyGames({ token, username, game, setGame }) {
                     </>
                 ) : (
                     <>
-                        <Button onClick={() => setShowCalendar(true)}>
+                        {/* <Button onClick={() => setShowCalendar(true)}>
                             Calendar
-                        </Button>
+                        </Button> */}
+                        <IconButton
+                            colorScheme="#4fd1c5"
+                            size="lg"
+                            icon={
+                                <CalendarIcon
+                                    color="#234E52"
+                                    fontSize="1.5em"
+                                />
+                            }
+                            onClick={() => setShowCalendar(true)}
+                        />
 
                         <GamesList
                             token={token}
