@@ -14,11 +14,6 @@ import { DateTime } from "luxon";
 import { IoMdTennisball } from "react-icons/io";
 import GameDetail from "./GameDetail";
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> main
 export default function GamesList({
     token,
     gamesList,
@@ -27,13 +22,7 @@ export default function GamesList({
     username,
     reload,
     setReload,
-    setNoActionGames,
-    confirmedGames,
-    pendingPOVGuestGames,
-    noGuestGames,
-    hostOpenDoublesGames,
-    guestOpenDoublesGames,
-    test,
+
 }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [rank, setRank] = useState("teal");
