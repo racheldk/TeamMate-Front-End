@@ -88,6 +88,8 @@ import NewGamesList from "../components/GamesList";
                         icon: null,
                         tennisBall: TbBallTennis,
                         displayUsers: confirmedPlayers,
+                        displayUsersUsernames: null,
+                        historyStatus: null,
                         buttonTitle: null,
                         buttons: [
                             { label: "Join", job: "send a join request" },

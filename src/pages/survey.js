@@ -111,9 +111,9 @@ const Survey = ({ token, username }) => {
             axios
                 .post(
                     `https://teammate-app.herokuapp.com/session/${game.game_session_id}/survey/response/`,
-                    {
-                        obj,
-                    },
+                    
+                        obj
+                    ,
                     {
                         headers: {
                             Authorization: `Token ${token}`,

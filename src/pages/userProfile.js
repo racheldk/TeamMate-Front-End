@@ -24,14 +24,15 @@ import PastGamesList from "../components/PastGamesList";
 import { IoMdTennisball } from "react-icons/io";
 import GameDetail from "../components/GameDetail";
 import { Navigate, useParams } from "react-router-dom";
+import { paste } from "@testing-library/user-event/dist/paste";
 
 
-function UserProfile({ token, setToken, username }) {
+function UserProfile({ token, setToken }) {
     const [profileUser, setProfileUser] = useState(null);
-    // const [username, setUsername] = useLocalStorageState(
-    //     "teammateUsername",
-    //     null
-    // );
+    const [username, setUsername] = useLocalStorageState(
+        "teammateUsername",
+        null
+    );
     const [historyGames, setHistoryGames] = useState(null);
     const [editModalIsOpen, setEditModalIsOpen] = useState(false);
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -80,12 +81,19 @@ function UserProfile({ token, setToken, username }) {
                         }
                         console.log(confirmedPlayers);
                     }
+                    const confirmedPlayersUsernames = []
+                    for (const player of confirmedPlayers) {
+                        confirmedPlayersUsernames.push(player.user)
+                    }
+                    console.log(confirmedPlayersUsernames)
                     const expandedGame = {
                         displayStatus: "past",
                         bgColor: "#ffffff",
                         tennisBall: IoMdTennisball,
                         icon: null,
                         displayUsers: confirmedPlayers,
+                        displayUsersUsernames: confirmedPlayersUsernames,
+                        historyStatus: "past",
                         buttonTitle: null,
                         buttons: [
                             {
