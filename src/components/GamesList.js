@@ -9,11 +9,16 @@ import {
     LinkBox,
     Image,
 } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { DateTime } from "luxon";
 import { IoMdTennisball } from "react-icons/io";
 import GameDetail from "./GameDetail";
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> main
 export default function GamesList({
     token,
     gamesList,
@@ -129,6 +134,28 @@ export default function GamesList({
                                         />
                                         <Box marginTop={3}>{game.icon}</Box>
                                     </Box>
+
+
+                                    <Box
+                            borderColor="white"
+                            color="teal"
+                            position="absolute"
+                            top={4}
+                            marginLeft="250px"
+                            fontSize="10px"
+                        >
+                            RANK&nbsp;
+                        </Box>
+                        <Box
+                            color="teal"
+                            position="absolute"
+                            top={3}
+                            right={12}
+                            fontSize="14px"
+                        >
+                            {game.host_info.profile.teammate_ntrp}
+                        </Box>
+
                                 </LinkOverlay>
                             </LinkBox>
                         ))}

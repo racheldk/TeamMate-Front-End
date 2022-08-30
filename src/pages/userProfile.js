@@ -204,6 +204,7 @@ function UserProfile({ token, setToken }) {
                                     NTRP&nbsp;<Box bg='#ffffff' borderRadius='10px' maxW='10%' paddingLeft='.2em' 
                                     paddingRight='.2em' color='teal' textAlign='center'>{profileUser.profile.ntrp_rating}</Box>
                                 </Heading>
+                    
                             </Box>
                             <Box>
                                 <Text>Teammate NTRP {profileUser.profile.teammate_ntrp}</Text>
