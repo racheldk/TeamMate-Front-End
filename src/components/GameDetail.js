@@ -5,7 +5,9 @@ import {
     Button,
     IconButton,
     Box,
+    Icon,
 } from "@chakra-ui/react";
+import { IoMdTennisball } from "react-icons/io";
 import { CloseIcon } from "@chakra-ui/icons";
 import { DateTime } from "luxon";
 import noImage from "../images/no-image.jpg";
@@ -24,6 +26,8 @@ import {
     LinkOverlay,
     LinkBox,
 } from "@chakra-ui/react";
+import { TbBallTennis } from "react-icons/tb";
+
 import useLocalStorageState from "use-local-storage-state";
 
 export default function GameDetail({
@@ -49,8 +53,8 @@ export default function GameDetail({
 
     console.log(game);
     console.log(token);
-    console.log(game.displayUsersUsernames)
-    console.log(username)
+    console.log(game.displayUsersUsernames);
+    console.log(username);
 
     const handleCloseModal = () => {
         console.log("click close");
@@ -334,6 +338,9 @@ export default function GameDetail({
                         justifyContent="center"
                         flexWrap="wrap"
                     >
+                        <Box>
+                            <Text>{game.icon} {game.cardTitle}</Text>
+                        </Box>
                         {game.displayUsers.length > 0 &&
                             game.displayUsers.map((user) => (
                                 <LinkBox key={user.user_id} cursor="pointer">
@@ -363,9 +370,31 @@ export default function GameDetail({
                                                 NTRP:{" "}
                                                 {
                                                     user.user_info.profile
-                                                        .ntrp_rating
+                                                        .teammate_ntrp
                                                 }{" "}
                                             </Text>
+                                            <Box>
+                                                <Icon
+                                                    as={TbBallTennis}
+                                                    color={
+                                                        user.user_info.profile
+                                                            .teammate_rank
+                                                    }
+                                                    fontSize="1em"
+                                                    display="flex"
+                                                />
+                                            </Box>
+                                            <Box>
+                                                <Icon
+                                                    as={IoMdTennisball}
+                                                    color={
+                                                        user.user_info.profile
+                                                            .teammate_rank
+                                                    }
+                                                    fontSize="1em"
+                                                    display="flex"
+                                                />
+                                            </Box>
                                         </Box>
                                     </LinkOverlay>
                                 </LinkBox>
@@ -391,8 +420,10 @@ export default function GameDetail({
                         )}
                     </Text>
 
-                    { ((game.displayStatus!=="past") || (game.displayStatus==='past' && game.displayUsersUsernames.includes(username) && !game.tookSurvey.includes(username))) 
-                    && (
+                    {(game.displayStatus !== "past" ||
+                        (game.displayStatus === "past" &&
+                            game.displayUsersUsernames.includes(username) &&
+                            !game.tookSurvey.includes(username))) && (
                         <Box w="100%" m={3}>
                             {game.buttonTitle && (
                                 <Text w="100%">
@@ -417,7 +448,7 @@ export default function GameDetail({
                                 ))}
                             </Box>
                         </Box>
-                    )} 
+                    )}
                 </Box>
 
                 <AlertDialog isOpen={isOpen} onClose={onClose}>

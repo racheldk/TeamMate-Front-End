@@ -93,6 +93,8 @@ export default function OpenGamesPage({
                             }
                         }
                         const expandedGame = {
+                            tennisBallColor: game.host_info.profile.teammate_rank,
+                            cardTitle:null,
                             displayStatus: "join",
                             bgColor: "#ffffff",
                             icon: null,
