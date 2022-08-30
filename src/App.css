@@ -94,7 +94,7 @@ body {
     z-index: 20;
     max-width: 350px;
     height: 100vh;
-    margin: 2em auto 0 auto;
+    margin: 0 auto 0 auto;
     text-align: right;    
 }
 
@@ -102,7 +102,7 @@ body {
     background-color: #ffffff;
     border-radius: 20px;
     color: #234E52;
-    padding: 1em;
+    padding: .1em;
     margin: auto;
     text-align: center;
 }
@@ -118,7 +118,7 @@ body {
 .header {
     display: grid;
     grid-template-columns: 25% 50% 25%;
-    background-image: linear-gradient(#ffffff 40%, #4FD1C5 40%);
+    background-image: linear-gradient(#ffffff 50%, #4FD1C5 50%);
     margin: auto;
     z-index: 10;
     padding: .2em;

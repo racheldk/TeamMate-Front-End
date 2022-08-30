@@ -121,6 +121,7 @@ export default function MyGames({
                                                 as={BsPersonFill}
                                                 fontSize="30px"
                                                 borderRadius="100px"
+                                                p={1}
                                             />
                                         ),
                                         displayUsers: [guest],

@@ -35,6 +35,7 @@ if (picture) {
 const PatchProfile = (event) => {
     event.preventDefault();
 
+    if (rank) {
     axios
     .patch(
         `https://teammate-app.herokuapp.com/profile/`,
@@ -49,15 +50,30 @@ const PatchProfile = (event) => {
             }
         }
     )
-    .then(handleCloseModal())
+    .then(handleCloseModal())}
+    handleCloseModal()
    ;}
 
-   if (firstname || lastname) {
+   if (firstname) {
     axios
     .patch(
         `https://teammate-app.herokuapp.com/${username}`,
         {
             first_name: firstname,
+        },
+        {
+            headers: {
+                Authorization: `Token ${token}`,
+            }
+        }
+    )
+}
+
+if (lastname) {
+    axios
+    .patch(
+        `https://teammate-app.herokuapp.com/${username}`,
+        {
             last_name: lastname
         },
         {
