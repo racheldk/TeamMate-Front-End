@@ -16,14 +16,18 @@ import {
     IconButton,
     Button,
     Box,
+    Center,
+    Spinner
 } from "@chakra-ui/react";
 import noImage from "../images/no-image.jpg";
 import PastGamesList from "../components/PastGamesList";
 import { IoMdTennisball } from "react-icons/io";
 import GameDetail from "../components/GameDetail";
+import { Navigate, useParams } from "react-router-dom";
+
 
 function UserProfile({ token, setToken }) {
-    const [user, setUser] = useState(null);
+    const [profileUser, setProfileUser] = useState(null);
     const [username, setUsername] = useLocalStorageState(
         "teammateUsername",
         null
@@ -31,24 +35,28 @@ function UserProfile({ token, setToken }) {
     const [historyGames, setHistoryGames] = useState(null);
     const [editModalIsOpen, setEditModalIsOpen] = useState(false);
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [params] = useState(useParams());
+    const [isLoading, setIsLoading] = useState(true)
+
 
     useEffect(() => {
+        console.log(params.username)
         axios
-            .get(`https://teammate-app.herokuapp.com/${username}`, {
+            .get(`https://teammate-app.herokuapp.com/${params.username}`, {
                 headers: {
                     Authorization: `Token ${token}`,
                 },
             })
             .then((res) => {
-                setUser(res.data);
+                setProfileUser(res.data);
                 console.log(res.data);
             });
-    }, [token, username, editModalIsOpen]);
+    }, [token, params, editModalIsOpen]);
 
     useEffect(() => {
         axios
             .get(
-                `https://teammate-app.herokuapp.com/${username}/games/?my-games=MyPreviousGames`,
+                `https://teammate-app.herokuapp.com/${params.username}/games/?my-games=MyPreviousGames`,
                 {
                     headers: {
                         Authorization: `Token ${token}`,
@@ -92,8 +100,9 @@ function UserProfile({ token, setToken }) {
                 }
                 console.log(expandedPastGames);
                 setHistoryGames(expandedPastGames);
+                setIsLoading(false)
             });
-    }, [token, username]);
+    }, [token, profileUser]);
 
     const handleOpenEditModal = (game) => {
         console.log("click modal open");
@@ -108,18 +117,34 @@ function UserProfile({ token, setToken }) {
         setEditModalIsOpen(false);
     };
 
+    if (isLoading) {
+        return (
+            <Box>
+                <Center h="400px">
+                    <Spinner
+                        thickness="4px"
+                        speed="0.65s"
+                        emptyColor="gray.200"
+                        color="#234E52;"
+                        size="xl"
+                    />
+                </Center>
+            </Box>
+        );
+    }
+
     return (
         <>
             <Header token={token} setToken={setToken} />
 
             <Box className="app-body">
-                {user && (
+                {profileUser && (
                     <>
                         <Box className="profile-body" marginTop={4}>
                             <Box className="user-name">
-                            <Heading size='2xl' color="white">{user.first_name} {user.last_name}</Heading>
+                            <Heading size='2xl' color="white">{profileUser.first_name} {profileUser.last_name}</Heading>
                                 <Heading size="lg" color="white">
-                                    @{user.username}&nbsp;
+                                    @{profileUser.username}&nbsp;
                                     <IconButton
                                         aria-label="ProfileEdit"
                                         o
@@ -150,8 +175,8 @@ function UserProfile({ token, setToken }) {
                                     boxSize="150px"
                                 >
                                     <Image
-                                        src={user.profile.profile_image_file}
-                                        alt={user.username}
+                                        src={profileUser.profile.profile_image_file}
+                                        alt={profileUser.username}
                                         fallbackSrc={noImage}
                                         borderRadius="full"
                                     />
@@ -160,13 +185,13 @@ function UserProfile({ token, setToken }) {
                             <Box className="ranks">
                                 <Heading color="white" display='flex' justifyContent='center'>
                                     NTRP&nbsp;<Box bg='#ffffff' borderRadius='10px' maxW='10%' paddingLeft='.2em' 
-                                    paddingRight='.2em' color='teal' textAlign='center'>{user.profile.ntrp_rating}</Box>
+                                    paddingRight='.2em' color='teal' textAlign='center'>{profileUser.profile.ntrp_rating}</Box>
                                 </Heading>
                             </Box>
 
-                            {user.wins_losses && (
+                            {profileUser.wins_losses && (
                             <Box>
-                                <Text>Win Rate: {user.wins_losses}</Text>
+                                <Text>Win Rate: {profileUser.wins_losses}</Text>
                             </Box>
 
                             )}

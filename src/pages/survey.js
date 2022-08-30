@@ -138,7 +138,6 @@ const Survey = ({ token, username }) => {
         console.log(axiosPosts);
         
     };
-    // ??!!! Where does the user go after their survey is submitted?
 
     if(isLoading) {
         return <Box>...Loading</Box>
