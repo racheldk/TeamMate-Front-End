@@ -7,7 +7,7 @@ import {
     BsFillEmojiSmileFill,
 } from "react-icons/bs";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import {
     AlertDialog,
     AlertDialogBody,
@@ -23,7 +23,7 @@ import { Checkbox, CheckboxGroup } from '@chakra-ui/react'
 import { DateTime } from "luxon";
 
 
-const Survey = ({ token }) => {
+const Survey = ({ token, username }) => {
     const [surveyPK, setSurveyPK] = useState(null);
     const [params] = useState(useParams());
     const [isLoading, setIsLoading] = useState(true);
@@ -31,6 +31,7 @@ const Survey = ({ token }) => {
     const [alertTitle, setAlertTitle] = useState(null);
     const [alertMessage, setAlertMessage] = useState(null);
     const [game, setGame] = useState(null)
+    const [surveySubmitted, setSurveySubmitted] = useState(false)
 
     const surveyResponses = [];
 
@@ -65,7 +66,9 @@ const Survey = ({ token }) => {
                     displayUsers: confirmedPlayers,
                     ...res.data,
                 };
-                setGame(game)
+                setAlertTitle("Thank you!")
+                setAlertMessage("Your responses have been recorded.")
+                onOpen()
             })
             .catch((error) => {
                 console.log(error);
@@ -123,6 +126,7 @@ const Survey = ({ token }) => {
                 )
                 .then((res) => {
                     console.log(res);
+                    setSurveySubmitted(true)
                 })
                 .catch((error) => {
                     console.log(error);
@@ -133,11 +137,16 @@ const Survey = ({ token }) => {
                 })
         );
         console.log(axiosPosts);
+        
     };
     // ??!!! Where does the user go after their survey is submitted?
 
     if(isLoading) {
         return <Box>...Loading</Box>
+    }
+
+    if(surveySubmitted) {
+        return <Navigate to={`${username}`} />
     }
 
     return (
@@ -412,6 +421,23 @@ const Survey = ({ token }) => {
                 </Box>
             </Box>
         )}
+            <AlertDialog isOpen={isOpen} onClose={onClose}>
+                    <AlertDialogOverlay>
+                        <AlertDialogContent>
+                            <CloseButton
+                                alignSelf="flex-end"
+                                position="relative"
+                                // right={-1}
+                                // top={-1}
+                                onClick={()=>{
+                                    onClose()
+                                setSurveySubmitted(true)}}
+                            />
+                            <AlertDialogHeader>{alertTitle}</AlertDialogHeader>
+                            <AlertDialogBody>{alertMessage}</AlertDialogBody>
+                        </AlertDialogContent>
+                    </AlertDialogOverlay>
+                </AlertDialog>
         </Box>
     )
 }
