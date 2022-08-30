@@ -1,22 +1,42 @@
-import { Text, Heading, Image, Button, IconButton, Box } from "@chakra-ui/react";
+import {
+    Text,
+    Heading,
+    Image,
+    Button,
+    IconButton,
+    Box,
+} from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
 import { DateTime } from "luxon";
 import noImage from "../images/no-image.jpg";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
 import { useState } from "react";
-
+import {
+    AlertDialog,
+    AlertDialogBody,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogContent,
+    AlertDialogOverlay,
+    useDisclosure,
+    CloseButton,
+} from "@chakra-ui/react";
 
 export default function GameDetail({
     token,
     game,
     username,
-    
+    reload,
+    setReload,
     setPastGameModalIsOpen,
     setModalIsOpen,
 }) {
     const [editClicked, setEditClicked] = useState(false);
-    const [surveyClicked, setSurveyClicked] = useState(false)
+    const [surveyClicked, setSurveyClicked] = useState(false);
+    const { isOpen, onClose, onOpen } = useDisclosure();
+    const [alertTitle, setAlertTitle] = useState(null);
+    const [alertMessage, setAlertMessage] = useState(null);
 
     console.log(game);
     console.log(token);
@@ -26,9 +46,9 @@ export default function GameDetail({
         setModalIsOpen(false);
     };
 
-    const handleClosePastGameModal = () => {
-        setPastGameModalIsOpen(false);
-    };
+    // const handleClosePastGameModal = () => {
+    //     setPastGameModalIsOpen(false);
+    // };
 
 
     const handleClick = (game, button) => {
@@ -68,7 +88,7 @@ export default function GameDetail({
     };
 
     if (editClicked) {
-        console.log(game)
+        console.log(game);
         return <Navigate to={`edit/${game.game_session_id}`} />;
     }
 
@@ -90,15 +110,28 @@ export default function GameDetail({
                     },
                 }
             )
-            
-            .then(() => {
+
+            .then((res) => {
+                console.log(res.data);
                 console.log("guest posted");
-                alert("You sent a join request");
+                if (res.data.guest_id) {
+                    console.log("if includes guest - yes");
+                    setAlertMessage(`Your request to join this game has been sent. Stay tuned for a confirmation from the host.`);
+                    setAlertTitle("Yay!");
+                    onOpen()
+                } else {
+                    setAlertTitle("oh nooooo!!!!");
+                    setAlertMessage("Something has gone terribly wrong");
+                }
+                // setReload(reload+1) This happen when the alert is closed
             })
             .catch((error) => {
-                alert(error.response.data.detail);
-            });
-        handleCloseModal();
+                console.log(error)
+                console.log('there was an error')
+                setAlertTitle('Uh oh, something went wrong. ')
+                setAlertMessage(error.message)
+                onOpen()
+            })
     };
 
     const acceptRequest = (game) => {
@@ -114,13 +147,27 @@ export default function GameDetail({
                     },
                 }
             )
-            .then(() => {
+            .then((res) => {
+                console.log(res)
                 console.log("acceptRequest patch sent");
-                alert("You accepted a request to join your game");
+                if (res.data.status==='Accepted') {
+                    console.log("response includes accepted guest status");
+                    setAlertMessage(`You accepted a ${res.data.user_info.first_name}'s request to join your game.`);
+                    setAlertTitle("This is going to be a great game!");
+                    onOpen()
+                } else {
+                    setAlertTitle("oh nooooo!!!!");
+                    setAlertMessage("Something has gone terribly wrong");
+                }
+                
             })
             .catch((error) => {
-                alert(error.response.data.detail);
-            });
+                console.log(error)
+                console.log('there was an error')
+                setAlertTitle('Uh oh, something went wrong. ')
+                setAlertMessage(error.message)
+                onOpen()
+            })
     };
 
     const rejectRequest = (game) => {
@@ -136,31 +183,57 @@ export default function GameDetail({
                     },
                 }
             )
-            .then(() => {
+            .then((res) => {
+                console.log(res)
                 console.log("rejectRequest patch sent");
-                alert("You did not accept a request to join your game");
+                if (res.data.status==='Rejected') {
+                    console.log("response includes rejected guest status");
+                    setAlertMessage(`You chose not to accept ${res.data.user_info.first_name}'s request to join your game.`);
+                    setAlertTitle("Request not accepted.");
+                    onOpen()
+                } else {
+                    setAlertTitle("oh nooooo!!!!");
+                    setAlertMessage("Something has gone terribly wrong");
+                }
             })
             .catch((error) => {
-                alert(error.response.data.detail);
-            });
+                console.log(error)
+                console.log('there was an error')
+                setAlertTitle('Uh oh, something went wrong. ')
+                setAlertMessage(error.message)
+                onOpen()
+            })
     };
 
     const cancelGame = (game) => {
         console.log("join click");
         console.log(game);
         axios
-            .delete(`https://teammate-app.herokuapp.com/session/${game.id}`, {
+            .delete(`https://teammate-app.herokuapp.com/session/${game.game_session_id}`, {
                 headers: {
                     Authorization: `Token ${token}`,
                 },
             })
-            .then(() => {
+            .then((res) => {
+                console.log(res)
                 console.log("delete game sent");
-                alert("You cancelled a game");
+                if (res.status===204) {
+                    console.log("response indicates game deleted");
+                    setAlertMessage(`We get it, you didn't want to play that game.`);
+                    setAlertTitle("Game deleted");
+                    onOpen()
+                } else {
+                    setAlertTitle("oh nooooo!!!!");
+                    setAlertMessage("Something has gone terribly wrong");
+                }
             })
             .catch((error) => {
-                alert(error.response.data.detail);
-            });
+                console.log(error)
+                console.log('there was an error')
+                setAlertTitle('Uh oh, something went wrong. ')
+                setAlertMessage(error.message)
+                onOpen()
+            })
     };
 
     const cancelGuest = (game) => {
@@ -168,64 +241,110 @@ export default function GameDetail({
         console.log(game);
         axios
             .delete(
-                `https://teammate-app.herokuapp.com/session/${game.game_session_id}/guest/${game.guest[1]}`,
+                `https://teammate-app.herokuapp.com/session/${game.game_session_id}/guest/`,
                 {
                     headers: {
                         Authorization: `Token ${token}`,
                     },
                 }
             )
-            .then(() => {
+            .then((res) => {
+                console.log(res)
                 console.log("delete guest session sent");
-                alert("You cancelled a request to join a game");
+                if (res.status===204) {
+                    console.log("response indicates game deleted");
+                    setAlertMessage(`We get it, you didn't want to play that game.`);
+                    setAlertTitle("Guest request deleted");
+                    onOpen()
+                } else {
+                    setAlertTitle("oh nooooo!!!!");
+                    setAlertMessage("Something has gone terribly wrong");
+                    onOpen()
+                }
+            })
+            .then(() =>{
+                console.log('2nd then')
+                setReload(reload+1)
             })
             .catch((error) => {
-                alert(error.response.data.detail);
-            });
+                console.log(error)
+                console.log('there was an error')
+                setAlertTitle('Uh oh, something went wrong. ')
+                setAlertMessage(error.message)
+                onOpen()
+            })
     };
 
     return (
         <Box className="modal-overlay">
-            <Box textAlign='right' className="modal">
-            <IconButton onClick={()=>handleCloseModal()} className="close-modal-button" variant='outline' colorScheme='teal'><CloseIcon color='white'/></IconButton>
-            
-                <Box className="modal-base" display='flex' flexWrap='wrap' key={game.id} justifyContent='center'>
-                <Box w='350px' display='flex' justifyContent='center' flexWrap='wrap' >
-                    {game.displayUsers.length > 0 &&
-                        game.displayUsers.map((user) => (
-                            <Box key={user.user_id} m='auto' p='.5em'>
-                                <Heading fontSize='xl'>{`${user.user_info.first_name} ${user.user_info.last_name}`}</Heading>
-                                <Text>{`@${user.user}`}</Text>
-                                <Box w='100px' h='100px'  m='auto'>
-                                <Image className='profile_pic'
-                                src={`${user.user_info.profile.profile_image_file}`}
-                                alt={user.user}
-                                w='100%'
-                                h='100%'
-                                objectFit='cover'
-                                fallbackSrc={noImage}
-                                borderRadius="full"
-                                />
-                                </Box>
-                            <Text>
-                                NTRP:{" "}
-                                {user.user_info.profile.ntrp_rating}{" "}
-                            </Text>
-                            </Box>
-                        ))}</Box>
+            <Box textAlign="right" className="modal">
+                <IconButton
+                    onClick={() => handleCloseModal()}
+                    className="close-modal-button"
+                    variant="outline"
+                    colorScheme="teal"
+                >
+                    <CloseIcon color="white" />
+                </IconButton>
 
-                        <Heading fontWeight='700' w='100%'>{game.location_info.park_name}</Heading>
-                        <Text w='100%'>{game.location_info.address.address1} </Text>
-                        <Text>{game.location_info.address.city}, {game.location_info.address.state} {game.location_info.address.zipcode}</Text>
-                    
-                    <Text w='100%' marginTop={3}>{game.match_type} | {game.session_type}</Text>
-                    <Text fontWeight='700' fontSize='xl'>
+                <Box
+                    className="modal-base"
+                    display="flex"
+                    flexWrap="wrap"
+                    key={game.id}
+                    justifyContent="center"
+                >
+                    <Box
+                        w="350px"
+                        display="flex"
+                        justifyContent="center"
+                        flexWrap="wrap"
+                    >
+                        {game.displayUsers.length > 0 &&
+                            game.displayUsers.map((user) => (
+                                <Box key={user.user_id} m="auto" p=".5em">
+                                    <Heading fontSize="xl">{`${user.user_info.first_name} ${user.user_info.last_name}`}</Heading>
+                                    <Text>{`@${user.user}`}</Text>
+                                    <Box w="100px" h="100px" m="auto">
+                                        <Image
+                                            className="profile_pic"
+                                            src={`${user.user_info.profile.profile_image_file}`}
+                                            alt={user.user}
+                                            w="100%"
+                                            h="100%"
+                                            objectFit="cover"
+                                            fallbackSrc={noImage}
+                                            borderRadius="full"
+                                        />
+                                    </Box>
+                                    <Text>
+                                        NTRP:{" "}
+                                        {user.user_info.profile.ntrp_rating}{" "}
+                                    </Text>
+                                </Box>
+                            ))}
+                    </Box>
+
+                    <Heading fontWeight="700" w="100%">
+                        {game.location_info.park_name}
+                    </Heading>
+                    <Text w="100%">{game.location_info.address.address1} </Text>
+                    <Text>
+                        {game.location_info.address.city},{" "}
+                        {game.location_info.address.state}{" "}
+                        {game.location_info.address.zipcode}
+                    </Text>
+
+                    <Text w="100%" marginTop={3}>
+                        {game.match_type} | {game.session_type}
+                    </Text>
+                    <Text fontWeight="700" fontSize="xl">
                         {DateTime.fromISO(game.datetime).toLocaleString(
                             DateTime.DATETIME_MED_WITH_WEEKDAY
                         )}
                     </Text>
 
-                    <Box w='100%' m={3}>
+                    <Box w="100%" m={3}>
                         {game.buttonTitle && (
                             <Text>
                                 {game.buttonTitle}
@@ -233,16 +352,35 @@ export default function GameDetail({
                             </Text>
                         )}
                         {game.buttons.map((button) => (
-                            <Button colorScheme='teal'
+                            <Button
+                                colorScheme="teal"
                                 key={button.label}
                                 onClick={() => handleClick(game, button)}
                             >
                                 <Text color="white">{button.label} </Text>
                             </Button>
                         ))}
+                    </Box>
                 </Box>
+
+                <AlertDialog isOpen={isOpen} onClose={onClose}>
+                    <AlertDialogOverlay>
+                        <AlertDialogContent>
+                            <CloseButton
+                                alignSelf="flex-end"
+                                position="relative"
+                                // right={-1}
+                                // top={-1}
+                                onClick={()=>{
+                                    onClose()
+                                handleCloseModal()}}
+                            />
+                            <AlertDialogHeader>{alertTitle}</AlertDialogHeader>
+                            <AlertDialogBody>{alertMessage}</AlertDialogBody>
+                        </AlertDialogContent>
+                    </AlertDialogOverlay>
+                </AlertDialog>
             </Box>
-        </Box>
         </Box>
     );
 }
