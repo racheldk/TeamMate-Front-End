@@ -1,4 +1,13 @@
-import { Text, Heading, Icon, Box, Button, IconButton, Center, Spinner } from "@chakra-ui/react";
+import {
+    Text,
+    Heading,
+    Icon,
+    Box,
+    Button,
+    IconButton,
+    Center,
+    Spinner,
+} from "@chakra-ui/react";
 import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
 import { useState, useEffect } from "react";
@@ -10,8 +19,14 @@ import { CalendarIcon, CheckCircleIcon } from "@chakra-ui/icons";
 import CalendarExample from "../components/calendar-example";
 import { DateTime } from "luxon";
 
-
-export default function MyGames({ token, username, game, setGame, reload, setReload }) {
+export default function MyGames({
+    token,
+    username,
+    game,
+    setGame,
+    reload,
+    setReload,
+}) {
     const [actionRequiredGames, setActionRequiredGames] = useState([]);
     const [confirmedGames, setConfirmedGames] = useState([]);
     const [pendingPOVGuestGames, setPendingPOVGuestGames] = useState([]);
@@ -22,7 +37,7 @@ export default function MyGames({ token, username, game, setGame, reload, setRel
     const [showCalendar, setShowCalendar] = useState(false);
 
     useEffect(() => {
-        console.log('giant useEffect in My Games just ran' + reload)
+        console.log("giant useEffect in My Games just ran" + reload);
         const reqAction = axios.get(
             `https://teammate-app.herokuapp.com/${username}/games/?my-games=HostUnconfirmed`,
             {
@@ -92,7 +107,7 @@ export default function MyGames({ token, username, game, setGame, reload, setRel
                     if (responseAction.length > 0) {
                         const pendingGuests = [];
                         for (let game of responseAction) {
-                            for (let guest of game.guest_info) {                                
+                            for (let guest of game.guest_info) {
                                 if (guest.status === "Pending") {
                                     pendingGuests.push({
                                         pendingGuest: guest,
@@ -394,14 +409,19 @@ export default function MyGames({ token, username, game, setGame, reload, setRel
     }, [token, reload]);
 
     if (isLoading) {
-        return <Box>
-            <Center h='400px'><Spinner
-        thickness='4px'
-        speed='0.65s'
-        emptyColor='gray.200'
-        color='#234E52;'
-        size='xl'
-        /></Center></Box>;
+        return (
+            <Box>
+                <Center h="400px">
+                    <Spinner
+                        thickness="4px"
+                        speed="0.65s"
+                        emptyColor="gray.200"
+                        color="#234E52;"
+                        size="xl"
+                    />
+                </Center>
+            </Box>
+        );
     }
 
     return (
@@ -418,12 +438,7 @@ export default function MyGames({ token, username, game, setGame, reload, setRel
                         <IconButton
                             colorScheme="#4fd1c5"
                             size="lg"
-                            icon={
-                                <BsList
-                                    color="#234E52"
-                                    fontSize="1.5em"
-                                />
-                            }
+                            icon={<BsList color="#234E52" fontSize="1.5em" />}
                             onClick={() => setShowCalendar(false)}
                         />
                         <CalendarExample
@@ -465,66 +480,67 @@ export default function MyGames({ token, username, game, setGame, reload, setRel
                             game={game}
                             username={username}
                         />
-                <GamesList
-                    token={token}
-                    gamesList={actionRequiredGames}
-                    setGame={setGame}
-                    game={game}
-                    username={username}
-                    reload={reload}
-                    setReload={setReload}
-                />
+                        <GamesList
+                            token={token}
+                            gamesList={actionRequiredGames}
+                            setGame={setGame}
+                            game={game}
+                            username={username}
+                            reload={reload}
+                            setReload={setReload}
+                        />
 
-                <GamesList
-                    token={token}
-                    gamesList={confirmedGames}
-                    setGame={setGame}
-                    game={game}
-                    username={username}
-                    reload={reload}
-                    setReload={setReload}
-                />
+                        <GamesList
+                            token={token}
+                            gamesList={confirmedGames}
+                            setGame={setGame}
+                            game={game}
+                            username={username}
+                            reload={reload}
+                            setReload={setReload}
+                        />
 
-                <GamesList
-                    token={token}
-                    gamesList={pendingPOVGuestGames}
-                    setGame={setGame}
-                    game={game}
-                    username={username}
-                    reload={reload}
-                    setReload={setReload}
-                />
+                        <GamesList
+                            token={token}
+                            gamesList={pendingPOVGuestGames}
+                            setGame={setGame}
+                            game={game}
+                            username={username}
+                            reload={reload}
+                            setReload={setReload}
+                        />
 
-                <GamesList
-                    token={token}
-                    gamesList={noGuestGames}
-                    setGame={setGame}
-                    game={game}
-                    username={username}
-                    reload={reload}
-                    setReload={setReload}
-                />
+                        <GamesList
+                            token={token}
+                            gamesList={noGuestGames}
+                            setGame={setGame}
+                            game={game}
+                            username={username}
+                            reload={reload}
+                            setReload={setReload}
+                        />
 
-                <GamesList
-                    token={token}
-                    gamesList={hostOpenDoublesGames}
-                    setGame={setGame}
-                    game={game}
-                    username={username}
-                    reload={reload}
-                    setReload={setReload}
-                />
+                        <GamesList
+                            token={token}
+                            gamesList={hostOpenDoublesGames}
+                            setGame={setGame}
+                            game={game}
+                            username={username}
+                            reload={reload}
+                            setReload={setReload}
+                        />
 
-                <GamesList
-                    token={token}
-                    gamesList={guestOpenDoublesGames}
-                    setGame={setGame}
-                    game={game}
-                    username={username}
-                    reload={reload}
-                    setReload={setReload}
-                />
-                </>)}
+                        <GamesList
+                            token={token}
+                            gamesList={guestOpenDoublesGames}
+                            setGame={setGame}
+                            game={game}
+                            username={username}
+                            reload={reload}
+                            setReload={setReload}
+                        />
+                    </>
+                )}
             </Box>{" "}
             <Footer />
         </>
