@@ -5,7 +5,9 @@ import {
     Button,
     IconButton,
     Box,
+    Icon,
 } from "@chakra-ui/react";
+import { IoMdTennisball } from "react-icons/io";
 import { CloseIcon } from "@chakra-ui/icons";
 import { DateTime } from "luxon";
 import noImage from "../images/no-image.jpg";
@@ -21,7 +23,11 @@ import {
     AlertDialogOverlay,
     useDisclosure,
     CloseButton,
+    LinkOverlay,
+    LinkBox,
 } from "@chakra-ui/react";
+import { TbBallTennis } from "react-icons/tb";
+
 import useLocalStorageState from "use-local-storage-state";
 
 export default function GameDetail({
@@ -38,15 +44,17 @@ export default function GameDetail({
     const { isOpen, onClose, onOpen } = useDisclosure();
     const [alertTitle, setAlertTitle] = useState(null);
     const [alertMessage, setAlertMessage] = useState(null);
-      const [username, setUsername] = useLocalStorageState(
+    const [profileClick, setProfileClick] = useState(false);
+    const [profileUsername, setProfileUsername] = useState(null);
+    const [username, setUsername] = useLocalStorageState(
         "teammateUsername",
         null
     );
 
     console.log(game);
     console.log(token);
-    console.log(game.displayUsersUsernames)
-    console.log(username)
+    console.log(game.displayUsersUsernames);
+    console.log(username);
 
     const handleCloseModal = () => {
         console.log("click close");
@@ -92,16 +100,6 @@ export default function GameDetail({
             setSurveyClicked(true);
         }
     };
-
-    if (editClicked) {
-        console.log(game);
-        return <Navigate to={`edit/${game.game_session_id}`} />;
-    }
-
-    if (surveyClicked) {
-        console.log(game);
-        return <Navigate to={`survey/${game.game_session_id}`} />;
-    }
 
     const joinSession = (game) => {
         console.log("join click");
@@ -293,6 +291,28 @@ export default function GameDetail({
             });
     };
 
+    if (editClicked) {
+        console.log(game);
+        return <Navigate to={`edit/${game.game_session_id}`} />;
+    }
+
+    if (surveyClicked) {
+        console.log(game);
+        return <Navigate to={`survey/${game.game_session_id}`} />;
+    }
+
+    if (profileClick) {
+        console.log("profileClick(true)");
+        return <Navigate to={`../${profileUsername}`} />;
+    }
+
+    const handleProfileClick = (user) => {
+        console.log("clicked on a profile");
+        console.log(user);
+        setProfileUsername(user.user);
+        setProfileClick(true);
+    };
+
     return (
         <Box className="modal-overlay">
             <Box textAlign="right" className="modal">
@@ -318,28 +338,66 @@ export default function GameDetail({
                         justifyContent="center"
                         flexWrap="wrap"
                     >
+                        <Box>
+                            <Text>{game.icon} {game.cardTitle}</Text>
+                        </Box>
                         {game.displayUsers.length > 0 &&
                             game.displayUsers.map((user) => (
-                                <Box key={user.user_id} m="auto" p=".5em">
-                                    <Heading fontSize="xl">{`${user.user_info.first_name} ${user.user_info.last_name}`}</Heading>
-                                    <Text>{`@${user.user}`}</Text>
-                                    <Box w="100px" h="100px" m="auto">
-                                        <Image
-                                            className="profile_pic"
-                                            src={`${user.user_info.profile.profile_image_file}`}
-                                            alt={user.user}
-                                            w="100%"
-                                            h="100%"
-                                            objectFit="cover"
-                                            fallbackSrc={noImage}
-                                            borderRadius="full"
-                                        />
-                                    </Box>
-                                    <Text>
-                                        NTRP:{" "}
-                                        {user.user_info.profile.ntrp_rating}{" "}
-                                    </Text>
-                                </Box>
+                                <LinkBox key={user.user_id} cursor="pointer">
+                                    <LinkOverlay
+                                        onClick={() => handleProfileClick(user)}
+                                    >
+                                        <Box
+                                            key={user.user_id}
+                                            m="auto"
+                                            p=".5em"
+                                        >
+                                            <Heading fontSize="xl">{`${user.user_info.first_name} ${user.user_info.last_name}`}</Heading>
+                                            <Text>{`@${user.user}`}</Text>
+                                            <Box w="100px" h="100px" m="auto">
+                                                <Image
+                                                    className="profile_pic"
+                                                    src={`${user.user_info.profile.profile_image_file}`}
+                                                    alt={user.user}
+                                                    w="100%"
+                                                    h="100%"
+                                                    objectFit="cover"
+                                                    fallbackSrc={noImage}
+                                                    borderRadius="full"
+                                                />
+                                            </Box>
+                                            <Text>
+                                                NTRP:{" "}
+                                                {
+                                                    user.user_info.profile
+                                                        .teammate_ntrp
+                                                }{" "}
+                                            </Text>
+                                            <Box>
+                                                <Icon
+                                                    as={TbBallTennis}
+                                                    color={
+                                                        user.user_info.profile
+                                                            .teammate_rank
+                                                    }
+                                                    fontSize="1em"
+                                                    display="flex"
+                                                />
+                                            </Box>
+                                            <Box>
+                                                <Icon
+                                                    as={IoMdTennisball}
+                                                    color={
+                                                        user.user_info.profile
+                                                            .teammate_rank
+                                                    }
+                                                    fontSize="1em"
+                                                    display="flex"
+                                                />
+                                            </Box>
+                                        </Box>
+                                    </LinkOverlay>
+                                </LinkBox>
                             ))}
                     </Box>
 
@@ -362,8 +420,10 @@ export default function GameDetail({
                         )}
                     </Text>
 
-                    { ((game.displayStatus!=="past") || (game.displayStatus==='past' && game.displayUsersUsernames.includes(username) && !game.tookSurvey.includes(username))) 
-                    && (
+                    {(game.displayStatus !== "past" ||
+                        (game.displayStatus === "past" &&
+                            game.displayUsersUsernames.includes(username) &&
+                            !game.tookSurvey.includes(username))) && (
                         <Box w="100%" m={3}>
                             {game.buttonTitle && (
                                 <Text w="100%">
@@ -388,7 +448,7 @@ export default function GameDetail({
                                 ))}
                             </Box>
                         </Box>
-                    )} 
+                    )}
                 </Box>
 
                 <AlertDialog isOpen={isOpen} onClose={onClose}>

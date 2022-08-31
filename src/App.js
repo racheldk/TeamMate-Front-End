@@ -65,10 +65,12 @@ function App() {
                         // console.log(confirmedPlayers);
                     }
                     const expandedGame = {
+                        cardTitle: null,
                         displayStatus: "join",
                         bgColor: "#ffffff",
                         icon: null,
                         tennisBall: TbBallTennis,
+                        tennisBallColor: game.host_info.profile.teammate_rank,
                         displayUsers: confirmedPlayers,
                         displayUsersUsernames: null,
                         historyStatus: null,

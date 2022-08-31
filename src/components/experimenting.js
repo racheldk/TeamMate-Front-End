@@ -1,33 +1,93 @@
-// loop through each object received from GET request. 
-// within each new object need another loop to create the guest objects inside of displayUsers. 
+<Box
+    display="flex"
+    flexWrap="wrap"
+    maxW="350px"
+    m="auto"
+    justifyContent="center"
+    textAlign="center"
+>
+    {gamesList.length > 0 && (
+        <>
+            {/* <Heading textTransform='capitalize' color='#285E61'>{gamesList[0].displayStatus}</Heading> */}
+            {gamesList.map((game) => (
+                <LinkBox key={game.game_session_id} cursor="pointer">
+                    <LinkOverlay
+                        onClick={() => {
+                            handleOpenModal(game);
+                        }}
+                    >
+                        <Box
+                            className="game-card"
+                            bg={`${game.bgColor}`}
+                            key={game.id}
+                        >
+                            <Box
+                                w="100%"
+                                display="inline-block"
+                                marginRight="0"
+                            >
+                                <Heading fontSize={24} color="teal">
+                                    {game.location_info.park_name}
+                                </Heading>
+                                <Text color="#285E61">
+                                    {game.match_type} | {game.session_type}
+                                </Text>
+                                <Text
+                                    fontSize="1.2em"
+                                    fontWeight="700"
+                                    color="teal"
+                                >
+                                    {DateTime.fromISO(
+                                        game.datetime
+                                    ).toLocaleString(
+                                        DateTime.DATETIME_MED_WITH_WEEKDAY
+                                    )}
+                                </Text>
+                            </Box>
+                        </Box>
 
-// or just have separate host and guest keys inside game? 
+                        <Box
+                            borderRadius="100px"
+                            borderColor="white"
+                            bg={game.bgColor}
+                            position="absolute"
+                            top={0}
+                            right={0}
+                        >
+                            <Icon
+                                as={game.tennisBall}
+                                color={rank}
+                                fontSize="3em"
+                                display="flex"
+                            />
+                            <Box marginTop={3}> {game.icon} </Box>
+                        </Box>
 
-// want displayUsers data to be shaped like: 
-datafromBEarray.map((game) =>(
-    {   host: {type: "host",
-            guestStatus: "host",
-            username: {game.host},
-            first_name: {game.host_info.first_name},
-            last_name: {game.host_info.last_name},
-            id: {game.host_info.id},
-            profile_pic: {game.host_info.profile.profile_image_file},
-            ntrp: {game.host_info.profile.ntrp_rating}
-        }, 
-        displayGuests: [
-        {type: "guest",
-        guestStatus: "pending",
-        username: {game.guest_info.user},
-        first_name: {game.guest_info.user_info.first_name},
-        last_name: {game.guest_info.user_info.last_name},
-        id: {game.guest_info.user_info.id},
-        profile_pic: {game.guest_info.user_info.profile.profile_image_file},
-        ntrp: {game.guest_info.user_info.ntrp_rating}
-        }
-        ],
-        ...game
-    }
-))
+                        <Box
+                            borderColor="white"
+                            color="teal"
+                            position="absolute"
+                            top={4}
+                            marginLeft="250px"
+                            fontSize="10px"
+                        >
+                            RANK&nbsp;
+                        </Box>
+                        <Box
+                            color="teal"
+                            position="absolute"
+                            top={3}
+                            right={12}
+                            fontSize="14px"
+                        >
+                            {game.host_info.profile.teammate_ntrp}
+                        </Box>
+                        {/* <Box color='teal' fontSize='14px'> NTRP&nbsp;{game.host_info.profile.ntrp_rating}</Box> */}
+                    </LinkOverlay>
+                </LinkBox>
+            ))}
+        </>
+    )}
 
-// if restructuring the BE data doesn't work, take the map out of state setter and make the array first and then set the state with it 
-
+    <Modal isOpen={modalIsOpen} contentLabel="Game Detail Modal" game={game} />
+</Box>;

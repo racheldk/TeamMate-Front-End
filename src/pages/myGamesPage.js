@@ -112,6 +112,8 @@ export default function MyGames({
                                     pendingGuests.push({
                                         pendingGuest: guest,
                                         tennisBall: IoMdTennisball,
+                                        tennisBallColor: "teal",
+                                        cardTitle: `${guest.user_info.first_name} would like to join your game`,
                                         displayStatus: "action required",
                                         bgColor: "#ffffff",
                                         icon: (
@@ -126,7 +128,7 @@ export default function MyGames({
                                         ),
                                         displayUsers: [guest],
                                         displayUsersUsernames: null,
-                        historyStatus: null,
+                                        historyStatus: null,
                                         buttonTitle:
                                             "Do you want to play with ",
                                         buttons: [
@@ -178,9 +180,11 @@ export default function MyGames({
                                 }
                             }
                             const expandedGame = {
+                                cardTitle: "This game has been confirmed",
                                 displayStatus: "confirmed",
                                 bgColor: "#ffffff",
                                 tennisBall: IoMdTennisball,
+                                tennisBallColor: "teal",
                                 icon: (
                                     <CheckCircleIcon
                                         color="#48BB78"
@@ -190,7 +194,7 @@ export default function MyGames({
                                 ),
                                 displayUsers: confirmedPlayers,
                                 displayUsersUsernames: null,
-                        historyStatus: null,
+                                historyStatus: null,
                                 buttonTitle: null,
                                 buttons: [
                                     {
@@ -225,8 +229,9 @@ export default function MyGames({
                                 }
                             }
                             const expandedGame = {
+                                cardTitle: `Your request to join this game is pending.`,
                                 displayStatus: "pendingPOVGuest",
-                                
+                                tennisBallColor: "teal",
                                 tennisBall: IoMdTennisball,
                                 bgColor: "#ffffff",
                                 icon: (
@@ -239,7 +244,7 @@ export default function MyGames({
                                 ),
                                 displayUsers: confirmedPlayers,
                                 displayUsersUsernames: null,
-                        historyStatus: null,
+                                historyStatus: null,
                                 buttonTitle: null,
                                 buttons: [
                                     {
@@ -282,13 +287,15 @@ export default function MyGames({
                                 }
                             }
                             const expandedGame = {
+                                cardTitle: "No one has requested to join this game yet.",
                                 displayStatus: "no guests",
                                 bgColor: "#ffffff",
                                 tennisBall: IoMdTennisball,
+                                tennisBallColor: "teal",
                                 icon: null,
                                 displayUsers: confirmedPlayers,
                                 displayUsersUsernames: null,
-                        historyStatus: null,
+                                historyStatus: null,
                                 buttonTitle: null,
                                 buttons: [
                                     {
@@ -332,13 +339,15 @@ export default function MyGames({
                                 }
                             }
                             const expandedGame = {
+                                cardTitle: "This game is not full yet.",
                                 displayStatus: "host open doubles",
                                 bgColor: "#ffffff",
                                 tennisBall: IoMdTennisball,
+                                tennisBallColor: "teal",
                                 icon: null,
                                 displayUsers: confirmedPlayers,
                                 displayUsersUsernames: null,
-                        historyStatus: null,
+                                historyStatus: null,
                                 buttonTitle: null,
                                 buttons: [
                                     {
@@ -384,10 +393,12 @@ export default function MyGames({
                                 displayStatus: "guest open doubles",
                                 bgColor: "#ffffff",
                                 tennisBall: IoMdTennisball,
+                                tennisBallColor: "teal",
                                 icon: null,
+                                cardTitle: "This game is not full yet.",
                                 displayUsers: confirmedPlayers,
                                 displayUsersUsernames: null,
-                        historyStatus: null,
+                                historyStatus: null,
                                 buttonTitle: null,
                                 buttons: [
                                     {
@@ -449,22 +460,34 @@ export default function MyGames({
 
                 {showCalendar ? (
                     <>
-                    <Box w='100%' mr='auto' ml='auto' mb={4} display='flex' justifyContent='center' className="view-changer">
-               
-               <Button
-                   colorScheme="teal"
-                   variant='solid'
-                   mt={2}
-                   mb={2}
-                   size="lg"
-                   onClick={() => setShowCalendar(false)}
-               ><BsList
-                           color="#fff"
-                           fontSize="1.5em"
-                       />&nbsp;<Text color='#fff' fontWeight='700' display='inline-block'>List View</Text>
-                       
-                       </Button>
-                       </Box>
+                        <Box
+                            w="100%"
+                            mr="auto"
+                            ml="auto"
+                            mb={4}
+                            display="flex"
+                            justifyContent="center"
+                            className="view-changer"
+                        >
+                            <Button
+                                colorScheme="teal"
+                                variant="solid"
+                                mt={2}
+                                mb={2}
+                                size="lg"
+                                onClick={() => setShowCalendar(false)}
+                            >
+                                <BsList color="#fff" fontSize="1.5em" />
+                                &nbsp;
+                                <Text
+                                    color="#fff"
+                                    fontWeight="700"
+                                    display="inline-block"
+                                >
+                                    List View
+                                </Text>
+                            </Button>
+                        </Box>
                         <CalendarExample
                             token={token}
                             username={username}
@@ -478,22 +501,34 @@ export default function MyGames({
                     </>
                 ) : (
                     <>
-                    <Box w='100%' mr='auto' ml='auto' mb={4} display='flex' justifyContent='center' className="view-changer">
-               
-                        <Button
-                            colorScheme="teal"
-                            variant='solid'
-                            mt={2}
-                            mb={2}
-                            size="lg"
-                            onClick={() => setShowCalendar(true)}
-                        ><CalendarIcon
+                        <Box
+                            w="100%"
+                            mr="auto"
+                            ml="auto"
+                            mb={4}
+                            display="flex"
+                            justifyContent="center"
+                            className="view-changer"
+                        >
+                            <Button
+                                colorScheme="teal"
+                                variant="solid"
+                                mt={2}
+                                mb={2}
+                                size="lg"
+                                onClick={() => setShowCalendar(true)}
+                            >
+                                <CalendarIcon color="#fff" fontSize="1.5em" />
+                                &nbsp;
+                                <Text
                                     color="#fff"
-                                    fontSize="1.5em"
-                                />&nbsp;<Text color='#fff' fontWeight='700' display='inline-block'>Calendar View</Text>
-                                
-                                </Button>
-                                </Box>
+                                    fontWeight="700"
+                                    display="inline-block"
+                                >
+                                    Calendar View
+                                </Text>
+                            </Button>
+                        </Box>
 
                         <GamesList
                             token={token}
