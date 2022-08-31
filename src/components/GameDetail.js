@@ -339,8 +339,8 @@ export default function GameDetail({
                         justifyContent="center"
                         flexWrap="wrap"
                     >
-                        <Box>
-                            <Text>{game.icon} {game.cardTitle}</Text>
+                        <Box w='250px' m={2} display='flex' alignItems='center' justifyContent='center'>
+                            {game.icon} <Text>{game.cardTitle}</Text>
                         </Box>
                         {game.displayUsers.length > 0 &&
                             game.displayUsers.map((user) => (
@@ -352,6 +352,7 @@ export default function GameDetail({
                                             key={user.user_id}
                                             m="auto"
                                             p=".5em"
+                                            w='150px'
                                         >
                                             <Heading fontSize="xl">{`${user.user_info.first_name} ${user.user_info.last_name}`}</Heading>
                                             <Text>{`@${user.user}`}</Text>
@@ -367,35 +368,26 @@ export default function GameDetail({
                                                     borderRadius="full"
                                                 />
                                             </Box>
+                                           
+                                            <Box display='flex' alignItems='center' justifyContent='center'>
                                             <Text>
                                                 NTRP:{" "}
                                                 {
                                                     user.user_info.profile
                                                         .teammate_ntrp
                                                 }{" "}
-                                            </Text>
-                                            <Box>
+                                            </Text>&nbsp;
                                                 <Icon
                                                     as={TbBallTennis}
                                                     color={
                                                         user.user_info.profile
                                                             .teammate_rank
                                                     }
-                                                    fontSize="1em"
+                                                    fontSize="1.5em"
                                                     display="flex"
                                                 />
                                             </Box>
-                                            <Box>
-                                                <Icon
-                                                    as={IoMdTennisball}
-                                                    color={
-                                                        user.user_info.profile
-                                                            .teammate_rank
-                                                    }
-                                                    fontSize="1em"
-                                                    display="flex"
-                                                />
-                                            </Box>
+                                          
                                         </Box>
                                     </LinkOverlay>
                                 </LinkBox>
@@ -455,7 +447,7 @@ export default function GameDetail({
                 <AlertDialog isOpen={isOpen} onClose={onClose}>
                 
                     <AlertDialogOverlay>
-                            <AlertDialogContent textAlign='center' borderRadius='20px'>
+                            <AlertDialogContent textAlign='center' borderRadius='20px' w='340px'>
                         {/* <CloseButton
                                 alignSelf="flex-end"
                                 position="relative"

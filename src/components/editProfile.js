@@ -89,7 +89,7 @@ if (lastname) {
 
 
     return (
-        <Box ><FormControl id="edit-user-form" className="form" m={2}>
+        <Box w='100%' display='flex' justifyContent='center'><FormControl id="edit-user-form" className="user-form" m={2}>
         <Heading className="form-banner" color='#234E52'>Edit Profile</Heading>
         <FormLabel className="" color='#234E52' pl={2} pt={2}>First Name</FormLabel>
         <input id="inputFirstName" className="form-control"  placeholder="First Name"

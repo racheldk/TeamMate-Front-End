@@ -40,9 +40,7 @@ export default function PastGamesList({ token, gamesList }) {
             {/* {user && ( */}
                     <>
                 {" "}
-                <Heading color="#234E52" m={2} textAlign='center'>
-                    Game History
-                </Heading>
+          
                 {/* {user.wins_losses} */}
                 {gamesList.map((game) => (
                     <LinkBox key={game.game_session_id} cursor="pointer">

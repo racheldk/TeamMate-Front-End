@@ -222,7 +222,7 @@ body {
 .header {
     display: grid;
     grid-template-columns: 25% 50% 25%;
-    background-image: linear-gradient(#ffffff 50%, #4FD1C5 50%);
+    background-image: linear-gradient(#ffffff 55%, #4FD1C5 50%);
     margin: auto;
     z-index: 10;
     padding: .2em;
@@ -294,7 +294,20 @@ body {
     text-transform: uppercase;
 }
 
-
+.user-form {
+    max-width: 60%;
+    background-color: #ffffff;
+    border-color: #ffffff!important;
+    border: solid;
+    border-radius: 20px;
+    animation: fadein 1s;
+    animation-fill-mode: forwards;
+    margin: auto;
+    max-width: 300px;
+    padding: .1em;
+    text-align: center;
+    text-transform: uppercase;
+}
 
 /* Styles form headers */
 .form-banner {
