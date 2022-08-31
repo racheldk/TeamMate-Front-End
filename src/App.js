@@ -160,6 +160,8 @@ function App() {
                                 allGamesList={allGamesList}
                                 game={game}
                                 username={username}
+                                reload={reload}
+                                setReload={setReload}
                             />
                         }
                     />

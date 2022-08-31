@@ -28,7 +28,7 @@ import { Navigate, useParams } from "react-router-dom";
 import { paste } from "@testing-library/user-event/dist/paste";
 
 
-function UserProfile({ token, setToken }) {
+function UserProfile({ token, setToken, reload, setReload }) {
     const [profileUser, setProfileUser] = useState(null);
     const [username, setUsername] = useLocalStorageState(
         "teammateUsername",
@@ -230,6 +230,8 @@ function UserProfile({ token, setToken }) {
                                             gamesList={historyGames}
                                             token={token}
                                             setModalIsOpen={setModalIsOpen}
+                                            reload={reload}
+                                            setReload={setReload}
                                         />
                                     )}
                                 </Box>
