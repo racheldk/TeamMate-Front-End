@@ -59,6 +59,7 @@ export default function GameDetail({
     const handleCloseModal = () => {
         console.log("click close");
         setModalIsOpen(false);
+        setReload(reload+1)
     };
 
     // const handleClosePastGameModal = () => {
