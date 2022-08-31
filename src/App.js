@@ -40,7 +40,7 @@ function App() {
 
     useEffect(() => {
         console.log("App.js useEffect for open games");
-        console.log(reload);
+        console.log('app reload' + reload);
         axios
             .get("https://teammate-app.herokuapp.com/session/", {
                 headers: {

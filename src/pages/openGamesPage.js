@@ -27,6 +27,8 @@ export default function OpenGamesPage({
     username,
     game,
     setGame,
+    reload, 
+    setReload
 }) {
     const [displayDate, setDisplayDate] = useState("");
     const [filteredDate, setFilteredDate] = useState(null);
@@ -235,6 +237,8 @@ export default function OpenGamesPage({
                                     gamesList={allGamesList}
                                     setGame={setGame}
                                     game={game}
+                                    reload={reload}
+                                    setReload={setReload}
                                 />
                             );
 
@@ -245,6 +249,8 @@ export default function OpenGamesPage({
                                     gamesList={filteredGames}
                                     setGame={setGame}
                                     game={game}
+                                    reload={reload}
+                                    setReload={setReload}
                                 />
                             );
                         case "no results":

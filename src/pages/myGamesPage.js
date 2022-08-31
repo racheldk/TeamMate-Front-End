@@ -628,6 +628,8 @@ export default function MyGames({
                                     setGame={setGame}
                                     game={game}
                                     username={username}
+                                    reload={reload}
+                                    setReload={setReload}
                                 />
                                 <GamesList
                                     token={token}
@@ -635,6 +637,8 @@ export default function MyGames({
                                     setGame={setGame}
                                     game={game}
                                     username={username}
+                                    reload={reload}
+                                    setReload={setReload}
                                 />
                                 <GamesList
                                     token={token}
