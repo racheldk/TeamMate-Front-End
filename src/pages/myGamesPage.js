@@ -466,31 +466,64 @@ export default function MyGames({
         );
     }
 
-    if (gameCount<1 &&!isLoading) {
+    if (gameCount < 1 && !isLoading) {
         return (
             <>
-            <Header />
-            <Box className="app-body">
-                {/* if this heading changes we also need to change notifications message */}
-                <Heading color="#234E52" textAlign="center" mt={4}>
-                    My Games
-                </Heading>
-                <Box>
-                        <Text>
-                            Bummer, you don't have any upcoming games. Go to
-                            <Link to='/open-games'><Box className='tooltip'><IconButton aria-label='Search Item' fontSize='1.9em' marginTop="-1px"
-                paddingBottom="2px" colorScheme="teal"
-                variant='solid' className='footer-button'  width="px" height="40px" icon={<GiTennisCourt/>} />
-                <Text className='tooltiptext'>Open Games</Text></Box></Link> to join a game or <Link to='/new'><Box className='tooltip'><IconButton aria-label='ProfileItem' fontSize='1.9em' colorScheme='teal' 
-                 color="teal" variant='solid' className='footer-button' icon={<Icon as={FaPlus} color='white'/>} />
-                <Text className='tooltiptext'>New Game</Text></Box></Link>  to list a new
-                            game for others to join.{" "}
+                <Header />
+                <Box className="app-body">
+                    {/* if this heading changes we also need to change notifications message */}
+                    <Heading color="#234E52" textAlign="center" mt={4}>
+                        My Games
+                    </Heading>
+                    <Box textAlign="center" className="game-card" bg="#ffffff" maxW="350px" justifyContent="center" m="auto" mt={6}>
+                        <Text color="#285E61" fontSize="18">
+                            Bummer, you don't have any upcoming games. Go to{" "}
+                            <Link to="/open-games">
+                                <Box className="tooltip">
+                                    <IconButton
+                                        aria-label="Search Item"
+                                        fontSize="1.4em"
+                                        marginTop="-1px"
+                                        paddingBottom="2px"
+                                        colorScheme="teal"
+                                        variant="solid"
+                                        className="footer-button"
+                                        width="px"
+                                        size='sm'
+                                        icon={<GiTennisCourt />}
+                                    />
+                                    <Text className="tooltiptext">
+                                        Open Games
+                                    </Text>
+                                </Box>
+                            </Link>{" "}
+                            to join a game or{" "}
+                            <Link to="/new">
+                                <Box className="tooltip">
+                                    <IconButton
+                                        aria-label="ProfileItem"
+                                        fontSize="1.4em"
+                                        colorScheme="teal"
+                                        color="teal"
+                                        variant="solid"
+                                        className="footer-button"
+                                        size="sm"
+                                        icon={
+                                            <Icon as={FaPlus} color="white" />
+                                        }
+                                    />
+                                    <Text className="tooltiptext">
+                                        New Game
+                                    </Text>
+                                </Box>
+                            </Link>{" "}
+                            to list a new game for others to join.{" "}
                         </Text>
                     </Box>
-                    </Box>{" "}
-            <Footer />
+                </Box>{" "}
+                <Footer />
             </>
-        )
+        );
     }
 
     return (
@@ -502,7 +535,7 @@ export default function MyGames({
                     My Games
                 </Heading>
 
-                {(gameCount===0) ? (
+                {gameCount === 0 ? (
                     <Box>
                         <Text>
                             Bummer, you don't have any upcoming games. Go to

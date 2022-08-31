@@ -2,7 +2,15 @@ import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
 import axios from "axios";
 import { useState } from "react";
-import { Button, Box, Select, Heading, Text, IconButton, Icon } from "@chakra-ui/react";
+import {
+    Button,
+    Box,
+    Select,
+    Heading,
+    Text,
+    IconButton,
+    Icon,
+} from "@chakra-ui/react";
 import { TbBallTennis } from "react-icons/tb";
 import ReactDatePicker from "react-datepicker";
 import subDays from "date-fns/subDays";
@@ -95,8 +103,9 @@ export default function OpenGamesPage({
                             }
                         }
                         const expandedGame = {
-                            tennisBallColor: game.host_info.profile.teammate_rank,
-                            cardTitle:null,
+                            tennisBallColor:
+                                game.host_info.profile.teammate_rank,
+                            cardTitle: null,
                             displayStatus: "join",
                             bgColor: "#ffffff",
                             icon: null,
@@ -121,7 +130,6 @@ export default function OpenGamesPage({
                 }
             });
     };
-
 
     return (
         <>
@@ -217,31 +225,64 @@ export default function OpenGamesPage({
                         </Button>
                     </Box>
                 </Box>
-                
+
                 {(() => {
                     switch (filterStatus) {
                         case "no filter":
-                            return( <NewGamesList
-                                token={token}
-                                gamesList={allGamesList}
-                                setGame={setGame}
-                                game={game}
-                            />);
+                            return (
+                                <NewGamesList
+                                    token={token}
+                                    gamesList={allGamesList}
+                                    setGame={setGame}
+                                    game={game}
+                                />
+                            );
 
                         case "filtered":
-                            return (<NewGamesList
-                                token={token}
-                                gamesList={filteredGames}
-                                setGame={setGame}
-                                game={game}
-                            />);
+                            return (
+                                <NewGamesList
+                                    token={token}
+                                    gamesList={filteredGames}
+                                    setGame={setGame}
+                                    game={game}
+                                />
+                            );
                         case "no results":
-                            return ( <Box textAlign="center"><Text>
-                                No games were found matching your filters</Text>
-                                <Text>Do you wish a game like this existed? Go to <Link to='/new'><Box className='tooltip'><IconButton aria-label='ProfileItem' fontSize='1.9em' colorScheme='teal' 
-                 color="teal" variant='solid' className='footer-button' icon={<Icon as={FaPlus} color='white'/>} />
-                <Text className='tooltiptext'>New Game</Text></Box></Link> to list a new game for others to join </Text>
-                            </Box>);
+                            return (
+                                <Box textAlign="center" className="game-card" bg="#ffffff" maxW="350px" justifyContent="center" m="auto">
+                                    <Text color="#285E61" fontSize="18" >
+                                        No games were found matching your
+                                        filters.
+                                    </Text>
+                                    <Text color="#285E61" fontSize="18" pt={6}>
+                                        Do you wish a game like this existed? Go
+                                        to{" "}
+                                        <Link to="/new">
+                                            <Box className="tooltip">
+                                                <IconButton
+                                                    aria-label="ProfileItem"
+                                                    fontSize="1.4em"
+                                                    size='sm'
+                                                    colorScheme="teal"
+                                                    color="teal"
+                                                    variant="solid"
+                                                    className="footer-button"
+                                                    icon={
+                                                        <Icon
+                                                            as={FaPlus}
+                                                            color="white"
+                                                        />
+                                                    }
+                                                />
+                                                <Text className="tooltiptext">
+                                                    New Game
+                                                </Text>
+                                            </Box>
+                                        </Link>{" "}
+                                        to list a new game for others to join.
+                                    </Text>
+                                </Box>
+                            );
                         default:
                             return null;
                     }
