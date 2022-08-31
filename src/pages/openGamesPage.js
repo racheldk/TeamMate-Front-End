@@ -2,13 +2,15 @@ import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
 import axios from "axios";
 import { useState } from "react";
-import { Button, Box, Select, Heading, Text } from "@chakra-ui/react";
+import { Button, Box, Select, Heading, Text, IconButton, Icon } from "@chakra-ui/react";
 import { TbBallTennis } from "react-icons/tb";
 import ReactDatePicker from "react-datepicker";
 import subDays from "date-fns/subDays";
 import "react-datepicker/dist/react-datepicker.css";
 import { DateTime } from "luxon";
 import NewGamesList from "../components/GamesList";
+import { FaPlus } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export default function OpenGamesPage({
     token,
@@ -234,8 +236,11 @@ export default function OpenGamesPage({
                                 game={game}
                             />);
                         case "no results":
-                            return ( <Box textAlign="center">
-                                No games were found matching your filters
+                            return ( <Box textAlign="center"><Text>
+                                No games were found matching your filters</Text>
+                                <Text>Do you wish a game like this existed? Go to <Link to='/new'><Box className='tooltip'><IconButton aria-label='ProfileItem' fontSize='1.9em' colorScheme='teal' 
+                 color="teal" variant='solid' className='footer-button' icon={<Icon as={FaPlus} color='white'/>} />
+                <Text className='tooltiptext'>New Game</Text></Box></Link> to list a new game for others to join </Text>
                             </Box>);
                         default:
                             return null;
