@@ -89,7 +89,14 @@ export default function CalendarExample({  token, username, confirmedGames, acti
     // }
 
     return (
-        <Box h='460px' maxW='400px'  m='auto'>
+        <>
+
+        {(calendarGames.length===0) ? (
+            <Box> 
+            <Text>Bummer, you don't have any upcoming games. Go to Open Games to join a game, or start your own! </Text>
+            </Box>
+        ) : (
+ <Box h='460px' maxW='400px'  m='auto'>
             {/* Container element around Calender needs to have height specified for it to show up on the page */}
             <Calendar
                 localizer={localizer}
@@ -122,6 +129,9 @@ export default function CalendarExample({  token, username, confirmedGames, acti
                 />
             </Modal>
         </Box>
+        )}
+
+       </>
     );
 }
 
