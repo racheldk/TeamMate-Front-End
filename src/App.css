@@ -82,33 +82,18 @@ body {
     border-bottom: 0;
 }
 
-.rbc-time-view {
-   border-radius: 20px;
-   width: 375px!important;
-   margin: auto;
-   overflow: scroll;
-}
+
 
 .rbc-agenda-table {
     border: 0!important;
 }
 
-.rbc-agenda-view {
-    padding: .5em!important;
-}
-
-.rbc-event-label {
-    padding: .5em;
-    font-size: 1em!important;
-}
-
-.rbc-toolbar,  .rbc-day-slot  {
-    justify-content: center!important;
-}
-
 .rbc-calendar {
     border-radius: 20px!important;
     background-color: #fff;
+    margin: auto;
+    max-width: 350px;
+    justify-content: center;
 }
 
 .view-changer {
@@ -222,7 +207,7 @@ body {
 .header {
     display: grid;
     grid-template-columns: 25% 50% 25%;
-    background-image: linear-gradient(#ffffff 50%, #4FD1C5 50%);
+    background-image: linear-gradient(#ffffff 55%, #4FD1C5 50%);
     margin: auto;
     z-index: 10;
     padding: .2em;
@@ -294,7 +279,20 @@ body {
     text-transform: uppercase;
 }
 
-
+.user-form {
+    max-width: 60%;
+    background-color: #ffffff;
+    border-color: #ffffff!important;
+    border: solid;
+    border-radius: 20px;
+    animation: fadein 1s;
+    animation-fill-mode: forwards;
+    margin: auto;
+    max-width: 300px;
+    padding: .1em;
+    text-align: center;
+    text-transform: uppercase;
+}
 
 /* Styles form headers */
 .form-banner {

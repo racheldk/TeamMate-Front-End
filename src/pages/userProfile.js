@@ -199,26 +199,32 @@ function UserProfile({ token, setToken }) {
                                     />
                                 </Box>
                             </Box>
-                            <Box className="ranks">
-                                <Heading color="white" display='flex' justifyContent='center'>
-                                    NTRP&nbsp;<Box bg='#ffffff' borderRadius='10px' maxW='40%' paddingLeft='.2em' 
+                            <Box w='100%' m='auto' mb={2} display='flex' justifyContent='center' alignItems='center'>
+                                <Heading fontSize='2xl' color='white'>TeamMate NTRP</Heading> 
+                                <Box bg='#ffffff' borderRadius='10px' pl={2} pr={2} ml={2}
+                                    paddingRight='.2em' color='teal' justifyContent='center' alignItems='center' maxW='100px' display='flex'><Heading>{profileUser.profile.teammate_ntrp}</Heading> <Icon as={TbBallTennis} fontSize='2em' color={profileUser.profile.teammate_rank}/></Box>
+                            </Box>
+
+                            <Box className="ranks" >
+                                <Heading color="white" fontSize='2xl' display='flex' justifyContent='center'>
+                                    USTA NTRP&nbsp;<Box bg='#ffffff' borderRadius='10px' maxW='40%' paddingLeft='.2em' 
                                     paddingRight='.2em' color='teal' textAlign='center'>{profileUser.profile.ntrp_rating}</Box>
                                 </Heading>
                     
                             </Box>
-                            <Box>
-                                <Text>Teammate NTRP {profileUser.profile.teammate_ntrp}</Text>
-                                <Icon as={TbBallTennis} color={profileUser.profile.teammate_rank}/>
-                            </Box>
-
-                            {profileUser.profile.wins_losses!==null && (
-                            <Box>
+ 
+                            <Box className="confirmed-games" w="100%" justifyContent='center'>
+                            
+                                <Box className="games">
+                                <Heading color="#234E52" m={2} textAlign='center'>
+                    Game History
+                </Heading>
+                                {profileUser.profile.wins_losses!==null && (
+                            <Box w='100%' textAlign='center' bg='white' maxW='200px' m='auto' borderRadius='10px' color='#234E52'>
                                 <Text>Record: {profileUser.profile.wins_losses}</Text>
                             </Box>
 
                             )}
-                            <Box className="confirmed-games" w="100%" justifyContent='center'>
-                                <Box className="games">
                                     {historyGames.length>0 && (
                                         <PastGamesList
                                             gamesList={historyGames}

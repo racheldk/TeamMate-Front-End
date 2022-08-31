@@ -206,18 +206,18 @@ export default function NewOpenGame({ token }) {
                 </FormControl>
                 <AlertDialog isOpen={isOpen} onClose={onClose}>
                     <AlertDialogOverlay>
-                        <AlertDialogContent>
-                            <CloseButton
+                    <AlertDialogContent textAlign='center' borderRadius='20px' maxW='340px'>
+                        {/* <CloseButton
                                 alignSelf="flex-end"
                                 position="relative"
                                 // right={-1}
                                 // top={-1}
                                 onClick={() => {
                                     onClose();
-                                    setPostedGame(true)
+                                    handleCloseModal();
                                 }}
-                            />
-                            <AlertDialogHeader>{alertTitle}</AlertDialogHeader>
+                            /> */}
+                            <AlertDialogHeader bg='teal' borderRadius='20px 20px 0 0' color='white'>{alertTitle}</AlertDialogHeader>
                             <AlertDialogBody>{alertMessage}</AlertDialogBody>
                         </AlertDialogContent>
                     </AlertDialogOverlay>
