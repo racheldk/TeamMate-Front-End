@@ -89,7 +89,7 @@ export const Register = ({ setAuth }) => {
             <Box h='100px' >&nbsp;</Box>
             <Box className="app-body">
                 <Box className="form">
-                    <Heading color="teal" className="form-banner">
+                    <Heading color="#285E61" className="form-banner">
                         Registration
                     </Heading>
                     {error && <Box className="error">{error}</Box>}

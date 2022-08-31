@@ -18,6 +18,9 @@ import { BsQuestionCircleFill, BsPersonFill, BsList } from "react-icons/bs";
 import { CalendarIcon, CheckCircleIcon } from "@chakra-ui/icons";
 import CalendarExample from "../components/calendar-example";
 import { DateTime } from "luxon";
+import { Link } from "react-router-dom";
+import { FaPlus } from "react-icons/fa";
+import { GiTennisCourt } from "react-icons/gi";
 
 export default function MyGames({
     token,
@@ -35,6 +38,7 @@ export default function MyGames({
     const [guestOpenDoublesGames, setGuestOpenDoublesGames] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [showCalendar, setShowCalendar] = useState(false);
+    const [gameCount, setGameCount] = useState(0);
 
     useEffect(() => {
         console.log("giant useEffect in My Games just ran" + reload);
@@ -97,12 +101,24 @@ export default function MyGames({
             ])
             .then(
                 axios.spread((...responses) => {
+                    console.log(...responses);
+                    const totalGames = [];
                     const responseAction = responses[0].data;
                     const responseConfirmed = responses[1].data;
                     const responsePending = responses[2].data;
                     const responseNoGuest = responses[3].data;
                     const responseHostOpenDoubles = responses[4].data;
                     const responseGuestOpenDoubles = responses[5].data;
+                    totalGames.push(
+                        ...responseAction,
+                        ...responseConfirmed,
+                        ...responsePending,
+                        ...responseNoGuest,
+                        ...responseHostOpenDoubles,
+                        ...responseGuestOpenDoubles
+                    );
+                    console.log(totalGames);
+                    setGameCount(totalGames);
 
                     if (responseAction.length > 0) {
                         const pendingGuests = [];
@@ -287,7 +303,8 @@ export default function MyGames({
                                 }
                             }
                             const expandedGame = {
-                                cardTitle: "No one has requested to join this game yet.",
+                                cardTitle:
+                                    "No one has requested to join this game yet.",
                                 displayStatus: "no guests",
                                 bgColor: "#ffffff",
                                 tennisBall: IoMdTennisball,
@@ -449,6 +466,66 @@ export default function MyGames({
         );
     }
 
+    if (gameCount < 1 && !isLoading) {
+        return (
+            <>
+                <Header />
+                <Box className="app-body">
+                    {/* if this heading changes we also need to change notifications message */}
+                    <Heading color="#234E52" textAlign="center" mt={4}>
+                        My Games
+                    </Heading>
+                    <Box textAlign="center" className="game-card" bg="#ffffff" maxW="350px" justifyContent="center" m="auto" mt={6}>
+                        <Text color="#285E61" fontSize="18">
+                            Bummer, you don't have any upcoming games. Go to{" "}
+                            <Link to="/open-games">
+                                <Box className="tooltip">
+                                    <IconButton
+                                        aria-label="Search Item"
+                                        fontSize="1.4em"
+                                        marginTop="-1px"
+                                        paddingBottom="2px"
+                                        colorScheme="teal"
+                                        variant="solid"
+                                        className="footer-button"
+                                        width="px"
+                                        size='sm'
+                                        icon={<GiTennisCourt />}
+                                    />
+                                    <Text className="tooltiptext">
+                                        Open Games
+                                    </Text>
+                                </Box>
+                            </Link>{" "}
+                            to join a game or{" "}
+                            <Link to="/new">
+                                <Box className="tooltip">
+                                    <IconButton
+                                        aria-label="ProfileItem"
+                                        fontSize="1.4em"
+                                        colorScheme="teal"
+                                        color="teal"
+                                        variant="solid"
+                                        className="footer-button"
+                                        size="sm"
+                                        icon={
+                                            <Icon as={FaPlus} color="white" />
+                                        }
+                                    />
+                                    <Text className="tooltiptext">
+                                        New Game
+                                    </Text>
+                                </Box>
+                            </Link>{" "}
+                            to list a new game for others to join.{" "}
+                        </Text>
+                    </Box>
+                </Box>{" "}
+                <Footer />
+            </>
+        );
+    }
+
     return (
         <>
             <Header />
@@ -458,151 +535,168 @@ export default function MyGames({
                     My Games
                 </Heading>
 
-                {showCalendar ? (
-                    <>
-                        <Box
-                            w="100%"
-                            mr="auto"
-                            ml="auto"
-                            mb={4}
-                            display="flex"
-                            justifyContent="center"
-                            className="view-changer"
-                        >
-                            <Button
-                                colorScheme="teal"
-                                variant="solid"
-                                mt={2}
-                                mb={2}
-                                size="lg"
-                                onClick={() => setShowCalendar(false)}
-                            >
-                                <BsList color="#fff" fontSize="1.5em" />
-                                &nbsp;
-                                <Text
-                                    color="#fff"
-                                    fontWeight="700"
-                                    display="inline-block"
-                                >
-                                    List View
-                                </Text>
-                            </Button>
-                        </Box>
-                        <CalendarExample
-                            token={token}
-                            username={username}
-                            confirmedGames={confirmedGames}
-                            actionRequiredGames={actionRequiredGames}
-                            pendingPOVGuestGames={pendingPOVGuestGames}
-                            noGuestGames={noGuestGames}
-                            hostOpenDoublesGames={hostOpenDoublesGames}
-                            guestOpenDoublesGames={guestOpenDoublesGames}
-                        />
-                    </>
+                {gameCount === 0 ? (
+                    <Box>
+                        <Text>
+                            Bummer, you don't have any upcoming games. Go to
+                            OpenGames to join a game or NewGame to list a new
+                            game for others to join.{" "}
+                        </Text>
+                    </Box>
                 ) : (
                     <>
-                        <Box
-                            w="100%"
-                            mr="auto"
-                            ml="auto"
-                            mb={4}
-                            display="flex"
-                            justifyContent="center"
-                            className="view-changer"
-                        >
-                            <Button
-                                colorScheme="teal"
-                                variant="solid"
-                                mt={2}
-                                mb={2}
-                                size="lg"
-                                onClick={() => setShowCalendar(true)}
-                            >
-                                <CalendarIcon color="#fff" fontSize="1.5em" />
-                                &nbsp;
-                                <Text
-                                    color="#fff"
-                                    fontWeight="700"
-                                    display="inline-block"
+                        {showCalendar ? (
+                            <>
+                                <Box
+                                    w="100%"
+                                    mr="auto"
+                                    ml="auto"
+                                    mb={4}
+                                    display="flex"
+                                    justifyContent="center"
+                                    className="view-changer"
                                 >
-                                    Calendar View
-                                </Text>
-                            </Button>
-                        </Box>
+                                    <Button
+                                        colorScheme="teal"
+                                        variant="solid"
+                                        mt={2}
+                                        mb={2}
+                                        size="lg"
+                                        onClick={() => setShowCalendar(false)}
+                                    >
+                                        <BsList color="#fff" fontSize="1.5em" />
+                                        &nbsp;
+                                        <Text
+                                            color="#fff"
+                                            fontWeight="700"
+                                            display="inline-block"
+                                        >
+                                            List View
+                                        </Text>
+                                    </Button>
+                                </Box>
+                                <CalendarExample
+                                    token={token}
+                                    username={username}
+                                    confirmedGames={confirmedGames}
+                                    actionRequiredGames={actionRequiredGames}
+                                    pendingPOVGuestGames={pendingPOVGuestGames}
+                                    noGuestGames={noGuestGames}
+                                    hostOpenDoublesGames={hostOpenDoublesGames}
+                                    guestOpenDoublesGames={
+                                        guestOpenDoublesGames
+                                    }
+                                />
+                            </>
+                        ) : (
+                            <>
+                                <Box
+                                    w="100%"
+                                    mr="auto"
+                                    ml="auto"
+                                    mb={4}
+                                    display="flex"
+                                    justifyContent="center"
+                                    className="view-changer"
+                                >
+                                    <Button
+                                        colorScheme="teal"
+                                        variant="solid"
+                                        mt={2}
+                                        mb={2}
+                                        size="lg"
+                                        onClick={() => setShowCalendar(true)}
+                                    >
+                                        <CalendarIcon
+                                            color="#fff"
+                                            fontSize="1.5em"
+                                        />
+                                        &nbsp;
+                                        <Text
+                                            color="#fff"
+                                            fontWeight="700"
+                                            display="inline-block"
+                                        >
+                                            Calendar View
+                                        </Text>
+                                    </Button>
+                                </Box>
 
-                        <GamesList
-                            token={token}
-                            gamesList={actionRequiredGames}
-                            setGame={setGame}
-                            game={game}
-                            username={username}
-                        />
-                        <GamesList
-                            token={token}
-                            gamesList={confirmedGames}
-                            setGame={setGame}
-                            game={game}
-                            username={username}
-                        />
-                        <GamesList
-                            token={token}
-                            gamesList={actionRequiredGames}
-                            setGame={setGame}
-                            game={game}
-                            username={username}
-                            reload={reload}
-                            setReload={setReload}
-                        />
+                                <GamesList
+                                    token={token}
+                                    gamesList={actionRequiredGames}
+                                    setGame={setGame}
+                                    game={game}
+                                    username={username}
+                                />
+                                <GamesList
+                                    token={token}
+                                    gamesList={confirmedGames}
+                                    setGame={setGame}
+                                    game={game}
+                                    username={username}
+                                />
+                                <GamesList
+                                    token={token}
+                                    gamesList={actionRequiredGames}
+                                    setGame={setGame}
+                                    game={game}
+                                    username={username}
+                                    reload={reload}
+                                    setReload={setReload}
+                                />
 
-                        <GamesList
-                            token={token}
-                            gamesList={confirmedGames}
-                            setGame={setGame}
-                            game={game}
-                            username={username}
-                            reload={reload}
-                            setReload={setReload}
-                        />
+                                <GamesList
+                                    token={token}
+                                    gamesList={confirmedGames}
+                                    setGame={setGame}
+                                    game={game}
+                                    username={username}
+                                    reload={reload}
+                                    setReload={setReload}
+                                />
 
-                        <GamesList
-                            token={token}
-                            gamesList={pendingPOVGuestGames}
-                            setGame={setGame}
-                            game={game}
-                            username={username}
-                            reload={reload}
-                            setReload={setReload}
-                        />
+                                <GamesList
+                                    token={token}
+                                    gamesList={pendingPOVGuestGames}
+                                    setGame={setGame}
+                                    game={game}
+                                    username={username}
+                                    reload={reload}
+                                    setReload={setReload}
+                                />
 
-                        <GamesList
-                            token={token}
-                            gamesList={noGuestGames}
-                            setGame={setGame}
-                            game={game}
-                            username={username}
-                            reload={reload}
-                            setReload={setReload}
-                        />
+                                <GamesList
+                                    token={token}
+                                    gamesList={noGuestGames}
+                                    setGame={setGame}
+                                    game={game}
+                                    username={username}
+                                    reload={reload}
+                                    setReload={setReload}
+                                />
 
-                        <GamesList
-                            token={token}
-                            gamesList={hostOpenDoublesGames}
-                            setGame={setGame}
-                            game={game}
-                            username={username}
-                            reload={reload}
-                            setReload={setReload}
-                        />
+                                <GamesList
+                                    token={token}
+                                    gamesList={hostOpenDoublesGames}
+                                    setGame={setGame}
+                                    game={game}
+                                    username={username}
+                                    reload={reload}
+                                    setReload={setReload}
+                                />
 
-                        <GamesList
-                            token={token}
-                            gamesList={guestOpenDoublesGames}
-                            setGame={setGame}
-                            game={game}
-                            username={username}
-                            reload={reload}
-                            setReload={setReload}
-                        />
+                                <GamesList
+                                    token={token}
+                                    gamesList={guestOpenDoublesGames}
+                                    setGame={setGame}
+                                    game={game}
+                                    username={username}
+                                    reload={reload}
+                                    setReload={setReload}
+                                />
+                            </>
+                        )}
                     </>
                 )}
             </Box>{" "}

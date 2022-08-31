@@ -38,6 +38,7 @@ export default function NewOpenGame({ token }) {
     const [alertTitle, setAlertTitle] = useState(null);
     const [alertMessage, setAlertMessage] = useState(null);
     const [postedGame, setPostedGame] = useState(false)
+    const [courtList, setCourtList] = useState([])
 
 
     const handleChangeGameLoc = (event) => {
@@ -54,11 +55,6 @@ export default function NewOpenGame({ token }) {
         console.log(event.target.value);
         setNewGameMatchType(event.target.value);
     };
-
-    useEffect(() => {
-        console.log(newGameDate);
-        console.log(convertedDate);
-    }, [newGameDate, convertedDate]);
 
     const handleSubmit = () => {
         console.log(
@@ -110,6 +106,25 @@ export default function NewOpenGame({ token }) {
             });
     };
 
+    useEffect(() => {
+        console.log(newGameDate);
+        console.log(convertedDate);
+    }, [newGameDate, convertedDate]);
+
+    useEffect(() =>{
+        axios.get('https://teammate-app.herokuapp.com/court/',
+        {
+            headers: {
+                Authorization: `Token ${token}`,
+            },
+        })
+        .then((res)=>{
+            console.log(res.data)
+            setCourtList(res.data)
+        })
+         
+    },[])
+
     if (postedGame) {
         return <Navigate to="../" />
     }
@@ -149,8 +164,10 @@ export default function NewOpenGame({ token }) {
                             <option value="" disabled hidden>
                                 Where
                             </option>
-                            <option value="2">Pullen Park</option>
-                            <option value="1">Sanderford Park</option>
+                            {courtList.map((court) =>(
+                                <option value={court.location_id}>{court.park_name}</option>
+                            ))}
+
                         </Select>
                     </Box>
                     <Box p={3}>
