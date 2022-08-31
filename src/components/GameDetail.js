@@ -452,9 +452,10 @@ export default function GameDetail({
                 </Box>
 
                 <AlertDialog isOpen={isOpen} onClose={onClose}>
+                
                     <AlertDialogOverlay>
-                        <AlertDialogContent>
-                            <CloseButton
+                            <AlertDialogContent textAlign='center' borderRadius='20px'>
+                        {/* <CloseButton
                                 alignSelf="flex-end"
                                 position="relative"
                                 // right={-1}
@@ -463,8 +464,8 @@ export default function GameDetail({
                                     onClose();
                                     handleCloseModal();
                                 }}
-                            />
-                            <AlertDialogHeader>{alertTitle}</AlertDialogHeader>
+                            /> */}
+                            <AlertDialogHeader bg='teal' borderRadius='20px 20px 0 0' color='white'>{alertTitle}</AlertDialogHeader>
                             <AlertDialogBody>{alertMessage}</AlertDialogBody>
                         </AlertDialogContent>
                     </AlertDialogOverlay>
