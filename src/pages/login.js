@@ -13,7 +13,7 @@ import {
     useDisclosure,
     CloseButton,
 } from "@chakra-ui/react";
-import logo from "../images/teammate-logo.png";
+import logo from "../images/teammate-logo-3.png";
 
 function Login({ setAuth }) {
     const [username, setUsername] = useState("");
@@ -52,7 +52,14 @@ function Login({ setAuth }) {
 
     return (
         <>
-            <Box className="spacer">&nbsp;</Box>
+                    <Box display='flex' justifyContent='center'> <Image
+                    src={logo}
+                    alt='TeamMate logo'
+                    w='300px'
+                />
+                </Box>
+            <Box h='100px'>&nbsp;</Box>
+
             <Box className="app-body">
                 <Box className="login-box">
                     <FormControl className="form" w="300px" textAlign="center">

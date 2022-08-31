@@ -200,7 +200,7 @@ function UserProfile({ token, setToken }) {
                             </Box>
                             <Box className="ranks">
                                 <Heading color="white" display='flex' justifyContent='center'>
-                                    NTRP&nbsp;<Box bg='#ffffff' borderRadius='10px' maxW='10%' paddingLeft='.2em' 
+                                    NTRP&nbsp;<Box bg='#ffffff' borderRadius='10px' maxW='40%' paddingLeft='.2em' 
                                     paddingRight='.2em' color='teal' textAlign='center'>{profileUser.profile.ntrp_rating}</Box>
                                 </Heading>
                             </Box>

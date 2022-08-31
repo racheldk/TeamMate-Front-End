@@ -6,7 +6,7 @@ import Modal from "react-modal";
 import axios from "axios";
 import useLocalStorageState from "use-local-storage-state";
 import NotificationsList from './NotificationsList'
-import logo from "../images/teammate-logo.png";
+import logo from "../images/teammate-logo-3.png";
 import {
     Alert,
     AlertIcon,
@@ -102,7 +102,7 @@ function Header() {
             <Box display='flex' justifyContent='center'> <Image
                     src={logo}
                     alt='TeamMate logo'
-                    w='150px'
+                    w='300px'
                 />
                 </Box>
             <Box display="flex" justifyContent="end" m={2} color="teal">

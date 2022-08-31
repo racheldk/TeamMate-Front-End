@@ -22,7 +22,7 @@ import {
     useDisclosure,
     CloseButton,
 } from "@chakra-ui/react";
-import logo from "../images/teammate-logo.png";
+import logo from "../images/teammate-logo-3.png";
 
 export const Register = ({ setAuth }) => {
     const [firstname, setFirstname] = useState("");
@@ -80,7 +80,13 @@ export const Register = ({ setAuth }) => {
 
     return (
         <>
-            <Box className="spacer">&nbsp;</Box>
+                            <Box display='flex' justifyContent='center'> <Image
+                    src={logo}
+                    alt='TeamMate logo'
+                    w='300px'
+                />
+                </Box>
+            <Box h='100px' >&nbsp;</Box>
             <Box className="app-body">
                 <Box className="form">
                     <Heading color="teal" className="form-banner">

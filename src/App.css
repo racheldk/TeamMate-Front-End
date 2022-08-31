@@ -19,7 +19,7 @@ body {
 }
 .app-body {
     background-color: #4FD1C5;
-    padding-bottom: 200px;
+    padding-bottom:  210px;
     width: 100vw;
     height: 100vh;
     margin: auto;
@@ -44,6 +44,7 @@ body {
 .rbc-event {
     height: auto!important;
     padding: 0!important;
+    background-color: rgba(0, 0, 0, 0)!important;
     color: #000!important;
     display: grid!important;
     grid-template-columns: 80% 20%;
@@ -307,7 +308,7 @@ body {
 
 /* styles form input fields */
 .form-control {
-    width: 150px;
+    width: 250px;
     margin: 0 .5em;
     padding-left: .5em;
     text-align: left;
