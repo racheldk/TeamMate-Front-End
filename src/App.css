@@ -82,33 +82,18 @@ body {
     border-bottom: 0;
 }
 
-.rbc-time-view {
-   border-radius: 20px;
-   width: 375px!important;
-   margin: auto;
-   overflow: scroll;
-}
+
 
 .rbc-agenda-table {
     border: 0!important;
 }
 
-.rbc-agenda-view {
-    padding: .5em!important;
-}
-
-.rbc-event-label {
-    padding: .5em;
-    font-size: 1em!important;
-}
-
-.rbc-toolbar,  .rbc-day-slot  {
-    justify-content: center!important;
-}
-
 .rbc-calendar {
     border-radius: 20px!important;
     background-color: #fff;
+    margin: auto;
+    max-width: 350px;
+    justify-content: center;
 }
 
 .view-changer {
