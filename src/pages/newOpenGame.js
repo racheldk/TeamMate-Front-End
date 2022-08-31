@@ -24,7 +24,7 @@ import Header from "../components/HeaderMenu";
 import Footer from "../components/FooterMenu";
 import axios from "axios";
 import { DateTime } from "luxon";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 export default function NewOpenGame({ token }) {
     const [newGameDate, setNewGameDate] = useState("");
@@ -37,6 +37,7 @@ export default function NewOpenGame({ token }) {
     const { isOpen, onClose, onOpen } = useDisclosure();
     const [alertTitle, setAlertTitle] = useState(null);
     const [alertMessage, setAlertMessage] = useState(null);
+    const [postedGame, setPostedGame] = useState(false)
 
 
     const handleChangeGameLoc = (event) => {
@@ -109,6 +110,10 @@ export default function NewOpenGame({ token }) {
             });
     };
 
+    if (postedGame) {
+        return <Navigate to="../" />
+    }
+
     return (
         <>
             <Header />
@@ -144,8 +149,8 @@ export default function NewOpenGame({ token }) {
                             <option value="" disabled hidden>
                                 Where
                             </option>
-                            <option value="1">Pullen Park</option>
-                            <option value="2">Sanderford Park</option>
+                            <option value="2">Pullen Park</option>
+                            <option value="1">Sanderford Park</option>
                         </Select>
                     </Box>
                     <Box p={3}>
@@ -192,6 +197,7 @@ export default function NewOpenGame({ token }) {
                                 // top={-1}
                                 onClick={() => {
                                     onClose();
+                                    setPostedGame(true)
                                 }}
                             />
                             <AlertDialogHeader>{alertTitle}</AlertDialogHeader>
