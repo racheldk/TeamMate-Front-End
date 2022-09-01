@@ -122,17 +122,9 @@ function Login({ setAuth }) {
 
                     <AlertDialog isOpen={isOpen} onClose={onClose}>
                         <AlertDialogOverlay>
-                            <AlertDialogContent>
-                                <CloseButton
-                                    alignSelf="flex-end"
-                                    position="relative"
-                                    // right={-1}
-                                    // top={-1}
-                                    onClick={() => {
-                                        onClose();
-                                    }}
-                                />
-                                <AlertDialogHeader>
+                        <AlertDialogContent textAlign='center' borderRadius='20px' w='340px'>
+    
+                                <AlertDialogHeader bg='teal' borderRadius='20px 20px 0 0' color='white'>
                                     {alertTitle}
                                 </AlertDialogHeader>
                                 <AlertDialogBody>
