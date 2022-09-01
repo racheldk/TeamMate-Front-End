@@ -299,7 +299,6 @@ export default function GameDetail({
     }
 
     if (profileClick) {
-        setParams(null)
         console.log("profileClick(true)");
         return <Navigate to={`/${profileUsername}`} />;
     }
