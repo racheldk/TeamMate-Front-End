@@ -32,7 +32,7 @@ export default function CalendarExample({  token, username, confirmedGames, acti
     let icon = 'teal'
 
     console.log("confirmed Games" + confirmedGames);
-    console.log(confirmedGames[0].start);
+    // console.log(confirmedGames[0].start);
 
     useEffect(() => {
         const combinedGames = [];

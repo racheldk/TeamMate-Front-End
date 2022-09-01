@@ -640,25 +640,6 @@ export default function MyGames({
                                     reload={reload}
                                     setReload={setReload}
                                 />
-                                <GamesList
-                                    token={token}
-                                    gamesList={actionRequiredGames}
-                                    setGame={setGame}
-                                    game={game}
-                                    username={username}
-                                    reload={reload}
-                                    setReload={setReload}
-                                />
-
-                                <GamesList
-                                    token={token}
-                                    gamesList={confirmedGames}
-                                    setGame={setGame}
-                                    game={game}
-                                    username={username}
-                                    reload={reload}
-                                    setReload={setReload}
-                                />
 
                                 <GamesList
                                     token={token}
