@@ -304,6 +304,7 @@ export default function GameDetail({
 
     if (profileClick) {
         console.log("profileClick(true)");
+        setModalIsOpen(false)
         return <Navigate to={`../${profileUsername}`} />;
     }
 
@@ -352,10 +353,10 @@ export default function GameDetail({
                                             key={user.user_id}
                                             m="auto"
                                             p=".5em"
-                                            w='150px'
+                                            w='160px'
                                         >
-                                            <Heading fontSize="xl">{`${user.user_info.first_name} ${user.user_info.last_name}`}</Heading>
-                                            <Text>{`@${user.user}`}</Text>
+                                            <Heading fontSize="xl" h='45px'>{`${user.user_info.first_name} ${user.user_info.last_name}`}</Heading>
+                                            <Text h='30px'>{`@${user.user}`}</Text>
                                             <Box w="100px" h="100px" m="auto">
                                                 <Image
                                                     className="profile_pic"
