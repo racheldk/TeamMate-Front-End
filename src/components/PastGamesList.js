@@ -14,7 +14,7 @@ import GameDetail from "./GameDetail";
 import { IoMdTennisball } from "react-icons/io";
 
 
-export default function PastGamesList({ token, gamesList, reload, setReload }) {
+export default function PastGamesList({ token, gamesList, reload, setReload, setParams }) {
     const [ModalIsOpen, setModalIsOpen] = useState(false);
     const [game, setGame] = useState(null);
     const [user, setUser] = useState(null);
@@ -96,6 +96,7 @@ export default function PastGamesList({ token, gamesList, reload, setReload }) {
                 <GameDetail
                     token={token}
                     game={game}
+                    setParams={setParams}
                     // handleClosePastGameModal={handleClosePastGameModal}
                     handleClosePastGameModal={handleClosePastGameModal}
                     setModalIsOpen={setModalIsOpen}

@@ -37,12 +37,12 @@ function UserProfile({ token, setToken, reload, setReload }) {
     const [historyGames, setHistoryGames] = useState(null);
     const [editModalIsOpen, setEditModalIsOpen] = useState(false);
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [params] = useState(useParams());
+    const [params, setParams] = useState(useParams());
     const [isLoading, setIsLoading] = useState(true)
 
 
     useEffect(() => {
-        console.log(params.username)
+        if (params) {
         axios
             .get(`https://teammate-app.herokuapp.com/${params.username}`, {
                 headers: {
@@ -52,8 +52,8 @@ function UserProfile({ token, setToken, reload, setReload }) {
             .then((res) => {
                 setProfileUser(res.data);
                 console.log(res.data);
-            });
-    }, [token, params, editModalIsOpen]);
+            });}
+    }, []);
 
     useEffect(() => {
         axios
@@ -117,7 +117,7 @@ function UserProfile({ token, setToken, reload, setReload }) {
                 setHistoryGames(expandedPastGames);
                 setIsLoading(false)
             });
-    }, [token, profileUser]);
+    }, [token, setProfileUser]);
 
     const handleOpenEditModal = (game) => {
         console.log("click modal open");
@@ -229,6 +229,7 @@ function UserProfile({ token, setToken, reload, setReload }) {
                                         <PastGamesList
                                             gamesList={historyGames}
                                             token={token}
+                                            setParams={setParams}
                                             setModalIsOpen={setModalIsOpen}
                                             reload={reload}
                                             setReload={setReload}

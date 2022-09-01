@@ -75,6 +75,7 @@ function Header() {
     }, [modalIsOpen, count]);
 
     const handleLogOut = () => {
+        setToken(null)
         axios
             .post(
                 `https://teammate-app.herokuapp.com/auth/token/logout/`,
@@ -82,8 +83,7 @@ function Header() {
                 { headers: { Authorization: `Token ${token}` } }
             )
             .then(() => {
-                setToken(null);
-                console.log("logout");
+             console.log("logout");
             })
             .catch((res) => {
                 let error = res.message;

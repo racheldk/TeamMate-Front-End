@@ -34,6 +34,7 @@ export default function GameDetail({
     token,
     game,
     // username,
+    setParams,
     reload,
     setReload,
     setPastGameModalIsOpen,
@@ -50,11 +51,6 @@ export default function GameDetail({
         "teammateUsername",
         null
     );
-
-    console.log(game);
-    console.log(token);
-    console.log(game.displayUsersUsernames);
-    console.log(username);
 
     const handleCloseModal = () => {
         console.log("click close");
@@ -298,14 +294,14 @@ export default function GameDetail({
     }
 
     if (surveyClicked) {
-        console.log(game);
+        setModalIsOpen(false)
         return <Navigate to={`survey/${game.game_session_id}`} />;
     }
 
     if (profileClick) {
+        setParams(null)
         console.log("profileClick(true)");
-        setModalIsOpen(false)
-        return <Navigate to={`../${profileUsername}`} />;
+        return <Navigate to={`/${profileUsername}`} />;
     }
 
     const handleProfileClick = (user) => {
@@ -355,7 +351,8 @@ export default function GameDetail({
                                             p=".5em"
                                             w='160px'
                                         >
-                                            <Heading fontSize="xl" h='45px'>{`${user.user_info.first_name} ${user.user_info.last_name}`}</Heading>
+                                            <Heading fontSize="xl">{`${user.user_info.first_name}`}</Heading>
+                                            <Heading fontSize="xl">{user.user_info.last_name}</Heading>
                                             <Text h='30px'>{`@${user.user}`}</Text>
                                             <Box w="100px" h="100px" m="auto">
                                                 <Image
@@ -395,7 +392,7 @@ export default function GameDetail({
                             ))}
                     </Box>
 
-                    <Heading fontWeight="700" w="100%">
+                    <Heading fontWeight="700" w="90%">
                         {game.location_info.park_name}
                     </Heading>
                     <Text w="100%">{game.location_info.address.address1} </Text>
