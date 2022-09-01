@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import { TbBallTennis } from "react-icons/tb";
 import Login from "./pages/login.js";
+import { Navigate } from "react-router-dom";
 import Register from "./pages/register";
 import Theme from "./components/theme";
 import { Text, useDisclosure } from "@chakra-ui/react";
@@ -86,13 +87,12 @@ function App() {
                     setAllGamesList(openExpandedGames);
                 }
             })
-            // .catch((error) => {
-            //     console.log(error);
-            //     console.log("there was an error");
-            //     setAlertTitle("Uh oh, something went wrong. ");
-            //     setAlertMessage(error.message);
-            //     onOpen()
-            // });
+            .catch((error) => {
+              setToken(null)
+              if (!token) {
+                return <Navigate to="/" />;
+            }
+            });
     }, [token, setAllGamesList, reload]);
 
     return (
